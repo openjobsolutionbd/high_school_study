@@ -1,0 +1,19 @@
+# Cloudflare Pages headers config
+# https://developers.cloudflare.com/pages/configuration/headers/
+#
+# অটো ক্যাশ ম্যানেজমেন্ট স্ট্র্যাটেজি (দুই স্তর):
+#
+# ১) ব্রাউজার স্তর (এই ফাইল): সব ফাইলে no-cache, must-revalidate।
+#    এর মানে ব্রাউজার প্রতিবার Cloudflare-কে ETag দিয়ে জিজ্ঞেস করবে
+#    "এটা কি বদলেছে?" — কন্টেন্ট একই থাকলে 304 Not Modified পাবে
+#    (কোনো ডাউনলোড ছাড়াই, তাই ফাস্ট), বদলালে সাথে সাথে নতুনটা পাবে।
+#    time-based max-age রাখিনি যাতে "কিছুক্ষণ পুরনো দেখা"র সুযোগ না থাকে।
+#
+# ২) এজ (Cloudflare) স্তর: Cloudflare-এর নিজের edge cache পুরনো
+#    deployment-এর ফাইল সর্বোচ্চ ১ সপ্তাহ পর্যন্ত ধরে রাখতে পারে।
+#    এটা এই ফাইল দিয়ে ঠিক করা যায় না — তাই .github/workflows/purge-cache.yml
+#    প্রতিটা push-এ Cloudflare API কল করে edge cache স্বয়ংক্রিয়ভাবে purge করে।
+#    দুটো স্তর মিলিয়েই আসলে "ইউজার সবসময় লেটেস্ট ভার্সন পাবে" নিশ্চিত হয়।
+
+/*
+  Cache-Control: no-cache, must-revalidate

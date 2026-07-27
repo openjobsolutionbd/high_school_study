@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'একাদশ অধ্যায়',
+  emoji: '🕊️',
+  navLabel: '🕊️ আন্তর্জাতিক সহযোগিতা',
+  title: 'বাংলাদেশ ও আন্তর্জাতিক সহযোগিতা',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+// প্রতিটা শব্দের জন্য meaning + example — এই অধ্যায়ের জন্যই আলাদা (shared নয়)
+const words = {
+  'আন্তর্জাতিক সহযোগিতা': {
+    meaning: 'বিভিন্ন দেশ বা সংস্থার মধ্যে পারস্পরিক সহায়তার মাধ্যমে সমস্যা সমাধান বা উন্নয়ন সাধনের প্রক্রিয়া।',
+    example: 'শিক্ষা, স্বাস্থ্য, পরিবেশের মতো ক্ষেত্রে বাংলাদেশ আন্তর্জাতিক সহযোগিতা নিয়ে থাকে।'
+  },
+  'জাতিসংঘ': {
+    meaning: 'দ্বিতীয় বিশ্বযুদ্ধের পর ১৯৪৫ সালে বিশ্বশান্তি প্রতিষ্ঠার লক্ষ্যে গঠিত আন্তর্জাতিক সংস্থা।',
+    example: 'বাংলাদেশ ১৯৭৪ সালে জাতিসংঘের সদস্যপদ লাভ করে।'
+  },
+  'লীগ অব নেশনস': {
+    meaning: 'প্রথম বিশ্বযুদ্ধের পর ১৯২০ সালে বিশ্বশান্তি প্রতিষ্ঠার জন্য গঠিত সংস্থা, যা স্থায়িত্ব লাভ করেনি।',
+    example: 'লীগ অব নেশনস ব্যর্থ হওয়ার পরই দ্বিতীয় বিশ্বযুদ্ধ ঠেকানো সম্ভব হয়নি।'
+  },
+  'সাধারণ পরিষদ': {
+    meaning: 'জাতিসংঘের একটি শাখা, যেখানে সদস্য নির্বাচন ও বিশ্বের বিভিন্ন সমস্যা নিয়ে আলোচনা হয়।',
+    example: '১৯৮৬ সালে বাংলাদেশের হুমায়ুন রশীদ চৌধুরী সাধারণ পরিষদের সভাপতির দায়িত্ব পালন করেছেন।'
+  },
+  'নিরাপত্তা পরিষদ': {
+    meaning: 'বিশ্ব শান্তি ও নিরাপত্তা রক্ষার প্রধান দায়িত্ব পালনকারী জাতিসংঘের শাখা।',
+    example: 'কোথাও শান্তিবিরোধী কাজ হলে জাতিসংঘ নিরাপত্তা পরিষদের মাধ্যমে তা নিয়ন্ত্রণের চেষ্টা করে।'
+  },
+  'শান্তিরক্ষা বাহিনী': {
+    meaning: 'যুদ্ধ-সংঘাত বন্ধ ও শান্তি প্রতিষ্ঠার জন্য জাতিসংঘ কর্তৃক বিভিন্ন দেশে প্রেরিত সামরিক ও পুলিশ বাহিনী।',
+    example: 'বাংলাদেশ ১৯৮৮ সালে প্রথমবার জাতিসংঘ শান্তিরক্ষা বাহিনীতে সদস্য পাঠায়।'
+  },
+  'মহাসচিব': {
+    meaning: 'জাতিসংঘের প্রধান প্রশাসনিক কর্মকর্তা।',
+    example: 'বর্তমান জাতিসংঘ মহাসচিব আন্তোনিও গুতেরেস, যিনি পর্তুগালের নাগরিক।'
+  },
+  'সার্বভৌমত্ব': {
+    meaning: 'কোনো রাষ্ট্রের নিজস্ব এলাকায় স্বাধীনভাবে শাসন পরিচালনার সর্বোচ্চ ক্ষমতা।',
+    example: 'বিশ্বের প্রতিটি স্বাধীন রাষ্ট্রই সার্বভৌমত্বের অধিকারী।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1',
+    num: 'পাঠ ১',
+    icon: '🤝',
+    title: 'আন্তর্জাতিক সহযোগিতা: ধারণা ও গুরুত্ব',
+    sub: 'কেন প্রয়োজন · কীভাবে কাজ করে',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'একা কোনো দেশই সব সমস্যার সমাধান করতে পারে না',
+    sections: [
+      {
+        title: '🌍 আন্তর্জাতিক সহযোগিতা কেন প্রয়োজন?',
+        text: 'বিশ্বের প্রতিটি স্বাধীন রাষ্ট্রই সার্বভৌমত্বের অধিকারী, কিন্তু কোনো দেশই সম্পূর্ণ আত্মনির্ভরশীল নয়। বাংলাদেশে যেমন জ্বালানি, পরিবেশ, স্বাস্থ্য, শিক্ষার মতো ক্ষেত্রে সমস্যা আছে, যা একা সরকারের পক্ষে পুরোপুরি সমাধান করা সম্ভব নয় — তাই দরকার হয় অন্য দেশ বা সংস্থার সহযোগিতা।',
+        chips: ['সার্বভৌমত্ব', 'আন্তর্জাতিক সহযোগিতা']
+      },
+      {
+        title: '📖 একটা বাস্তব উদাহরণ',
+        bookOrig: '<p>বাংলাদেশসহ বিশ্বের বহু দেশে নিরক্ষর জনসংখ্যা অনেক। শিক্ষা যেকোনো দেশের সব ধরনের উন্নয়নের চাবিকাঠি, কিন্তু দারিদ্র্যের কারণে দেশগুলোর একার পক্ষে সবাইকে শিক্ষিত করা সম্ভব নয়। তাই ইউনিসেফ, ইউনেস্কোসহ বিভিন্ন আন্তর্জাতিক সংস্থা এসব দেশ থেকে নিরক্ষরতা দূর করতে আর্থিক ও প্রযুক্তিগত সাহায্য দিচ্ছে।</p>'
+      },
+      {
+        text: 'মধ্যপ্রাচ্য ও আফ্রিকার অনেক দেশে জাতিগত সংঘাত, যুদ্ধ ও অস্থিরতা আছে — সেখানে বাংলাদেশসহ বিভিন্ন দেশের সেনাবাহিনী জাতিসংঘের মাধ্যমে শান্তি রক্ষার কাজ করছে। এভাবেই বিশ্বের দেশগুলো একে অপরের সহযোগিতায় টিকে আছে। জাতিসংঘ, ওআইসি, কমনওয়েলথের মতো সংস্থাগুলো এই সহযোগিতা বাস্তবায়নে গুরুত্বপূর্ণ ভূমিকা রাখে।'
+      },
+      {
+        activity: 'বর্তমান বিশ্বকে "পরস্পর নির্ভরশীলতার যুগ" বলা হয় কেন — নিজের ভাষায় ব্যাখ্যা করো।'
+      }
+    ],
+    chain: 'এই আন্তর্জাতিক সহযোগিতার সবচেয়ে বড় সংস্থা জাতিসংঘ — পরের পাঠে জানব এটা কীভাবে তৈরি হলো।'
+  },
+  {
+    id: 'l2',
+    num: 'পাঠ ২',
+    icon: '🏛️',
+    title: 'জাতিসংঘ ও এর গঠন',
+    sub: 'পটভূমি · ছয়টি শাখা · মহাসচিব · পতাকা',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'দুটো বিশ্বযুদ্ধের ধ্বংসলীলা থেকে জন্ম নেওয়া একটা সংস্থা',
+    sections: [
+      {
+        title: '📜 জাতিসংঘ গঠনের পটভূমি',
+        text: 'বিংশ শতাব্দীর প্রথম ভাগে মাত্র ২৫ বছরের ব্যবধানে পৃথিবীতে দুটো বিশ্বযুদ্ধ হয় (১৯১৪ ও ১৯৩৯)। প্রথম বিশ্বযুদ্ধের পর বিশ্বশান্তি প্রতিষ্ঠার জন্য ১৯২০ সালে গঠিত হয়েছিল লীগ অব নেশনস, কিন্তু বিভিন্ন দেশের স্বার্থপরতার কারণে এটা স্থায়িত্ব পায়নি। দ্বিতীয় বিশ্বযুদ্ধের ভয়াবহ ধ্বংসলীলা দেখে বিশ্ব নেতারা উপলব্ধি করেন — যুদ্ধ পরিহার করে পারস্পরিক সহযোগিতার মাধ্যমেই শান্তি আনতে হবে। ব্রিটিশ প্রধানমন্ত্রী উইনস্টন চার্চিল ও যুক্তরাষ্ট্রের প্রেসিডেন্ট রুজভেল্টের উদ্যোগে দীর্ঘ আলোচনার পর ১৯৪৫ সালের ২৪শে অক্টোবর জাতিসংঘ প্রতিষ্ঠা লাভ করে।',
+        chips: ['লীগ অব নেশনস', 'জাতিসংঘ']
+      },
+      {
+        title: '🏢 জাতিসংঘের ছয়টি শাখা',
+        qualityItems: [
+          { icon: '🗣️', label: 'সাধারণ পরিষদ', word: 'সাধারণ পরিষদ' },
+          { icon: '🛡️', label: 'নিরাপত্তা পরিষদ', word: 'নিরাপত্তা পরিষদ' },
+          { icon: '📋', label: 'সচিবালয়' },
+          { icon: '⚖️', label: 'আন্তর্জাতিক আদালত' },
+          { icon: '💼', label: 'অর্থনৈতিক ও সামাজিক পরিষদ' },
+          { icon: '🏝️', label: 'অছি পরিষদ' }
+        ]
+      },
+      {
+        title: '📋 জাতিসংঘ এক নজরে',
+        text: 'শুরুতে জাতিসংঘের সদস্য সংখ্যা ছিল ৫১, বর্তমানে তা ১৯৩। নরওয়ের ট্রিগভেলি ছিলেন প্রথম মহাসচিব, বর্তমান মহাসচিব পর্তুগালের নাগরিক আন্তোনিও গুতেরেস। সদর দপ্তর যুক্তরাষ্ট্রের নিউইয়র্কে। বাংলাদেশ ১৯৭৪ সালে জাতিসংঘের সদস্যপদ লাভ করে। জাতিসংঘের পতাকা হালকা নীল রঙের, মাঝে সাদা বৃত্তাকার বিশ্ব-মানচিত্র, দুই পাশে জলপাই পাতার ঝাড়। দাপ্তরিক ভাষা ছয়টি — আরবি, চাইনিজ, ইংরেজি, ফরাসি, রাশিয়ান ও স্প্যানিশ।',
+        chips: ['মহাসচিব']
+      },
+      {
+        activity: 'জাতিসংঘের গঠন সম্পর্কিত উল্লেখযোগ্য ঘটনা নিয়ে একটা সংক্ষিপ্ত রচনা তৈরি করো।'
+      }
+    ],
+    chain: 'জাতিসংঘ কেন তৈরি হলো, আর কী কী নিয়ম মেনে চলে — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l3',
+    num: 'পাঠ ৩',
+    icon: '📜',
+    title: 'জাতিসংঘ গঠনের উদ্দেশ্য ও মৌলিক নীতি',
+    sub: 'কেন গঠিত হলো · সাতটি মূলনীতি',
+    type: 'type-4',
+    heroClass: 'hero-4',
+    heroSub: 'সব সদস্য রাষ্ট্রকে যেসব নিয়ম মেনে চলতে হয়',
+    sections: [
+      {
+        title: '🎯 জাতিসংঘ গঠনের উদ্দেশ্য',
+        qualityItems: [
+          { icon: '☮️', label: 'বিশ্বশান্তি ও নিরাপত্তা নিশ্চিত করা' },
+          { icon: '⚖️', label: 'সবার স্বাধীনতা ও মৌলিক অধিকারে সম্মান' },
+          { icon: '🤝', label: 'অর্থনৈতিক-সামাজিক সমস্যায় সহযোগিতা' },
+          { icon: '🗽', label: 'উপনিবেশিক রাষ্ট্রগুলোকে স্বাধীনতা দেওয়া' }
+        ]
+      },
+      {
+        title: '📖 জাতিসংঘের সাতটি মৌলিক নীতি',
+        bookOrig: '<p>সদস্য রাষ্ট্রগুলো এই নীতিগুলো মেনে চলার শর্তেই জাতিসংঘের সদস্যপদ লাভ করে:</p><p>১. সকল সদস্য রাষ্ট্র সমান মর্যাদা ও সমান সার্বভৌমত্বের অধিকারী হবে।</p><p>২. সকল সদস্য রাষ্ট্রকে পরিপূর্ণ বিশ্বাসের সাথে জাতিসংঘ সনদ অনুসরণ করতে হবে।</p><p>৩. আন্তর্জাতিক বিরোধের শান্তিপূর্ণ মীমাংসা করতে হবে।</p><p>৪. কোনো সদস্য রাষ্ট্র অন্য রাষ্ট্রের বিরুদ্ধে বলপ্রয়োগ বা বলপ্রয়োগের হুমকি দিতে পারবে না।</p><p>৫. জাতিসংঘ কর্তৃক গৃহীত ব্যবস্থা সব সদস্য রাষ্ট্রকে মেনে নিতে হবে।</p><p>৬. অ-সদস্য রাষ্ট্র মূলনীতির বিরোধিতা করলে জাতিসংঘ ব্যবস্থা নেবে।</p><p>৭. কোনো রাষ্ট্রের অভ্যন্তরীণ ব্যাপারে জাতিসংঘ হস্তক্ষেপ করবে না, তবে আগ্রাসী তৎপরতা চালালে হস্তক্ষেপ করতে পারবে।</p>'
+      },
+      {
+        activity: '"জাতিসংঘের সকল সদস্য রাষ্ট্র সমান মর্যাদা ও সমান সার্বভৌমত্বের অধিকারী হবে" — এই মূলনীতিটির নিজের ভাষায় ব্যাখ্যা লেখো।'
+      }
+    ],
+    chain: 'এত নিয়ম মেনে জাতিসংঘ আসলে দিনে দিনে কী কাজ করে — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l4',
+    num: 'পাঠ ৪',
+    icon: '🔧',
+    title: 'জাতিসংঘের কাজ',
+    sub: 'শান্তিরক্ষা · আদালত · উন্নয়নমূলক কাজ',
+    type: 'type-2',
+    heroClass: 'hero-2',
+    heroSub: 'মানবতার কল্যাণে জাতিসংঘের বহুমুখী কার্যক্রম',
+    sections: [
+      {
+        title: '📋 জাতিসংঘের প্রধান কাজসমূহ',
+        qualityItems: [
+          { icon: '☮️', label: 'শান্তি ও নিরাপত্তা নিশ্চিত করা' },
+          { icon: '🚫', label: 'আগ্রাসী রাষ্ট্রের বিরুদ্ধে অবরোধ' },
+          { icon: '🪖', label: 'শান্তিরক্ষা বাহিনী মোতায়েন', word: 'শান্তিরক্ষা বাহিনী' },
+          { icon: '⚖️', label: 'আন্তর্জাতিক বিরোধ নিষ্পত্তি' }
+        ]
+      },
+      {
+        text: 'এসবের পাশাপাশি জাতিসংঘ আঞ্চলিক সংস্থাগুলোর সহযোগিতাও নেয়, এবং সদস্য রাষ্ট্রগুলোর জীবনযাত্রার মান বাড়াতে বেকার সমস্যা সমাধান, কৃষি-শিক্ষা-চিকিৎসা ব্যবস্থার উন্নয়ন, পুনর্বাসন ও সেবামূলক কাজও করে থাকে।'
+      },
+      {
+        activity: 'পত্র-পত্রিকা বা রিপোর্টের ভিত্তিতে জাতিসংঘের উদ্দেশ্য ও মূলনীতি বাস্তবায়নের দুটো করে উদাহরণ খুঁজে একটা সংক্ষিপ্ত প্রতিবেদন তৈরি করো।'
+      }
+    ],
+    chain: 'জাতিসংঘের এত কাজের মধ্যে সবচেয়ে বড় সাফল্য কী — পরের পাঠে জানব বিশ্বশান্তিতে এর ভূমিকা।'
+  },
+  {
+    id: 'l5',
+    num: 'পাঠ ৫',
+    icon: '☮️',
+    title: 'বিশ্বশান্তি প্রতিষ্ঠায় জাতিসংঘের ভূমিকা',
+    sub: 'নিরাপত্তা পরিষদ · পরিবেশ · মানবাধিকার',
+    type: 'type-5',
+    heroClass: 'hero-5',
+    heroSub: 'প্রতিষ্ঠার পর থেকে আজও কোনো বিশ্বযুদ্ধ হয়নি',
+    sections: [
+      {
+        title: '🏆 জাতিসংঘের সবচেয়ে বড় অর্জন',
+        text: 'জাতিসংঘ প্রতিষ্ঠার আগে মাত্র ২৫ বছরে দুটো বিশ্বযুদ্ধ হয়েছিল, কিন্তু জাতিসংঘ প্রতিষ্ঠার পর থেকে আজ পর্যন্ত আর কোনো বিশ্বযুদ্ধ হয়নি — এটাই এর সবচেয়ে বড় অবদান। বিশ্বশান্তি রক্ষার প্রধান দায়িত্ব পালন করে জাতিসংঘের নিরাপত্তা পরিষদ — কোথাও শান্তিবিরোধী কাজ হলে এই পরিষদের মাধ্যমেই জাতিসংঘ তা নিয়ন্ত্রণের চেষ্টা করে। দীর্ঘদিনের গৃহযুদ্ধের অবসান ঘটিয়ে জাতিসংঘের তত্ত্বাবধানে দক্ষিণ সুদানের স্বাধীনতা অর্জন এর একটা উল্লেখযোগ্য উদাহরণ।'
+      },
+      {
+        title: '🌱 আরও যেসব ক্ষেত্রে ভূমিকা রাখে',
+        qualityItems: [
+          { icon: '🌍', label: 'পরিবেশ ও জলবায়ু' },
+          { icon: '⚖️', label: 'মানবাধিকার প্রতিষ্ঠা' },
+          { icon: '📚', label: 'নিরক্ষরতা দূরীকরণ' },
+          { icon: '🍚', label: 'দারিদ্র্য ও ক্ষুধা নিরসন' }
+        ]
+      },
+      {
+        text: 'এ ছাড়া জাতিসংঘ বিশ্ব জনসংখ্যা সমস্যার সমাধান, নারীর অধিকার প্রতিষ্ঠা, উদ্বাস্তু সমস্যার সমাধান এবং প্রাকৃতিক দুর্যোগ প্রতিরোধেও কাজ করে যাচ্ছে — এই সবকিছুই বিশ্বশান্তি রক্ষায় সহায়ক ভূমিকা রাখে।'
+      },
+      {
+        activity: 'বর্তমানে জাতিসংঘ বিশ্বশান্তি রক্ষার ক্ষেত্রে কী ভূমিকা পালন করছে, তার একটা উদাহরণ লেখো।'
+      }
+    ],
+    chain: 'এই বিশ্বশান্তির লড়াইয়ে বাংলাদেশ কী ভূমিকা রাখছে — শেষ পাঠে জানব।'
+  },
+  {
+    id: 'l6',
+    num: 'পাঠ ৬',
+    icon: '🎖️',
+    title: 'বিশ্ব শান্তিরক্ষা বাহিনীতে বাংলাদেশের ভূমিকা',
+    sub: 'ইতিহাস · মিশন সংখ্যা · আত্মত্যাগ',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'জাতিসংঘ শান্তিরক্ষা বাহিনীতে বাংলাদেশ উজ্জ্বল নক্ষত্রের মতো',
+    sections: [
+      {
+        title: '🎖️ বাংলাদেশের শান্তিরক্ষা মিশনের ইতিহাস',
+        text: '১৯৭৪ সালে জাতিসংঘের সদস্যপদ লাভের পর থেকেই বাংলাদেশ বিশ্বশান্তি প্রতিষ্ঠায় সক্রিয় ভূমিকা রাখছে। বাংলাদেশ সর্বপ্রথম ১৯৮৮ সালে শান্তিরক্ষা বাহিনীতে সশস্ত্রবাহিনীর সদস্য পাঠায়। ২০২৪ সালের মে পর্যন্ত বাংলাদেশের সেনা, নৌ, বিমান ও পুলিশ বাহিনীর সদস্য মিলে ৪৩টি দেশে ৬৩টি মিশনে কাজ করেছে — কঙ্গো, হাইতি, আইভোরি কোস্ট, পূর্ব তিমুর, ইরাক, কুয়েত, নামিবিয়া, সুদানের মতো দেশে।'
+      },
+      {
+        title: '📊 বাংলাদেশ এক নজরে (মে ২০২৪ পর্যন্ত)',
+        qualityItems: [
+          { icon: '👥', label: 'মোট সদস্য<br><small>১৯৪,৮৫৬ জন</small>' },
+          { icon: '🌍', label: 'মিশন<br><small>৪৩ দেশে ৬৩টি মিশন</small>' },
+          { icon: '🕊️', label: 'শহিদ সদস্য<br><small>১৬৮ জন</small>' },
+          { icon: '👩‍✈️', label: 'নারী সদস্য<br><small>দক্ষতা ও সাহসিকতায় অংশগ্রহণ</small>' }
+        ]
+      },
+      {
+        text: 'সংখ্যার দিক থেকে বাংলাদেশ জাতিসংঘ শান্তিরক্ষা বাহিনীতে শীর্ষস্থানীয় দেশগুলোর একটা। এই সুনামের স্বীকৃতিতে বাংলাদেশ সশস্ত্রবাহিনীর অনেক ঊর্ধ্বতন কর্মকর্তাকে কমান্ডার হিসেবে নিয়োগ দেওয়া হয়েছে — যা বিশ্বে বাংলাদেশের মর্যাদা অনেক বাড়িয়েছে। এই অংশগ্রহণ দেশকে অর্থনৈতিকভাবেও সমৃদ্ধ করছে।',
+        chips: ['শান্তিরক্ষা বাহিনী']
+      },
+      {
+        activity: 'বিশ্বশান্তি রক্ষায় বাংলাদেশের অবদান ও আত্মত্যাগের একটা উদাহরণ পত্র-পত্রিকার সাহায্যে খুঁজে বের করো।'
+      }
+    ],
+    chain: 'এই অধ্যায়ে যা শিখলে, এবার সেগুলো দিয়েই পরীক্ষার প্রশ্নের উত্তর দেওয়ার পালা।'
+  },
+  {
+    id: 'l7',
+    num: 'অনুশীলনী',
+    icon: '📝',
+    title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'MCQ · সৃজনশীল · সংক্ষিপ্ত — উত্তরসহ',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — ট্যাপ করে উত্তর মিলিয়ে নাও',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. সব ধরনের উন্নয়নের মূল চাবিকাঠি নিচের কোনটি?',
+            options: [
+              { text: 'ক. পরিশ্রম', correct: false },
+              { text: 'খ. শিক্ষা', correct: true },
+              { text: 'গ. সম্পদ', correct: false },
+              { text: 'ঘ. স্বাস্থ্য', correct: false }
+            ]
+          },
+          {
+            question: '২. শান্তিরক্ষা বাহিনীতে বাংলাদেশিদের অংশগ্রহণ—',
+            note: 'i. বাংলাদেশের ব্যাপক পরিচিতি দিয়েছে<br>ii. বাংলাদেশের মর্যাদা বৃদ্ধি করেছে<br>iii. বৈদেশিক মুদ্রা অর্জনের পথ খুলে দিয়েছে',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          },
+          {
+            question: '৩. জাতিসংঘের কোন পরিষদ বিশ্ব শান্তি রক্ষার প্রধান দায়িত্ব পালন করে?',
+            options: [
+              { text: 'ক. সাধারণ পরিষদ', correct: false },
+              { text: 'খ. আন্তর্জাতিক আদালত', correct: false },
+              { text: 'গ. অর্থনৈতিক ও সামাজিক পরিষদ', correct: false },
+              { text: 'ঘ. নিরাপত্তা পরিষদ', correct: true }
+            ]
+          },
+          {
+            question: '৪. নিচের কোনটি জাতিসংঘের কাজ নয়?',
+            options: [
+              { text: 'ক. শান্তি ও নিরাপত্তা নিশ্চিত করা', correct: false },
+              { text: 'খ. আগ্রাসী রাষ্ট্রের বিরুদ্ধে ব্যবস্থা নেওয়া', correct: false },
+              { text: 'গ. নির্বাচনে সহায়তা করা', correct: true },
+              { text: 'ঘ. আন্তর্জাতিক আদালতের মাধ্যমে বিরোধ নিষ্পত্তি করা', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ১',
+        text: '<strong>উদ্দীপক:</strong> ২০১২ সালে "ক" উপজেলার সকল ইউনিয়নের চেয়ারম্যান একত্রিত হয়ে উপজেলা চেয়ারম্যানকে পরিষদের সভাপতি করে প্রতিটি ইউনিয়নের শান্তি-শৃঙ্খলা ও নিরাপত্তা নিশ্চিতকরণের জন্য কিছু নীতিমালা তৈরি করে তা মেনে চলার অঙ্গীকার করেন। এতে দুটো ইউনিয়নের মধ্যে বিরোধ দেখা দিলে উপজেলা চেয়ারম্যানের হস্তক্ষেপে তা সমাধান হয়। "ক" উপজেলার সাফল্যে অন্যান্য উপজেলাও এই নীতিমালা গ্রহণে আগ্রহী হয়ে উঠেছে।',
+        qa: [
+          {
+            q: 'ক. লীগ অব নেশনস কী?',
+            a: 'প্রথম বিশ্বযুদ্ধের পর ১৯২০ সালে বিশ্বশান্তি প্রতিষ্ঠার লক্ষ্যে গঠিত সংস্থাকে লীগ অব নেশনস বলা হয়। তবে বিভিন্ন দেশের স্বার্থপরতার কারণে এই সংস্থাটি স্থায়িত্ব লাভ করতে পারেনি।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'খ. "জাতিসংঘে সকল সদস্য রাষ্ট্র সমান মর্যাদা ও সমান সার্বভৌমত্বের অধিকারী হবে" — জাতিসংঘের এই মৌলিক নীতিটির ব্যাখ্যা করো।',
+            a: 'এই নীতির অর্থ হলো, জাতিসংঘে কোনো দেশ বড় বা ছোট, শক্তিশালী বা দুর্বল যাই হোক না কেন, প্রতিটি সদস্য রাষ্ট্র সমান মর্যাদা পাবে এবং নিজের অভ্যন্তরীণ বিষয়ে স্বাধীনভাবে সিদ্ধান্ত নেওয়ার সমান অধিকার রাখবে। কোনো দেশ অন্য দেশের উপর নিজের ইচ্ছা চাপিয়ে দিতে পারবে না।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'গ. উদ্দীপকের দুই ইউনিয়নের বিরোধ নিষ্পত্তির প্রক্রিয়াটি জাতিসংঘের কোন নীতির সাথে সাদৃশ্যপূর্ণ? তা ব্যাখ্যা করো।',
+            a: 'উদ্দীপকের বিরোধ নিষ্পত্তির প্রক্রিয়াটি জাতিসংঘের "সকল সদস্য রাষ্ট্রকে আন্তর্জাতিক বিরোধের শান্তিপূর্ণ মীমাংসা করতে হবে" — এই মূলনীতির সাথে সাদৃশ্যপূর্ণ। যেমন জাতিসংঘ বিভিন্ন দেশের মধ্যে বিরোধ দেখা দিলে শান্তিপূর্ণ আলোচনার মাধ্যমে সমাধানের চেষ্টা করে, তেমনি "ক" উপজেলায়ও দুই ইউনিয়নের বিরোধ উপজেলা চেয়ারম্যানের হস্তক্ষেপে শান্তিপূর্ণভাবে মীমাংসা হয়েছে।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'ঘ. "ক" উপজেলার শান্তি প্রতিষ্ঠার প্রচেষ্টা জাতিসংঘের বিশ্বব্যাপী শান্তি প্রতিষ্ঠার প্রচেষ্টার অনুরূপ — মতামত দাও।',
+            a: 'হ্যাঁ, আমি এই মতের সাথে একমত। জাতিসংঘ যেমন বিশ্বের বিভিন্ন দেশের মধ্যে শান্তি-শৃঙ্খলা প্রতিষ্ঠা ও বিরোধ মীমাংসার জন্য নীতিমালা তৈরি করে এবং প্রয়োজনে হস্তক্ষেপ করে, ঠিক তেমনি "ক" উপজেলার চেয়ারম্যানরাও নিজেদের এলাকায় শান্তি-শৃঙ্খলা প্রতিষ্ঠার জন্য একই ধরনের নীতিমালা তৈরি করে তা বাস্তবায়ন করেছেন। দুটোই ছোট পরিসরে হোক বা বড় পরিসরে — সংগঠিত নিয়মকানুন ও সহযোগিতার মাধ্যমে শান্তি প্রতিষ্ঠার একই মূলনীতি অনুসরণ করে।',
+            tag: 'সৃজনশীল'
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ২',
+        text: '<strong>উদ্দীপক:</strong> সিয়েরালিয়ন জাতিসংঘ মিশনে বাংলাদেশ সেনাবাহিনীর একজন চিকিৎসক স্থানীয় মানুষদের চিকিৎসা সেবা দিচ্ছেন।',
+        qa: [
+          {
+            q: 'ক. জাতিসংঘের প্রথম মহাসচিব কে ছিলেন?',
+            a: 'জাতিসংঘের প্রথম মহাসচিব ছিলেন নরওয়ের অধিবাসী ট্রিগভে লি।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'খ. "আঞ্চলিক সংস্থাসমূহের সহযোগিতা গ্রহণ করা" — জাতিসংঘের এই কাজটি ব্যাখ্যা করো।',
+            a: 'জাতিসংঘ একা সব সমস্যার সমাধান করতে পারে না, তাই বিভিন্ন অঞ্চলে কর্মরত আঞ্চলিক সংস্থাগুলোর (যেমন সার্ক, আসিয়ান) সাথে যৌথভাবে কাজ করে। এই আঞ্চলিক সংস্থাগুলোর স্থানীয় জ্ঞান ও সম্পদ ব্যবহার করে জাতিসংঘ তার শান্তি প্রতিষ্ঠা ও উন্নয়নমূলক কার্যক্রম আরও কার্যকরভাবে বাস্তবায়ন করতে পারে।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'গ. উদ্দীপকের চিত্রে কর্মরত বাহিনী বিশ্বশান্তি ও নিরাপত্তায় কী ভূমিকা পালন করছে — ব্যাখ্যা করো।',
+            a: 'উদ্দীপকে বাংলাদেশ সেনাবাহিনীর যে চিকিৎসক সিয়েরালিয়নে চিকিৎসা সেবা দিচ্ছেন, তিনি জাতিসংঘ শান্তিরক্ষা বাহিনীর সদস্য। এই বাহিনী যুদ্ধ-বিধ্বস্ত ও সংঘাতপূর্ণ অঞ্চলে শান্তি প্রতিষ্ঠা, স্থানীয় মানুষদের নিরাপত্তা নিশ্চিতকরণ এবং স্বাস্থ্যসেবার মতো মানবিক সহায়তা দিয়ে বিশ্বশান্তি ও নিরাপত্তা রক্ষায় গুরুত্বপূর্ণ ভূমিকা রাখছে।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'ঘ. চিত্রে প্রদর্শিত বাহিনীর ভূমিকার কারণেই বহিঃবিশ্বে বাংলাদেশের সুনাম ও মর্যাদা বৃদ্ধি পেয়েছে — তুমি কি এই বক্তব্যের সাথে একমত? মতামত দাও।',
+            a: 'হ্যাঁ, আমি সম্পূর্ণ একমত। জাতিসংঘ শান্তিরক্ষা বাহিনীতে বাংলাদেশ সদস্য সংখ্যার দিক থেকে বিশ্বের শীর্ষস্থানীয় দেশগুলোর একটা এবং বাংলাদেশের সশস্ত্রবাহিনী ও পুলিশ বাহিনীর সদস্যরা দক্ষতা ও সাহসিকতার জন্য যথেষ্ট সুনাম অর্জন করেছে। এই অবদানের স্বীকৃতিতে অনেক কর্মকর্তাকে কমান্ডার পদে নিয়োগ দেওয়া হয়েছে, যা বিশ্বের বুকে বাংলাদেশকে একটা নতুন, ইতিবাচক পরিচয় দিয়েছে।',
+            tag: 'সৃজনশীল'
+          }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          {
+            q: '১. বিশ্বের দেশগুলো সুন্দরভাবে টিকে আছে কীভাবে?',
+            a: 'বিশ্বের দেশগুলো একে অপরের সাথে পারস্পরিক সহযোগিতার মাধ্যমে সুন্দরভাবে টিকে আছে। কোনো দেশই সম্পূর্ণ আত্মনির্ভরশীল নয় বলে জাতিসংঘের মতো আন্তর্জাতিক সংস্থার মাধ্যমে একে অপরকে সহায়তা করেই দেশগুলো নিজেদের সমস্যার সমাধান করে।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '২. বিভিন্ন দেশের অনেক বড় বড় সমস্যার সমাধান কীভাবে সম্ভব?',
+            a: 'বিভিন্ন দেশের বড় বড় সমস্যার সমাধান সম্ভব হয় আন্তর্জাতিক সহযোগিতার মাধ্যমে — অর্থাৎ একাধিক দেশ বা জাতিসংঘের মতো আন্তর্জাতিক সংস্থা একসাথে কাজ করে আর্থিক, কারিগরি ও কূটনৈতিক সহায়তা দিয়ে এসব সমস্যার সমাধান করে।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '৩. দক্ষিণ সুদানের স্বাধীনতা অর্জন সম্ভব হয়েছে কীভাবে?',
+            a: 'দীর্ঘদিনের গৃহযুদ্ধের অবসান ঘটিয়ে জাতিসংঘের তত্ত্বাবধানে দক্ষিণ সুদান স্বাধীনতা অর্জন করেছে। জাতিসংঘের মধ্যস্থতা ও শান্তিরক্ষা প্রচেষ্টার মাধ্যমেই এই সংঘাতের সমাধান সম্ভব হয়েছিল।',
+            tag: 'সংক্ষিপ্ত'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const keyTopics = [
+  { label: 'আন্তর্জাতিক সহযোগিতা', id: 'l1' },
+  { label: 'জাতিসংঘের গঠন', id: 'l2' },
+  { label: 'উদ্দেশ্য ও মূলনীতি', id: 'l3' },
+  { label: 'জাতিসংঘের কাজ', id: 'l4' },
+  { label: 'বিশ্বশান্তিতে ভূমিকা', id: 'l5' },
+  { label: 'শান্তিরক্ষায় বাংলাদেশ', id: 'l6' },
+  { label: 'অনুশীলনী', id: 'l7' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

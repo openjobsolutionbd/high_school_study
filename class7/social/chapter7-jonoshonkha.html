@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'সপ্তম অধ্যায়',
+  emoji: '👨‍👩‍👧‍👦',
+  navLabel: '👨‍👩‍👧‍👦 জনসংখ্যা পরিচিতি',
+  title: 'বাংলাদেশের জনসংখ্যা পরিচিতি',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+// প্রতিটা শব্দের জন্য meaning + example — এই অধ্যায়ের জন্যই আলাদা (shared নয়)
+const words = {
+  'জনসংখ্যা': {
+    meaning: 'কোনো নির্দিষ্ট সময়ে কোনো দেশ বা অঞ্চলে বসবাসকারী জনগোষ্ঠীর সংখ্যা।',
+    example: '২০২২ সালের আদমশুমারি অনুযায়ী বাংলাদেশের জনসংখ্যা ১৬ কোটি ৯৮ লক্ষ।'
+  },
+  'জনসংখ্যার ঘনত্ব': {
+    meaning: 'প্রতি বর্গ কিলোমিটারে বসবাসকারী জনসংখ্যার পরিমাণ।',
+    example: 'বাংলাদেশের জনসংখ্যার ঘনত্ব প্রতি বর্গ কিলোমিটারে ১১১৯ জন।'
+  },
+  'আদমশুমারি': {
+    meaning: 'জনসংখ্যা ও জনগোষ্ঠীর বিভিন্ন তথ্য সংগ্রহের আনুষ্ঠানিক গণনা।',
+    example: 'বাংলাদেশে সর্বশেষ আদমশুমারি অনুষ্ঠিত হয় ২০২২ সালে।'
+  },
+  'জনসংখ্যা বৃদ্ধির হার': {
+    meaning: 'প্রতি বছর জনসংখ্যা যে হারে বৃদ্ধি পায় তার শতকরা পরিমাণ।',
+    example: 'বর্তমানে বাংলাদেশের জনসংখ্যা বৃদ্ধির হার ১.২ শতাংশ।'
+  },
+  'অভ্যন্তরীণ স্থানান্তর': {
+    meaning: 'দেশের ভিতরে এক স্থান থেকে অন্য স্থানে গমন।',
+    example: 'কর্মসংস্থানের জন্য গ্রাম থেকে শহরে আসা অভ্যন্তরীণ স্থানান্তর।'
+  },
+  'আন্তর্জাতিক স্থানান্তর': {
+    meaning: 'এক স্বাধীন দেশ থেকে অন্য একটি স্বাধীন দেশে গমন।',
+    example: 'মধ্যপ্রাচ্যে কর্মসংস্থানের জন্য যাওয়া আন্তর্জাতিক স্থানান্তর।'
+  },
+  'মাতৃমৃত্যু': {
+    meaning: 'সন্তান প্রসবের পূর্বে, প্রসবকালীন এবং প্রসব পরবর্তী সময়ে মায়ের মৃত্যু।',
+    example: 'বাংলাদেশে ২০২২ সালে মাতৃমৃত্যুর হার প্রতি লক্ষে ১৫৬ জন।'
+  },
+  'শিশুমৃত্যু': {
+    meaning: 'জন্মের পর এক বছর বয়সের মধ্যে শিশুর মৃত্যু।',
+    example: '২০২২ সালের আদমশুমারি অনুযায়ী বাংলাদেশে শিশুমৃত্যুর হার প্রতি হাজারে ২০ জন।'
+  },
+  'প্রাকৃতিক সম্পদ': {
+    meaning: 'প্রকৃতি থেকে প্রাপ্ত সকল উপাদান যা মানুষের প্রয়োজন মেটাতে ব্যবহৃত হয়।',
+    example: 'গ্যাস, কয়লা, পাথর, বনভূমি ইত্যাদি প্রাকৃতিক সম্পদ।'
+  },
+  'নির্ভরশীল জনসংখ্যা': {
+    meaning: 'পরিবারের উপার্জনক্ষম ব্যক্তির উপর নির্ভরশীল শিশু ও বৃদ্ধ জনগোষ্ঠী।',
+    example: 'মৃত্যুহার কমার ফলে নির্ভরশীল জনসংখ্যার হার দ্রুত বৃদ্ধি পাচ্ছে।'
+  },
+  'বাল্যবিবাহ': {
+    meaning: 'আইনানুগ বয়সের আগে বিবাহ সম্পন্ন হওয়া।',
+    example: 'বাংলাদেশে মেয়েদের বিয়ের ন্যূনতম বয়স ১৮ বছর।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1',
+    num: 'পাঠ ১',
+    icon: '🌍',
+    title: 'আঞ্চলিক দেশগুলোর সাথে জনসংখ্যার তুলনা',
+    sub: 'জনসংখ্যার ঘনত্ব · বৃদ্ধির হার · আদমশুমারি',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'বাংলাদেশসহ আঞ্চলিক কয়েকটি দেশের জনসংখ্যার তুলনামূলক চিত্র',
+    sections: [
+      {
+        title: '📊 বাংলাদেশের জনসংখ্যা পরিচিতি',
+        text: 'বাংলাদেশ পৃথিবীর অন্যতম ঘনবসতিপূর্ণ দক্ষিণ এশিয়ার একটি উন্নয়নশীল দেশ। দেশটি দ্রুত মধ্যম আয়ের দেশের দিকে এগিয়ে যাচ্ছে। এদেশের আয়তন ১ লাখ ৪৭,৫৭০ বর্গ কি.মি.। ২০২২ সালের আদমশুমারি অনুযায়ী মোট জনসংখ্যা ১৬ কোটি ৯৮ লক্ষ ২৮ হাজার ৯১১ জন এবং প্রতি বর্গ কি.মি.-এ বসবাস করে ১১১৯ জন। বর্তমানে জনসংখ্যার বার্ষিক বৃদ্ধির হার ১.২ শতাংশ, যা ২০০১ সালে ছিল ১.৫৯ শতাংশ।',
+        chips: ['জনসংখ্যা', 'আদমশুমারি']
+      },
+      {
+        title: '📈 আঞ্চলিক দেশগুলোর জনসংখ্যা বৃদ্ধির হার (২০২৪)',
+        text: '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:0.85rem;"><tr style="background:#f0f0f0;"><th style="padding:7px;border:1px solid #ddd;text-align:left;">দেশ</th><th style="padding:7px;border:1px solid #ddd;text-align:right;">বৃদ্ধির হার (%)</th></tr><tr><td style="padding:7px;border:1px solid #ddd;">বাংলাদেশ</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১.২</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">ভারত</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">০.৯</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">নেপাল</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">-০.১</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">পাকিস্তান</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১.৫</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">শ্রীলংকা</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">-০.৬</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">আফগানিস্তান</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">২.৮</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">ভুটান</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">০.৭</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">মালদ্বীপ</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">০.৩</td></tr></table>',
+        story: 'বাংলাদেশের জনসংখ্যা বৃদ্ধির হার ভারত, নেপাল, শ্রীলংকা, ভুটান ও মালদ্বীপের তুলনায় বেশি। কিন্তু পাকিস্তান ও আফগানিস্তানের তুলনায় কম। এই হার নির্ভর করে জন্মহার, মৃত্যুহার ও অন্যান্য কারণের উপর।',
+        storyLabel: '📋 বিশ্লেষণ'
+      },
+      {
+        title: '🏙️ আঞ্চলিক দেশগুলোর জনসংখ্যার ঘনত্ব',
+        text: '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:0.85rem;"><tr style="background:#f0f0f0;"><th style="padding:7px;border:1px solid #ddd;text-align:left;">দেশ</th><th style="padding:7px;border:1px solid #ddd;text-align:right;">ঘনত্ব (প্রতি বর্গ কি.মি.)</th></tr><tr><td style="padding:7px;border:1px solid #ddd;">বাংলাদেশ</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১,১১৯ জন</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">সিঙ্গাপুর</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">৮,২০৭ জন</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">মালদ্বীপ</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১,৭২৮ জন</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">ভারত</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">৪২৭ জন</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">শ্রীলংকা</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">৩৩৮ জন</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">জাপান</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">৩৩০ জন</td></tr></table>',
+        story: 'বাংলাদেশের জনসংখ্যার ঘনত্ব ভারত, শ্রীলংকা ও জাপান থেকে প্রায় তিনগুণ বেশি — অর্থাৎ এটি একটি ঘনবসতিপূর্ণ দেশ।',
+        storyLabel: '📋 বিশ্লেষণ',
+        storyClass: 'c2'
+      },
+      {
+        title: '📊 বিভিন্ন বছরের আদমশুমারি অনুযায়ী বৃদ্ধির হার',
+        text: '<table style="width:100%;border-collapse:collapse;margin-top:6px;font-size:0.85rem;"><tr style="background:#f0f0f0;"><th style="padding:7px;border:1px solid #ddd;text-align:left;">সাল</th><th style="padding:7px;border:1px solid #ddd;text-align:right;">বৃদ্ধির হার (%)</th></tr><tr><td style="padding:7px;border:1px solid #ddd;">১৯৭৪</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">২.৪৮</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">১৯৮১</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">২.৩৫</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">১৯৯১</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">২.১৭</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">২০০১</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১.৫৯</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">২০১১</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১.৩৭</td></tr><tr><td style="padding:7px;border:1px solid #ddd;">২০২২</td><td style="padding:7px;border:1px solid #ddd;text-align:right;">১.২২</td></tr></table>',
+        chips: ['জনসংখ্যার ঘনত্ব', 'জনসংখ্যা বৃদ্ধির হার']
+      }
+    ],
+    chain: 'পরের পাঠে আমরা জানব জনসংখ্যা কেন আর কীভাবে বদলায় — অর্থাৎ জনসংখ্যার পরিবর্তনশীলতা।'
+  },
+  {
+    id: 'l2',
+    num: 'পাঠ ২',
+    icon: '🔄',
+    title: 'জনসংখ্যার পরিবর্তনশীলতা',
+    sub: 'জন্মহার · মৃত্যুহার · নির্ভরশীল জনসংখ্যা',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'পরিবর্তনের কারণ ও প্রভাব',
+    sections: [
+      {
+        title: '🔄 জনসংখ্যার পরিবর্তনশীলতা কী?',
+        text: 'জনসংখ্যার পরিবর্তনকেই জনসংখ্যার পরিবর্তনশীলতা বলা হয়। এই পরিবর্তন প্রধানত জন্মহার, মৃত্যুহার, স্থানান্তর ও সামাজিক গতিশীলতার উপর নির্ভর করে। একটি দেশের জনসংখ্যার বয়স কাঠামোকে তিন ভাগে ভাগ করা যায় — যুবক, প্রাপ্তবয়স্ক এবং বৃদ্ধ। কোনো দেশে বাল্যবিবাহের হার বেশি হলে সে দেশের জন্মহার বেশি হয়।',
+        story: 'ধরো, দুই দেশ — একটাতে মেয়েদের বিয়ে হয় ২৫ বছরে, আরেকটাতে ১৬ বছরে। যেখানে কম বয়সে বিয়ে হয়, সেখানে জন্মহার বেশি হবে — কারণ একজন মা বেশি বছর ধরে সন্তান জন্ম দিতে পারেন।',
+        storyLabel: '💡 সহজ উদাহরণ',
+        chips: ['বাল্যবিবাহ']
+      },
+      {
+        title: '🌍 পরিবর্তনশীলতার সাথে জড়িত বিষয়সমূহ',
+        text: 'জনসংখ্যার কাঠামো পরিবর্তনের সাথে জড়িত — ভৌগোলিক পরিবেশ, জলবায়ু, প্রাকৃতিক সম্পদ, ভূমিরূপ, উন্নত যোগাযোগ ব্যবস্থা, শিক্ষা, চিকিৎসা ও স্বাস্থ্যসেবা। যে দেশের জনসংখ্যা যত বেশি শিক্ষিত, সে দেশ তত বেশি উন্নত ও শিক্ষিত মানুষ ছোটো পরিবার গঠন করে। পেশাগত কারণেও জন্মহারের তারতম্য ঘটে — কৃষক, শ্রমিক, জেলেদের জন্মহার বেশি, আর ডাক্তার, শিক্ষক, ইঞ্জিনিয়ারদের জন্মহার কম।',
+        story: 'বাংলাদেশের পার্বত্য জেলাগুলো পাহাড়ে ঘেরা বলে জনবসতি কম, তাই ঘনত্বও কম। অন্যদিকে নদীবিধৌত উর্বর সমতল ভূমিতে কৃষির ফলন বেশি হওয়ায় জনসংখ্যার ঘনত্ব বেশি। শিল্প-কারখানা যেখানে বেশি, সেখানেও মানুষ বেশি।',
+        storyLabel: '📌 প্রসঙ্গ',
+        storyClass: 'c3'
+      },
+      {
+        title: '👴 নির্ভরশীল জনসংখ্যা ও গড় আয়ু',
+        text: 'বর্তমানে বাংলাদেশের মানুষের গড় আয়ু প্রায় ৭২.৩ বছর। গড় আয়ু বেড়ে যাওয়ায় বোঝা যায় মৃত্যুহার হ্রাস পেয়েছে। মৃত্যুহার কমার ফলে প্রবীণ ও বৃদ্ধ বয়সী জনসংখ্যার হার দ্রুত বৃদ্ধি পায় — এদেরকেই নির্ভরশীল জনসংখ্যা বলে, যারা সীমিত সম্পদের উপর চাপ সৃষ্টি করে। আধুনিক চিকিৎসার কারণে শিশু ও মাতৃমৃত্যুহারও উল্লেখযোগ্য হারে কমেছে।',
+        chips: ['নির্ভরশীল জনসংখ্যা']
+      },
+      {
+        activity: 'তোমার নিজ এলাকার জনসংখ্যা পরিবর্তনশীলতার কারণগুলো চিহ্নিত করো।'
+      },
+      {
+        activity: '"বিবাহ, ধর্মীয় মূল্যবোধ এবং উন্নত চিকিৎসা পদ্ধতির কারণেই জনসংখ্যার পরিবর্তনশীলতা লক্ষ করা যায়।" — দলীয় আলোচনার মাধ্যমে বিষয়টির যুক্তিপূর্ণ সমাধান করো।'
+      }
+    ],
+    chain: 'মানুষ শুধু জন্ম-মৃত্যুতেই বদলায় না — এক জায়গা থেকে আরেক জায়গায়ও যায়। পরের পাঠে জানব স্থানান্তরের কথা।'
+  },
+  {
+    id: 'l3',
+    num: 'পাঠ ৩',
+    icon: '🚶',
+    title: 'অভ্যন্তরীণ ও আন্তর্জাতিক স্থানান্তর',
+    sub: 'গ্রাম-শহর স্থানান্তর · প্রবাসী আয়',
+    type: 'type-4',
+    heroClass: 'hero-4',
+    heroSub: 'স্থানান্তরের কারণ ও ফলাফল',
+    sections: [
+      {
+        title: '🏘️ ৩.১ অভ্যন্তরীণ স্থানান্তর',
+        text: 'দেশের ভিতরে মানুষ যখন এক স্থান থেকে অন্য স্থানে গমন করে, তাকে অভ্যন্তরীণ স্থানান্তর বলা হয়। তবে বাজার করা বা অফিসে যাওয়ার মতো ছোটো যাতায়াতকে স্থানান্তর বলা হয় না। এটা হয় গ্রাম থেকে গ্রামে, গ্রাম থেকে শহরে, শহর থেকে গ্রামে, বা শহর থেকে শহরে — মূলত অর্থনৈতিক কারণে, এবং কোনো আইন বা অনুমতির প্রয়োজন হয় না।',
+        chips: ['অভ্যন্তরীণ স্থানান্তর']
+      },
+      {
+        title: '📋 কেন মানুষ গ্রাম থেকে শহরে যায়?',
+        text: 'জনসংখ্যা বাড়ায় মাথাপিছু জমি কমে যাচ্ছে, অনেকে ভূমিহীন হয়ে পড়ছে। এই আর্থিক সংকট গ্রামের মানুষকে শহরে কাজের খোঁজে আসতে বাধ্য করে। নদীভাঙন ও দারিদ্র্যও একটা কারণ। এ ছাড়া শহরের উন্নত শিক্ষা-চিকিৎসা, কর্মসংস্থান, ব্যবসার সুযোগও মানুষকে টানে।',
+        qualityItems: [
+          { icon: '🏚️', label: 'ভূমিহীনতা' },
+          { icon: '🌊', label: 'নদীভাঙন' },
+          { icon: '🎓', label: 'উন্নত শিক্ষা' },
+          { icon: '💼', label: 'কর্মসংস্থান' }
+        ]
+      },
+      {
+        title: '📊 অভ্যন্তরীণ স্থানান্তরের ফল',
+        text: 'গ্রাম থেকে শহরে আসা মানুষের একাংশ রিকশা-গাড়ি চালানো বা শিল্পশ্রমিক হিসেবে কাজ করছে। শহরে স্থানান্তরিত মানুষ গ্রামে থাকা পরিবারকে টাকা পাঠায়, যা কৃষি ও অকৃষি খাতে বিনিয়োগ হয়। এতে সবচেয়ে বেশি উপকৃত হয়েছে গ্রামীণ দরিদ্র নারীরা — তাদের পারিবারিক মর্যাদা ও সিদ্ধান্ত নেওয়ার স্বাধীনতা বেড়েছে।',
+        story: 'তবে এর একটা কালো দিকও আছে — স্বল্প আয়ের মানুষের জন্য শহরে বস্তি তৈরি হয়েছে, যেখানে অপরাধ প্রবণতা, মাদক, নারী-শিশু পাচারের মতো সমস্যা দেখা দেয়।',
+        storyLabel: '⚠️ সতর্কতা',
+        storyClass: 'c2'
+      },
+      {
+        title: '🌍 ৩.২ আন্তর্জাতিক স্থানান্তর',
+        text: 'এক স্বাধীন দেশ থেকে অন্য স্বাধীন দেশে চাকরি, বিয়ে, বসবাস বা নাগরিকত্ব লাভের জন্য যাওয়াকে আন্তর্জাতিক স্থানান্তর বলে। কর্মসংস্থানই এর প্রধান কারণ। বিদেশ থেকে পাঠানো টাকা আমাদের কৃষি, ব্যাংকিং, গার্মেন্টসসহ নানা খাতে বিনিয়োগ হয়ে দেশের অর্থনীতিকে এগিয়ে নেয়।',
+        story: 'তবে আন্তর্জাতিক স্থানান্তরের একটা সমস্যাও আছে — বিদেশ থেকে HIV/AIDS-এর মতো কিছু রোগ দেশে বিস্তার লাভ করতে পারে, আর সামাজিক-সাংস্কৃতিক ক্ষেত্রেও নানা প্রভাব পড়ে।',
+        storyLabel: '⚠️ সতর্কতা',
+        storyClass: 'c2',
+        chips: ['আন্তর্জাতিক স্থানান্তর']
+      },
+      {
+        activity: 'অভ্যন্তরীণ স্থানান্তরের কারণ ও প্রভাব চিহ্নিত করে একটা ছকে উপস্থাপন করো।'
+      },
+      {
+        activity: '"আন্তর্জাতিক স্থানান্তর অর্থনৈতিক উন্নয়নে ভূমিকা রাখে" — কথাটির পক্ষে দলীয়ভাবে যুক্তি দেখাও।'
+      }
+    ],
+    chain: 'মানুষ স্থানান্তরিত হয়, আবার নতুন মানুষও জন্ম নেয় — কিন্তু সবাই কি বেঁচে থাকে? পরের পাঠে জানব মা ও শিশুমৃত্যুর কথা।'
+  },
+  {
+    id: 'l4',
+    num: 'পাঠ ৪',
+    icon: '👶',
+    title: 'মা ও শিশুমৃত্যুর পরিস্থিতি',
+    sub: 'মাতৃমৃত্যু · শিশুমৃত্যু · কারণ ও প্রভাব',
+    type: 'type-2',
+    heroClass: 'hero-2',
+    heroSub: 'বাংলাদেশে মাতৃমৃত্যু ও শিশুমৃত্যুর হার কমছে কেন',
+    sections: [
+      {
+        title: '👩‍👧 ৪.১ মাতৃমৃত্যুর পরিস্থিতি',
+        text: 'সন্তান প্রসবের আগে, প্রসবকালীন বা প্রসবের পরে মায়ের মৃত্যু হলে তাকে মাতৃমৃত্যু বলা হয়। বাংলাদেশে ১৯৮০ সালে প্রতি লক্ষে মাতৃমৃত্যু ছিল ৬৫০ জন। ধীরে ধীরে তা কমে ১৯৯০-এ ৫৭৪, ২০০১-এ ৩২২, ২০১০-এ ১৯৪, ২০১৬-তে ১৭৬ এবং ২০২২-এ মাত্র ১৫৬ জনে নেমে এসেছে।',
+        chips: ['মাতৃমৃত্যু']
+      },
+      {
+        title: '⚠️ মাতৃমৃত্যুর কারণ',
+        text: 'বাল্যবিবাহের কারণে মেয়েরা অল্পবয়সে গর্ভধারণ করে, যখন গর্ভকালীন অবহেলা-অজ্ঞতায় তারা প্রয়োজনীয় পুষ্টি পায় না। এ ছাড়া নিম্ন জীবনমান, বিশুদ্ধ পানির অভাব, নারী শিক্ষার অভাব, চিকিৎসার অভাব, ঝুঁকিপূর্ণ গর্ভপাত ও প্রসবকালীন উচ্চ রক্তচাপও মাতৃমৃত্যুর কারণ।',
+        chips: ['বাল্যবিবাহ']
+      },
+      {
+        title: '👶 ৪.২ শিশুমৃত্যুর পরিস্থিতি',
+        text: 'বাংলাদেশ শিশুমৃত্যু কমাতে বড় সাফল্য পেয়েছে। ১৯৯০ সালে প্রতি হাজারে শিশুমৃত্যু ছিল ১৪৯ জন, ২০০৬-এ ৬৯, ২০০৮-এ ৫২, ২০১৬-তে ২৮ এবং ২০২২-এ মাত্র ২০ জনে নেমেছে। তবু উন্নত দেশগুলোর তুলনায় এই হার এখনও বেশি।',
+        chips: ['শিশুমৃত্যু']
+      },
+      {
+        title: '⚠️ শিশুমৃত্যুর কারণ',
+        text: 'দারিদ্র্যের কারণে মা ও শিশু সঠিক স্বাস্থ্যসেবা ও পুষ্টিকর খাবার থেকে বঞ্চিত হয়। প্রশিক্ষণহীন ধাত্রীর হাতে সন্তান প্রসব, মায়ের অপুষ্টি, বাল্যবিবাহও শিশুমৃত্যুর কারণ।',
+        story: 'পানিতে ডুবে মারা যাওয়া বাংলাদেশে শিশুমৃত্যুর অন্যতম বড় কারণ — শিশুদের সাঁতার না জানা, বড়দের নজরদারির অভাব আর পুকুর-জলাশয়ে নিরাপত্তা বেষ্টনী না থাকাই এর জন্য দায়ী।',
+        storyLabel: '💧 বিশেষ কারণ',
+        storyClass: 'c2'
+      },
+      {
+        title: '💔 প্রভাব',
+        text: 'একটি পরিবারে শিশুমৃত্যু ঘটলে পরিবারটি মানসিক ও অর্থনৈতিকভাবে ভেঙে পড়ে। উপার্জনক্ষম সদস্যের কাজের ক্ষমতাও কমে যায়। তাই শিশুমৃত্যু নিয়ে সচেতনতা ও প্রতিরোধমূলক কার্যক্রম জরুরি।'
+      },
+      {
+        activity: 'তোমার এলাকায় মাতৃমৃত্যু ও শিশুমৃত্যুর কারণগুলো চিহ্নিত করো।'
+      }
+    ],
+    chain: 'এত মানুষ, তাদের সবার প্রয়োজন মেটাতে হয় প্রকৃতি থেকেই। পরের পাঠে জানব জনসংখ্যা কীভাবে প্রাকৃতিক সম্পদের উপর চাপ তৈরি করে।'
+  },
+  {
+    id: 'l5',
+    num: 'পাঠ ৫',
+    icon: '🌳',
+    title: 'জনসংখ্যা ও প্রাকৃতিক সম্পদ',
+    sub: 'বনজ সম্পদ · কৃষিজমি · পানিসম্পদ',
+    type: 'type-5',
+    heroClass: 'hero-5',
+    heroSub: 'প্রাকৃতিক সম্পদের উপর জনসংখ্যার চাপ',
+    sections: [
+      {
+        title: '💎 প্রাকৃতিক সম্পদ কী?',
+        text: 'প্রাকৃতিক সম্পদ একটি দেশের সামাজিক, রাজনৈতিক ও অর্থনৈতিক শক্তির মূল উৎস। বাংলাদেশের প্রাকৃতিক সম্পদের মধ্যে আছে বনভূমি, খনিজ কয়লা ও গ্যাস, পাথর, শিলা। দ্রুত বাড়তে থাকা জনসংখ্যার চাহিদা মেটাতে এই সম্পদ ব্যাপকহারে ব্যবহার হচ্ছে বলে এর উপর চাপও বাড়ছে।',
+        chips: ['প্রাকৃতিক সম্পদ']
+      },
+      {
+        title: '📋 কোন কোন সম্পদের উপর চাপ পড়ছে?',
+        qualityItems: [
+          { icon: '🌳', label: 'বনজ সম্পদ<br><small>ঘরবাড়ি নির্মাণে কাঠের ব্যবহার</small>' },
+          { icon: '🌾', label: 'কৃষি জমি<br><small>বাড়িঘর-শিল্পায়নে জমি হ্রাস</small>' },
+          { icon: '⛽', label: 'গ্যাস-জ্বালানি<br><small>সার ও যানবাহনে ব্যবহার</small>' },
+          { icon: '💧', label: 'পানিসম্পদ<br><small>কলকারখানার বর্জ্যে দূষণ</small>' }
+        ]
+      },
+      {
+        title: '🌳 বনজ সম্পদের উপর চাপ',
+        text: 'বিশাল জনগোষ্ঠীর আবাসন সংকট মেটাতে ঘরবাড়ি নির্মাণে ব্যাপক হারে কাঠ ব্যবহার হচ্ছে। ফলে বন ধ্বংস হচ্ছে এবং প্রকৃতি তার ভারসাম্য হারাচ্ছে।'
+      },
+      {
+        title: '🌾 কৃষি জমি ও গ্যাস-জ্বালানির উপর চাপ',
+        text: 'অধিক জনসংখ্যার কারণে চাষযোগ্য জমি ঘরবাড়ি নির্মাণ ও শিল্পায়নে ব্যবহার হচ্ছে, ফলে কৃষিজমি কমছে। এ ছাড়া কাঁচামাল ও জ্বালানি হিসেবে গ্যাস-তেলের ব্যবহারও বাড়ছে — ইউরিয়া সার উৎপাদনেই ব্যবহার হয় প্রায় ৬০ ভাগ প্রাকৃতিক গ্যাস।'
+      },
+      {
+        title: '💧 পানিসম্পদের উপর চাপ',
+        text: 'কলকারখানার বর্জ্য পানিসম্পদকে দূষিত করছে, ফলে সুস্বাদু পানির অভাব দেখা দিচ্ছে এবং মৎস্যসম্পদও ক্ষতিগ্রস্ত হচ্ছে। এই দূষিত পানি নদী দিয়ে সাগরেও পৌঁছে যাচ্ছে।'
+      },
+      {
+        activity: '"বাংলাদেশে অতিরিক্ত জনসংখ্যার চাহিদাই খনিজসম্পদ নিঃশেষের মূল কারণ" — বক্তব্যটি কতটুকু সমর্থন করো?'
+      },
+      {
+        activity: 'প্রাকৃতিক সম্পদের উপর অতিরিক্ত জনসংখ্যার চাপের প্রভাব চিহ্নিত করো।'
+      }
+    ],
+    chain: 'তাহলে জনসংখ্যা এত দ্রুত বাড়ছে কেন, আর এর সমাধানই বা কী? শেষ পাঠে জানব সেটাই।'
+  },
+  {
+    id: 'l6',
+    num: 'পাঠ ৬',
+    icon: '📈',
+    title: 'জনসংখ্যা বৃদ্ধির কারণ, প্রভাব ও সমাধান',
+    sub: 'উচ্চ জন্মহার · নির্ভরশীল জনসংখ্যা · করণীয়',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'কারণ, প্রভাব ও সমাধানের পদক্ষেপ',
+    sections: [
+      {
+        title: '📊 বাংলাদেশে জনসংখ্যা বেড়েছে কতটা?',
+        text: '১৯৭৪ সালে বাংলাদেশের জনসংখ্যা ছিল ৭.৬৪ কোটি। এরপর ১৯৯১-এ ১১.১৫ কোটি, ২০০১-এ ১২.৯৩ কোটি, ২০০৭-এ ১৪.০৬ কোটি, ২০১১-এ প্রায় ১৪.৯৮ কোটি, আর ২০২২-এ দাঁড়িয়েছে ১৬.৯৮ কোটিতে।'
+      },
+      {
+        title: '👶 কেন এত দ্রুত বাড়ছে?',
+        text: 'জনসংখ্যা বৃদ্ধির মূল কারণ জন্ম ও মৃত্যুর মধ্যে ব্যবধান। বাংলাদেশে প্রতিবছর জন্ম নেয় প্রায় ২৫ লক্ষ শিশু, মৃত্যুবরণ করে মাত্র প্রায় ৮ লক্ষ মানুষ — অর্থাৎ প্রতি বছর প্রায় ১৮ লক্ষ মানুষ যোগ হচ্ছে। উচ্চ জন্মহার আর নিম্ন মৃত্যুহারই এর প্রধান কারণ।',
+        story: 'বাল্যবিবাহ, বহুবিবাহ, ধর্মীয় কুসংস্কার, আধুনিক জন্মনিয়ন্ত্রণ পদ্ধতি নিয়মিত ব্যবহার না করা, নারীশিক্ষার অভাব — এসবও জনসংখ্যা বৃদ্ধির পেছনে কাজ করে।',
+        storyLabel: '📌 অতিরিক্ত কারণ',
+        storyClass: 'c2',
+        chips: ['জনসংখ্যা বৃদ্ধির হার']
+      },
+      {
+        title: '⚖️ জনসংখ্যা বৃদ্ধির প্রভাব',
+        text: 'জনসংখ্যা বাড়ায় নির্ভরশীল জনসংখ্যাও বাড়ছে। আগামী তিন দশকে দেশে নির্ভরশীল জনসংখ্যা থাকবে প্রায় ৪০% আর কর্মক্ষম জনসংখ্যা ৬০%। এই বিশাল কর্মক্ষম জনগোষ্ঠীকে দক্ষ করে গড়ে তুলতে পারলে দেশ দ্রুত উন্নতি করবে — নয়তো শিক্ষা, স্বাস্থ্য, খাদ্য, বাসস্থানের মতো সব ক্ষেত্রেই চাপ বাড়বে।'
+      },
+      {
+        title: '✅ সমাধানে করণীয়',
+        bookOrig: '<p>• বাল্যবিবাহ নিরোধ আইনের কার্যকর বাস্তবায়ন এবং বিয়ের বৈধ বয়স (ছেলে ২১, মেয়ে ১৮) মেনে চলা।</p><p>• প্রাপ্তবয়স্ক নারী-পুরুষের জন্য উৎপাদনমুখী কাজের সুযোগ তৈরি করা।</p><p>• জন্মনিয়ন্ত্রণ কর্মসূচি সফলভাবে বাস্তবায়ন করে ছোটো পরিবার গঠনে উদ্বুদ্ধ করা।</p><p>• জনসম্পদকে দক্ষ মানবসম্পদে রূপান্তরের জন্য শিক্ষা, প্রশিক্ষণ ও স্বাস্থ্যসেবার উন্নয়ন করা।</p>'
+      },
+      {
+        activity: 'জনসংখ্যা সমস্যার কারণগুলো চিহ্নিত করে সমাধানের পদক্ষেপগুলো লেখো।'
+      }
+    ],
+    chain: 'এই অধ্যায়ে যা শিখলে, এবার সেগুলো দিয়েই পরীক্ষার প্রশ্নের উত্তর দেওয়ার পালা।'
+  },
+  {
+    id: 'l7',
+    num: 'অনুশীলনী',
+    icon: '📝',
+    title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'MCQ · সৃজনশীল · সংক্ষিপ্ত — উত্তরসহ',
+    type: 'type-5',
+    heroClass: 'hero-5',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — ট্যাপ করে উত্তর মিলিয়ে নাও',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. ১৯৭৪ সালের আদমশুমারি অনুযায়ী বাংলাদেশের জনসংখ্যা কত ছিল?',
+            options: [
+              { text: 'ক. ১৫.৯৬ কোটি', correct: false },
+              { text: 'খ. ১১.১৫ কোটি', correct: false },
+              { text: 'গ. ৭.৬৪ কোটি', correct: true },
+              { text: 'ঘ. ৫.৫২ কোটি', correct: false }
+            ]
+          },
+          {
+            question: '২. বাংলাদেশের মৃত্যুহার হ্রাসের কারণগুলো হলো—',
+            note: 'i. শিক্ষার হার বৃদ্ধি<br>ii. চিকিৎসা সেবার উন্নতি<br>iii. খাদ্যের পুষ্টিমান সম্পর্কে সচেতনতা বৃদ্ধি',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          },
+          {
+            question: '৩. নিচের উদ্দীপকটি পড়ো:<br><br><em>ফৌজিয়া একজন সমাজকর্মী। তিনি নয়নপুর গ্রামে দীর্ঘ পাঁচ বছর ধরে উন্নয়ন কর্মকাণ্ড চালাচ্ছেন। সেখানে মেয়েদের পঞ্চম শ্রেণি পাশ করার সাথে সাথে বিয়ে দেওয়া হয়। এক জরিপে দেখা যায়, নয়নপুর গ্রামে এক বছরে ৫০ জন শিশু জন্মগ্রহণ করে আর ৫ জন শিশু মৃত্যুবরণ করে।</em><br><br>নয়নপুর গ্রামে দ্রুত জনসংখ্যা বৃদ্ধির কারণ কী?',
+            options: [
+              { text: 'ক. উচ্চ জন্মহার ও নিম্ন মৃত্যুহার', correct: true },
+              { text: 'খ. নিম্ন জন্মহার ও উচ্চ মৃত্যুহার', correct: false },
+              { text: 'গ. জন্মহার ও মৃত্যুহার সমান', correct: false },
+              { text: 'ঘ. উচ্চ জন্মহার ও উচ্চ মৃত্যুহার', correct: false }
+            ]
+          },
+          {
+            question: '৪. নয়নপুর গ্রামে জনসংখ্যা সমস্যার সমাধানের উপায় হচ্ছে—',
+            note: 'i. বাল্যবিবাহ রোধ<br>ii. জীবনমানের মানোন্নয়ন<br>iii. জনসংখ্যার বহিরাগমন',
+            options: [
+              { text: 'ক. i ও ii', correct: true },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর',
+        qa: [
+          {
+            q: 'ক. বাংলাদেশে মেয়েদের বিয়ের ন্যূনতম বয়স কত?',
+            a: 'বাংলাদেশে মেয়েদের বিয়ের ন্যূনতম বয়স ১৮ বছর।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'খ. বসতি স্থানান্তর কীভাবে জনসংখ্যা বৃদ্ধিতে সহায়তা করে — ব্যাখ্যা করো।',
+            a: 'বসতি স্থানান্তর বলতে মানুষের একস্থান থেকে অন্যস্থানে যাওয়াকে বোঝায়। গ্রাম থেকে শহরে স্থানান্তরের ফলে শহরের জনসংখ্যা বাড়ে, আবার শহর থেকে গ্রামে স্থানান্তর গ্রামীণ জনসংখ্যা বাড়ায়। স্থানান্তরের কারণে বিভিন্ন অঞ্চলে জনসংখ্যার বণ্টনে পরিবর্তন আসে এবং সামগ্রিক জনসংখ্যার কাঠামো বদলায়।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'গ. ১৯৬১ সালের তুলনায় ২০০৭ সালের জনসংখ্যা প্রায় তিনগুণ বৃদ্ধির কারণ ব্যাখ্যা করো।',
+            a: '১৯৬১ সালে বাংলাদেশের জনসংখ্যা ছিল ৫.৫২ কোটি, যা ২০০৭ সালে বেড়ে দাঁড়ায় ১৪.০৬ কোটিতে। এর প্রধান কারণ:<br><br>১. দীর্ঘদিন ধরে উচ্চ জন্মহার<br>২. চিকিৎসা ও স্বাস্থ্যসেবার উন্নতিতে মৃত্যুহার হ্রাস<br>৩. টিকাদান কর্মসূচিতে শিশুমৃত্যু হ্রাস<br>৪. দীর্ঘদিনের বাল্যবিবাহের প্রচলন<br>৫. পরিবার পরিকল্পনা সম্পর্কে সচেতনতার অভাব',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'ঘ. "১৯৯১ সালের পর থেকে বাংলাদেশের জনসংখ্যা বৃদ্ধির হার ক্রমশ হ্রাস পাচ্ছে" — উক্তিটি বিশ্লেষণ করো।',
+            a: 'উক্তিটি সঠিক। ১৯৯১ সালে বৃদ্ধির হার ছিল ২.১৭%, যা ২০০১-এ কমে ১.৫৯%, ২০১১-এ ১.৩৭% এবং ২০২২-এ ১.২২%-এ নেমে আসে।<br><br>হ্রাসের কারণ:<br>১. জন্মনিয়ন্ত্রণ কর্মসূচির সফল বাস্তবায়ন<br>২. নারীশিক্ষার প্রসার<br>৩. বাল্যবিবাহের হার হ্রাস<br>৪. স্বাস্থ্যসেবার উন্নতি<br>৫. ছোটো পরিবার গঠনে সচেতনতা বৃদ্ধি',
+            tag: 'সৃজনশীল'
+          }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          {
+            q: '১. জনসংখ্যার পরিবর্তনশীলতা বলতে কী বোঝায়?',
+            a: 'জনসংখ্যার পরিবর্তনকেই জনসংখ্যার পরিবর্তনশীলতা বলা হয়। এটি প্রধানত জন্মহার, মৃত্যুহার, স্থানান্তর ও সামাজিক গতিশীলতার উপর নির্ভর করে — অর্থাৎ জনসংখ্যার কাঠামোর পরিবর্তনই পরিবর্তনশীলতা।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '২. বাংলাদেশে শিশুমৃত্যুর যেকোনো ২টি কারণ ব্যাখ্যা করো।',
+            a: '১. দারিদ্র্য: দরিদ্র পরিবারে মা ও শিশু সঠিক স্বাস্থ্যসেবা ও পুষ্টিকর খাবার থেকে বঞ্চিত হয়, ফলে শিশুমৃত্যু ঘটে।<br>২. পানিতে ডুবে মৃত্যু: শিশুদের সাঁতার না জানা, বড়দের নজরদারির ঘাটতি ও পুকুর-জলাশয়ে নিরাপত্তা বেষ্টনীর অভাবে অনেক শিশু পানিতে ডুবে মারা যায়।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '৩. অতিরিক্ত জনসংখ্যা কীভাবে পানিসম্পদের উপর চাপ সৃষ্টি করেছে?',
+            a: 'কলকারখানার বর্জ্য পানিকে দূষিত করছে, ফলে সুস্বাদু পানির অভাব দেখা দিচ্ছে। নৌযান থেকে বর্জ্য ফেলার কারণেও পানি দূষিত হচ্ছে। ফলে নদী-নালার পানি দূষিত হচ্ছে এবং নানা প্রাকৃতিক সমস্যা দেখা দিচ্ছে।',
+            tag: 'সংক্ষিপ্ত'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const keyTopics = [
+  { label: 'জনসংখ্যার ঘনত্ব', id: 'l1' },
+  { label: 'পরিবর্তনশীলতা', id: 'l2' },
+  { label: 'অভ্যন্তরীণ স্থানান্তর', id: 'l3' },
+  { label: 'মাতৃমৃত্যু', id: 'l4' },
+  { label: 'শিশুমৃত্যু', id: 'l4' },
+  { label: 'প্রাকৃতিক সম্পদে চাপ', id: 'l5' },
+  { label: 'জনসংখ্যা বৃদ্ধির কারণ', id: 'l6' },
+  { label: 'অনুশীলনী', id: 'l7' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

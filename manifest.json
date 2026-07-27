@@ -1,0 +1,12 @@
+{
+  "name": "মাধ্যমিক পড়াশোনা",
+  "short_name": "মাধ্যমিক পড়াশোনা",
+  "description": "বাংলাদেশ জাতীয় শিক্ষাক্রম — ৬ষ্ঠ থেকে ১০ম শ্রেণি, সহজ ভাষায় ইন্টারেক্টিভ পদ্ধতিতে",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#0d1b2a",
+  "lang": "bn",
+  "icons": []
+}

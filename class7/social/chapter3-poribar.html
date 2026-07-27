@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-box.red{background:#fdf0f0;border-color:#e8a0a0}
+.story-box.green{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'তৃতীয় অধ্যায়',
+  emoji: '👨‍👩‍👧‍👦',
+  navLabel: '👨‍👩‍👧‍👦 পরিবারে শিশুর বেড়ে ওঠা',
+  title: 'পরিবারে শিশুর বেড়ে ওঠা',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+const words = {
+  'পরিবার': {
+    meaning: 'একই সঙ্গে বসবাসকারী কয়েকজন ব্যক্তির সমষ্টি — যা বিয়ে, আত্মীয়তা অথবা পিতা-মাতার সূত্রের বন্ধনে আবদ্ধ একটি সামাজিক প্রতিষ্ঠান।',
+    example: 'তোমার বাড়িতে যারা থাকেন — মা, বাবা, ভাই, বোন, দাদা-দাদি — এরা সবাই মিলে তোমার পরিবার।'
+  },
+  'সামাজিকীকরণ': {
+    meaning: 'শিশু পরিবার ও সমাজ থেকে যেভাবে সামাজিক মানুষ হিসেবে গড়ে ওঠে — ভাষা, রীতি, আচরণ শেখার সেই প্রক্রিয়া।',
+    example: '"আদাব" বলে সালাম দিতে শেখা, বড়দের সম্মান করতে শেখা — এটা পরিবার থেকে পাওয়া সামাজিকীকরণ।'
+  },
+  'একক পরিবার': {
+    meaning: 'শুধু স্বামী-স্ত্রী ও তাদের অবিবাহিত সন্তানদের নিয়ে গঠিত পরিবার।',
+    example: 'শহরের একটি ফ্ল্যাটে বাবা, মা আর দুই ছেলে থাকেন — এটা একক পরিবার।'
+  },
+  'যৌথ পরিবার': {
+    meaning: 'রক্তের সম্পর্কের ভিত্তিতে একাধিক একক পরিবার মিলে গঠিত বড় পরিবার — দাদা-দাদি, চাচা-চাচি, ভাই-বোন সবাই একসাথে।',
+    example: 'গ্রামে একই উঠানে দাদা-দাদি, তিন ছেলে ও তাদের পরিবার মিলে ১৫ জন থাকেন — এটা যৌথ পরিবার।'
+  },
+  'পরিবর্তনশীল পরিবার': {
+    meaning: 'যে পরিবারের ধরন বা কাঠামো সময়ের সাথে পরিবর্তিত হয়ে যায় — যেমন যৌথ থেকে একক।',
+    example: 'আগে গ্রামে সবাই একসাথে থাকত। এখন ছেলেরা চাকরির জন্য শহরে চলে গেছে, যৌথ পরিবারটা ভেঙে ছোট হয়ে গেছে।'
+  },
+  'সামাজিক প্রতিষ্ঠান': {
+    meaning: 'সমাজে মানুষের জীবন পরিচালনার জন্য গড়ে ওঠা সংগঠিত ব্যবস্থা।',
+    example: 'পরিবার, বিদ্যালয়, ধর্মীয় প্রতিষ্ঠান — এগুলো সামাজিক প্রতিষ্ঠান। এরা মানুষকে নিয়মকানুন ও মূল্যবোধ শেখায়।'
+  },
+  'এক-অভিভাবক পরিবার': {
+    meaning: 'কেবল বাবা অথবা কেবল মা একজনের নেতৃত্বে পরিচালিত পরিবার।',
+    example: 'ফারুকের মা-বাবা আলাদা থাকেন। ফারুক মায়ের সাথে থাকে — এটা এক-অভিভাবক পরিবার।'
+  },
+  'নাগরিক চেতনা': {
+    meaning: 'সমাজ ও রাষ্ট্রের নাগরিক হিসেবে নিজের দায়িত্ব ও অধিকার সম্পর্কে সচেতনতা।',
+    example: 'রাস্তায় ময়লা না ফেলা, ট্রাফিক নিয়ম মানা — এগুলো নাগরিক চেতনার প্রকাশ। পরিবার থেকেই এটা শেখা যায়।'
+  },
+  'ভ্রাতৃত্ববোধ': {
+    meaning: 'ভাইয়ের মতো সম্পর্ক ও সৌহার্দ্যের অনুভূতি — পরস্পরকে ভালোবাসা ও সাহায্য করার মনোভাব।',
+    example: 'পরীক্ষার আগে তোমার বন্ধু অসুস্থ হলে তুমি নোট দিলে — এটাই ভ্রাতৃত্ববোধ।'
+  },
+  'আত্মপরিচয়': {
+    meaning: 'নিজেকে চেনা — আমি কে, আমার পরিবার কেমন, আমার মূল্যবোধ কী — এই উপলব্ধি।',
+    example: '"আমি রাজশাহীর মানুষ, আমার পরিবার কৃষক পরিবার, আমরা সৎভাবে কাজ করি" — এই জানাটাই আত্মপরিচয়।'
+  },
+  'ট্রমা': {
+    meaning: 'মানসিক আঘাত — এমন কোনো ঘটনা যা মনে গভীর কষ্টের দাগ রেখে যায়।',
+    example: 'বাবা-মার ঝগড়া বা বিচ্ছেদ দেখে শিশু ভয় পায়, একা থাকতে চায় — এটা মানসিক ট্রমার লক্ষণ।'
+  },
+  'সহিষ্ণুতা': {
+    meaning: 'অন্যের ভিন্নমত বা কাজ সহজে মেনে নেওয়ার ক্ষমতা — রাগ না করে ধৈর্য ধরা।',
+    example: 'চাচাত ভাই যখন তোমার পছন্দের খেলনাটা নিয়ে খেলে, রাগ না করে দিয়ে দেওয়াটা সহিষ্ণুতা।'
+  },
+  'সহমর্মিতা': {
+    meaning: 'অন্যের কষ্ট বুঝতে পারা ও তার পাশে দাঁড়ানো — নিজেকে তার জায়গায় রেখে ভাবা।',
+    example: 'বন্ধু পরীক্ষায় ফেল করলে তুমি তাকে নিয়ে হাসো না, বরং বলো "পরের বার ভালো হবে" — এটাই সহমর্মিতা।'
+  },
+  'উত্তরাধিকার': {
+    meaning: 'পূর্বপুরুষ থেকে সম্পত্তি বা অধিকার পাওয়ার নিয়ম — বাবার সম্পদ সন্তানেরা পাওয়া।',
+    example: 'বাবার মৃত্যুর পর তাঁর জমি ছেলেমেয়েদের মধ্যে ভাগ হয়ে যাওয়া — এটা উত্তরাধিকার।'
+  },
+  'সমন্বয়': {
+    meaning: 'বিভিন্ন বিষয়কে একসাথে সুসংগঠিত করা — সবার ভূমিকা ঠিকমতো মেলানো।',
+    example: 'বাবা কড়া শাসন করেন, মা সব সময় মাফ করে দেন — দুজনের মধ্যে সমন্বয় না হলে শিশু বিভ্রান্ত হয়।'
+  },
+  'নীতিবোধ': {
+    meaning: 'ভালো-মন্দ, উচিত-অনুচিত বোঝার ক্ষমতা — কোনটা করা উচিত, কোনটা উচিত নয়।',
+    example: 'পরীক্ষায় নকল না করা, মিথ্যা না বলা — এই বোধটা পরিবার থেকে শেখা নীতিবোধ।'
+  },
+  'শিখন প্রক্রিয়া': {
+    meaning: 'নতুন জ্ঞান, দক্ষতা বা আচরণ অর্জনের ধারাবাহিক পদ্ধতি।',
+    example: 'মা যখন হাতে ধরে লেখা শেখান, এক একটা বর্ণ বারবার লেখাতে থাকেন — এটাই শিখন প্রক্রিয়া।'
+  },
+  'ডে-কেয়ার সেন্টার': {
+    meaning: 'কর্মজীবী বাবা-মার ছোট শিশুদের কাজের সময় দেখাশোনার প্রতিষ্ঠান।',
+    example: 'মা-বাবা দুজনেই অফিসে যান। ছোট ভাইটা কাছের ডে-কেয়ারে থাকে, সন্ধ্যায় ফেরার পথে তুলে নিয়ে আসেন।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1', num: 'পাঠ ১', icon: '🏠', title: 'পরিবারের ধারণা ও ধরন',
+    sub: 'একক পরিবার · যৌথ পরিবার · সংজ্ঞা', type: 'type-4', heroClass: 'hero-4',
+    heroSub: 'পরিবার কী এবং কত রকম হয়',
+    sections: [
+      {
+        text: 'পরিবার একটি সামাজিক সংগঠন। পরিবার থেকে মানব জাতির বিকাশ ঘটেছে এবং তার সাথে সমাজেরও অগ্রগতি হয়েছে। একই সঙ্গে বসবাসকারী কয়েকজন ব্যক্তির সমষ্টিকে পরিবার বলে— যা বিয়ে, আত্মীয়তা অথবা পিতা-মাতার সূত্রের বন্ধনে আবদ্ধ একটি সামাজিক প্রতিষ্ঠান।',
+        story: 'তোমার নিজের পরিবারের দিকে তাকাও। শুধু মা-বাবা ও ভাই-বোন নাকি দাদা-দাদি, চাচা-চাচিরাও একসাথে থাকেন? এটা দেখেই বলতে পারবে তোমাদের পরিবার একক নাকি যৌথ।',
+        storyLabel: '💡 নিজেকে যাচাই করো',
+        chips: ['পরিবার', 'একক পরিবার', 'যৌথ পরিবার', 'সামাজিক প্রতিষ্ঠান', 'সামাজিকীকরণ']
+      },
+      { title: 'পরিবার কেন গুরুত্বপূর্ণ?', text: 'পরিবারের প্রত্যেক সদস্যের সুনির্দিষ্ট কিছু দায়িত্ব ও কর্তব্য থাকে। সদস্যদের মধ্যে থাকে গভীর সম্পর্ক। যার মূলে রয়েছে স্নেহ, মায়ামমতা, ভালোবাসা এবং আবেগীয় সম্পর্ক। সমাজের প্রাথমিক প্রতিষ্ঠান হিসাবে পরিবার নানা রকম দায়িত্ব পালন করে থাকে। এর মধ্যে বংশরক্ষা ও সামাজিকীকরণ অন্যতম।' },
+      { title: 'একক পরিবার', text: 'স্বামী-স্ত্রী ও অবিবাহিত সন্তান নিয়ে একক পরিবার গঠিত হয়। সন্তান প্রাপ্তবয়স্ক হয়ে বিয়ে করে আলাদা পরিবার গঠন করে। তখন আরেকটি নতুন একক পরিবার হয়। বাংলাদেশের শহরাঞ্চলে একক পরিবারের সংখ্যা বেশি।' },
+      { title: 'যৌথ পরিবার', text: 'রক্তের সম্পর্কের ভিত্তিতে কয়েকটি একক পরিবার মিলে যৌথ পরিবার গঠিত হয়। অর্থাৎ কোনো পরিবারের বাবা বা মায়ের সাথে যদি তাদের কারো বাবা-মা এবং এক বা একাধিক ভাই, বোন ও তাদের সন্তান সন্তুতি বা দাদা-দাদি, চাচা-ফুফু একত্রে বসবাস করে তাকে যৌথ পরিবার বলে। বাংলাদেশের গ্রামাঞ্চলে যৌথ পরিবার বেশি দেখা যায়।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'পরিবার কাকে বলে?', a: 'একই সঙ্গে বসবাসকারী কয়েকজন ব্যক্তির সমষ্টিকে পরিবার বলে— যা বিয়ে, আত্মীয়তা অথবা পিতা-মাতার সূত্রের বন্ধনে আবদ্ধ একটি সামাজিক প্রতিষ্ঠান।' },
+          { q: 'যৌথ পরিবার কাকে বলে?', a: 'রক্তের সম্পর্কের ভিত্তিতে কয়েকটি একক পরিবার মিলে যৌথ পরিবার গঠিত হয়। কোনো পরিবারের বাবা বা মায়ের সাথে যদি দাদা-দাদি, ভাই-বোন ও তাদের সন্তানসহ চাচা-ফুফু একত্রে বসবাস করে তাকে যৌথ পরিবার বলে।' },
+          { q: 'বাংলাদেশের কোথায় একক এবং কোথায় যৌথ পরিবার বেশি?', a: 'বাংলাদেশের শহরাঞ্চলে একক পরিবারের সংখ্যা বেশি। অপরদিকে গ্রামাঞ্চলে যৌথ পরিবার বেশি দেখা যায়।' },
+          { q: 'পরিবারের দুটি প্রধান কাজ কী?', a: 'পরিবারের প্রাথমিক গুরুত্বপূর্ণ কাজের মধ্যে বংশরক্ষা ও সামাজিকীকরণ অন্যতম।' }
+        ]
+      }
+    ],
+    chain: 'বাংলাদেশে গ্রাম ও শহরের পরিবারের মধ্যে কী পার্থক্য — সেটা পাঠ-২-তে।'
+  },
+  {
+    id: 'l2', num: 'পাঠ ২', icon: '🌾', title: 'বাংলাদেশে গ্রাম ও শহরের পরিবার',
+    sub: 'গ্রামীণ পরিবার · শহুরে পরিবার · পার্থক্য', type: 'type-3', heroClass: 'hero-3',
+    heroSub: 'গ্রাম ও শহরের পারিবারিক জীবনের তুলনা',
+    sections: [
+      {
+        text: 'বাংলাদেশের গ্রামীণ ও শহুরে সমাজে বিভিন্ন ধরনের পরিবার দেখা যায়। গ্রাম ও শহরভেদে এই পরিবারগুলোর মধ্যে পার্থক্য আছে। আজও অধিকাংশ লোক গ্রামে বসবাস করে এবং কৃষিকাজের ওপরই তারা প্রধানত নির্ভরশীল।',
+        story: 'গ্রামের রহিম সাহেবের পরিবারে আছেন তিনি, তার স্ত্রী, দুই ছেলে ও তাদের পরিবার, বাবা-মা — সবাই মিলে চাষবাস করেন। আর শহরের করিম সাহেব স্ত্রী ও এক সন্তান নিয়ে একটি ফ্ল্যাটে থাকেন, দুজনেই চাকরি করেন। এই দুটো পরিবারের জীবন কতটা আলাদা!',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c3',
+        chips: ['এক-অভিভাবক পরিবার', 'পরিবর্তনশীল পরিবার', 'যৌথ পরিবার']
+      },
+      { title: 'গ্রামীণ পরিবারের বৈশিষ্ট্য', text: 'গ্রামীণ সমাজে যৌথ পরিবারই বেশি দেখা যায়। কারণ বেশিরভাগ পরিবারই কৃষিকাজ করে জীবিকা নির্বাহ করে। কিন্তু সম্প্রতি আর্থিক পরিবর্তন, পেশাগত পরিবর্তন, সম্পত্তির সর্বোচ্চ সীমা নির্ধারণ নীতি ইত্যাদি কারণে যৌথ পরিবারে ভাঙন দেখা দিয়েছে। বাংলাদেশের গ্রামীণ সমাজে পরিবারের ক্ষমতা পিতার হাতেই বেশি লক্ষ করা যায়। গ্রামে যেসব পরিবারে পুরুষরা প্রবাসী, সেসব পরিবারে নারীদের সীমিত হলেও সিদ্ধান্ত নেওয়ার সুযোগ থাকে।' },
+      { title: 'শহুরে পরিবারের বৈশিষ্ট্য', text: 'সীমিত আয় এবং বাসস্থান সমস্যার কারণে একক পরিবারই হচ্ছে শহুরে পরিবারের প্রধান রূপ। শহরে শিক্ষিত মধ্যবিত্ত ও উচ্চবিত্ত পরিবারে নেতৃত্ব কেবল স্বামীর হাতেই ন্যস্ত থাকে না, সিদ্ধান্ত গ্রহণের ক্ষেত্রে স্বামীরা স্ত্রীর মতামতকেও যথেষ্ট গুরুত্ব দিয়ে থাকেন। শহরে ইদানিং বিবাহ বিচ্ছেদ, পিতা বা মাতার অকাল মৃত্যু ইত্যাদি বেড়ে যাওয়ায় এক-অভিভাবক পরিবারের সংখ্যা দ্রুত বাড়ছে।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'গ্রামীণ সমাজে যৌথ পরিবার বেশি কেন?', a: 'গ্রামীণ সমাজে যৌথ পরিবারই বেশি দেখা যায়। কারণ বেশিরভাগ পরিবারই কৃষিকাজ করে জীবিকা নির্বাহ করে। কৃষিকাজে অনেক মানুষের প্রয়োজন হয়, তাই বড় পরিবার থাকলে সুবিধা।' },
+          { q: 'গ্রামীণ যৌথ পরিবারে ভাঙনের কারণ কী?', a: 'সম্প্রতি আর্থিক পরিবর্তন, পেশাগত পরিবর্তন, সম্পত্তির সর্বোচ্চ সীমা নির্ধারণ নীতি ইত্যাদি কারণে যৌথ পরিবারে ভাঙন দেখা দিয়েছে।' },
+          { q: 'শহরে একক পরিবার বেশি হওয়ার কারণ কী?', a: 'সীমিত আয় এবং বাসস্থান সমস্যার কারণে একক পরিবারই হচ্ছে শহুরে পরিবারের প্রধান রূপ।' },
+          { q: 'শহরে এক-অভিভাবক পরিবার বাড়ছে কেন?', a: 'শহরে ইদানিং বিবাহ বিচ্ছেদ, পিতা বা মাতার অকাল মৃত্যু ইত্যাদি বেড়ে যাওয়ায় এক-অভিভাবক পরিবারের সংখ্যা দ্রুত বাড়ছে।' }
+        ]
+      }
+    ],
+    chain: 'পরিবারের ধরন পরিবর্তন হলে শিশুর উপর কী প্রভাব পড়ে — সেটা পাঠ-৩-এ।'
+  },
+  {
+    id: 'l3', num: 'পাঠ ৩', icon: '🔄', title: 'পরিবর্তনশীল পরিবার ও শিশুর সামাজিকীকরণ',
+    sub: 'সামাজিকীকরণ · পরিবারের ভূমিকা · পরিবর্তন', type: 'type-2', heroClass: 'hero-2',
+    heroSub: 'সামাজিকীকরণ কী এবং পরিবার কীভাবে শেখায়',
+    sections: [
+      {
+        text: 'পরিবর্তনশীল পরিবার বলতে মূলত ধরন পরিবর্তন হয়ে যে পরিবার সৃষ্টি হয় সে পরিবারকে বোঝায়। যেমন— গ্রামীণ যৌথ পরিবার ভেঙে একক পরিবারের সৃষ্টি হয়। এর মূলে বহু কারণ রয়েছে— অধিক জনসংখ্যা, পারিবারিক দ্বন্দ্ব, বিবাহ বিচ্ছেদ, নারীর কর্মসংস্থানসহ নানা কারণ।',
+        story: 'আমার দাদার সময় ২০ জনের একটি যৌথ পরিবারে থাকতেন। বাচ্চারা বড়দের কাজ দেখে শিখত, একসাথে খেতেন, রাতে গল্প শুনতেন। এখন সেই বাড়িতে শুধু দাদা-দাদি আর একটি ছোট পরিবার — বাকিরা শহরে চলে গেছেন। সামাজিকীকরণের ধরনটাও বদলে গেছে।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c2',
+        chips: ['পরিবর্তনশীল পরিবার', 'সামাজিকীকরণ', 'শিখন প্রক্রিয়া', 'সহিষ্ণুতা', 'সহমর্মিতা', 'ডে-কেয়ার সেন্টার']
+      },
+      { title: 'সামাজিকীকরণ কী?', text: 'শিশু একটি পরিবার তথা সমাজে যেভাবে সামাজিক হয়ে গড়ে ওঠে তাকে সামাজিকীকরণ বলা হয়। এই বেড়ে ওঠার ক্ষেত্রে পরিবারের সদস্য ও পিতামাতার নিকট থেকে যা কিছু যেভাবে শেখে— এই শিখন প্রক্রিয়া হলো শিশুর সামাজিকীকরণ। এটি একটি প্রক্রিয়া যা জন্ম থেকে মৃত্যু পর্যন্ত চলতে থাকে। শিশুর সামাজিকীকরণে প্রথম ভূমিকা রাখে পরিবার।' },
+      { title: 'শিক্ষায় পরিবারের ভূমিকা', text: 'শিশুর প্রাথমিক শিক্ষা গ্রহণে পরিবারের ভূমিকা গুরুত্বপূর্ণ। প্রকৃতপক্ষে পিতামাতার মাধ্যমেই শিশু ভাষা ও সংখ্যাশিক্ষার জগতে প্রবেশ করে। এ কারণে বলা হয়, পরিবার হলো গুরুত্বপূর্ণ শিক্ষা প্রতিষ্ঠান। তবে শিক্ষাক্ষেত্রে পরিবারের এ দায়িত্ব ও ভূমিকা বর্তমানে অন্যান্য প্রতিষ্ঠান গ্রহণ করেছে।' },
+      { title: 'যৌথ পরিবারে শিশু যা শেখে', text: 'যৌথ পরিবারে দাদা-দাদি, চাচা-চাচিসহ অন্য সদস্যদের সাথে পারস্পরিক আচার-আচরণের মাধ্যমে শিশুর সম্পর্ক গড়ে ওঠে। এসব সম্পর্কের মধ্য দিয়ে শিশু সহযোগিতা, সহিষ্ণুতা, সহমর্মিতা, সহনশীলতা, নিরাপত্তাবোধ, সমানভাগের অংশীদার প্রবণতাসহ বিভিন্ন গুণ অর্জন করার সামাজিক শিক্ষা পায় যা শিশুর সামাজিকীকরণে প্রভাব ফেলে।' },
+      { title: 'ধর্মশিক্ষায় পরিবারের ভূমিকা', text: 'ধর্মশিক্ষার বিষয়েও পরিবারের ভূমিকা যথেষ্ট গুরুত্বপূর্ণ। বাংলাদেশের ধর্মপ্রাণ মানুষ শিশুর ধর্মশিক্ষা বিষয়ে অত্যন্ত সজাগ। সাধারণত পরিবারের মধ্যেই শিশুর ধর্মীয় শিক্ষা দেওয়া হয়। তবে সময়ের পরিবর্তনে পরিবার ছোটো হয়ে যাওয়ায় এখন পরিবারের ধর্মবিষয়ক ভূমিকা দুর্বল হয়ে পড়েছে।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'সামাজিকীকরণ কী?', a: 'শিশু একটি পরিবার তথা সমাজে যেভাবে সামাজিক হয়ে গড়ে ওঠে তাকে সামাজিকীকরণ বলা হয়। এটি একটি প্রক্রিয়া যা জন্ম থেকে মৃত্যু পর্যন্ত চলতে থাকে।' },
+          { q: 'পরিবর্তনশীল পরিবার কাকে বলে?', a: 'পরিবর্তনশীল পরিবার বলতে মূলত ধরন পরিবর্তন হয়ে যে পরিবার সৃষ্টি হয় সে পরিবারকে বোঝায়। যেমন— গ্রামীণ যৌথ পরিবার ভেঙে একক পরিবারের সৃষ্টি হয়।' },
+          { q: 'যৌথ পরিবারে শিশু কোন কোন গুণ শেখে?', a: 'যৌথ পরিবারে শিশু সহযোগিতা, সহিষ্ণুতা, সহমর্মিতা, সহনশীলতা, নিরাপত্তাবোধ, সমানভাগের অংশীদার প্রবণতাসহ বিভিন্ন গুণ অর্জন করার সামাজিক শিক্ষা পায়।' },
+          { q: 'পরিবারকে গুরুত্বপূর্ণ শিক্ষা প্রতিষ্ঠান বলা হয় কেন?', a: 'পিতামাতার মাধ্যমেই শিশু ভাষা ও সংখ্যাশিক্ষার জগতে প্রবেশ করে। পরিবারই শিশুর প্রাথমিক শিক্ষার কেন্দ্র হিসেবে কাজ করে। এ কারণে পরিবারকে গুরুত্বপূর্ণ শিক্ষা প্রতিষ্ঠান বলা হয়।' }
+        ]
+      }
+    ],
+    chain: 'পরিবারের কোন সদস্য শিশুকে কীভাবে প্রভাবিত করে — সেটা পাঠ-৪-এ।'
+  },
+  {
+    id: 'l4', num: 'পাঠ ৪', icon: '👨‍👩‍👧‍👦', title: 'পরিবারের সদস্যদের ভূমিকা ও পারস্পরিক সম্পর্ক',
+    sub: 'মায়ের ভূমিকা · বাবার ভূমিকা · বাধা', type: 'type-5', heroClass: 'hero-5',
+    heroSub: 'কে কীভাবে শিশুর সামাজিকীকরণে প্রভাব ফেলে',
+    sections: [
+      {
+        text: 'পরিবার সামাজিকীকরণের গুরুত্বপূর্ণ মাধ্যম। শিশুর জীবনের ভালো ও খারাপ অভ্যাস পরিবারের সামাজিকীকরণের ফল। পরিবারের মধ্যেই শিশুর সামাজিক নীতিবোধ, নাগরিক চেতনা, সহযোগিতা, সম্প্রীতি, ভ্রাতৃত্ববোধ, আত্মত্যাগ ও ভালোবাসা জন্মে।',
+        story: 'হাসিব প্রায়ই মা-বাবার সাথে বেড়াতে যায়। সে সবসময় হাসিখুশি থাকে। অন্যদিকে ফারুক কারো সাথে মিশে না — সে মনমরা হয়ে থাকে। তার মা-বাবা আলাদা বসবাস করেন। পারিবারিক পরিবেশের পার্থক্যই তাদের আচরণের ভিন্নতার কারণ।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'green',
+        chips: ['নাগরিক চেতনা', 'ভ্রাতৃত্ববোধ', 'আত্মপরিচয়', 'ট্রমা', 'সমন্বয়', 'নীতিবোধ', 'উত্তরাধিকার']
+      },
+      { title: 'মায়ের ভূমিকা', text: 'শিশুর সবচেয়ে কাছের মানুষ হলেন তাদের মা-বাবা। আবার মা-বাবা এ দুজনের মধ্যে অধিকতর কাছের মানুষ হলেন মা। সুতরাং শিশুর সামাজিকীকরণের প্রথম সূত্রপাত ঘটে মার কাছ থেকেই। মা শিশুর খাদ্যাভ্যাস গঠন করেন। শিশুর ভাষা শিক্ষার প্রথম মাধ্যম হলেন মা। পরবর্তী সময়ে বর্ণ শিক্ষা, শব্দ শিক্ষা, ছড়া শিক্ষা মা-ই প্রথম দিয়ে থাকেন।' },
+      { title: 'বাবা, ভাই-বোন ও অন্যান্যদের ভূমিকা', text: 'বাবা ও মা যখন একক বা যৌথভাবে পরিবারের জন্য উপার্জন করেন তখন সংসার পরিচালনার জন্য তাদেরকে অনেক নিয়মনীতি শৃঙ্খলা প্রয়োগ করতে হয়। পিতামাতার এই আচরণ ও মূল্যবোধ শিশুর সামাজিকীকরণকে প্রভাবিত করে। পরিবারের বড় ভাই ও বোনদের কাছ থেকে তোমরা সহযোগিতা, সহমর্মিতা, শৃঙ্খলাবোধ, নিয়ম-নীতি, স্নেহ-ভালোবাসা প্রভৃতির শিক্ষা পেয়ে থাক। সমাজবিজ্ঞানীরা মনে করেন শিশুর "নিজ" ও "অপর" সম্পর্কে ধারণা তৈরি হয় তার পরিজনদের কাছ থেকেই।' },
+      { title: 'সামাজিকীকরণে বাধা', text: 'পারিবারিক বিশৃঙ্খলা, গৃহস্থালি নির্যাতন, নারী নিপীড়ন, শিশু নির্যাতন, পিতামাতার বিচ্ছেদ, ছাড়াছাড়ি, ভিন্ন গৃহে বসবাস, পিতা কিংবা মাতা অথবা পিতামাতা উভয়ের মৃত্যু শিশুর সামাজিকীকরণে বাধার সৃষ্টি করে। এসব শিশুর আচরণে একাকীত্ববোধ, ভয়, অবসাদ, ট্রমা, প্রতিহিংসা, আত্মকেন্দ্রিক মনোভাবসহ নানা মানসিক সমস্যা দেখা দিতে পারে।' },
+      { title: 'ভূমিকার সমন্বয় জরুরি', text: 'অনেক সময় দেখা যায় অতিরিক্ত শাসন কিংবা অধিক স্নেহ উভয়ই শিশুর সামাজিকীকরণকে বাধাগ্রস্ত করেছে। পরিবারের সকল সদস্যের ভূমিকার মধ্যে সমন্বয় সাধনই শিশুর আচরণ নিয়ন্ত্রণে সহায়ক। এসব শিশুকে আত্মসচেতন ও ব্যক্তিত্বান হিসেবে গড়ে তুলতে সহায়তা করে।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'শিশুর সামাজিকীকরণের প্রথম সূত্রপাত কীভাবে মায়ের মাধ্যমে ঘটে?', a: 'মা শিশুর খাদ্যাভ্যাস গঠন করেন। শিশুর ভাষা শিক্ষার প্রথম মাধ্যম হলেন মা। মা শিশুকে যেসব খাবারের প্রতি রুচি সৃষ্টি করাবেন, শিশুর খাদ্যাভ্যাস ও আচরণে তার প্রভাব লক্ষ করা যাবে। পরবর্তী সময়ে বর্ণ শিক্ষা, শব্দ শিক্ষা, ছড়া শিক্ষা মা-ই প্রথম দিয়ে থাকেন।' },
+          { q: 'শিশুর সামাজিকীকরণ কীভাবে বাধাগ্রস্ত হয়?', a: 'পারিবারিক বিশৃঙ্খলা, গৃহস্থালি নির্যাতন, পিতামাতার বিচ্ছেদ, পিতা কিংবা মাতার মৃত্যু শিশুর সামাজিকীকরণে বাধার সৃষ্টি করে। তাছাড়া অতিরিক্ত শাসন কিংবা অধিক স্নেহ উভয়ই বাধাগ্রস্ত করতে পারে।' },
+          { q: 'পারিবারিক ভাঙনে শিশুর আচরণে কী প্রভাব পড়ে?', a: 'এসব শিশুর আচরণে একাকীত্ববোধ, ভয়, অবসাদ, ট্রমা, প্রতিহিংসা, আত্মকেন্দ্রিক মনোভাবসহ নানা মানসিক সমস্যা দেখা দিতে পারে।' },
+          { q: 'পরিবারের ভূমিকার সমন্বয় কেন দরকার?', a: 'পরিবারের সকল সদস্যের ভূমিকার মধ্যে সমন্বয় সাধনই শিশুর আচরণ নিয়ন্ত্রণে সহায়ক। এটি শিশুকে আত্মসচেতন ও ব্যক্তিত্বান হিসেবে গড়ে তুলতে সহায়তা করে।' }
+        ]
+      }
+    ],
+    chain: 'পাঠগুলো পড়া হলো। এবার অনুশীলনীর প্রশ্নের উত্তর দেখো।'
+  },
+  {
+    id: 'l5', num: 'অনুশীলনী', icon: '📝', title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'বহুনির্বাচনি · সৃজনশীল · সংক্ষিপ্ত', type: '', heroClass: 'hero-1',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — ব্যাখ্যাসহ উত্তর',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. শিশুর বেড়ে ওঠার প্রথম সূতিকাগার কোনটি?',
+            options: [
+              { text: 'ক. পরিবার', correct: true },
+              { text: 'খ. বিদ্যালয়', correct: false },
+              { text: 'গ. প্রতিবেশী', correct: false },
+              { text: 'ঘ. খেলার মাঠ', correct: false }
+            ]
+          },
+          {
+            question: '২. যৌথ পরিবার শিশুর মধ্যে যা তৈরি করে—',
+            note: 'i. অন্যের মতামত গ্রহণের ক্ষমতা<br>ii. ধর্মীয় মূল্যবোধ<br>iii. অন্যকে সাহায্য করার প্রবণতা',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          },
+          {
+            question: '৩. নিচের উদ্দীপকটি পড়ো:<br><br><em>ফারুক ও হাসিব একই শ্রেণিতে পড়ে। হাসিব প্রায়ই মা-বাবার সাথে বেড়াতে যায়, সে সবসময় হাসিখুশি থাকে। অন্যদিকে ফারুক কারো সাথে মিশে না, ক্লাসে মনমরা হয়ে থাকে। তার মা-বাবা আলাদা বসবাস করেন, সে মায়ের সাথে থাকে।</em><br><br>ফারুক ও হাসিবের আচরণের ভিন্নতার কারণ কী?',
+            options: [
+              { text: 'ক. পরিবারের সদস্যদের মধ্যকার সম্পর্ক', correct: true },
+              { text: 'খ. দুজনের বয়সের পার্থক্য', correct: false },
+              { text: 'গ. দুজনের বিদ্যালয়ের পার্থক্য', correct: false },
+              { text: 'ঘ. দুজনের এলাকার পার্থক্য', correct: false }
+            ]
+          },
+          {
+            question: '৪. ফারুক ভবিষ্যতে কী ধরনের আচরণ করতে পারে?',
+            options: [
+              { text: 'ক. বন্ধুদের এড়িয়ে চলতে পারে', correct: true },
+              { text: 'খ. সবার সাথে বেশি মিশতে পারে', correct: false },
+              { text: 'গ. খুব হাসিখুশি থাকতে পারে', correct: false },
+              { text: 'ঘ. দলনেতা হয়ে উঠতে পারে', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ১ (মেহরিমা ও মুবাশিরার গল্প)',
+        text: 'মেহরিমা ও মুবাশিরা দুই বান্ধবী। মুবাশিরাদের বাসায় তার মা-বাবা ও ছোট ভাই আছে। মেহরিমার বাসায় মুবাশিরা বেড়াতে গিয়ে দেখতে পায় যে একটি বড়ো ডাইনিং টেবিলে চাচা-চাচি, দাদা-দাদিসহ অনেকে খাচ্ছে এবং খাওয়া শেষে মুবাশিরা মেহরিমাসহ দাদির কাছে গল্প শুনল।',
+        qa: [
+          { q: 'ক. সামাজিকীকরণ কী?', a: 'শিশু একটি পরিবার তথা সমাজে যেভাবে সামাজিক হয়ে গড়ে ওঠে তাকে সামাজিকীকরণ বলা হয়। পরিবারের সদস্য ও পিতামাতার নিকট থেকে যা কিছু যেভাবে শেখে— এই শিখন প্রক্রিয়া হলো শিশুর সামাজিকীকরণ। এটি জন্ম থেকে মৃত্যু পর্যন্ত চলতে থাকে।', tag: 'সৃজনশীল' },
+          { q: 'খ. শিশুর সামাজিকীকরণের প্রথম সূত্রপাত কীভাবে মায়ের মাধ্যমে ঘটে?', a: 'মা শিশুর খাদ্যাভ্যাস গঠন করেন। শিশুর ভাষা শিক্ষার প্রথম মাধ্যম হলেন মা। মা শিশুকে যেসব খাবারের প্রতি রুচি সৃষ্টি করাবেন তার প্রভাব আচরণে পড়ে। পরবর্তী সময়ে বর্ণ শিক্ষা, শব্দ শিক্ষা, ছড়া শিক্ষা মা-ই প্রথম দিয়ে থাকেন।', tag: 'সৃজনশীল' },
+          { q: 'গ. মুবাশিরাদের পরিবারের ধরন কী?', a: 'মুবাশিরাদের পরিবার একক পরিবার। কারণ সেখানে শুধু মা-বাবা ও ছোট ভাই আছেন — এটা একক পরিবারের বৈশিষ্ট্য। অপরদিকে মেহরিমার পরিবার যৌথ পরিবার — সেখানে চাচা-চাচি, দাদা-দাদিসহ অনেকে আছেন।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. মেহরিমা ও মুবাশিরার সামাজিকীকরণ কি একইভাবে হচ্ছে?', a: 'না, দুজনের সামাজিকীকরণ একইভাবে হচ্ছে না। মেহরিমা যৌথ পরিবারে থাকে বলে দাদা-দাদির গল্প শোনে, চাচা-চাচির সাথে মিশে সহিষ্ণুতা, সহযোগিতা শেখে। মুবাশিরার পরিবার একক, তাই সে এই বিস্তৃত পারিবারিক শিক্ষা পাচ্ছে না। তবে মুবাশিরা মেহরিমার বাড়িতে গিয়ে অনুভব করেছে এই পরিবেশ কতটা ভালো।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          { q: 'পরিবর্তনশীল পরিবারের ধারণাটি ব্যাখ্যা করো।', a: 'পরিবর্তনশীল পরিবার বলতে ধরন পরিবর্তন হয়ে যে পরিবার সৃষ্টি হয় তাকে বোঝায়। যেমন গ্রামীণ যৌথ পরিবার ভেঙে একক পরিবার হয়। এর কারণ — অধিক জনসংখ্যা, পারিবারিক দ্বন্দ্ব, বিবাহ বিচ্ছেদ, নারীর কর্মসংস্থান ইত্যাদি।', tag: 'সংক্ষিপ্ত' },
+          { q: 'বর্তমানে শিশুদের মধ্যে উদারতার গুণ তৈরি হচ্ছে না কেন?', a: 'যৌথ পরিবার কমে যাওয়ায় শিশু দাদা-দাদি, চাচা-চাচিসহ বিভিন্নজনের সাথে মিলে বড় হচ্ছে না। ফলে সহযোগিতা, সহিষ্ণুতা, ভাগাভাগি করার মানসিকতা তৈরি হচ্ছে না। একক ছোটো পরিবারে শিশু নিজের সুখ-স্বাচ্ছন্দ্য ও সুবিধার বাইরে অন্যদের কথা ভাবতে শেখে না।', tag: 'সংক্ষিপ্ত' },
+          { q: 'শিশুর সামাজিকীকরণ কীভাবে বাধাগ্রস্ত হয়?', a: 'পারিবারিক বিশৃঙ্খলা, গৃহস্থালি নির্যাতন, নারী নিপীড়ন, শিশু নির্যাতন, পিতামাতার বিচ্ছেদ এবং পিতামাতার মৃত্যু শিশুর সামাজিকীকরণে বাধার সৃষ্টি করে। তাছাড়া অতিরিক্ত শাসন বা অধিক স্নেহ উভয়ই বাধার কারণ।', tag: 'সংক্ষিপ্ত' }
+        ]
+      }
+    ],
+    chain: 'এই প্রশ্নগুলো ভালো করে বুঝলে পরীক্ষায় নিজের ভাষায় লিখতে পারবে।'
+  }
+];
+
+const keyTopics = [
+  { label: 'পরিবারের ধারণা', id: 'l1' },
+  { label: 'যৌথ পরিবার', id: 'l1' },
+  { label: 'একক পরিবার', id: 'l1' },
+  { label: 'গ্রাম ও শহর', id: 'l2' },
+  { label: 'সামাজিকীকরণ', id: 'l3' },
+  { label: 'মায়ের ভূমিকা', id: 'l4' },
+  { label: 'পারিবারিক বাধা', id: 'l4' },
+  { label: 'অনুশীলনী', id: 'l5' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

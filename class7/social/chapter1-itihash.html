@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+.hero-green{background:linear-gradient(160deg,#006A4E 0%,#003d2d 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+.hero-red{background:linear-gradient(150deg,#C8102E 0%,#7a0018 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-gold{background:linear-gradient(150deg,#C9950C 0%,#7a5800 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-dark{background:linear-gradient(150deg,#3a3a5c 0%,#111827 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-liberation{background:linear-gradient(135deg,#006A4E 0%,#C8102E 55%,#003d2d 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+.hero-orange{background:linear-gradient(150deg,#C24A00 0%,#963800 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.lesson-card.type-green{border-left-color:#006A4E}
+.lesson-card.type-red{border-left-color:#C8102E}
+.lesson-card.type-gold{border-left-color:#C9950C}
+.lesson-card.type-dark{border-left-color:#3a3a5c}
+.lesson-card.type-liberation{border-left-color:#006A4E}
+.lesson-card.type-orange{border-left-color:#C24A00}
+.lesson-card.type-green .lesson-num{background:linear-gradient(135deg,#006A4E,#003d2d)}
+.lesson-card.type-red .lesson-num{background:linear-gradient(135deg,#C8102E,#7a0018)}
+.lesson-card.type-gold .lesson-num{background:linear-gradient(135deg,#C9950C,#7a5800)}
+.lesson-card.type-dark .lesson-num{background:linear-gradient(135deg,#3a3a5c,#111827)}
+.lesson-card.type-liberation .lesson-num{background:linear-gradient(135deg,#006A4E,#C8102E)}
+.lesson-card.type-orange .lesson-num{background:linear-gradient(135deg,#C24A00,#963800)}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-box.red{background:#fdf0f0;border-color:#e8a0a0}
+.story-box.green{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'প্রথম অধ্যায়',
+  emoji: '🎖️',
+  navLabel: '🎖️ মুক্তিসংগ্রাম',
+  title: 'বাংলাদেশের মুক্তিসংগ্রাম ও গণআন্দোলন',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+const words = {
+  'বৈষম্য': { meaning: 'একজনকে বেশি দেওয়া আরেকজনকে কম দেওয়া — এই অন্যায়টাই বৈষম্য।', example: '⚖️ ক্লাসে দুই ছাত্র একই পরীক্ষা দিল। একজন ৯০ পেল, অন্যজন ৮০ — কিন্তু ৮০ পাওয়া ছেলেটাকেই পুরস্কার দেওয়া হলো, শুধু সে ধনীর ছেলে বলে। এটাই বৈষম্য!' },
+  'শোষণ': { meaning: 'কারো পরিশ্রম বা সম্পদ জোর করে নিয়ে নেওয়া।', example: '📌 কৃষক সারাদিন মাঠে কাজ করে ১০০ টাকার ফসল ফলায়। জমিদার এসে ৮০ টাকাই নিয়ে যায়। কৃষক পায় ২০ টাকা। এটাই শোষণ!' },
+  'অত্যাচার': { meaning: 'অন্যায়ভাবে কষ্ট দেওয়া, মারা বা জুলুম করা।', example: '📌 কারণ ছাড়া মারধর করা, মিথ্যা মামলা দেওয়া, ন্যায্য কথা বললে জেলে পুরে দেওয়া — এসবই অত্যাচার।' },
+  'স্বাধিকার': { meaning: 'স্ব = নিজের, অধিকার = হক। নিজের ব্যাপারে নিজে সিদ্ধান্ত নেওয়ার অধিকার।', example: '🏠 তুমি নিজের ঘরে কী রান্না হবে, কখন ঘুমাবে — এটা তুমিই ঠিক করবে, পাশের বাড়ির লোক নয়। বাঙালিরা চেয়েছিল নিজেদের ব্যাপারে নিজেরা সিদ্ধান্ত নিতে।' },
+  'স্বায়ত্তশাসন': { meaning: 'স্বায়ত্ত = নিজস্ব, শাসন = দেশ চালানো। নিজেদের এলাকা নিজেরা চালানোর ক্ষমতা।', example: '🏘️ ধরো তোমাদের গ্রামের বিষয় — রাস্তা কোথায় হবে, স্কুল কোথায় হবে — সব ঢাকা থেকে ঠিক না হয়ে গ্রামের মানুষই ঠিক করুক। এটাই স্বায়ত্তশাসন।' },
+  'ষড়যন্ত্র': { meaning: 'গোপনে মিলে কারো ক্ষতি করার পরিকল্পনা।', example: '🤫 তিনজন মিলে গোপনে ঠিক করল — ওই ছাত্রকে মিথ্যা দোষ দিয়ে ক্লাস থেকে বের করে দেব। এই গোপন ক্ষতিকর পরিকল্পনাটাই ষড়যন্ত্র।' },
+  'সংগ্রাম': { meaning: 'অন্যায়ের বিরুদ্ধে লড়াই চালিয়ে যাওয়া — কঠিন হলেও হার না মানা।', example: '💪 গরিব কৃষক জমিদারের অন্যায়ের বিরুদ্ধে বারবার আদালতে যাচ্ছে, মিছিল করছে, প্রতিবাদ করছে। এটাই সংগ্রাম।' },
+  'গণপরিষদ': { meaning: 'দেশের সর্বোচ্চ আইন তৈরির সভা। যেখানে নির্বাচিত প্রতিনিধিরা আইন বানান।', example: '🏛️ স্কুলের ক্লাস ক্যাপ্টেনরা মিলে বসলে যেমন স্কুলের নিয়ম ঠিক হয়, দেশের নির্বাচিত প্রতিনিধিরা মিলে বসলে সেটাই গণপরিষদ।' },
+  'প্রাদেশিক পরিষদ': { meaning: 'প্রদেশ (রাজ্য) পর্যায়ের আইনসভা। একটা প্রদেশের নিজস্ব সংসদ।', example: '🏢 পাকিস্তানে দুটো প্রদেশ ছিল — পূর্ব ও পশ্চিম। পূর্ব পাকিস্তানের নিজস্ব সংসদটাই ছিল প্রাদেশিক পরিষদ।' },
+  'আসন': { meaning: 'একটা নির্বাচনী এলাকা যেখান থেকে একজন নেতা নির্বাচিত হয়।', example: '🏫 স্কুলে ১০টা ক্লাসে ১০ জন ক্যাপ্টেন। দেশেও তেমন — ১৬৯টা এলাকায় ১৬৯টা আসন!' },
+  'নিরঙ্কুশ': { meaning: 'এত বেশি যে বাধা দেওয়ার কেউ নেই — একচেটিয়া বিজয়।', example: '🏆 ফুটবলে ১০-০ গোলে জিতলে বলে নিরঙ্কুশ জয়। আওয়ামী লীগ ১৬৯-এর মধ্যে ১৬৭ আসন পেয়ে নিরঙ্কুশ সংখ্যাগরিষ্ঠতা পেল।' },
+  'ভোটাধিকার': { meaning: 'ভোট দেওয়ার অধিকার — প্রত্যেক প্রাপ্তবয়স্ক নাগরিকের এই অধিকার আছে।', example: '🗳️ ১৮ বছর বয়স হলেই তুমি ভোট দিতে পারবে। কেউ এই অধিকার কেড়ে নিলে সেটা অন্যায়।' },
+  'প্রাপ্তবয়স্ক': { meaning: '১৮ বছর বা তার বেশি বয়সের মানুষ, যে ভোট দিতে পারে।', example: '📅 তুমি এখন ১৩ বছর। আরো ৫ বছর পর প্রাপ্তবয়স্ক হবে এবং ভোট দিতে পারবে।' },
+  'কারচুপি': { meaning: 'ভোট চুরি করা বা ফলাফল বদলে দেওয়া।', example: '🤥 তুই ২০ ভোট পেলি, অন্যজন ৫ পেল — কিন্তু বলা হলো অন্যজন ২৫ ভোটে জিতেছে। এটাই কারচুপি!' },
+  'হরতাল': { meaning: 'সব কিছু বন্ধ রেখে প্রতিবাদ জানানো — দোকান, অফিস, স্কুল সব বন্ধ।', example: '🚪 "আজ হরতাল!" মানে রাস্তায় কোনো গাড়ি নেই, দোকান বন্ধ, স্কুল বন্ধ। সবাই বাসায়। এটা প্রতিবাদের একটা পদ্ধতি।' },
+  'ধর্মঘট': { meaning: 'কর্মীরা কাজ বন্ধ করে প্রতিবাদ করা।', example: '🏭 কারখানার শ্রমিকরা বলল — "মালিক বেতন দেয় না, আমরা আজ থেকে কাজে আসব না।" এটাই ধর্মঘট।' },
+  'গণঅভ্যুত্থান': { meaning: 'গণ = জনগণ, অভ্যুত্থান = হঠাৎ উঠে দাঁড়ানো। সাধারণ মানুষের সম্মিলিত বিদ্রোহ।', example: '✊ শুধু ছাত্র না — শিক্ষক, কৃষক, রিকশাচালক সবাই একসাথে রাস্তায় নামল। এত মানুষ একসাথে রুখে দাঁড়ানোটাই গণঅভ্যুত্থান।' },
+  'স্মারকলিপি': { meaning: 'লিখিত দাবিনামা — কর্তৃপক্ষকে দেওয়া চিঠি।', example: '📄 ছাত্ররা মিছিল করে প্রধানমন্ত্রীর কাছে একটা চিঠি দিল — "আমাদের ৫টা দাবি মানতে হবে।" এই চিঠিটাই স্মারকলিপি।' },
+  'প্রত্যাহার': { meaning: 'আগে যা করা হয়েছে তা ফিরিয়ে নেওয়া বা বাতিল করা।', example: '↩️ ধরো পুলিশ কাউকে ধরল, পরে ছেড়ে দিল। এটা গ্রেফতার প্রত্যাহার। আগরতলা মামলা প্রত্যাহার = মামলাটা বাতিল করা।' },
+  'সামরিক শাসন': { meaning: 'সেনাবাহিনী জোর করে দেশ চালানো — ভোট ছাড়া, মানুষের মতামত ছাড়া।', example: '📌 স্কুলের দারোয়ান এসে বলল — "আমিই এখন ক্লাস ক্যাপ্টেন!" ভোট নেই, কারো মতামত নেই। এটাই সামরিক শাসন!' },
+  'মৌলিক গণতন্ত্র': { meaning: 'আইয়ুব খানের ভুয়া নির্বাচন পদ্ধতি — মানুষ সরাসরি ভোট না দিয়ে মধ্যস্থতাকারী নির্বাচন করত।', example: '🎭 সত্যিকারের ভোট না দিয়ে কয়েকজন "মনোনীত" লোক ভোট দিত। এতে সরকার সহজেই ফলাফল নিজের মতো করতে পারত।' },
+  'স্বৈরাচার': { meaning: 'যে শাসক জনগণের মতামত ছাড়া একা সব সিদ্ধান্ত নেয়, প্রতিবাদ সহ্য করে না।', example: '📌 ভোট নেই, কারো কথা শোনে না, প্রতিবাদ করলে মারে — এই শাসকই স্বৈরাচার।' },
+  'ক্ষমতাসীন': { meaning: 'এই মুহূর্তে যে দল বা ব্যক্তি দেশ চালাচ্ছে।', example: '👑 এখন যে দল সরকার চালাচ্ছে সেই দলকেই ক্ষমতাসীন দল বলে। ১৯৫৪ সালে মুসলিম লীগ ছিল ক্ষমতাসীন।' },
+  'জেনারেল': { meaning: 'সেনাবাহিনীর সর্বোচ্চ পদের কর্মকর্তা।', example: '💂 সেনাবাহিনীতে অনেক পদ আছে — সৈনিক, সার্জেন্ট, ক্যাপ্টেন, কর্নেল। একদম উপরের পদটার নাম জেনারেল।' },
+  'রাষ্ট্রদ্রোহিতা': { meaning: 'দেশের বিরুদ্ধে কাজ করার অভিযোগ — সবচেয়ে বড় আইনি অপরাধ।', example: '⚖️ পাকিস্তান সরকার বলল — "শেখ মুজিব দেশ ভাঙার চেষ্টা করেছেন।" এই অভিযোগটাই রাষ্ট্রদ্রোহিতা। প্রমাণ হলে ফাঁসি পর্যন্ত হতে পারে।' },
+  'সান্ধ্য আইন': { meaning: 'সন্ধ্যার পর রাস্তায় বের হওয়া নিষেধ — পুলিশ বা সেনা দেখলে গুলি করতে পারে।', example: '🚫 সরকার বলল — "রাত ৮টার পর কেউ বাইরে বের হলে গ্রেফতার হবে।" এই নিষেধাজ্ঞাই সান্ধ্য আইন। ইংরেজিতে বলে Curfew।' },
+  'জমিদারি প্রথা': { meaning: 'জমিদার = জমির মালিক। প্রথা = পুরনো নিয়ম। যে নিয়মে কিছু মানুষ বিশাল জমির মালিক হয়ে কৃষকদের শোষণ করত।', example: '🌾 একজন জমিদারের হাজার একর জমি। কৃষক সেই জমিতে চাষ করে। ফসলের বড় অংশ জমিদারকে দিতে হয়। কৃষক গরিবই থাকে। এটাই জমিদারি প্রথা।' },
+  'জাতীয়করণ': { meaning: 'ব্যক্তির মালিকানা থেকে নিয়ে পুরো দেশের সম্পত্তি বানানো।', example: '🏭 পাটকল যদি একজনের হয়, সে একা লাভ পায়। জাতীয়করণ করলে পাটকল দেশের হয়, লাভ সবার কাজে আসে।' },
+  'মুদ্রা': { meaning: 'টাকা বা কয়েন — দেশের কেনাবেচার মাধ্যম।', example: '💰 বাংলাদেশে টাকা, ভারতে রুপি, আমেরিকায় ডলার — এগুলো প্রত্যেক দেশের মুদ্রা।' },
+  'বৈদেশিক মুদ্রা': { meaning: 'অন্য দেশের টাকা — রপ্তানি করলে যে বিদেশি টাকা আসে।', example: '📦 বাংলাদেশ গার্মেন্টস রপ্তানি করে। বিদেশিরা ডলারে কেনে। এই ডলারটাই বৈদেশিক মুদ্রা।' },
+  'বুদ্ধিজীবী': { meaning: 'যিনি জ্ঞান, লেখাপড়া ও বিদ্যা দিয়ে সমাজের জন্য কাজ করেন — শিক্ষক, লেখক, বিজ্ঞানী।', example: '📚 ড. শামসুজ্জোহা ছিলেন বিশ্ববিদ্যালয়ের শিক্ষক। তিনি জ্ঞান দিয়ে সমাজ গড়তেন। তাই তাঁকে বুদ্ধিজীবী বলা হয়।' },
+  'সনদ': { meaning: 'লিখিত দলিল বা স্বীকৃতিপত্র — গুরুত্বপূর্ণ অধিকার বা চুক্তির দলিল।', example: '📜 মাধ্যমিক পাস করলে সনদ পাও — কাগজে লেখা থাকে তুমি পাস করেছ। ৬-দফাকে "মুক্তির সনদ" বলে কারণ এটা বাঙালির অধিকারের দলিল।' },
+  'প্রতিরক্ষা': { meaning: 'দেশকে শত্রু থেকে রক্ষা করা — সেনাবাহিনী, নৌবাহিনী, বিমানবাহিনী এই কাজ করে।', example: '🛡️ বাইরের শত্রু যাতে দেশে আক্রমণ করতে না পারে সেজন্য সেনাবাহিনী পাহারায় থাকে। এটাই প্রতিরক্ষা।' },
+  'পররাষ্ট্র': { meaning: 'পর = অন্য, রাষ্ট্র = দেশ। অন্য দেশের সাথে সম্পর্ক ও কূটনীতি।', example: '🌍 ভারত, আমেরিকা, চীনের সাথে বাংলাদেশের সম্পর্ক — এই সম্পর্ক পরিচালনাই পররাষ্ট্র বিষয়।' },
+  'অন্তর্বর্তীকালীন': { meaning: 'অন্তর + বর্তী = মাঝখানের সময়ের। স্থায়ী ব্যবস্থা না হওয়া পর্যন্ত অস্থায়ী ব্যবস্থা।', example: '⏳ ক্লাস ক্যাপ্টেন পদত্যাগ করল। নতুন নির্বাচন না হওয়া পর্যন্ত একজন সাময়িক দায়িত্বে। এটাই অন্তর্বর্তীকালীন।' },
+  'অধিবেশন': { meaning: 'সংসদের বা পরিষদের বৈঠক — নেতারা একসাথে বসে আলোচনা করেন।', example: '🏛️ সংসদ সারাক্ষণ চলে না। নির্দিষ্ট সময়ে সদস্যরা একসাথে বসে আইন তৈরি করেন। এই বৈঠকটাই অধিবেশন।' },
+  'দ্বিজাতি তত্ত্ব': { meaning: 'দ্বি = দুই, জাতি = nation। হিন্দু ও মুসলিম দুটো আলাদা জাতি — এই মতবাদ।', example: '✌️ পাকিস্তান তৈরির পক্ষে যুক্তি ছিল — হিন্দু আর মুসলমান আলাদা জাতি, তাই আলাদা দেশ দরকার। এটাই দ্বিজাতি তত্ত্ব।' },
+  'রাষ্ট্রভাষা': { meaning: 'দেশের সরকারি ভাষা — সরকারি কাজ, শিক্ষা, আদালত সব এই ভাষায় হয়।', example: '📜 বাংলাদেশে বাংলা রাষ্ট্রভাষা। তাই পরীক্ষার প্রশ্নপত্র বাংলায়, আইন বাংলায়, সংসদে বাংলায় কথা হয়।' },
+  'সংস্কৃতি': { meaning: 'একটা জাতির খাদ্য, পোশাক, ভাষা, উৎসব, গান — সব মিলিয়ে সংস্কৃতি।', example: '🍚 বাংলায় কথা বলা, ভাত-মাছ খাওয়া, বাংলা গান, বৈশাখ উদযাপন — এটাই বাঙালি সংস্কৃতি!' },
+  'বাঙালি': { meaning: 'যাদের মাতৃভাষা বাংলা তারাই বাঙালি।', example: '🗺️ বাংলাদেশি = দেশের পরিচয়। বাঙালি = জাতির পরিচয়। ভারতের পশ্চিমবঙ্গের মানুষও বাঙালি — তারা ভারতীয় নাগরিক।' },
+  'শহিদ': { meaning: 'যিনি ন্যায় বা দেশের জন্য জীবন দিয়েছেন।', example: '❤️ রফিক, জব্বার, বরকত, সালাম — মাতৃভাষার জন্য জীবন দিলেন। তাঁরাই ভাষাশহিদ।' },
+  'গণতন্ত্র': { meaning: 'গণ = জনগণ, তন্ত্র = শাসন। জনগণ ভোট দিয়ে যাকে চায় তাকেই শাসক বানায়।', example: '🗳️ তুমি ভোট দেবে, আমি দেব — যে বেশি ভোট পাবে সেই দেশ চালাবে। তোমার মতামতের দাম আছে।' },
+  'সংবিধান': { meaning: 'দেশের সর্বোচ্চ আইনের বই — সব নিয়মের মূল উৎস।', example: '📖 বাসার নিয়ম খাতায় লিখলে বাসার সংবিধান। দেশের সংবিধান সবচেয়ে বড় — প্রধানমন্ত্রীও ভাঙতে পারেন না।' },
+  'পদত্যাগ': { meaning: 'নিজে থেকে পদ ছেড়ে দেওয়া।', example: '🚪 ক্লাস ক্যাপ্টেন বলল — "আমি আর থাকব না।" এটাই পদত্যাগ। জনগণের চাপে আইয়ুব খান পদত্যাগ করতে বাধ্য হলেন।' },
+  'উপাধি': { meaning: 'বিশেষ সম্মানের নাম — আসল নাম নয়, সম্মানের খেতাব।', example: '🌟 সাকিবকে "অলরাউন্ডার" বলে — এটা তার আসল নাম নয়, সম্মানের নাম। শেখ মুজিবকে "বঙ্গবন্ধু" = বাংলার বন্ধু উপাধি দেওয়া হলো।' },
+  'সংস্কার': { meaning: 'বিদ্যমান ব্যবস্থার পরিবর্তন বা উন্নতি করা।', example: '🔧 পুরনো ভাঙা চেয়ার মেরামত করলে সংস্কার। কোটা সংস্কার = কোটা ব্যবস্থা ঠিক করো।' },
+  'নীপাত': { meaning: 'পুরনো বাংলা শব্দ — ধ্বংস হোক, শেষ হয়ে যাক।', example: '📢 "স্বৈরাচার নীপাত যাক" = "স্বৈরাচারী শাসন শেষ হয়ে যাক!" নূর হোসেন বুকে লিখে শহিদ হয়েছিলেন।' },
+  'কোটা': { meaning: 'সরকারি চাকরিতে নির্দিষ্ট গোষ্ঠীর জন্য আগে থেকে বরাদ্দ রাখা পদ।', example: '📊 ১০০টা চাকরিতে মেধাবীরা পায় মাত্র ৪৪টা, বাকি ৫৬টা আগেই বরাদ্দ। তুই ৯৫ পেলি কিন্তু চাকরি হলো না — এই অসমতাই বৈষম্য।' }
+};
+
+const lessons = [
+  {
+    id: 'e1947', num: '১৯৪৭', icon: '🌙', title: 'পাকিস্তান স্বাধীন হলো', sub: 'শুরুর কথা',
+    type: 'green', heroClass: 'hero-green', heroSub: 'পূর্ব ও পশ্চিম পাকিস্তান — বৈষম্যের শুরু',
+    sections: [
+      {
+        text: 'ভারত ভাগ হয়ে পাকিস্তান জন্ম নিল। পূর্ব ও পশ্চিম — দুই ভাগে। কিন্তু পাকিস্তান রাষ্ট্র প্রতিষ্ঠার পর থেকেই বাঙালিরা শোষণ, অত্যাচার ও বৈষম্যের শিকার হলো। এর বিরুদ্ধে তাঁরা ধারাবাহিকভাবে সংগ্রাম শুরু করল।',
+        story: '🏠 ভাবো একটা বড় বাড়িতে দুটো পরিবার থাকে। উপরের পরিবার সব সিদ্ধান্ত নেয়, ভালো খাবার তাদের, ভালো চাকরি তাদের। নিচের পরিবার কাজ করে বেশি, পায় কম। বাড়ি নিজেদের হলেই হয় না — অধিকার না থাকলে সেটা নিজের বাড়ি না!',
+        chips: ['বৈষম্য', 'শোষণ', 'অত্যাচার', 'সংস্কৃতি', 'বাঙালি']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'পাকিস্তান স্বাধীন হলে বাঙালিরা পরাধীন কেন?', a: 'বাড়ি নিজেদের হলেই হয় না। সমান অধিকার না থাকলে সেটা আসলে নিজের বাড়ি না! পশ্চিম পাকিস্তান সব সিদ্ধান্ত নিত, বাঙালিদের কথা শুনত না।' },
+          { q: 'এত দূরে দুইটা ভাগ এক দেশ কীভাবে?', a: 'শুধু একটা কারণে — "আমরা দুজনেই মুসলিম!" মাঝে ভারত, দূরত্ব ২০০০ কিলোমিটার। কিন্তু ধর্ম এক তাই দেশ এক ভাবা হলো। সমস্যা হলো ভাষা, খাবার, সংস্কৃতি সব আলাদা ছিল।' }
+        ]
+      }
+    ],
+    chain: 'পাকিস্তান হওয়ার পরপরই শুরু হলো ভাষার লড়াই। ১৯৪৮ সালে জিন্নাহ উর্দুকে একমাত্র রাষ্ট্রভাষা ঘোষণা করলেন — বাঙালির প্রতিবাদ শুরু হলো তখনই।'
+  },
+  {
+    id: 'e1948', num: '১৯৪৮', icon: '🗣️', title: 'ভাষার লড়াই শুরু', sub: 'উর্দু না, বাংলা চাই!',
+    type: 'red', heroClass: 'hero-red', heroSub: '"উর্দুই একমাত্র রাষ্ট্রভাষা হবে" — জিন্নাহ',
+    sections: [
+      {
+        text: 'জিন্নাহ বললেন উর্দুই একমাত্র রাষ্ট্রভাষা হবে। কিন্তু পাকিস্তানের ৬৯০ লক্ষ মানুষের মধ্যে ৪৪০ লক্ষই বাঙালি! ছাত্ররা তাৎক্ষণিক প্রতিবাদ করল — "না না না!"',
+        story: '🤔 সংখ্যালঘুর ভাষা সংখ্যাগুরুর উপর চাপিয়ে দেওয়া হচ্ছিল। বাঙালিরা উর্দু বাতিল চায়নি — শুধু বলেছিল উর্দুর পাশাপাশি বাংলাকেও রাষ্ট্রভাষা করো!',
+        chips: ['রাষ্ট্রভাষা', 'হরতাল', 'গণপরিষদ', 'বাঙালি']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'রাষ্ট্রভাষা মানে কী?', a: 'দেশের সরকারি ভাষা। স্কুলে পড়া, সরকারি কাজ, আদালত — সব এই ভাষায় হয়।' }
+        ]
+      }
+    ],
+    chain: 'জিন্নাহর ঘোষণার বিরুদ্ধে আন্দোলন চলতে থাকল। ১৯৫২ সালে এই আন্দোলন চূড়ান্ত রূপ নিল — পুলিশের গুলিতে শহিদ হলেন রফিক, জব্বার, বরকত, সালাম।'
+  },
+  {
+    id: 'e1952', num: '১৯৫২', icon: '❤️', title: 'একুশে ফেব্রুয়ারি', sub: 'ভাষার জন্য রক্ত!',
+    type: 'red', heroClass: 'hero-red', heroSub: 'রফিক, জব্বার, বরকত, সালাম — ভাষাশহিদ',
+    sections: [
+      {
+        text: '১৪৪ ধারা জারি হলেও ছাত্ররা রাস্তায় নামল। পুলিশের গুলিতে শহিদ হলেন রফিক, জব্বার, বরকত, সালাম। মায়ের ভাষার জন্য বুকের রক্ত দিল বাঙালি।',
+        story: '📖 ২০শে ফেব্রুয়ারি রাতে ছাত্ররা সিদ্ধান্ত নিল — কাল ১৪৪ ধারা ভেঙে মিছিল করব। পরদিন পুলিশ গুলি চালাল। তাঁরা মরতে ভয় পাননি — ভাষার জন্য বুক পেতে দিয়েছিলেন।',
+        storyLabel: '📖 ঐতিহাসিক মুহূর্ত',
+        storyClass: 'red',
+        chips: ['রাষ্ট্রভাষা', 'শহিদ', 'স্মারকলিপি', 'অধিবেশন', 'গণপরিষদ']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: '১৪৪ ধারা কী?', a: 'একটা আইন যেখানে বলা হয় — চারজনের বেশি একসাথে রাস্তায় মিছিল করতে পারবে না। ২০শে ফেব্রুয়ারি রাতে সভা করে ছাত্ররা এই আইন অমান্য করে মিছিল করার সিদ্ধান্ত নিল।' },
+          { q: 'কারা নেতৃত্ব দিয়েছিলেন?', a: 'মিছিলে নেতৃত্ব দিচ্ছিলেন আবদুল মতিন ও গাজীউল হক। এর আগে তমদ্দুন মজলিস নামে সংগঠন গড়েছিলেন অধ্যাপক আবুল কাশেম। শেখ মুজিবুর রহমান, অলি আহাদ, কাজী গোলাম মাহবুব ১৯৪৮ সালের আন্দোলনেও সক্রিয় ছিলেন।' },
+          { q: 'ধীরেন্দ্রনাথ দত্ত কে ছিলেন?', a: 'পাকিস্তান গণপরিষদের বাঙালি সদস্য। তিনিই প্রথম গণপরিষদে রাষ্ট্রভাষা বাংলার পক্ষে প্রস্তাব উত্থাপন করেছিলেন। তিনি পরে ১৯৭১ সালে শহিদ হয়েছিলেন।' },
+          { q: 'শহিদ মিনার কীভাবে হলো?', a: '২৩শে ফেব্রুয়ারি ঢাকা মেডিকেল কলেজের ছাত্র-ছাত্রীরা যেখানে গুলি হয়েছিল সেখানে একটি শহিদ মিনার তৈরি করল। ১৯৬৩ সালে বড় করে কেন্দ্রীয় শহিদ মিনার তৈরি হয়।' },
+          { q: 'আন্তর্জাতিক মাতৃভাষা দিবস কী?', a: '১৯৯৯ সালের ১৭ই নভেম্বর ইউনেস্কো ২১শে ফেব্রুয়ারিকে আন্তর্জাতিক মাতৃভাষা দিবস ঘোষণা করে। এখন সারা পৃথিবী এই দিনটি পালন করে!' }
+        ]
+      }
+    ],
+    chain: 'ভাষাশহিদদের রক্ত বৃথা যায়নি। ১৯৫৪ সালে বাঙালি ভোটের মাধ্যমে মুসলিম লীগকে গুঁড়িয়ে দিল এবং ১৯৫৬ সালে সংবিধানে বাংলার স্বীকৃতি আদায় করল।'
+  },
+  {
+    id: 'e1954', num: '১৯৫৪', icon: '🗳️', title: 'ব্যালট বিপ্লব!', sub: 'যুক্তফ্রন্ট ২২৩, মুসলিম লীগ ৯!',
+    type: 'gold', heroClass: 'hero-gold', heroSub: 'যুক্তফ্রন্ট ২২৩ আসন · মুসলিম লীগ মাত্র ৯',
+    sections: [
+      {
+        text: 'যুক্তফ্রন্ট পেল ২২৩ আসন। মুসলিম লীগ পেল মাত্র ৯টা! দেশ-বিদেশের পত্রিকা বলল "ব্যালট বিপ্লব।" নেতৃত্বে ছিলেন শেরে বাংলা এ কে ফজলুল হক, মওলানা ভাসানী ও হোসেন শহিদ সোহরাওয়ার্দী।',
+        story: '⚽ ফুটবলে ২২৩ গোল বনাম ৯ গোল — এটাই হলো সেই নির্বাচনের ফলাফল! যুক্তফ্রন্টের ২১ দফায় ছিল: বাংলাকে রাষ্ট্রভাষার স্বীকৃতি, জমিদারি প্রথা বাতিল, পাটশিল্প জাতীয়করণ, ২১শে ফেব্রুয়ারি সরকারি ছুটি এবং বাংলা একাডেমি প্রতিষ্ঠা। শুধু ধর্মের দোহাই দিয়ে মানুষকে ধোঁকা দেওয়া যায় না — প্রমাণ হলো।',
+        storyLabel: '⚽ সহজ তুলনা',
+        storyClass: 'green',
+        chips: ['আসন', 'গণতন্ত্র', 'স্বায়ত্তশাসন', 'জমিদারি প্রথা', 'জাতীয়করণ']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'মুসলিম লীগ ও যুক্তফ্রন্ট কী?', a: 'মুসলিম লীগ = ক্ষমতাসীন দল, যাদের বিরুদ্ধে বাঙালির ক্ষোভ জমেছিল। যুক্তফ্রন্ট = তাদের পরাজিত করতে পাঁচটি প্রধান দল একসাথে হাত মেলাল। ২১ দফা কর্মসূচিতে ছিল বাংলাকে রাষ্ট্রভাষার স্বীকৃতি, জমিদারি প্রথা বাতিল, পাটশিল্প জাতীয়করণ ও বাংলা একাডেমি প্রতিষ্ঠার দাবি।' }
+        ]
+      }
+    ],
+    chain: '১৯৫৪ সালের এই বিজয় বেশিদিন টিকল না। মাত্র চার বছর পর, ১৯৫৮ সালে সেনাবাহিনী ক্ষমতা দখল করে গণতন্ত্র বন্ধ করে দিল।'
+  },
+  {
+    id: 'e1956', num: '১৯৫৬', icon: '📜', title: 'বাংলার স্বীকৃতি!', sub: 'সংবিধানে বাংলা রাষ্ট্রভাষা',
+    type: 'gold', heroClass: 'hero-gold', heroSub: 'পাকিস্তানের প্রথম সংবিধানে বাংলাকে মেনে নেওয়া হলো',
+    sections: [
+      {
+        text: '১৯৫২ সালে রক্ত দিয়ে ভাষার অধিকার আদায়ের চার বছর পর, ১৯৫৬ সালে পাকিস্তানের প্রথম সংবিধানে বাংলাকে উর্দুর পাশাপাশি অন্যতম রাষ্ট্রভাষা হিসেবে স্বীকৃতি দেওয়া হয়। এটি ছিল বাঙালির ভাষা আন্দোলনের চূড়ান্ত বিজয়। তবে এই বিজয় বেশিদিন স্থায়ী হয়নি — মাত্র দুই বছর পর ১৯৫৮ সালে সামরিক শাসন জারি হলে সংবিধানটিই বাতিল হয়ে যায়।',
+        story: '১৯৫২ সালে রক্ত দিয়েছিল বাঙালি — রফিক, জব্বার, বরকত, সালাম। সেই রক্তের ফল এলো চার বছর পর, সংবিধানের পাতায়। কিন্তু এই জয় ধরে রাখা যায়নি, কারণ সামরিক শাসনের সামনে সংবিধানও টিকল না।',
+        chips: ['সংবিধান', 'রাষ্ট্রভাষা']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'সংবিধানে বাংলার স্বীকৃতি কতটা গুরুত্বপূর্ণ ছিল?', a: 'অত্যন্ত গুরুত্বপূর্ণ। কারণ সংবিধান হলো দেশের সর্বোচ্চ আইন। সেখানে বাংলা রাষ্ট্রভাষা হিসেবে লেখা থাকলে আর কেউ তা অস্বীকার করতে পারে না। ১৯৪৮ থেকে ১৯৫২ সালের সংগ্রামের এটাই ছিল চূড়ান্ত লক্ষ্য।' },
+          { q: 'এই বিজয় কেন স্থায়ী হলো না?', a: '১৯৫৬ সালে সংবিধানে বাংলা স্বীকৃতি পেল। কিন্তু মাত্র দুই বছর পর, ১৯৫৮ সালে সেনাবাহিনী ক্ষমতা দখল করে পুরো সংবিধানটাই বাতিল করে দিল। এটা বাঙালির জন্য বড় ধাক্কা ছিল।' },
+          { q: 'সংবিধান কী?', a: 'দেশের সবচেয়ে বড় নিয়মের বই। সরকার কীভাবে চলবে, মানুষের কী অধিকার থাকবে — সব এতে লেখা থাকে। প্রধানমন্ত্রী থেকে সাধারণ মানুষ সবাইকে এটা মানতে হয়।' }
+        ]
+      }
+    ],
+    chain: 'সংবিধানের এই বিজয় স্থায়ী হলো না। ১৯৫৮ সালে সামরিক শাসনে পুরো সংবিধানটাই বাতিল হয়ে গেল।'
+  },
+  {
+    id: 'e1958', num: '১৯৫৮', icon: '⚔️', title: 'আইয়ুব খানের সামরিক শাসন', sub: 'গণতন্ত্র বন্ধ, নেতারা জেলে',
+    type: 'dark', heroClass: 'hero-dark', heroSub: 'জেনারেল আইয়ুব খান জোর করে ক্ষমতা দখল করলেন',
+    sections: [
+      {
+        text: '১৯৫৮ সালের ৭ই অক্টোবর প্রেসিডেন্ট ইস্কান্দার মির্জা সামরিক শাসন জারি করেন। মাত্র ২০ দিন পর সেনাপ্রধান জেনারেল আইয়ুব খান তাঁকে সরিয়ে নিজেই ক্ষমতা দখল করেন। সংবিধান বাতিল করা হয়, রাজনৈতিক দল নিষিদ্ধ করা হয় এবং বঙ্গবন্ধুসহ বহু নেতাকে কারাগারে পাঠানো হয়। আইয়ুব খান নিজেকে ক্ষমতায় রাখতে "মৌলিক গণতন্ত্র" নামে একটি ভুয়া নির্বাচনী ব্যবস্থা চালু করেন — যেখানে জনগণ সরাসরি ভোট দিতে পারত না।',
+        story: '১৯৫৪ সালে বাঙালি ভোট দিয়ে মুসলিম লীগকে উড়িয়ে দিল। ১৯৫৬ সালে বাংলা রাষ্ট্রভাষার স্বীকৃতি পেল। কিন্তু ১৯৫৮ সালে সেনাবাহিনী এসে সব কিছু উল্টে দিল। গণতন্ত্রের পথে এই ছিল সবচেয়ে বড় বাধা।',
+        storyLabel: '⚠️ বড় ধাক্কা',
+        storyClass: 'red',
+        chips: ['জেনারেল', 'গণতন্ত্র', 'সামরিক শাসন', 'মৌলিক গণতন্ত্র', 'সংবিধান']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'আইয়ুব খান কীভাবে ক্ষমতায় এলেন?', a: 'প্রথমে প্রেসিডেন্ট ইস্কান্দার মির্জা সামরিক শাসন জারি করেন। এরপর সেনাপ্রধান আইয়ুব খান তাঁকেও সরিয়ে দিয়ে নিজেই ক্ষমতা দখল করেন। কোনো ভোট নেই, কারো মতামত নেই।' },
+          { q: 'মৌলিক গণতন্ত্র কী?', a: 'আইয়ুব খানের তৈরি ভুয়া নির্বাচন পদ্ধতি। জনগণ সরাসরি ভোট না দিয়ে কিছু প্রতিনিধি বেছে নিত, আর সেই প্রতিনিধিরা ভোট দিত। এতে সরকার সহজেই ফলাফল নিজের মতো করতে পারত।' },
+          { q: 'সামরিক শাসন কী?', a: 'সামরিক = সেনাবাহিনী, শাসন = দেশ চালানো। জনগণের ভোট ছাড়াই সেনাবাহিনী জোর করে ক্ষমতা নেয়। ভোট বন্ধ, সংবিধান বাতিল, প্রতিবাদ করলে জেল।' }
+        ]
+      }
+    ],
+    chain: 'সামরিক শাসনের বিরুদ্ধে ছাত্রসমাজ থেমে থাকেনি। ১৯৬২ সালে শিক্ষা আন্দোলন এবং ১৯৬৬ সালে বঙ্গবন্ধুর ৬-দফা দিয়ে প্রতিরোধ আরও জোরালো হলো।'
+  },
+  {
+    id: 'e1962', num: '১৯৬২', icon: '📚', title: 'শিক্ষা আন্দোলন', sub: 'গরিবরাও পড়বে!',
+    type: 'red', heroClass: 'hero-red', heroSub: 'আইয়ুবের গণবিরোধী শিক্ষানীতির বিরুদ্ধে',
+    sections: [
+      {
+        text: 'আইয়ুব খান সরকার শিক্ষাবিদ শরীফের নেতৃত্বে একটি কমিশন গঠন করে নতুন শিক্ষানীতি তৈরি করে। এই "শরীফ কমিশন"-এর নীতির মূল লক্ষ্য ছিল উচ্চশিক্ষাকে ব্যয়বহুল করে গরিব ও মধ্যবিত্ত বাঙালি শিক্ষার্থীদের বিশ্ববিদ্যালয়ের দরজা বন্ধ করা। এর বিরুদ্ধে ছাত্ররা তীব্র আন্দোলন গড়ে তোলে। ধর্মঘট ও হরতালের মুখে সরকার শিক্ষানীতি স্থগিত করতে বাধ্য হয়। এই আন্দোলন প্রমাণ করে — আইয়ুবের সামরিক শাসনের বিরুদ্ধে বাঙালি ছাত্রসমাজ রুখে দাঁড়াতে ভয় পায় না।',
+        story: 'শরীফ কমিশনের শিক্ষানীতি শুধু অর্থনৈতিক বৈষম্য তৈরি করেনি, বাংলা ভাষায় শিক্ষার সুযোগও সংকুচিত করতে চেয়েছিল। তাই এই আন্দোলন শুধু শিক্ষার অধিকারের লড়াই ছিল না — ভাষা ও সংস্কৃতি রক্ষারও লড়াই ছিল।',
+        chips: ['সামরিক শাসন', 'হরতাল', 'ধর্মঘট']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'শরীফ কমিশনের শিক্ষানীতিতে কী ছিল?', a: 'উচ্চশিক্ষার খরচ ব্যাপকভাবে বাড়ানো হয়েছিল, যাতে গরিব ও মধ্যবিত্ত পরিবারের ছেলেমেয়েরা বিশ্ববিদ্যালয়ে পড়তে না পারে। এছাড়া বাংলা ভাষায় শিক্ষার সুযোগও কমানো হচ্ছিল।' },
+          { q: 'ছাত্ররা কীভাবে আন্দোলন করল?', a: 'সারা দেশে ধর্মঘট, মিছিল ও হরতাল পালিত হয়। পুলিশি দমন সত্ত্বেও ছাত্ররা পিছু হটেনি। শেষ পর্যন্ত সরকার এই গণবিরোধী শিক্ষানীতি স্থগিত করতে বাধ্য হয়।' },
+          { q: 'এই আন্দোলনের গুরুত্ব কী?', a: 'এটি প্রমাণ করে যে সামরিক শাসনের মধ্যেও বাঙালি ছাত্রসমাজ অন্যায়ের বিরুদ্ধে রুখে দাঁড়াতে পারে। এই আন্দোলন পরবর্তী ৬-দফা ও গণঅভ্যুত্থানের পথ তৈরি করে দেয়।' }
+        ]
+      }
+    ],
+    chain: '১৯৬২-র শিক্ষা আন্দোলন ছাত্রদের আরও সংগঠিত করল। এর চার বছর পর, ১৯৬৬ সালে বঙ্গবন্ধু বাঙালির সব অধিকার একসাথে তুলে ধরলেন — ৬-দফায়।'
+  },
+  {
+    id: 'e1966', num: '১৯৬৬', icon: '📋', title: 'ঐতিহাসিক ৬-দফা!', sub: 'বাঙালির মুক্তির সনদ',
+    type: 'red', heroClass: 'hero-red', heroSub: 'শেখ মুজিবুর রহমান · ৭ই জুন ১১ জন শহিদ',
+    sections: [
+      {
+        text: 'শেখ মুজিবুর রহমান দিলেন বাঙালির ম্যাগনা কার্টা — ৬-দফা। পশ্চিম পাকিস্তান ৬টা বড় জায়গায় বাঙালিকে ঠকাচ্ছিল, শেখ মুজিব সেই ৬টা অন্যায়ের বিরুদ্ধে ৬টা দাবি দিলেন।',
+        story: '🏠 ভাবো তুই আর বড় ভাই একসাথে থাকিস। বাবা-মা সব টাকা বড় ভাইকে দেয়। তুই কাজ করিস বেশি, পাস কম। তোর ভাষায় কথা বলতে দেয় না। তুই কী করতি? ঠিক এই কাজটাই করলেন শেখ মুজিব — একটা লিস্ট বানালেন!',
+        chips: ['স্বাধিকার', 'স্বায়ত্তশাসন', 'সনদ', 'মুদ্রা', 'বৈদেশিক মুদ্রা', 'প্রতিরক্ষা', 'পররাষ্ট্র', 'হরতাল']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: '৬-দফা কী কী ছিল?', a: '১. যুক্তরাষ্ট্রীয় শাসনব্যবস্থা ও সংসদীয় সরকার। ২. কেন্দ্রের হাতে শুধু প্রতিরক্ষা ও পররাষ্ট্র — বাকি সব প্রদেশের। ৩. দুই অঞ্চলের জন্য আলাদা মুদ্রা বা পৃথক রিজার্ভ ব্যাংক। ৪. কর আদায়ের ক্ষমতা প্রদেশের হাতে। ৫. বৈদেশিক মুদ্রা আয়ের পৃথক হিসাব। ৬. পূর্ব পাকিস্তানের জন্য আধা-সামরিক বাহিনী গঠনের ক্ষমতা।' },
+          { q: 'ম্যাগনা কার্টা কী?', a: 'ইংল্যান্ডে রাজার বিরুদ্ধে জনগণের অধিকারের সনদ। সেই নামে ৬-দফাকে "বাঙালির মুক্তির সনদ" বলা হয়।' },
+          { q: '৭ই জুন কী হয়েছিল?', a: '১৯৬৬ সালের ৭ই জুন পূর্ব পাকিস্তানে সর্বাত্মক হরতাল পালিত হয়। তেজগাঁও, টঙ্গী ও নারায়ণগঞ্জে পুলিশের গুলিতে মনু মিয়া, শফিক, শামসুল হকসহ ১১ জন শহিদ হন। এই দিনটি "ঐতিহাসিক ৬-দফা দিবস" হিসেবে পালিত হয়।' }
+        ]
+      }
+    ],
+    chain: '৬-দফা থামাতে পাকিস্তান সরকার বঙ্গবন্ধুর বিরুদ্ধে ১৯৬৮ সালে আগরতলা ষড়যন্ত্র মামলা দায়ের করল — ফাঁসি দেওয়ার উদ্দেশ্যে।'
+  },
+  {
+    id: 'e1968', num: '১৯৬৮', icon: '⚖️', title: 'আগরতলা মামলা', sub: 'শেখ মুজিবকে ফাঁসির চেষ্টা!',
+    type: 'dark', heroClass: 'hero-dark', heroSub: 'রাষ্ট্র বনাম শেখ মুজিবুর রহমান ও অন্যান্য',
+    sections: [
+      {
+        text: 'আইয়ুব সরকার মিথ্যা মামলা দিল। শেখ মুজিবুর রহমানকে ১ নম্বর আসামি করে মোট ৩৫ জনের বিরুদ্ধে রাষ্ট্রদ্রোহিতার অভিযোগ আনা হলো। মামলার আসল উদ্দেশ্য ছিল বঙ্গবন্ধুকে ফাঁসি দেওয়া এবং বাঙালিদের স্বাধিকার আন্দোলন চিরতরে নস্যাৎ করা।',
+        story: '📜 ৬-দফা আন্দোলনের জোয়ারে ভীত হয়ে আইয়ুব সরকার এক গভীর ষড়যন্ত্রমূলক মামলা দায়ের করল। সরকার দাবি করল — শেখ মুজিব ভারতের আগরতলায় বসে পাকিস্তান ভাঙার ষড়যন্ত্র করেছেন। কিন্তু জনগণ এই মিথ্যা মামলা প্রত্যাখ্যান করল।',
+        storyLabel: '⚠️ ষড়যন্ত্র',
+        storyClass: 'red',
+        chips: ['রাষ্ট্রদ্রোহিতা', 'ষড়যন্ত্র', 'স্বাধিকার', 'গণতন্ত্র']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'আগরতলা নাম কেন?', a: 'আগরতলা হলো ভারতের ত্রিপুরার একটা শহর। সরকার মিথ্যা বলল — "শেখ মুজিব সেখানে গিয়ে পাকিস্তান ভাঙার ষড়যন্ত্র করেছেন!" যেন ক্লাসের ভালো ছাত্রকে মিথ্যা দোষ দেওয়া।' },
+          { q: 'মামলার ফলাফল কী হলো?', a: 'জনগণ রুখে দাঁড়াল। ১৯৬৯ সালের গণঅভ্যুত্থানের মুখে সরকার মামলা প্রত্যাহার করতে বাধ্য হলো এবং শেখ মুজিবকে মুক্তি দিল।' }
+        ]
+      }
+    ],
+    chain: 'মিথ্যা মামলা বাঙালিকে থামাতে পারেনি। ১৯৬৯ সালে গণঅভ্যুত্থানে সরকার মামলা প্রত্যাহার করতে বাধ্য হলো এবং আইয়ুব খানের পতন ঘটল।'
+  },
+  {
+    id: 'e1969', num: '১৯৬৯', icon: '🔥', title: 'উনসত্তরের গণঅভ্যুত্থান!', sub: 'আইয়ুব পদত্যাগ · বঙ্গবন্ধু উপাধি',
+    type: 'red', heroClass: 'hero-red', heroSub: 'আসাদ ও জোহা শহিদ · ১০ লক্ষ মানুষ রেসকোর্সে',
+    sections: [
+      {
+        text: 'আসাদ ও জোহা শহিদ হলেন। লক্ষ মানুষ রাস্তায়। আইয়ুব পদত্যাগ করল! ২৩শে ফেব্রুয়ারি ১০ লক্ষ মানুষের সামনে শেখ মুজিব পেলেন "বঙ্গবন্ধু" উপাধি।',
+        story: '🌟 ২০শে জানুয়ারি ছাত্রনেতা আসাদ শহিদ হলেন। তাঁর রক্তমাখা শার্ট হলো আন্দোলনের পতাকা। ১৮ই ফেব্রুয়ারি রাজশাহীতে ড. জোহা নিজের ছাত্রদের বাঁচাতে গিয়ে শহিদ হলেন — তিনি প্রথম শহিদ বুদ্ধিজীবী।',
+        chips: ['গণঅভ্যুত্থান', 'সান্ধ্য আইন', 'বুদ্ধিজীবী', 'প্রত্যাহার', 'পদত্যাগ', 'উপাধি']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'সার্জেন্ট জহুরুল হক কে ছিলেন?', a: 'আগরতলা মামলার অন্যতম আসামি। ১৫ই ফেব্রুয়ারি কুর্মিটোলা সেনানিবাসের ভেতরে বন্দি অবস্থায় পাকিস্তানি রক্ষী বাহিনী তাঁকে নির্মমভাবে গুলি করে হত্যা করে। এই খবর ছড়িয়ে পড়লে ক্ষুব্ধ জনতা সান্ধ্য আইন ভেঙে রাস্তায় নামে।' },
+          { q: 'ড. শামসুজ্জোহা কে ছিলেন?', a: 'রাজশাহী বিশ্ববিদ্যালয়ের প্রক্টর ও রসায়ন বিভাগের শিক্ষক। ১৮ই ফেব্রুয়ারি নিজের ছাত্রদের পাকিস্তানি সেনাদের হাত থেকে রক্ষা করতে গিয়ে বেয়নেট ও গুলির আঘাতে শহিদ হন। তিনি দেশের প্রথম শহিদ বুদ্ধিজীবী।' },
+          { q: 'গণঅভ্যুত্থান কী?', a: 'গণ = জনগণ, অভ্যুত্থান = হঠাৎ উঠে দাঁড়ানো। ছাত্র, শিক্ষক, শ্রমিক, কৃষক ও সাধারণ মানুষ একযোগে রাজপথে নামলে সেটাই গণঅভ্যুত্থান।' },
+          { q: 'বঙ্গবন্ধু উপাধি কীভাবে পেলেন?', a: '২৩শে ফেব্রুয়ারি রেসকোর্স ময়দানে (বর্তমান সোহরাওয়ার্দী উদ্যান) ছাত্র সংগ্রাম পরিষদের পক্ষ থেকে ১০ লক্ষ মানুষের উপস্থিতিতে শেখ মুজিবুর রহমানকে আনুষ্ঠানিকভাবে "বঙ্গবন্ধু" উপাধিতে ভূষিত করা হয়।' }
+        ]
+      }
+    ],
+    chain: 'গণঅভ্যুত্থানের পর নতুন সামরিক শাসক ইয়াহিয়া খান নির্বাচন দিলেন। ১৯৭০ সালের সেই নির্বাচনে বাঙালি অভূতপূর্ব বিজয় পেল।'
+  },
+  {
+    id: 'e1970', num: '১৯৭০', icon: '🏆', title: 'নির্বাচনে নিরঙ্কুশ জয়!', sub: 'আওয়ামী লীগ ১৬৭ আসন',
+    type: 'gold', heroClass: 'hero-gold', heroSub: 'বঙ্গবন্ধু বাঙালি জাতির বৈধ ও অবিসংবাদিত নেতা — প্রমাণিত হলো',
+    sections: [
+      {
+        text: 'আওয়ামী লীগ পেল ১৬৭টি আসন। প্রাদেশিক পরিষদে ২৮৮টি। বাঙালি বলল — "বঙ্গবন্ধুই আমাদের নেতা!" কিন্তু পাকিস্তান ক্ষমতা দিল না — যা পরে মুক্তিযুদ্ধের কারণ হলো।',
+        story: '🗳️ ১৬৯টা আসনের মধ্যে ১৬৭টা জিতল! এটা যেন পরীক্ষায় ১৬৯ এর মধ্যে ১৬৭ নম্বর পাওয়া! কিন্তু পাকিস্তান বলল — "না, ক্ষমতা দেব না।" এই অন্যায়ই বাঙালিকে যুদ্ধের পথে নিয়ে গেল।',
+        storyLabel: '🗳️ সহজ তুলনা',
+        storyClass: 'green',
+        chips: ['আসন', 'নিরঙ্কুশ', 'ভোটাধিকার', 'প্রাদেশিক পরিষদ', 'গণতন্ত্র']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: '১৭০টির মধ্যে ১৬৭টি জয় কতটা বড়?', a: 'জাতীয় পরিষদে পূর্ব পাকিস্তানের ১৬৯টি আসনের মধ্যে আওয়ামী লীগ ১৬৭টি পেল। প্রাদেশিক পরিষদে ৩০০টির মধ্যে পেল ২৮৮টি। সমগ্র পাকিস্তানে একক সংখ্যাগরিষ্ঠতা — মানে পাকিস্তানের প্রধানমন্ত্রী হওয়ার অধিকার বঙ্গবন্ধুর।' },
+          { q: 'ক্ষমতা কেন দেওয়া হলো না?', a: 'পশ্চিম পাকিস্তানের ভুট্টোর পিপলস পার্টি এবং পাকিস্তানি সামরিক শাসকগোষ্ঠী বাঙালিদের এই ঐতিহাসিক বিজয় মেনে নিতে অস্বীকার করে। ক্ষমতা হস্তান্তরে টালবাহানা শুরু করে — যা পরবর্তীতে ১৯৭১ সালের সশস্ত্র মুক্তিযুদ্ধের পটভূমি তৈরি করে।' },
+          { q: 'আসন কী?', a: 'দেশকে অনেক এলাকায় ভাগ করা। প্রতিটা এলাকা = একটা আসন। যে এলাকায় বেশি ভোট পাবে সে সেই এলাকার প্রতিনিধি হবে।' }
+        ]
+      }
+    ],
+    chain: 'নির্বাচনে জিতেও ক্ষমতা না পেয়ে বাঙালি বুঝল — ভোট দিয়ে স্বাধীনতা আসবে না। ২৫শে মার্চ ১৯৭১ রাতে পাকিস্তান গণহত্যা শুরু করল, শুরু হলো সশস্ত্র মুক্তিযুদ্ধ।'
+  },
+  {
+    id: 'e1971', num: '১৯৭১', icon: '🎖️', title: 'মুক্তিযুদ্ধ — স্বাধীনতা!', sub: '৩০ লক্ষ শহিদ · স্বাধীন বাংলাদেশ',
+    type: 'liberation', heroClass: 'hero-liberation', heroSub: '৯ মাস · ৩০ লক্ষ শহিদ · ১৬ই ডিসেম্বর বিজয়',
+    sections: [
+      {
+        text: '১৯৭০-এর নির্বাচনে জিতেও ক্ষমতা না পেয়ে বঙ্গবন্ধু শেখ মুজিবুর রহমান ৭ই মার্চ ১৯৭১ রেসকোর্স ময়দানে ঐতিহাসিক ভাষণ দিলেন — "এবারের সংগ্রাম আমাদের মুক্তির সংগ্রাম, এবারের সংগ্রাম স্বাধীনতার সংগ্রাম।" ২৫শে মার্চ রাতে পাকিস্তানি সেনাবাহিনী "অপারেশন সার্চলাইট" নামে নিরস্ত্র বাঙালির উপর গণহত্যা শুরু করল। ২৬শে মার্চ প্রথম প্রহরে বঙ্গবন্ধু স্বাধীনতার ঘোষণা দিলেন। তাঁকে গ্রেফতার করে পশ্চিম পাকিস্তানে নিয়ে যাওয়া হলো। এরপর ৯ মাস ধরে চলল রক্তক্ষয়ী মুক্তিযুদ্ধ। মুক্তিবাহিনী ও ভারতীয় মিত্রবাহিনীর যৌথ আক্রমণে ১৬ই ডিসেম্বর পাকিস্তানি সেনাবাহিনী আত্মসমর্পণ করল। ৩০ লক্ষ শহিদ ও ২ লক্ষ মা-বোনের সম্ভ্রমের বিনিময়ে জন্ম নিল স্বাধীন সার্বভৌম বাংলাদেশ।',
+        story: 'এই দেশটা তোমার — কিন্তু এটা বিনামূল্যে পাওনি। ৩০ লক্ষ মানুষ জীবন দিয়ে তোমাকে এই দেশ উপহার দিয়ে গেছেন। তাই এই দেশকে ভালোবাসা শুধু আবেগ নয় — এটা দায়িত্ব।',
+        storyLabel: '🎖️ মনে রাখো',
+        storyClass: 'green',
+        chips: ['শহিদ', 'সংগ্রাম', 'স্বাধিকার', 'গণতন্ত্র', 'অন্তর্বর্তীকালীন']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: '৭ই মার্চের ভাষণ কেন এত গুরুত্বপূর্ণ?', a: 'এই ভাষণে বঙ্গবন্ধু সরাসরি যুদ্ধের ঘোষণা না দিয়েও বাঙালিকে প্রস্তুত করলেন। "ঘরে ঘরে দুর্গ গড়ে তোলো" — এই কথায় বোঝা গেল যুদ্ধ আসছে। ইউনেস্কো এই ভাষণকে "বিশ্বের শ্রেষ্ঠ ভাষণের" তালিকায় অন্তর্ভুক্ত করেছে।' },
+          { q: '২৫শে মার্চ রাতে কী হয়েছিল?', a: 'পাকিস্তানি সেনাবাহিনী "অপারেশন সার্চলাইট" নামে ঢাকায় নিরস্ত্র মানুষের উপর হামলা শুরু করল। ঢাকা বিশ্ববিদ্যালয়, রাজারবাগ পুলিশ লাইন ও পিলখানায় গণহত্যা চালানো হলো। এই রাতকে "কালরাত" বলা হয়।' },
+          { q: 'মুক্তিযুদ্ধে কারা লড়েছিল?', a: 'বাংলাদেশের মুক্তিবাহিনী — সাধারণ ছাত্র, কৃষক, পুলিশ, ইপিআর সদস্য — সবাই একসাথে লড়েছিল। শেষদিকে ভারতীয় মিত্রবাহিনী যোগ দেয়। যৌথ বাহিনীর সামনে পাকিস্তানি সেনা আত্মসমর্পণ করে।' },
+          { q: 'বিজয় দিবস কবে ও কেন?', a: '১৬ই ডিসেম্বর ১৯৭১। এই দিনে ঢাকার রেসকোর্স ময়দানে পাকিস্তানি বাহিনীর অধিনায়ক জেনারেল নিয়াজি ৯৩ হাজার সৈন্য নিয়ে আত্মসমর্পণ করলেন — বাংলাদেশ স্বাধীন হলো।' }
+        ]
+      }
+    ],
+    chain: 'স্বাধীনতার পর নতুন বাংলাদেশ গড়ার যাত্রা শুরু হলো। কিন্তু গণতন্ত্রের সংগ্রাম শেষ হয়নি — ১৯৯০ সালে আবার স্বৈরাচারের বিরুদ্ধে লড়তে হলো।'
+  },
+  {
+    id: 'e1990', num: '১৯৯০', icon: '✊', title: 'নব্বইয়ের গণঅভ্যুত্থান', sub: 'এরশাদ পদত্যাগ · গণতন্ত্র ফিরল',
+    type: 'red', heroClass: 'hero-red', heroSub: 'নূর হোসেন শহিদ · ৬ই ডিসেম্বর বিজয়',
+    sections: [
+      {
+        text: '১৯৭১ সালে স্বাধীনতার পর বাংলাদেশে গণতন্ত্র বেশিদিন টিকল না। ১৯৮২ সালে জেনারেল হুসেইন মুহম্মদ এরশাদ সামরিক আইন জারি করে ক্ষমতা দখল করলেন। ভোট বন্ধ, সংবিধান স্থগিত, বিরোধীদের কারাগারে পাঠানো হলো। আশির দশক জুড়ে ছাত্র-জনতার আন্দোলন চলতে থাকল। ১৯৮৭ সালে নূর হোসেন বুকে "স্বৈরাচার নীপাত যাক" লিখে মিছিলে গেলেন এবং পুলিশের গুলিতে শহিদ হলেন। ১৯৯০ সালের নভেম্বর-ডিসেম্বরে আন্দোলন চূড়ান্ত গণঅভ্যুত্থানে রূপ নেয়। ডা. শামসুল আলম মিলনসহ অসংখ্য মানুষের আত্মত্যাগে ৬ই ডিসেম্বর এরশাদ পদত্যাগে বাধ্য হলেন। দীর্ঘ আট বছর পর বাংলাদেশে গণতন্ত্র ফিরে এলো।',
+        story: 'নূর হোসেন অস্ত্র হাতে নেননি। শুধু বুকে সত্যি কথা লিখে রাস্তায় দাঁড়িয়েছিলেন — তাতেই গুলি খেলেন। ১৯৫২-র রফিক, ১৯৬৯-এর আসাদ, ১৯৭১-এর লক্ষ শহিদ, ১৯৯০-এর নূর হোসেন — প্রতিটি প্রজন্ম একই সাহসের উত্তরাধিকার বহন করেছে।',
+        storyLabel: '✊ প্রতিটি প্রজন্মের সাহস',
+        storyClass: 'red',
+        chips: ['স্বৈরাচার', 'কারচুপি', 'নীপাত', 'গণঅভ্যুত্থান', 'পদত্যাগ']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'এরশাদ কীভাবে ক্ষমতায় এলেন?', a: '১৯৮২ সালে সেনাপ্রধান জেনারেল এরশাদ তৎকালীন প্রেসিডেন্ট বিচারপতি আব্দুস সাত্তারকে সরিয়ে সামরিক আইন জারি করে ক্ষমতা দখল করেন। কোনো নির্বাচন নেই, জনগণের মত নেই।' },
+          { q: 'নূর হোসেন কে ছিলেন?', a: 'একজন সাধারণ যুবক। ১৯৮৭ সালের ১০ই নভেম্বর তিনি বুকে "স্বৈরাচার নীপাত যাক" এবং পিঠে "গণতন্ত্র মুক্তি পাক" লিখে মিছিলে নামেন এবং পুলিশের গুলিতে শহিদ হন। তাঁর সেই ছবি স্বৈরাচারবিরোধী আন্দোলনের প্রতীক হয়ে ওঠে।' },
+          { q: 'গণতন্ত্র কীভাবে ফিরল?', a: '১৯৯০ সালে তিনটি জোটের সম্মিলিত আন্দোলনে সারা দেশে হরতাল ও গণঅভ্যুত্থান হয়। ডাক্তার, আইনজীবী, সাধারণ মানুষ — সবাই একসাথে রাস্তায় নামলে এরশাদ পদত্যাগ করতে বাধ্য হন। এরপর অবাধ নির্বাচনে গণতন্ত্র পুনঃপ্রতিষ্ঠিত হয়।' }
+        ]
+      }
+    ],
+    chain: 'গণতন্ত্র ফিরে এলো। কিন্তু বৈষম্য ও দুর্নীতি থেমে থাকেনি। ২০২৪ সালে নতুন প্রজন্ম আবার রাজপথে নামল।'
+  },
+  {
+    id: 'e2024', num: '২০২৪', icon: '🌅', title: 'চব্বিশের জুলাই গণঅভ্যুত্থান', sub: 'কোটা সংস্কার · ৫ই আগস্ট সরকার পতন',
+    type: 'orange', heroClass: 'hero-orange', heroSub: 'আবু সাঈদ শহিদ · ৫ই আগস্ট নতুন অধ্যায়',
+    sections: [
+      {
+        text: 'কোটা সংস্কারের দাবিতে "বৈষম্যবিরোধী ছাত্র আন্দোলন" শুরু হলো। ১৬ই জুলাই আবু সাঈদ বুক পেতে পুলিশের গুলির সামনে দাঁড়িয়ে শহিদ হলেন। ঢাকায় ফারহান ফাইয়াজসহ সারা দেশে বহু ছাত্র নিহত হলো। শত শত শহিদের রক্তে ৫ই আগস্ট সরকার পতন — দেড় দশকের স্বৈরাচারী শাসনের অবসান।',
+        story: '🌅 ২০২৪ সালের জুন-জুলাইয়ে সরকারি চাকরিতে কোটা সংস্কারের দাবিতে শুরু হওয়া শান্তিপূর্ণ আন্দোলনে সরকার চরম দমনপীড়ন চালায়। ইন্টারনেট বন্ধ ও গণগ্রেফতারের মুখে আন্দোলন ১-দফায় রূপ নেয় এবং লক্ষ জনতা রাজপথে নেমে আসে।',
+        chips: ['বৈষম্য', 'কোটা', 'সংস্কার', 'গণঅভ্যুত্থান', 'অন্তর্বর্তীকালীন']
+      },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'কোটা কী? সংস্কার কী?', a: 'কোটা = নির্দিষ্ট মানুষের জন্য সংরক্ষিত চাকরি। ১০০টা চাকরিতে মেধাবীরা পায় মাত্র ৪৪টা! সংস্কার = ঠিক করা। কোটা সংস্কার = এই বৈষম্যমূলক ব্যবস্থা সংশোধন করো!' },
+          { q: 'আবু সাঈদ কে ছিলেন?', a: 'রংপুরে বেগম রোকেয়া বিশ্ববিদ্যালয়ের শিক্ষার্থী। ১৬ই জুলাই বুক পেতে পুলিশের গুলির সামনে দাঁড়িয়েছিলেন। শহিদ হয়েছিলেন। তাঁর সাহস পুরো আন্দোলনকে নতুন মাত্রা দিয়েছিল।' },
+          { q: '৫ই আগস্টের পর কী হলো?', a: 'তৎকালীন প্রধানমন্ত্রী শেখ হাসিনা পদত্যাগ করে দেশ ছেড়ে চলে যান। দীর্ঘ দেড় দশকের শাসনের অবসান ঘটে এবং একটি নতুন বৈষম্যহীন অন্তর্বর্তীকালীন সরকার গঠিত হয়।' }
+        ]
+      }
+    ],
+    chain: 'ইতিহাস থেমে নেই। প্রতিটি প্রজন্ম নিজের সময়ে অন্যায়ের বিরুদ্ধে রুখে দাঁড়িয়েছে — এটাই বাংলাদেশের ইতিহাসের শিক্ষা।'
+  }
+];
+
+const keyTopics = [
+  { label: '১৯৫২ — ভাষা আন্দোলন', id: 'e1952' },
+  { label: '১৯৫৪ — ব্যালট বিপ্লব', id: 'e1954' },
+  { label: '১৯৬৬ — ৬-দফা', id: 'e1966' },
+  { label: '১৯৬৯ — গণঅভ্যুত্থান', id: 'e1969' },
+  { label: '১৯৭০ — নির্বাচন', id: 'e1970' },
+  { label: '১৯৭১ — স্বাধীনতা 🎖️', id: 'e1971' },
+  { label: '১৯৯০ — এরশাদ পতন', id: 'e1990' },
+  { label: '২০২৪ — জুলাই অভ্যুত্থান', id: 'e2024' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-box.red{background:#fdf0f0;border-color:#e8a0a0}
+.story-box.green{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'চতুর্থ অধ্যায়',
+  emoji: '💰',
+  navLabel: '💰 বাংলাদেশের অর্থনীতি',
+  title: 'বাংলাদেশের অর্থনীতি',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+const words = {
+  'অনানুষ্ঠানিক খাত': {
+    meaning: 'যেসব কাজ সরকার নিয়ন্ত্রণ করে না, নিবন্ধন নেই, কোনো আনুষ্ঠানিক চুক্তি নেই — সেগুলো অনানুষ্ঠানিক খাত।',
+    example: 'তোমার বাড়ির পাশের হকার চাচা, রিকশাচালক কাকা — এরা অনানুষ্ঠানিক খাতে কাজ করেন।'
+  },
+  'আনুষ্ঠানিক খাত': {
+    meaning: 'সরকারি নিবন্ধন আছে, নিয়মিত বেতন আছে, সরকার নিয়ন্ত্রণ করে — এমন কাজ।',
+    example: 'সরকারি স্কুলের শিক্ষক, ব্যাংকের কর্মকর্তা, গার্মেন্টস ফ্যাক্টরির ম্যানেজার — এরা আনুষ্ঠানিক খাতে।'
+  },
+  'কুটিরশিল্প': {
+    meaning: 'বাড়িতে বা ছোট জায়গায় মালিক নিজে বা পরিবারের সদস্যরা মিলে যে পণ্য তৈরি করে।',
+    example: 'নানি যখন বাড়িতে নকশিকাঁথা সেলাই করেন এবং বিক্রি করেন — এটা কুটিরশিল্প।'
+  },
+  'ক্ষুদ্র শিল্প': {
+    meaning: 'ছোট কারখানা যেখানে ৩১ থেকে ১২০ জন শ্রমিক কাজ করে এবং সম্পদের মূল্য ৭৫ লাখ থেকে ১৫ কোটি টাকা।',
+    example: 'তোমার এলাকার ছোট চাল কলটা বা জুতার কারখানাটা ক্ষুদ্র শিল্পের উদাহরণ।'
+  },
+  'মাঝারি শিল্প': {
+    meaning: 'যেসব কারখানায় ১২১ থেকে ৩০০ জন শ্রমিক কাজ করে এবং স্থায়ী সম্পদ ১৫ থেকে ৫০ কোটি টাকা।',
+    example: 'সিল্ক কারখানা বা কোল্ড স্টোরেজ মাঝারি শিল্পের উদাহরণ।'
+  },
+  'বৃহৎ শিল্প': {
+    meaning: 'যেসব কারখানায় ৩০০-র বেশি শ্রমিক কাজ করে বা স্থায়ী সম্পদের মূল্য ৫০ কোটি টাকার বেশি।',
+    example: 'পাটকল, বস্ত্রকল, সিমেন্ট কারখানা, সার কারখানা — এগুলো বৃহৎ শিল্প।'
+  },
+  'রপ্তানি': {
+    meaning: 'দেশের চাহিদা মিটিয়ে যা বাকি থাকে সেটা বিদেশে বিক্রি করা।',
+    example: 'বাংলাদেশে তৈরি জামা-কাপড় আমেরিকা-ইউরোপে বিক্রি হয় — এটা রপ্তানি।'
+  },
+  'আমদানি': {
+    meaning: 'বিদেশ থেকে পণ্য কিনে আনা।',
+    example: 'আমাদের দেশে যে গম পাওয়া যায় না, সেটা ভারত বা অস্ট্রেলিয়া থেকে কিনে আনা হয় — এটা আমদানি।'
+  },
+  'বৈদেশিক বাণিজ্য': {
+    meaning: 'এক দেশের সাথে আরেক দেশের পণ্য কেনাবেচার সম্পর্ক।',
+    example: 'বাংলাদেশ চীন থেকে কিনে, আমেরিকায় বেচে — এটাই বৈদেশিক বাণিজ্য।'
+  },
+  'প্রক্রিয়াজাতকরণ': {
+    meaning: 'কাঁচামালকে বিজ্ঞান ও প্রযুক্তি দিয়ে রূপান্তর করে নতুন পণ্য তৈরি করা বা দীর্ঘদিন সংরক্ষণ করার ব্যবস্থা।',
+    example: 'দুধ থেকে দই, পনির বা বাচ্চার খাবার তৈরি করা — এটা প্রক্রিয়াজাতকরণ।'
+  },
+  'EPZ': {
+    meaning: 'রপ্তানি প্রক্রিয়াকরণ অঞ্চল (Export Processing Zone) — বিদেশি বিনিয়োগকারীদের জন্য বিশেষ শিল্প এলাকা।',
+    example: 'চট্টগ্রাম EPZ-তে বিদেশি কোম্পানি কারখানা দিয়েছে। সেখানে অনেক বাংলাদেশি কাজ পেয়েছে।'
+  },
+  'WTO': {
+    meaning: 'বিশ্ব বাণিজ্য সংস্থা (World Trade Organisation) — পৃথিবীর দেশগুলোর মধ্যে বাণিজ্য নিয়ম তৈরি করে যে সংস্থা।',
+    example: 'বাংলাদেশ WTO-র সদস্য — তাই আন্তর্জাতিক বাণিজ্যের নিয়ম মেনে চলতে হয়।'
+  },
+  'SAFTA': {
+    meaning: 'South Asian Free Trade Area — দক্ষিণ এশিয়ার দেশগুলোর মধ্যে মুক্ত বাণিজ্য চুক্তি।',
+    example: 'ভারত, পাকিস্তান, বাংলাদেশ, শ্রীলঙ্কা — এরা SAFTA-র সদস্য। এই দেশগুলো কম শুল্কে পণ্য আদান-প্রদান করতে পারে।'
+  },
+  'তৈরি পোশাক': {
+    meaning: 'কারখানায় তৈরি জামা-কাপড় যা বিদেশে রপ্তানি করা হয়।',
+    example: 'বাংলাদেশের গার্মেন্টস কারখানায় তৈরি শার্ট-প্যান্ট H&M বা Walmart-এ বিক্রি হয়।'
+  },
+  'বৈদেশিক মুদ্রা': {
+    meaning: 'বিদেশ থেকে উপার্জিত অর্থ — ডলার, ইউরো ইত্যাদি।',
+    example: 'রপ্তানি করলে বিদেশ থেকে ডলার আসে। সেই ডলার দিয়ে তেল বা যন্ত্রপাতি কেনা যায়।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1', num: 'পাঠ ১', icon: '🌾', title: 'অনানুষ্ঠানিক অর্থনৈতিক কার্যাবলী',
+    sub: 'গ্রাম · শহর · অর্থনীতিতে ভূমিকা', type: 'type-2', heroClass: 'hero-2',
+    heroSub: 'যেসব কাজ সরকার নিয়ন্ত্রণ করে না, কিন্তু দেশের অর্থনীতি চালায়',
+    sections: [
+      {
+        text: 'সরকার কর্তৃক নিয়ন্ত্রিত নয়, এমন অর্থনৈতিক কাজকে অনানুষ্ঠানিক কার্যক্রম বলে। যেমন: নিজের জমিতে কাজ, দোকান বা ব্যবসা প্রতিষ্ঠান, গৃহস্থালি কর্ম, হকারি, দিনমজুরি। অতীতকাল থেকে চলে আসছে বলে এসব কাজকে প্রথাগত খাতও বলা হয়।',
+        story: 'ধরো তোমার গ্রামের কৃষক রহিম চাচা নিজের জমিতে ধান লাগান। কোনো কোম্পানির অধীনে নন, কোনো বেতন নেই — কিন্তু তার ফসল দেশের মানুষের পেট ভরায়। রহিম চাচা অনানুষ্ঠানিক খাতে কাজ করছেন।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c2',
+        chips: ['অনানুষ্ঠানিক খাত', 'আনুষ্ঠানিক খাত', 'কুটিরশিল্প', 'বৈদেশিক মুদ্রা']
+      },
+      { title: 'গ্রামাঞ্চলের অনানুষ্ঠানিক অর্থনৈতিক কার্যাবলী', text: 'গ্রামের একজন চাষি ও তার পরিবারের সদস্যরা সকাল থেকে সন্ধ্যা পর্যন্ত জমিতে কাজ করেন। নিজেদের জমিতে কাজ করার জন্য তারা কোনো মজুরি পান না বা নেন না। কিন্তু তাদের শ্রমের ফলে শুধু পরিবার নয়, সমাজ ও রাষ্ট্রও উপকৃত হচ্ছে। দেশের মোট খাদ্য চাহিদার বড়ো অংশটা তারাই উৎপাদন করছে। কামার-কুমারের কাজ, গ্রামের কুটির শিল্প, দোকান ও অন্যান্য ছোটখাটো ব্যবসাও এই খাতের অন্তর্ভুক্ত।' },
+      { title: 'শহরাঞ্চলের অনানুষ্ঠানিক অর্থনৈতিক কার্যাবলী', text: 'শহরের নিম্নবিত্ত ও বিত্তহীনরা ছোটখাটো দোকান, ফুটপাতে হকারি, ফেরিওয়ালা, রিকশা বা ঠেলাগাড়ি চালক, মুটে, মিস্ত্রি, জোগালি, কিংবা বাসাবাড়ির কাজ করে জীবিকা নির্বাহ করে। এগুলোকে শহর অঞ্চলের অনানুষ্ঠানিক অর্থনৈতিক কাজ বলে গণ্য করা হয়।' },
+      { title: 'অর্থনীতিতে অনানুষ্ঠানিক খাতের অবদান', text: 'গ্রামপ্রধান বাংলাদেশে অধিকাংশ মানুষ নিজস্ব উদ্যোগে ধান-পাট, শাকসবজি, মাছ ধরা, গরু-ছাগল পালন, কুটিরশিল্প ও হাটবাজারে পণ্য বিক্রির মাধ্যমে জীবিকা সংস্থান করছে। আনুষ্ঠানিক খাতের ভূমিকা বৃদ্ধির পরও বাংলাদেশের অর্থনীতিতে প্রথাগত বা অনানুষ্ঠানিক খাতের গুরুত্ব কমেনি।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'অনানুষ্ঠানিক খাত কাকে বলে?', a: 'যেসব অর্থনৈতিক কাজ সরকার কর্তৃক নিয়ন্ত্রিত নয়, কোনো আনুষ্ঠানিক নিবন্ধন নেই, তাকে অনানুষ্ঠানিক খাত বলে। যেমন: নিজের জমিতে কৃষিকাজ, হকারি, দিনমজুরি, গৃহস্থালি কর্ম।' },
+          { q: 'আনুষ্ঠানিক ও অনানুষ্ঠানিক খাতের পার্থক্য কী?', a: 'আনুষ্ঠানিক খাত: সরকারি নিবন্ধন আছে, নিয়মিত বেতন আছে, সরকার নিয়ন্ত্রণ করে। যেমন: সরকারি চাকরি, ব্যাংক, বড় কারখানা। অনানুষ্ঠানিক খাত: সরকারি নিবন্ধন নেই, নিয়মিত বেতন নেই। যেমন: হকারি, কৃষিকাজ, রিকশা চালানো।' },
+          { q: 'গ্রামের কৃষকরা কীভাবে জাতীয় অর্থনীতিতে অবদান রাখছেন?', a: 'গ্রামের কৃষকরা নিজেদের জমিতে ধান, গম, সবজি উৎপাদন করেন। এতে দেশের মানুষের খাদ্য চাহিদা পূরণ হয়। তারা মজুরি না নিলেও তাদের শ্রমে সমাজ ও রাষ্ট্র উপকৃত হচ্ছে — এটাই তাদের অর্থনৈতিক অবদান।' },
+          { q: 'শহরে কোন কোন কাজ অনানুষ্ঠানিক খাতের অন্তর্ভুক্ত?', a: 'শহরে ফুটপাতে হকারি, রিকশা বা ঠেলাগাড়ি চালানো, ফেরিওয়ালা, মুটে, ছোটখাটো দোকান, মিস্ত্রি, বাসাবাড়ির কাজ — এগুলো শহরের অনানুষ্ঠানিক খাত।' },
+          { q: 'অনানুষ্ঠানিক খাতকে প্রথাগত খাতও বলা হয় কেন?', a: 'এই কাজগুলো অতীতকাল থেকে চলে আসছে। নিজের জমিতে চাষ, গৃহস্থালি কাজ — এগুলো যুগ যুগ ধরে মানুষ করে আসছে। পুরনো আমল থেকে প্রচলিত বলে এগুলোকে প্রথাগত খাত বলা হয়।' }
+        ]
+      }
+    ],
+    chain: 'অনানুষ্ঠানিক খাত বোঝার পর এবার জানব বাংলাদেশে কোন ধরনের শিল্প আছে — পাট থেকে তৈরি পোশাক পর্যন্ত।'
+  },
+  {
+    id: 'l2', num: 'পাঠ ২', icon: '🏭', title: 'বাংলাদেশের শিল্প',
+    sub: 'কুটির · ক্ষুদ্র · মাঝারি · বৃহৎ · সম্ভাবনা', type: 'type-3', heroClass: 'hero-3',
+    heroSub: 'পাটকল থেকে গার্মেন্টস — শিল্পের বিকাশ ও ভবিষ্যৎ',
+    sections: [
+      {
+        text: 'বাংলাদেশ একটি কৃষিপ্রধান দেশ হলেও ব্রিটিশ আমল থেকেই এখানে শিল্পকারখানা গড়ে উঠতে থাকে। পাকিস্তান আমলে নারায়ণগঞ্জে পৃথিবীর সর্ববৃহৎ পাটকল আদমজি জুট মিলস প্রতিষ্ঠিত হয়। ১৯৭১ সালে স্বাধীনতার পর বিভিন্ন স্থানে নতুন শিল্পকারখানা গড়ে উঠতে শুরু করে। বর্তমানে তৈরি পোশাক ও ঔষধ শিল্পে বাংলাদেশ বিরাট সাফল্য অর্জন করেছে।',
+        story: 'ধরো তোমার মা একটা ছোট কারুশিল্প বানান বাড়িতে — এটা কুটিরশিল্প। তোমার এলাকার চাল কলটা — ক্ষুদ্র শিল্প। শহরের মাঝারি গার্মেন্টস — মাঝারি শিল্প। আর বিশাল পাটকল বা সিমেন্ট কারখানা — বৃহৎ শিল্প। আকার যত বড়, শ্রমিক ও পুঁজি তত বেশি।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c3',
+        chips: ['তৈরি পোশাক']
+      },
+      { title: 'কুটিরশিল্প', text: 'এই শিল্পে উৎপাদন ও বিপণনের কাজটি প্রধানত মালিক নিজে বা তার পরিবারের সদস্যরাই করে থাকেন। তাঁতবস্ত্র, মাটির তৈরি জিনিসপত্র, বাঁশ, বেত ও কাঠের কাজ, শাড়ি বা মিষ্টির প্যাকেট, আগরবাতি — এগুলো কুটিরশিল্পের উদাহরণ। অসংখ্য মানুষের কর্মসংস্থান ও স্বনির্ভরতা অর্জনের সুযোগ করে দিয়ে কুটিরশিল্প জাতীয় অর্থনীতিতে মূল্যবান অবদান রাখছে।', chips: ['কুটিরশিল্প'] },
+      { title: 'ক্ষুদ্র শিল্প', text: 'যেসব প্রতিষ্ঠানে জমি এবং কারখানা ভবন ব্যতীত স্থায়ী সম্পদের মূল্য ৭৫ লক্ষ টাকা থেকে ১৫ কোটি টাকা, কিংবা যেসব প্রতিষ্ঠানে ৩১-১২০ জন শ্রমিক কাজ করে। চাল কল, ছোটো জুতা বা প্লাস্টিক কারখানা, খাদ্য প্রক্রিয়াজাত শিল্প এর উদাহরণ।', chips: ['ক্ষুদ্র শিল্প'] },
+      { title: 'মাঝারি শিল্প', text: 'যেসব প্রতিষ্ঠানে স্থায়ী সম্পদের মূল্য ১৫ কোটি টাকার অধিক এবং অনধিক ৫০ কোটি টাকা, কিংবা যেসব প্রতিষ্ঠানে ১২১-৩০০ জন শ্রমিক নিয়োজিত। হালকা ইঞ্জিনিয়ারিং, সিল্ক, সিরামিক, কোল্ডস্টোরেজ এর উদাহরণ। দেশের চাহিদা পূরণ ও কর্মসংস্থানের মাধ্যমে এ ধরনের শিল্প জাতীয় অর্থনীতিতে গুরুত্বপূর্ণ ভূমিকা পালন করে।', chips: ['মাঝারি শিল্প'] },
+      { title: 'বৃহৎ শিল্প', text: 'জাতীয় শিল্পনীতি ২০১৬ অনুযায়ী, যেসব প্রতিষ্ঠানে জমি ও কারখানা ভবন ব্যতীত স্থায়ী সম্পদের মূল্য ৫০ কোটি টাকার অধিক কিংবা ৩০০ জনের অধিক শ্রমিক নিয়োজিত। পাট, বস্ত্র, চিনি, সিমেন্ট, সার, রেল, ইঞ্জিনিয়ারিং, বিদ্যুৎ — এগুলো বৃহৎ শিল্প। দেশের অর্থনৈতিক মেরুদণ্ড হিসেবে কাজ করছে এই শিল্পগুলো।', chips: ['বৃহৎ শিল্প'] },
+      { title: 'বাংলাদেশে শিল্পের সম্ভাবনা', text: 'বাংলাদেশ একটি শিল্প সম্ভাবনাময় দেশ। অপেক্ষাকৃত কম মজুরিতে দক্ষ ও অদক্ষ উভয় ধরনের প্রচুর শ্রমিক পাওয়া যায়। বিদেশি বিনিয়োগকারীদের আকৃষ্ট করতে সরকার রপ্তানি প্রক্রিয়াকরণ অঞ্চল (EPZ) প্রতিষ্ঠা করেছে। বন্দর ও পরিবহন সুবিধা বৃদ্ধি, বিদ্যুৎ ও গ্যাস সরবরাহের উন্নতি এবং ওয়ান স্টপ সার্ভিস চালু করে সরকার বিদেশি বিনিয়োগকে উৎসাহিত করছে।', chips: ['EPZ'] },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'কুটিরশিল্প ও ক্ষুদ্র শিল্পের পার্থক্য কী?', a: 'কুটিরশিল্প: মালিক নিজে বা পরিবারের সদস্যরা করেন, বাড়িতেই উৎপাদন হয়, কোনো নির্দিষ্ট শ্রমিক নেই। ক্ষুদ্র শিল্প: ৩১-১২০ জন শ্রমিক আছে, কারখানায় উৎপাদন হয়, স্থায়ী সম্পদ ৭৫ লাখ থেকে ১৫ কোটি টাকা।' },
+          { q: 'বৃহৎ শিল্পের জন্য কী কী প্রয়োজন?', a: 'বৃহৎ শিল্পে প্রচুর মূলধন দরকার। দক্ষ শ্রমিক ও কারিগর, প্রকৌশলী, বিশেষজ্ঞ ও অভিজ্ঞ ব্যবস্থাপকের প্রয়োজন হয়। এসব শিল্পের উৎপাদন ক্ষমতাও অনেক বেশি।' },
+          { q: 'বাংলাদেশের শিল্পখাত দেশের সমাজে কী ভূমিকা রাখছে?', a: 'তৈরি পোশাক শিল্পের প্রসার লক্ষ লক্ষ মানুষ, বিশেষ করে নারীদের জন্য কর্মসংস্থানের সুযোগ করে দিয়েছে। এটি দেশের সামাজিক অগ্রগতিতেও ভূমিকা রাখছে। শিল্পখাতে কর্মসংস্থান মানুষকে শিক্ষা ও প্রযুক্তির প্রতি আগ্রহী করে তুলছে।' },
+          { q: 'EPZ কেন প্রতিষ্ঠা করা হয়েছে?', a: 'বিদেশি বিনিয়োগকারীদের আকৃষ্ট করতে সরকার রপ্তানি প্রক্রিয়াকরণ অঞ্চল (EPZ) প্রতিষ্ঠা করেছে। সেখানে বিশেষ সুবিধা দেওয়া হয় — কম কর, বিদ্যুৎ সুবিধা, যোগাযোগ ব্যবস্থা ভালো। এতে দেশে বিনিয়োগ বাড়ে, কর্মসংস্থান হয়।' },
+          { q: 'শিল্পের বিকাশে কোন সমস্যাগুলো সমাধান করতে হবে?', a: 'বিভিন্ন শিল্প কারখানায় নিরাপদ কর্মপরিবেশ ও শ্রমিক অধিকার সংহত করতে হবে। পরিবেশ দূষণ বন্ধ করতে সরকারের নজরদারি থাকতে হবে। না হলে শিল্পায়নের সুফল পাওয়া যাবে না।' }
+        ]
+      }
+    ],
+    chain: 'শিল্পের কথা জানলাম। এখন দেখব বাংলাদেশ কী কী পণ্য বিদেশে বিক্রি করে এবং কী কী বিদেশ থেকে কেনে।'
+  },
+  {
+    id: 'l3', num: 'পাঠ ৩', icon: '🚢', title: 'বাংলাদেশের আমদানি ও রপ্তানি',
+    sub: 'বৈদেশিক বাণিজ্য · WTO · SAFTA', type: 'type-4', heroClass: 'hero-4',
+    heroSub: 'কী বিক্রি করি, কী কিনি — বিদেশের সাথে বাণিজ্যের হিসাব',
+    sections: [
+      {
+        text: 'কোনো দেশই তার চাহিদার সমস্ত জিনিস নিজেরা উৎপাদন করতে পারে না। তাই বিদেশ থেকে কিছু আমদানি করতে হয়, আর দেশের চাহিদা মিটিয়ে উদ্বৃত্ত পণ্য বিদেশে রপ্তানি করা হয়। যে দেশের আমদানির চেয়ে রপ্তানির পরিমাণ বেশি তাকে উন্নত দেশ ধরা হয়। বৈদেশিক বাণিজ্য তদারকির জন্য আছে WTO, SAFTA-র মতো আন্তর্জাতিক সংস্থা।',
+        story: 'ধরো তোমার পরিবার তরকারি বাড়িতেই চাষ করে — কিন্তু তেল আর লবণ কিনতে হয়। একইভাবে বাংলাদেশ জামা-কাপড় বানিয়ে বিদেশে বেচে (রপ্তানি), আর যন্ত্রপাতি-তেল বিদেশ থেকে কেনে (আমদানি)।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c4',
+        chips: ['রপ্তানি', 'আমদানি', 'বৈদেশিক বাণিজ্য', 'WTO', 'SAFTA']
+      },
+      { title: 'বাংলাদেশের আমদানি পণ্যসামগ্রী', text: 'বাংলাদেশ পৃথিবীর বিভিন্ন দেশ থেকে নিয়মিত যেসব পণ্য আমদানি করে: চাল, গম, ডাল, তেলবীজ, তুলা, অপরিশোধিত পেট্রোল ও পেট্রোলিয়ামজাত দ্রব্য, ভোজ্যতেল, সার, কৃষি ও শিল্প যন্ত্রপাতি, সুতা। আমদানিকারক দেশগুলো: চীন, ভারত, জাপান, সিঙ্গাপুর, দক্ষিণ কোরিয়া, মালেয়শিয়া, যুক্তরাষ্ট্র, যুক্তরাজ্য, ফ্রান্স ও জার্মানি। ২০২৩-২০২৪ অর্থবছরে বাংলাদেশ ৬৬,৭২৫ মিলিয়ন ডলারের পণ্য আমদানি করেছে — এর মধ্যে সবচেয়ে বেশি আমদানি চীন থেকে।' },
+      { title: 'বাংলাদেশের রপ্তানি পণ্যসামগ্রী', text: 'এক সময় পাট ও পাটজাত দ্রব্য ছিল প্রধান রপ্তানি পণ্য। এখন তৈরি পোশাক, হিমায়িত চিংড়ি, ঔষধ সামগ্রী, চা, চামড়াজাত দ্রব্য, রাসায়নিক সামগ্রী, কাঁচা পাট ও পাটজাত দ্রব্য রপ্তানি হচ্ছে। রপ্তানির দেশ: যুক্তরাষ্ট্র, জার্মানি, যুক্তরাজ্য, ফ্রান্স, বেলজিয়াম, ইটালি, নেদারল্যান্ড, কানাডা, জাপান। ২০২৩-২৪ অর্থবছরে রপ্তানি আয় হয়েছে ৪৪,৪৭৫ মিলিয়ন মার্কিন ডলার — শীর্ষে তৈরি পোশাক খাত। বাংলাদেশের পণ্যের বড়ো ক্রেতা হলো যুক্তরাষ্ট্র।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'বৈদেশিক বাণিজ্য কাকে বলে?', a: 'বিদেশ থেকে পণ্য আমদানি এবং বিদেশে পণ্য রপ্তানি করার নামই বৈদেশিক বাণিজ্য। আধুনিক বিশ্বে বৈদেশিক বাণিজ্যের সুযোগ অনেক বেড়েছে — কোনো দেশই নিজেরা সব কিছু উৎপাদন করার কথা ভাবে না।' },
+          { q: 'WTO ও SAFTA কী?', a: 'WTO হলো বিশ্ব বাণিজ্য সংস্থা (World Trade Organisation) — পৃথিবীর দেশগুলোর মধ্যে বাণিজ্য নিয়ম ও শুল্ক নির্ধারণ করে। SAFTA হলো দক্ষিণ এশীয় মুক্ত বাণিজ্য এলাকা (South Asian Free Trade Area) — বাংলাদেশ, ভারত, পাকিস্তানসহ দক্ষিণ এশিয়ার দেশগুলোর মধ্যে বাণিজ্য সহজ করার চুক্তি।' },
+          { q: 'বাংলাদেশ প্রধানত কী কী রপ্তানি করে?', a: 'তৈরি পোশাক (সবচেয়ে বেশি), হিমায়িত চিংড়ি, পাট ও পাটজাত দ্রব্য, চামড়াজাত দ্রব্য, ঔষধ, চা, রাসায়নিক সামগ্রী। তৈরি পোশাকই রপ্তানি আয়ের সিংহভাগ এনে দেয়।' },
+          { q: 'আমদানি ও রপ্তানি কেন গুরুত্বপূর্ণ?', a: 'সময়মতো পণ্য আমদানি না করলে দেশে পণ্যের অভাব ও মূল্যবৃদ্ধি ঘটত, সামাজিক অস্থিরতা দেখা দিত। আর রপ্তানি থেকে অর্জিত বৈদেশিক মুদ্রা দেশের অর্থনীতি সচল রাখছে, শিল্প সম্প্রসারণ ও কর্মসংস্থান সৃষ্টি হচ্ছে।' },
+          { q: 'বাংলাদেশ প্রধানত কোথায় পণ্য রপ্তানি করে?', a: 'বাংলাদেশের পণ্যের সবচেয়ে বড় ক্রেতা যুক্তরাষ্ট্র। এর পাশাপাশি জার্মানি, যুক্তরাজ্য, ফ্রান্স, বেলজিয়াম, ইটালি, নেদারল্যান্ড, কানাডা, জাপানেও রপ্তানি হয়।' },
+          { q: 'পাট কেন আবার গুরুত্বপূর্ণ হচ্ছে?', a: 'সাম্প্রতিককালে বাংলাদেশি বিজ্ঞানীদের দ্বারা পাটের জিনোম আবিষ্কার এবং বিশ্বব্যাপী পরিবেশ সচেতনতা বৃদ্ধির ফলে পাট ও পাটজাত সামগ্রীর চাহিদা আবার বাড়ছে। পরিবেশবান্ধব পণ্য হিসেবে পাট নতুন গুরুত্ব পাচ্ছে।' }
+        ]
+      }
+    ],
+    chain: 'আমদানি-রপ্তানির পরে এবার কৃষিপণ্যকে কীভাবে প্রক্রিয়াজাত করে আরও বেশি কাজে লাগানো যায় — সেটা জানব।'
+  },
+  {
+    id: 'l4', num: 'পাঠ ৪', icon: '🥫', title: 'কৃষিপণ্য প্রক্রিয়াজাতকরণ শিল্প',
+    sub: 'সনাতন পদ্ধতি · আধুনিক পদ্ধতি · সমস্যা ও সমাধান', type: 'type-5', heroClass: 'hero-5',
+    heroSub: 'কাঁচামাল থেকে প্রক্রিয়াজাত পণ্য — কৃষির নতুন সম্ভাবনা',
+    sections: [
+      {
+        text: 'বিজ্ঞান ও প্রযুক্তি ব্যবহারের মাধ্যমে যেকোনো পণ্যকে অন্য পণ্যে রূপান্তর এবং সংরক্ষণের ব্যবস্থা করার প্রক্রিয়াকে প্রক্রিয়াজাতকরণ বলা হয়। কৃষিজ পণ্যকে রূপান্তর করে বহুমাত্রিক ব্যবহারের মাধ্যমে মানুষ সারা বছর নিজেদের চাহিদা পূরণ করতে পারে। তবে নিরাপদ খাদ্য তৈরি করতে হবে এবং দূষণ থেকেও মুক্ত থাকতে হবে।',
+        story: 'ধরো মৌসুমে প্রচুর টমেটো উৎপাদন হলো। সব একসাথে খাওয়া যাবে না — পচে যাবে। কিন্তু কোল্ড স্টোরেজে রাখলে বা সস বানালে সারা বছর খাওয়া যাবে। এটাই প্রক্রিয়াজাতকরণের জাদু।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'green',
+        chips: ['প্রক্রিয়াজাতকরণ']
+      },
+      { title: 'সনাতন ও আধুনিক পদ্ধতির তুলনা', text: 'আগে মানুষ সনাতন পদ্ধতিতে মুড়ি, চিড়া, শুঁটকি, পিঠা, চাল, দই, মাঠা তৈরি করতো। কিন্তু এতে সমস্যা ছিল — চাহিদামতো পণ্য রূপান্তর করা যেত না, সংরক্ষণের সুযোগ কম ছিল, এবং স্বাস্থ্যসম্মত কিনা তা পরীক্ষা হতো না। আধুনিক প্রযুক্তিতে উৎপাদনের পরিমাণ বহুগুণ বেড়েছে এবং স্বাস্থ্যসম্মতভাবে সংরক্ষণ করা যাচ্ছে।' },
+      { title: 'আধুনিক প্রক্রিয়াজাতকরণের সুবিধা', text: 'পাটের বহুমুখী ব্যবহার উদ্ভাবনের ফলে মানুষ পাটের কাপড়, ব্যাগ, কারুশিল্প উৎপাদন করে লাভবান হচ্ছে। পাটখড়ি থেকে পারটেক্স তৈরি হচ্ছে। টমেটো সংরক্ষণে কোল্ড স্টোরেজ তৈরি হচ্ছে। মাছ থেকে শুধু শুঁটকি নয়, টিনজাত করে দীর্ঘদিন সংরক্ষণ করা যাচ্ছে। বিভিন্ন ঋতুর ফল সংরক্ষণ করে সারা বছর মানুষের পুষ্টির চাহিদা পূরণ হচ্ছে। দুধের প্রক্রিয়াজাত শিল্প থেকে মিষ্টি, দই, মাখন, পনিরসহ শিশু খাদ্যের জোগান হচ্ছে।' },
+      { title: 'প্রক্রিয়াজাতকরণ শিল্পের সমস্যা ও সমাধান', text: 'সমস্যা: পুঁজির সমস্যা, প্রযুক্তিজ্ঞান ও গবেষণার অভাব, দক্ষ উদ্যোক্তা ও শ্রমিকের সমস্যা, পরিবহণ ও যোগাযোগ ব্যবস্থায় ত্রুটি, ব্যবস্থাপনা দক্ষতার অভাব, কৃষিজ পণ্য সংরক্ষণের সুযোগ কম। সমাধান: কৃষিজ পণ্য প্রক্রিয়াজাতকরণ নীতিমালা প্রণয়ন, উচ্চশিক্ষা ও গবেষণায় উদ্ভাবনী সুযোগ সৃষ্টি, দক্ষ উদ্যোক্তা তৈরি, উন্নত বিশ্বের অভিজ্ঞতা কাজে লাগানো, বাজারজাতকরণ ও বিদেশে রপ্তানির সুযোগ তৈরি।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'প্রক্রিয়াজাতকরণ শিল্প কাকে বলে?', a: 'বিজ্ঞান ও প্রযুক্তি ব্যবহার করে কাঁচামালকে নতুন পণ্যে রূপান্তর করা বা দীর্ঘদিন সংরক্ষণের ব্যবস্থা করার শিল্পকে প্রক্রিয়াজাতকরণ শিল্প বলে। যেমন — দুধ থেকে দই বা পনির তৈরি করা।' },
+          { q: 'সনাতন পদ্ধতির প্রক্রিয়াজাতকরণের কী সমস্যা ছিল?', a: 'তিনটি প্রধান সমস্যা: ১) চাহিদামতো পণ্য রূপান্তর করা যেত না। ২) সংরক্ষণের সুযোগ কম ছিল। ৩) স্বাস্থ্যসম্মত কিনা তা পরীক্ষা হতো না।' },
+          { q: 'পাট প্রক্রিয়াজাতকরণে কী সুবিধা হয়েছে?', a: 'পাটের বহুমুখী ব্যবহার উদ্ভাবনের ফলে পাটের কাপড়, ব্যাগ, কারুশিল্প উৎপাদন হচ্ছে। পাটখড়ি থেকে পারটেক্স তৈরি হচ্ছে। কৃষকরা লাভবান হচ্ছে, কর্মসংস্থান সৃষ্টি হচ্ছে।' },
+          { q: 'কৃষিপণ্য প্রক্রিয়াজাতকরণ শিল্পের প্রধান সমস্যাগুলো কী?', a: 'পুঁজির সমস্যা, প্রযুক্তিজ্ঞান ও গবেষণার অভাব, দক্ষ উদ্যোক্তা ও শ্রমিকের অভাব, পরিবহণ ও যোগাযোগ ব্যবস্থায় ত্রুটি, ব্যবস্থাপনা দক্ষতার অভাব এবং কৃষিজ পণ্য সংরক্ষণের সুযোগ কম।' },
+          { q: 'টেকসই উন্নয়ন বলতে কী বোঝায়?', a: 'এমন উন্নয়ন যা বর্তমান চাহিদা পূরণ করে কিন্তু ভবিষ্যৎ প্রজন্মের সুযোগ নষ্ট করে না। অতিরিক্ত সার, কীটনাশক ও বিদ্যুৎ ব্যবহার করে প্রাকৃতিক পরিবেশের ক্ষতি করলে উন্নয়ন টেকসই হবে না।' }
+        ]
+      }
+    ],
+    chain: 'এই অধ্যায়ে আমরা বাংলাদেশের অর্থনীতির সব দিক জানলাম — অনানুষ্ঠানিক খাত, শিল্প, আমদানি-রপ্তানি ও প্রক্রিয়াজাতকরণ শিল্প। এবার অনুশীলনীর প্রশ্নে এই জ্ঞান কাজে লাগাও।'
+  },
+  {
+    id: 'l5', num: 'অনুশীলনী', icon: '📝', title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'বহুনির্বাচনি · সৃজনশীল · সংক্ষিপ্ত · উত্তরসহ', type: '', heroClass: 'hero-1',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — সহজ উত্তরসহ',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. বাংলাদেশে উৎপাদিত পণ্যের সবচেয়ে বড় ক্রেতা দেশ কোনটি?',
+            options: [
+              { text: 'ক. জার্মানি', correct: false },
+              { text: 'খ. যুক্তরাজ্য', correct: false },
+              { text: 'গ. যুক্তরাষ্ট্র', correct: true },
+              { text: 'ঘ. জাপান', correct: false }
+            ]
+          },
+          {
+            question: '২. বাংলাদেশ শিল্প সম্ভাবনাময় দেশ, কারণ—',
+            note: 'i. কম মজুরিতে শ্রমিক পাওয়া যায়<br>ii. বিনিয়োগ সহায়ক সরকারি কর্মসূচি রয়েছে<br>iii. প্রচুর প্রাকৃতিক গ্যাস রয়েছে',
+            options: [
+              { text: 'ক. i ও ii', correct: true },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: false }
+            ]
+          },
+          {
+            question: '৩. ফলের রস কোন ধরনের পণ্য?',
+            options: [
+              { text: 'ক. কুটিরশিল্প পণ্য', correct: false },
+              { text: 'খ. ক্ষুদ্র শিল্প পণ্য', correct: false },
+              { text: 'গ. আমদানি পণ্য', correct: false },
+              { text: 'ঘ. প্রক্রিয়াজাতকরণ খাদ্য', correct: true }
+            ]
+          },
+          {
+            question: '৪. প্রক্রিয়াজাতকরণ শিল্পের প্রধান সমস্যা—',
+            note: 'i. কৃষিপণ্যের সংরক্ষণের সুযোগ কম<br>ii. দক্ষ শ্রমিকের প্রাচুর্য<br>iii. পুঁজির সমস্যা',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: true },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: false }
+            ]
+          },
+          {
+            question: '৫. নিচের উদ্দীপকটি পড়ো:<br><br><em>রাকিব সাহেবের কারখানায় জমি ও ভবন ব্যতীত স্থায়ী সম্পদের মূল্য ১.২৫ কোটি টাকা এবং সেখানে ২০০ জন শ্রমিক কর্মরত।</em><br><br>রাকিব সাহেবের প্রতিষ্ঠানটি কোন ধরনের শিল্প?',
+            options: [
+              { text: 'ক. ক্ষুদ্র শিল্প', correct: false },
+              { text: 'খ. কুটিরশিল্প', correct: false },
+              { text: 'গ. মাঝারি শিল্প', correct: true },
+              { text: 'ঘ. বৃহৎ শিল্প', correct: false }
+            ]
+          },
+          {
+            question: '৬. রাকিব সাহেবের কারখানা সমাজে সবচেয়ে বেশি যে প্রভাব ফেলছে তা হলো—',
+            options: [
+              { text: 'ক. পরিবেশ দূষণ', correct: false },
+              { text: 'খ. আমদানি হ্রাস', correct: false },
+              { text: 'গ. কর্মসংস্থান সৃষ্টি', correct: true },
+              { text: 'ঘ. রপ্তানি হ্রাস', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ১ (তিমজউদ্দিন ও রিমজউদ্দিনের গল্প)',
+        text: 'তিমজউদ্দিন তাঁর তিন ছেলেকে সাথে নিয়ে নিজ জমিতে ধান, গম, সরিষা, ভুট্টাসহ নানা ধরনের ফসল চাষ করেন। তাঁর স্ত্রী ও পুত্রবধুরাও ফসল তোলার কাজে সহায়তা করেন। অবসর সময়ে তিনি বাড়ির সামনে একটি মুদি দোকান চালান। তাঁর ছোট ভাই রিমজউদ্দিন একটি গার্মেন্টসে কাজ করেন এবং তাঁর স্ত্রী একটি সরকারি প্রাথমিক বিদ্যালয়ের শিক্ষকতা করেন।',
+        qa: [
+          { q: 'ক. SAFTA এর পূর্ণ রূপ কী?', a: 'SAFTA-এর পূর্ণ রূপ হলো South Asian Free Trade Area (দক্ষিণ এশীয় মুক্ত বাণিজ্য এলাকা)।', tag: 'সৃজনশীল' },
+          { q: 'খ. মাঝারি শিল্প বলতে কী বোঝায়?', a: 'মাঝারি শিল্প বলতে সেসব শিল্প প্রতিষ্ঠানকে বোঝায় যেসব প্রতিষ্ঠানে জমি এবং কারখানা ভবন ব্যতীত স্থায়ী সম্পদের মূল্য ১৫ কোটি টাকার অধিক এবং অনধিক ৫০ কোটি টাকা, কিংবা যেসব প্রতিষ্ঠানে ১২১-৩০০ জন শ্রমিক নিয়োজিত। হালকা ইঞ্জিনিয়ারিং, সিল্ক, সিরামিক, কোল্ডস্টোরেজ এর উদাহরণ।', tag: 'সৃজনশীল' },
+          { q: 'গ. রিমজউদ্দিন ও তাঁর স্ত্রী কোন ধরনের অর্থনৈতিক কাজে যুক্ত?', a: 'রিমজউদ্দিন গার্মেন্টসে কাজ করেন এবং তাঁর স্ত্রী সরকারি বিদ্যালয়ে শিক্ষকতা করেন — এই দুটো কাজই আনুষ্ঠানিক খাতের অন্তর্গত। কারণ এখানে সরকারি নিবন্ধন আছে, নিয়মিত বেতন আছে এবং সরকার নিয়ন্ত্রণ করে। গার্মেন্টস একটি নিবন্ধিত শিল্প প্রতিষ্ঠান এবং সরকারি বিদ্যালয় সরকারি প্রতিষ্ঠান।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. তিমজউদ্দিন ও তাঁর পরিবার জাতীয় অর্থনীতিতে কোনো ভূমিকা রাখছে কি?', a: 'হ্যাঁ, রাখছে। তিমজউদ্দিন নিজ জমিতে ধান, গম, সরিষা উৎপাদন করছেন — এটা দেশের খাদ্য চাহিদা পূরণ করছে। পরিবারের সদস্যরাও কৃষিকাজে সহায়তা করছেন — এটা অনানুষ্ঠানিক খাতের গুরুত্বপূর্ণ অবদান। মুদি দোকানও অর্থনীতিতে ছোট ব্যবসা হিসেবে ভূমিকা রাখছে। মজুরি না পেলেও তাদের শ্রমে সমাজ ও রাষ্ট্র উপকৃত হচ্ছে।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ২ (জরিনা বেগম ও তামিজদের গল্প)',
+        text: 'গ্রামের বিধবা মহিলা জরিনা বেগম বাজার থেকে বাঁশ ও বেত কিনে দুই মেয়েকে নিয়ে ডালা, কুলা, ফুলদানি তৈরি করেন। তার ছেলে তামিজদ সেগুলো বাজারে বিক্রয় করে। পরবর্তীতে ব্যাংক থেকে ঋণ নিয়ে তারা কেক, বিস্কুটসহ বিভিন্ন খাদ্যদ্রব্য তৈরির কারখানা স্থাপন করে লাভবান হয়।',
+        qa: [
+          { q: 'ক. রপ্তানি প্রক্রিয়াকরণ অঞ্চল প্রতিষ্ঠার উদ্দেশ্য কী?', a: 'বিদেশি বিনিয়োগকারীদের আকৃষ্ট করতে EPZ প্রতিষ্ঠা করা হয়েছে। এখানে বিশেষ সুবিধা দেওয়া হয় — কম কর, উন্নত যোগাযোগ, বিদ্যুৎ সুবিধা। এতে দেশে শিল্প বিনিয়োগ বাড়ে এবং কর্মসংস্থান সৃষ্টি হয়।', tag: 'সৃজনশীল' },
+          { q: 'খ. অনানুষ্ঠানিক অর্থনৈতিক কার্যক্রম কী? (উদাহরণসহ)', a: 'সরকার কর্তৃক নিয়ন্ত্রিত নয়, এমন অর্থনৈতিক কাজকে অনানুষ্ঠানিক কার্যক্রম বলে। যেমন: নিজের জমিতে কৃষিকাজ, দোকান বা ব্যবসা প্রতিষ্ঠান, গৃহস্থালি কর্ম, হকারি, দিনমজুরি, রিকশা চালানো। এই খাত প্রচলিত হওয়ায় একে প্রথাগত খাতও বলা হয়।', tag: 'সৃজনশীল' },
+          { q: 'গ. জরিনা বেগমের উৎপাদিত পণ্য কোন শিল্পের অন্তর্গত?', a: 'জরিনা বেগম পরিবারের সদস্যদের নিয়ে বাড়িতে বাঁশ ও বেত দিয়ে ডালা, কুলা, ফুলদানি তৈরি করছেন — এটা কুটিরশিল্পের অন্তর্গত। কারণ কুটিরশিল্পে মালিক নিজে বা পরিবারের সদস্যরাই উৎপাদন করেন, কোনো বড় কারখানা নেই।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. তামিজদের কাজের অবদান বাংলাদেশের অর্থনৈতিক উন্নয়নে কী?', a: 'তামিজদ প্রথমে পারিবারিক কুটিরশিল্পের পণ্য বিক্রি করে স্বনির্ভর হয়েছেন। পরে ব্যাংক ঋণ নিয়ে খাদ্য প্রক্রিয়াজাতকরণ কারখানা দিয়েছেন। এতে: ১) নতুন কর্মসংস্থান সৃষ্টি হয়েছে। ২) কৃষিজ পণ্যের মূল্য সংযোজন হচ্ছে। ৩) ব্যাংক ঋণের সদ্ব্যবহার হচ্ছে। ৪) ক্ষুদ্র শিল্পোদ্যোক্তা হিসেবে দেশের শিল্পায়নে অবদান রাখছেন।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          { q: 'গ্রামের নারীদের হাঁস-মুরগি পালন কীভাবে জাতীয় অর্থনীতিতে ভূমিকা রাখছে?', a: 'গ্রামের নারীরা হাঁস-মুরগি পালন করে পরিবারের খাদ্য চাহিদা পূরণ করছেন। উদ্বৃত্ত বিক্রি করে নিজেরা উপার্জন করছেন — এটা পরিবারকে স্বনির্ভর করছে। দেশে মাংস ও ডিমের চাহিদা পূরণ হচ্ছে। অনানুষ্ঠানিক খাত হলেও এটা জাতীয় অর্থনীতিতে গুরুত্বপূর্ণ অবদান রাখছে।', tag: 'সংক্ষিপ্ত' },
+          { q: 'কুটিরশিল্প কাকে বলে?', a: 'যে শিল্পে উৎপাদন ও বিপণনের কাজ প্রধানত মালিক নিজে বা তার পরিবারের সদস্যরাই করে থাকে, তাকে কুটিরশিল্প বলে। উদাহরণ: তাঁতবস্ত্র, মাটির তৈরি জিনিসপত্র, বাঁশ-বেত-কাঠের কাজ, আগরবাতি।', tag: 'সংক্ষিপ্ত' },
+          { q: 'প্রক্রিয়াজাতকরণ শিল্প কী?', a: 'বিজ্ঞান ও প্রযুক্তি ব্যবহার করে কাঁচামালকে অন্য পণ্যে রূপান্তর করা বা সংরক্ষণের ব্যবস্থা করার শিল্প। যেমন — দুধ থেকে দই বা পনির তৈরি, টমেটো সংরক্ষণ, ফলের রস তৈরি, মাছ টিনজাত করা।', tag: 'সংক্ষিপ্ত' }
+        ]
+      }
+    ],
+    chain: 'অনুশীলনীর প্রশ্নগুলো নিজের ভাষায় লিখতে পারলে পরীক্ষায় ভালো নম্বর পাবে।'
+  }
+];
+
+const keyTopics = [
+  { label: 'অনানুষ্ঠানিক খাত', id: 'l1' },
+  { label: 'কুটিরশিল্প', id: 'l2' },
+  { label: 'বৃহৎ শিল্প', id: 'l2' },
+  { label: 'তৈরি পোশাক', id: 'l2' },
+  { label: 'EPZ', id: 'l2' },
+  { label: 'রপ্তানি', id: 'l3' },
+  { label: 'WTO / SAFTA', id: 'l3' },
+  { label: 'প্রক্রিয়াজাতকরণ', id: 'l4' },
+  { label: 'অনুশীলনী', id: 'l5' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

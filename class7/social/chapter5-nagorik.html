@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-box.red{background:#fdf0f0;border-color:#e8a0a0}
+.story-box.green{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'পঞ্চম অধ্যায়',
+  emoji: '⚖️',
+  navLabel: '⚖️ বাংলাদেশ ও নাগরিক',
+  title: 'বাংলাদেশ ও বাংলাদেশের নাগরিক',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+const words = {
+  'সুনাগরিক': { meaning: 'যে নাগরিক বুদ্ধিমত্তা, আত্মসংযম ও বিবেক-বিচার — এই তিনটি গুণের অধিকারী এবং দেশের কল্যাণে কাজ করে।', example: 'তপু বিবেকের তাড়নায় আহত ব্যক্তিকে সাহায্য করল — এটি সুনাগরিকের আচরণ।' },
+  'বুদ্ধিমত্তা': { meaning: 'শিক্ষা ও জ্ঞান অর্জনের মাধ্যমে সঠিক সিদ্ধান্ত নেওয়ার ক্ষমতা।', example: 'একজন বুদ্ধিমান নাগরিক যোগ্য প্রার্থী দেখে ভোট দেন, পরিচয় দেখে নয়।' },
+  'আত্মসংযম': { meaning: 'নিজের প্রবৃত্তি, লোভ ও স্বার্থকে নিয়ন্ত্রণ করার শক্তি।', example: 'ঘুষ না নেওয়া, স্বজনপ্রীতি না করা — এগুলো আত্মসংযমের উদাহরণ।' },
+  'বিবেক-বিচার': { meaning: 'ভালো-মন্দের জ্ঞান এবং দায়িত্ব-কর্তব্যের সচেতনতা।', example: 'কাজটি সঠিক কিনা তা ভেবে সিদ্ধান্ত নেওয়াই বিবেক-বিচার।' },
+  'দুর্নীতি': { meaning: 'ব্যক্তিগত সুবিধার জন্য ক্ষমতার অপব্যবহার বা অনৈতিক কাজ।', example: 'সরকারি কর্মকর্তা ঘুষ নিলে দুর্নীতি হয়।' },
+  'স্বজনপ্রীতি': { meaning: 'নিজের আত্মীয়-পরিচিতকে অযোগ্য হলেও অন্যের চেয়ে বেশি সুবিধা দেওয়া।', example: 'যোগ্য প্রার্থীকে বাদ দিয়ে ভাইকে চাকরি দেওয়া স্বজনপ্রীতির উদাহরণ।' },
+  'নির্লিপ্ততা': { meaning: 'দায়িত্ব ও কাজের প্রতি উদাসীনতা; অংশগ্রহণ না করার প্রবণতা।', example: 'ভোট দিতে না যাওয়া নির্লিপ্ততার একটি উদাহরণ।' },
+  'ধর্মান্ধতা': { meaning: 'নিজের ধর্মকে শ্রেষ্ঠ মনে করে অন্য ধর্মের প্রতি বিদ্বেষ পোষণ করা।', example: 'ধর্মান্ধতার কারণে সাম্প্রদায়িক দাঙ্গা হতে পারে।' },
+  'সাম্প্রদায়িকতা': { meaning: 'ধর্মীয় বা গোষ্ঠীগত পরিচয়ের ভিত্তিতে অন্যদের প্রতি বিভেদমূলক মনোভাব।', example: 'একটি ধর্মের মানুষ অন্য ধর্মের অনুষ্ঠানে বাধা দিলে সেটি সাম্প্রদায়িকতা।' },
+  'দাম্ভিকতা': { meaning: 'নিজেকে অন্যের চেয়ে উন্নত মনে করা এবং অন্যের মতামতকে অবজ্ঞা করা।', example: 'সভায় কেউ কথা বললে তা না শুনে নিজের মত চাপিয়ে দেওয়া দাম্ভিকতা।' },
+  'নিরক্ষরতা': { meaning: 'লেখাপড়া না জানার অবস্থা।', example: 'নিরক্ষর নাগরিক ভোট গণনার ফলাফল বুঝতে পারে না।' },
+  'আর্থ-সামাজিক': { meaning: 'অর্থনৈতিক ও সামাজিক উভয় দিক একসাথে নির্দেশ করে।', example: 'দারিদ্র্য ও নিরক্ষরতা একটি আর্থ-সামাজিক সমস্যা।' },
+  'সুশাসন': { meaning: 'স্বচ্ছতা, জবাবদিহিতা ও আইনের শাসনের ভিত্তিতে দেশ পরিচালনা।', example: 'নিয়মিত নির্বাচন ও দুর্নীতিমুক্ত প্রশাসন সুশাসনের অংশ।' },
+  'বেকারত্ব': { meaning: 'কাজ করতে সক্ষম হওয়া সত্ত্বেও কাজ না পাওয়ার অবস্থা।', example: 'শিক্ষিত তরুণরা চাকরি না পেলে বেকারত্ব বাড়ে।' },
+  'দারিদ্র্যসীমা': { meaning: 'সরকার নির্ধারিত ন্যূনতম আয়ের মাত্রা যার নিচে থাকলে দরিদ্র বলা হয়।', example: 'বাংলাদেশের প্রায় ২০ ভাগ মানুষ এখনও দারিদ্র্যসীমার নিচে বাস করে।' },
+  'মৌলিক অধিকার': { meaning: 'সংবিধান স্বীকৃত মূলভিত্তিক অধিকার যা সকল নাগরিক ভোগ করতে পারে।', example: 'বাক-স্বাধীনতা ও ধর্মচর্চার অধিকার মৌলিক অধিকারের উদাহরণ।' },
+  'সংবিধান': { meaning: 'রাষ্ট্র পরিচালনার সর্বোচ্চ দলিল যাতে নাগরিকের অধিকার ও কর্তব্য লেখা আছে।', example: 'বাংলাদেশের সংবিধান ১৯৭২ সালে প্রণীত হয়।' },
+  'কর্তব্য': { meaning: 'নাগরিক হিসেবে রাষ্ট্র ও সমাজের প্রতি পালনীয় দায়িত্ব।', example: 'কর দেওয়া ও আইন মানা নাগরিকের কর্তব্য।' },
+  'আনুগত্য': { meaning: 'রাষ্ট্রের আইন ও বৈধ কর্তৃপক্ষের প্রতি মেনে চলার মনোভাব।', example: 'দেশের আইন মানা রাষ্ট্রের প্রতি আনুগত্যের প্রকাশ।' },
+  'জীবনধারণের অধিকার': { meaning: 'প্রতিটি নাগরিকের বেঁচে থাকার মৌলিক অধিকার।', example: 'আইনের বাইরে কাউকে মেরে ফেলা এই অধিকারের লঙ্ঘন।' },
+  'সম্পত্তির অধিকার': { meaning: 'নিজস্ব সম্পদ রাখা ও ব্যবহারের অধিকার।', example: 'জমি থেকে অন্যায়ভাবে উচ্ছেদ করা এই অধিকারের লঙ্ঘন।' },
+  'চলাফেরার অধিকার': { meaning: 'দেশের যেকোনো স্থানে চলাফেরা করার স্বাধীনতা।', example: 'বিনা কারণে কাউকে গৃহবন্দী করা এই অধিকারের লঙ্ঘন।' },
+  'ধর্মচর্চার অধিকার': { meaning: 'নিজের ধর্ম স্বাধীনভাবে পালনের অধিকার।', example: 'ইদ, পূজা বা বড়দিন স্বাধীনভাবে পালন করা এই অধিকারের প্রয়োগ।' },
+  'চুক্তি করার অধিকার': { meaning: 'আইনি চুক্তিতে প্রবেশের স্বাধীনতা।', example: 'ব্যবসায়িক চুক্তি স্বাধীনভাবে করার অধিকার।' },
+  'চিন্তা ও বিবেকের অধিকার': { meaning: 'নিজস্ব মত গঠন ও বিশ্বাস পোষণের স্বাধীনতা।', example: 'নিজের বিশ্বাস প্রকাশের স্বাধীনতা।' },
+  'সংবাদপত্রের স্বাধীনতা': { meaning: 'মিডিয়া ও প্রেস স্বাধীনভাবে তথ্য প্রকাশের অধিকার।', example: 'পত্রিকায় সত্য সংবাদ প্রকাশের স্বাধীনতা।' },
+  'সভা-সমিতির অধিকার': { meaning: 'শান্তিপূর্ণভাবে সংগঠিত হওয়ার অধিকার।', example: 'সমিতি গঠন করে সভা করার স্বাধীনতা।' },
+  'পরিবার গঠনের অধিকার': { meaning: 'বিবাহ করে পরিবার গড়ার অধিকার।', example: 'নিজের পছন্দে পরিবার গঠনের স্বাধীনতা।' },
+  'সংস্কৃতি ও ভাষার অধিকার': { meaning: 'নিজের ভাষা ও সংস্কৃতি চর্চার অধিকার।', example: 'মাতৃভাষায় পড়াশোনার অধিকার।' },
+  'কর্ম লাভের অধিকার': { meaning: 'কাজ পাওয়ার ও কাজ করার অধিকার।', example: 'যোগ্যতা অনুযায়ী চাকরি পাওয়ার অধিকার।' },
+  'স্বাস্থ্য ও শিক্ষার অধিকার': { meaning: 'স্বাস্থ্যসেবা ও শিক্ষা পাওয়ার অধিকার।', example: 'বিনামূল্যে প্রাথমিক শিক্ষা পাওয়ার অধিকার।' },
+  'আইন মেনে চলার অধিকার': { meaning: 'আইনের সুরক্ষা পাওয়ার অধিকার।', example: 'অভিযুক্ত ব্যক্তি আদালতে নিজের পক্ষে কথা বলতে পারবে।' },
+  'অর্থনৈতিক ও সামাজিক সুবিচার': { meaning: 'ন্যায্য অর্থনৈতিক ও সামাজিক সুযোগ পাওয়ার অধিকার।', example: 'সমান মজুরির অধিকার।' },
+  'স্বাধীন মতামত প্রকাশ': { meaning: 'নিজের মত প্রকাশের স্বাধীনতা।', example: 'সভায় বক্তব্য দেওয়ার স্বাধীনতা।' },
+  'জনপ্রতিনিধি নির্বাচন': { meaning: 'ভোটের মাধ্যমে প্রতিনিধি বেছে নেওয়ার অধিকার।', example: 'জাতীয় সংসদ নির্বাচনে ভোট দেওয়া।' },
+  'রাষ্ট্রের প্রতি আনুগত্য': { meaning: 'দেশের সংবিধান ও বৈধ সরকারের প্রতি মেনে চলার কর্তব্য।', example: 'জাতীয় সঙ্গীত গাইবার সময় শ্রদ্ধার সাথে দাঁড়ানো।' },
+  'আইন মেনে চলা': { meaning: 'দেশের প্রচলিত আইন ও বিধি-বিধান মানা।', example: 'ট্রাফিক আইন মেনে সড়ক ব্যবহার করা।' },
+  'ভোটাধিকার প্রয়োগ': { meaning: 'নির্বাচনে যোগ্য প্রার্থীকে ভোট দেওয়া।', example: 'জাতীয় নির্বাচনে বিচার করে ভোট দেওয়া।' },
+  'নিয়মিত কর প্রদান': { meaning: 'আয় অনুযায়ী সরকারকে ন্যায্য কর দেওয়া।', example: 'আয়কর রিটার্ন সময়মতো জমা দেওয়া।' },
+  'সরকারি কাজ সুষ্ঠুভাবে সম্পাদন': { meaning: 'সরকারি দায়িত্ব সততার সাথে পালন করা।', example: 'ভোট কেন্দ্রের দায়িত্বপ্রাপ্ত কর্মকর্তা নিরপেক্ষভাবে ভোট গ্রহণ করা।' },
+  'সন্তানকে শিক্ষাদান': { meaning: 'সন্তানকে উপযুক্ত শিক্ষায় শিক্ষিত করার দায়িত্ব।', example: 'সন্তানকে স্কুলে ভর্তি করা এবং পড়াশোনায় সহায়তা করা।' }
+};
+
+const lessons = [
+  {
+    id: 'l1', num: 'পাঠ ১', icon: '📚', title: 'সুনাগরিকের গুণাবলি',
+    sub: 'বুদ্ধিমত্তা · আত্মসংযম · বিবেক-বিচার', type: '', heroClass: 'hero-1',
+    heroSub: 'কেউ সুনাগরিক হয়ে জন্মগ্রহণ করে না — সুনাগরিকতা অর্জন করতে হয়',
+    sections: [
+      {
+        title: '📖 মূল বক্তব্য',
+        text: 'রাষ্ট্রবিজ্ঞানীদের মতে, সুনাগরিক হতে হলে একজন নাগরিককে তিনটি মৌলিক গুণের অধিকারী হতে হবে।',
+        chips: ['সুনাগরিক']
+      },
+      {
+        title: '📋 তিনটি মৌলিক গুণ',
+        qualityItems: [
+          { icon: '🧠', label: 'বুদ্ধিমত্তা', word: 'বুদ্ধিমত্তা' },
+          { icon: '🎯', label: 'আত্মসংযম', word: 'আত্মসংযম' },
+          { icon: '⚖️', label: 'বিবেক-বিচার', word: 'বিবেক-বিচার' }
+        ]
+      },
+      {
+        title: '🧠 বুদ্ধিমত্তা',
+        text: 'বুদ্ধিমান নাগরিক যেকোনো রাষ্ট্রের সবচেয়ে মূল্যবান সম্পদ। বুদ্ধিমত্তা অর্জনের সবচেয়ে বড় উপায় হলো শিক্ষা লাভ করে জ্ঞান অর্জন করা। কারণ বুদ্ধিমান নাগরিক উপযুক্ত প্রতিনিধি নির্বাচন, দক্ষতার সাথে দেশ পরিচালনা ও রাষ্ট্রের উন্নয়নে গুরুত্বপূর্ণ ভূমিকা রাখতে পারে। বাবা-মায়ের উচিত সন্তানদের যথাযথ শিক্ষা দেওয়া। সরকারের দায়িত্ব উপযুক্ত শিক্ষার ব্যবস্থা নিশ্চিত করা।',
+        story: 'একজন শিক্ষিত ভোটার কেবল পরিচয় দেখে নয়, প্রার্থীর যোগ্যতা ও কর্মসূচি বিচার করে ভোট দেন — এটিই বুদ্ধিমত্তার প্রকাশ।',
+        storyLabel: '🌿 জীবন থেকে উদাহরণ', storyClass: 'green'
+      },
+      {
+        title: '🎯 আত্মসংযম',
+        text: 'সুনাগরিককে আত্মসংযমী হতে হবে। আত্মসংযম নাগরিককে অসৎ কাজ — যেমন দুর্নীতি, স্বজনপ্রীতি, স্বার্থপরতা, পক্ষপাতিত্ব — থেকে বিরত রাখে। আত্মসংযমী নাগরিক নিয়ম-কানুন মেনে চলে, অন্যের মতামতকে শ্রদ্ধা করে, দেশের স্বার্থে নিজের স্বার্থের চেয়ে বেশি গুরুত্ব দেয়। অন্যায় কাজ ও দলীয় স্বার্থপরতা থেকে বিরত থাকে এবং রাষ্ট্রের সার্বিক মঙ্গলের জন্য কাজ করে।',
+        story: 'একজন সরকারি কর্মকর্তা ঘুষের প্রলোভন থাকলেও তা প্রত্যাখ্যান করেন — এটিই আত্মসংযমের বাস্তব প্রমাণ।',
+        storyLabel: '💡 জীবন থেকে উদাহরণ',
+        chips: ['দুর্নীতি', 'স্বজনপ্রীতি']
+      },
+      {
+        title: '⚖️ বিবেক-বিচার',
+        text: 'বিবেক-বিচার বলতে বোঝায় ভালো-মন্দের জ্ঞান, দায়িত্ব-কর্তব্যের জ্ঞান। একজন নাগরিককে শুধু বুদ্ধিমান ও আত্মসংযমী হলেই চলবে না — যেকোনো কাজ সম্পন্ন করতে হলে তাকে ভাবতে হবে কাজটি ভালো না মন্দ। সমাজ বা রাষ্ট্রের কোনো সমস্যা সমাধান করতে হলে নাগরিককে তার বিবেক দিয়ে সঠিক সিদ্ধান্ত নিতে হবে। বিবেক হলো সুনাগরিকের জাগ্রত শক্তি।',
+        story: 'তপু রিকশায় যাচ্ছিল, দেখল একটি গাড়ি পথচারীকে ধাক্কা দিয়ে পালাচ্ছে। সে বিবেকের তাড়নায় চালককে আটক করে পুলিশের হাতে দিল এবং আহতকে হাসপাতালে নিয়ে গেল — এটিই বিবেক-বিচারের প্রকাশ।',
+        storyLabel: '🌿 জীবন থেকে উদাহরণ', storyClass: 'green'
+      },
+      {
+        title: '✦ আরও কিছু গুণ',
+        text: 'উক্ত তিনটি গুণ ছাড়াও সুনাগরিকের আরও কিছু গুণ থাকা প্রয়োজন — শাসন ব্যবস্থার জ্ঞান, অন্যায়ের প্রতিবাদ, আইনশৃঙ্খলা মানা, আত্মবিশ্বাস এবং দেশের স্বার্থকে বড় মানা।'
+      },
+      {
+        activity: 'দলে বিভক্ত হয়ে সুনাগরিকের গুণাবলিগুলো লেখো এবং শ্রেণিকক্ষে আলোচনা করো।'
+      }
+    ],
+    chain: 'এত গুণ থাকা সত্ত্বেও অনেকে সুনাগরিক হতে পারে না কেন — পরের পাঠে জানব সেই বাধাগুলোর কথা।'
+  },
+  {
+    id: 'l2', num: 'পাঠ ২.১-২.২', icon: '🚧', title: 'সুনাগরিকতার প্রতিবন্ধকতা ও দূরীকরণ',
+    sub: 'নির্লিপ্ততা · সাম্প্রদায়িকতা · সমাধান', type: 'type-3', heroClass: 'hero-3',
+    heroSub: 'পরিবার, সমাজ ও রাষ্ট্রের পরিবেশ সুনাগরিকের গুণকে প্রভাবিত করে',
+    sections: [
+      {
+        title: '🚧 প্রতিবন্ধকতাসমূহ — ট্যাপ করো উত্তর দেখতে',
+        qa: [
+          { q: '😶 নির্লিপ্ততা', a: 'সাধারণভাবে কাজের প্রতি নাগরিকদের উদাসীনতাকে বলে নির্লিপ্ততা। নিরক্ষরতা, উপযুক্ত শিক্ষার অভাব, অলসতা, দারিদ্র্য ও কাজে অনীহা থেকে নির্লিপ্ততা তৈরি হয়। এর ফলে নাগরিক রাষ্ট্রের সামাজিক ও রাজনৈতিক কাজে অংশগ্রহণ করতে চায় না।' },
+          { q: '💰 ব্যক্তিস্বার্থ', a: 'ব্যক্তির স্বার্থপরতার ফলে ব্যক্তি নিজের স্বার্থকে দেশের স্বার্থের চেয়ে বড় করে দেখে। এর ফলে নাগরিক সহজেই দুর্নীতি, স্বজনপ্রীতি ও পক্ষপাতিত্ব করে থাকে। নির্বাচনে যোগ্য লোককে বাদ দিয়ে দলীয় স্বার্থে ভোট দেয়।' },
+          { q: '🏴 দলীয় গোষ্ঠীতান্ত্রিক মনোভাব', a: 'নিজ দলের প্রতি এক রকম ও বিরোধী দলের প্রতি অন্য রকম আচরণ করলে তা সুনাগরিক হওয়ার পথে বাধা হয়। গণতন্ত্র ভিন্নমতের প্রতি শ্রদ্ধাশীলতা শেখায়, কিন্তু দলীয় মনোভাব তা নষ্ট করে দেয়।' },
+          { q: '📵 অজ্ঞতা ও নিরক্ষরতা', a: 'আমাদের দেশে প্রায় এক-পঞ্চমাংশ নাগরিক নিরক্ষর। ফলে তারা প্রয়োজনীয় ক্ষেত্রে সঠিক সিদ্ধান্ত নিতে ব্যর্থ হয় এবং রাষ্ট্রের দেওয়া দায়িত্ব সঠিকভাবে পালন করতে পারে না।' },
+          { q: '⛔ ধর্মান্ধতা', a: 'ধর্মান্ধতা ব্যক্তিকে অন্য ধর্মের প্রতি বিদ্বেষী করে তোলে। এ ধরনের মনোভাব বিভিন্ন ধর্মের লোকের মধ্যে বিভেদ ও সংঘাত সৃষ্টি করে এবং দেশের সংহতি, উন্নতি ও প্রগতিকে বিনষ্ট করে।' },
+          { q: '😤 দাম্ভিকতা', a: 'এটি একটি নেতিবাচক চারিত্রিক বৈশিষ্ট্য। এর ফলে ব্যক্তি নিজেকে অন্যের চেয়ে বড় করে দেখে, অন্যের মতামতকে গুরুত্ব দেয় না এবং নিজের মতামত অন্যের উপর চাপিয়ে দিতে চায়।' },
+          { q: '✂️ সাম্প্রদায়িকতা', a: 'সংখ্যাগরিষ্ঠ বা সংখ্যালঘিষ্ঠ যেকোনো ধর্মের আধিপত্যকামী মনোভাব থেকে সাম্প্রদায়িকতার উদ্ভব হয়। ফলে দেশের বিভিন্ন সম্প্রদায়ের মধ্যে বিভেদ ও অশান্তি বিরাজ করে।' },
+          { q: '📉 অর্থনৈতিক অনগ্রসরতা', a: 'বাংলাদেশের প্রায় ২০ ভাগ লোক দারিদ্র্যসীমার নিচে বসবাস করে। দারিদ্র্যের কারণে প্রায় এক-পঞ্চমাংশ লোক লিখতে-পড়তে পারে না। ফলে তাদের বুদ্ধিমত্তার যথাযথ বিকাশ হয় না।' }
+        ],
+        chips: ['নির্লিপ্ততা', 'ধর্মান্ধতা', 'সাম্প্রদায়িকতা', 'দাম্ভিকতা', 'নিরক্ষরতা']
+      },
+      {
+        story: 'সোবহান সাহেব চাকরিতে স্বজনপ্রীতি করলেন — নিজের আত্মীয়কে যোগ্য প্রার্থীর চেয়ে এগিয়ে রাখলেন। এটি ব্যক্তিস্বার্থের একটি উদাহরণ যা সুনাগরিকতার পরিপন্থী।',
+        storyLabel: '🔴 উদাহরণ', storyClass: 'red'
+      },
+      {
+        title: '✅ প্রতিবন্ধকতা দূরীকরণের উপায়',
+        bookOrig: '<p>১. উপযুক্ত শিক্ষাগ্রহণ করে দেশপ্রেমে উদ্বুদ্ধ হতে হবে। সকল ধরনের অলসতা ও নির্লিপ্ততা পরিহার করে দেশ গঠনে অংশগ্রহণ করতে হবে।</p><p>২. ব্যক্তির চেয়ে দেশকে বড় মেনে ব্যক্তিগত স্বার্থ পরিত্যাগ করতে হবে।</p><p>৩. দলীয় মনোভাব পরিত্যাগ করে সর্বজনীন মনোভাব পোষণ করতে হবে।</p><p>৪. শুধু ধর্ম-বর্ণ-গোষ্ঠী ভেদে মানুষকে পৃথক না করে সকলের প্রতি সম-আচরণের মনোভাব জাগ্রত করতে হবে।</p><p>৫. দাম্ভিকতা পরিহার করে সকলের জন্য কল্যাণকর মতামতের উপর গুরুত্ব প্রদান করতে হবে। সংখ্যাগরিষ্ঠতার জোরে একজনের কল্যাণকর মতামতকেও স্তব্ধ করা যাবে না।</p><p>৬. অর্থনৈতিক অনগ্রসরতা দূর করে সকলের জন্য সম-মর্যাদাপূর্ণ পরিবেশ সৃষ্টি করতে হবে।</p><p><em>পরিশেষে বলা যায়, সুশিক্ষা ও স্বশিক্ষায় শিক্ষিত নাগরিক সকল ধরনের প্রতিবন্ধকতা দূর করতে সক্ষম।</em></p>'
+      },
+      {
+        activity: 'সুনাগরিকতা অর্জনের প্রতিবন্ধকতা সম্পর্কে চিন্তা করো এবং নিজ নিজ খাতায় লেখো। একটি পোস্টার পেপারে পয়েন্টগুলো লিখে শ্রেণিকক্ষে ঝুলিয়ে দাও।'
+      }
+    ],
+    chain: 'এত বাধা পেরিয়েও সুনাগরিক দেশের জন্য ঠিক কী কী উপকার করে — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l3', num: 'পাঠ ৩', icon: '🌱', title: 'আর্থ-সামাজিক উন্নয়নে সুনাগরিকের গুরুত্ব',
+    sub: 'সুশাসন · দারিদ্র্য বিমোচন · সমস্যা সমাধান', type: 'type-2', heroClass: 'hero-2',
+    heroSub: 'সুশাসন প্রতিষ্ঠায় সুনাগরিকের ভূমিকা অপরিহার্য',
+    sections: [
+      {
+        title: '📖 মূল বক্তব্য',
+        text: 'একটি উন্নয়নশীল দেশ হিসেবে বাংলাদেশে রয়েছে নিরক্ষরতা, বেকারত্ব, দারিদ্র্য, দুর্বল অর্থনীতি ও আইনশৃঙ্খলা পরিস্থিতি, দুর্নীতি, অধিক জনসংখ্যা ইত্যাদি সমস্যা। কিন্তু সরকারের একার পক্ষে এসব সমস্যার সমাধান করা সম্ভব নয়। এজন্য নাগরিকদের সক্রিয় ভূমিকা পালন করতে হবে।',
+        chips: ['আর্থ-সামাজিক']
+      },
+      {
+        title: '🏆 সুনাগরিকের ভূমিকা',
+        text: 'সুনাগরিকেরা রাষ্ট্রীয় সমস্যা সমাধানের জন্য উপযোগী ও দক্ষ হয়। কারণ সুনাগরিক সহজেই আর্থসামাজিক সমস্যাগুলো বুঝতে পারে এবং তাদের বুদ্ধিমত্তা, দক্ষতা, বিবেক-বিচারবোধের সাহায্যে এসব সমস্যা সমাধানে প্রত্যাশিত ভূমিকা ও দায়িত্ব পালন করতে পারে।',
+        qualityItems: [
+          { icon: '📚', label: 'নিরক্ষরতা দূর করা' },
+          { icon: '🚫', label: 'দুর্নীতি প্রতিরোধ', word: 'দুর্নীতি' },
+          { icon: '💰', label: 'দারিদ্র্য বিমোচন' },
+          { icon: '⚖️', label: 'সুশাসন প্রতিষ্ঠা', word: 'সুশাসন' },
+          { icon: '👮', label: 'আইনশৃঙ্খলা রক্ষা' },
+          { icon: '💼', label: 'বেকারত্ব হ্রাস', word: 'বেকারত্ব' }
+        ]
+      },
+      {
+        title: '🌿 উপমা (বই থেকে)',
+        story: 'উপযুক্ত সার, মাটি এবং পরিচর্যা ছাড়া যেমন একটি গাছ ভালোভাবে বাড়তে পারে না, তেমনি নাগরিকদের মধ্যে সুনাগরিকের গুণের অভাব হলে দেশ ভালোভাবে চলতে পারে না।',
+        storyLabel: '🌿 উপমা', storyClass: 'green',
+        chips: ['দারিদ্র্যসীমা']
+      },
+      {
+        activity: 'দলে বিভক্ত হয়ে একজন সুনাগরিক কী কী নীতিহীন কাজ থেকে বিরত থাকবে — তার তালিকা তৈরি করো এবং শ্রেণিতে উপস্থাপন করো।'
+      }
+    ],
+    chain: 'সুনাগরিকের গুরুত্ব তো বোঝা গেল — কিন্তু নাগরিকের ঠিক কী কী অধিকার আর দায়িত্ব আছে, সেটা পরের পাঠে জানব।'
+  },
+  {
+    id: 'l4', num: 'পাঠ ৪', icon: '⚖️', title: 'নাগরিকের অধিকার অর্জন ও দায়িত্ব পালন',
+    sub: 'মৌলিক অধিকার · দায়িত্ব ও কর্তব্য', type: 'type-4', heroClass: 'hero-4',
+    heroSub: 'অধিকার ভোগের পাশাপাশি কর্তব্য পালনেই রাষ্ট্রের প্রকৃত উন্নয়ন সম্ভব',
+    sections: [
+      {
+        title: '📜 মৌলিক অধিকারসমূহ',
+        text: 'বাংলাদেশের সংবিধানে উল্লিখিত নাগরিকদের মৌলিক অধিকার — যা জাতি, ধর্ম, শ্রেণি, লিঙ্গ নির্বিশেষে সকলের:',
+        qualityItems: [
+          { icon: '❤️', label: 'জীবনধারণ', word: 'জীবনধারণের অধিকার' },
+          { icon: '🏠', label: 'সম্পত্তি', word: 'সম্পত্তির অধিকার' },
+          { icon: '🚶', label: 'চলাফেরা', word: 'চলাফেরার অধিকার' },
+          { icon: '🕌', label: 'ধর্মচর্চা', word: 'ধর্মচর্চার অধিকার' },
+          { icon: '📝', label: 'চুক্তি করা', word: 'চুক্তি করার অধিকার' },
+          { icon: '💭', label: 'চিন্তা ও বিবেক', word: 'চিন্তা ও বিবেকের অধিকার' },
+          { icon: '📰', label: 'সংবাদপত্রের স্বাধীনতা', word: 'সংবাদপত্রের স্বাধীনতা' },
+          { icon: '👥', label: 'সভা-সমিতি', word: 'সভা-সমিতির অধিকার' },
+          { icon: '👨‍👩‍👧', label: 'পরিবার গঠন', word: 'পরিবার গঠনের অধিকার' },
+          { icon: '🎭', label: 'সংস্কৃতি ও ভাষা', word: 'সংস্কৃতি ও ভাষার অধিকার' },
+          { icon: '💼', label: 'কর্মলাভ', word: 'কর্ম লাভের অধিকার' },
+          { icon: '🏥', label: 'স্বাস্থ্য ও শিক্ষা', word: 'স্বাস্থ্য ও শিক্ষার অধিকার' },
+          { icon: '⚖️', label: 'আইন মেনে চলা', word: 'আইন মেনে চলার অধিকার' },
+          { icon: '🤝', label: 'সামাজিক সুবিচার', word: 'অর্থনৈতিক ও সামাজিক সুবিচার' },
+          { icon: '🗣️', label: 'স্বাধীন মতামত', word: 'স্বাধীন মতামত প্রকাশ' },
+          { icon: '🗳️', label: 'জনপ্রতিনিধি নির্বাচন', word: 'জনপ্রতিনিধি নির্বাচন' }
+        ]
+      },
+      {
+        title: '🤝 নাগরিকের দায়িত্ব ও কর্তব্য',
+        text: 'রাষ্ট্রের প্রতি নাগরিকদের প্রধান দায়িত্বসমূহ:',
+        qualityItems: [
+          { icon: '🎖️', label: 'রাষ্ট্রের প্রতি আনুগত্য', word: 'রাষ্ট্রের প্রতি আনুগত্য' },
+          { icon: '⚖️', label: 'আইন মেনে চলা', word: 'আইন মেনে চলা' },
+          { icon: '🗳️', label: 'ভোটাধিকার প্রয়োগ', word: 'ভোটাধিকার প্রয়োগ' },
+          { icon: '💵', label: 'নিয়মিত কর প্রদান', word: 'নিয়মিত কর প্রদান' },
+          { icon: '📋', label: 'সরকারি কাজ সুষ্ঠুভাবে সম্পাদন', word: 'সরকারি কাজ সুষ্ঠুভাবে সম্পাদন' },
+          { icon: '🎓', label: 'সন্তানকে শিক্ষাদান', word: 'সন্তানকে শিক্ষাদান' }
+        ]
+      },
+      {
+        story: 'সোবহান সাহেব একজন সরকারি কর্মকর্তা — নির্বাচনে সুষ্ঠুভাবে ভোট গ্রহণের দায়িত্ব পালন করেছেন। শেখর বাবু একজন ব্যবসায়ী — শ্রেষ্ঠ করদাতার পুরস্কার পেয়েছেন। উভয়েই একে অপরের ধর্মীয় উৎসবে আমন্ত্রণ জানান — এটিই অধিকার ও কর্তব্যের সুন্দর সমন্বয়।',
+        storyLabel: '🌿 জীবন থেকে উদাহরণ', storyClass: 'green'
+      },
+      {
+        title: '⚠️ গুরুত্বপূর্ণ নীতি',
+        text: 'কোনোভাবেই একজনের অধিকার ভোগ যেন অন্যের অধিকার এবং স্বাধীনতা ভঙ্গের কারণ না হয়। আজকাল রাষ্ট্রের উন্নয়নে অধিকার ভোগের চেয়ে নাগরিকের কর্তব্য পালনের উপর বেশি গুরুত্ব দেওয়া হয়।',
+        chips: ['মৌলিক অধিকার', 'সংবিধান', 'কর্তব্য', 'আনুগত্য']
+      },
+      {
+        activity: 'কীভাবে নাগরিক হিসেবে তুমি তোমার কর্তব্য পালন করবে সে সম্পর্কে একটি কর্মপরিকল্পনা তৈরি করো ও শ্রেণিতে উপস্থাপন করো।'
+      }
+    ],
+    chain: 'এই অধ্যায়ে যা শিখলে, এবার সেগুলো দিয়েই পরীক্ষার প্রশ্নের উত্তর দেওয়ার পালা।'
+  },
+  {
+    id: 'l5', num: 'অনুশীলনী', icon: '✏️', title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'বহুনির্বাচনি · সৃজনশীল · সংক্ষিপ্ত — উত্তরসহ', type: 'type-5', heroClass: 'hero-5',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — ট্যাপ করে উত্তর মিলিয়ে নাও',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. একজন সুনাগরিককে কয়টি মৌলিক গুণের অধিকারী হতে হয়?',
+            options: [
+              { text: 'ক. একটি', correct: false },
+              { text: 'খ. দুইটি', correct: false },
+              { text: 'গ. তিনটি', correct: true },
+              { text: 'ঘ. চারটি', correct: false }
+            ]
+          },
+          {
+            question: '২. বুদ্ধিমান নাগরিক হতে হলে—',
+            note: 'i. লেখাপড়া করতে হবে<br>ii. নিজস্ব লোকজনকে ভোট দিতে হবে<br>iii. দেশের উন্নয়নে কাজ করতে হবে',
+            options: [
+              { text: 'ক. i', correct: false },
+              { text: 'খ. i ও ii', correct: false },
+              { text: 'গ. i ও iii', correct: true },
+              { text: 'ঘ. i, ii ও iii', correct: false }
+            ]
+          },
+          {
+            question: '৩. নিচের উদ্দীপকটি পড়ো:<br><br><em>তপু রিকশায় যাচ্ছিল। হঠাৎ সে দেখল একটি গাড়ি একজন পথচারীকে ধাক্কা দিয়ে দ্রুত পালিয়ে যাওয়ার চেষ্টা করছে। তপু দ্রুত অন্যদের সহযোগিতায় ড্রাইভারকে আটক করে পুলিশের হাতে সোপর্দ করল এবং আহত পথচারীকে নিকটস্থ হাসপাতালে নিয়ে গেল।</em><br><br>তপুর আচরণে মূলত কোন গুণটির প্রতিফলন ঘটেছে?',
+            options: [
+              { text: 'ক. বুদ্ধিমত্তা', correct: false },
+              { text: 'খ. আত্মসংযম', correct: false },
+              { text: 'গ. বিবেক', correct: true },
+              { text: 'ঘ. আত্মবিশ্বাস', correct: false }
+            ]
+          },
+          {
+            question: '৪. তপুর কার্যক্রম থেকে আমরা সিদ্ধান্ত নিতে পারি—',
+            note: 'i. তপুর মধ্যে সুনাগরিকের গুণ বিদ্যমান<br>ii. সে বাংলাদেশের মূল্যবান সম্পদ<br>iii. তার মতো মানুষেরাই উন্নত দেশ গড়ে তুলতে পারবে',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ১ (রিকশাওয়ালার গল্প)',
+        text: 'একজন রিকশাওয়ালা যাত্রীর ফেলে যাওয়া এক লক্ষ টাকার ব্যাগ ফেরত দিয়েছিলেন, যদিও তার নিজেরও অভাব ছিল।',
+        qa: [
+          { q: 'ক. সুনাগরিক কারা?', a: 'যে নাগরিক বুদ্ধিমত্তা, আত্মসংযম ও বিবেক-বিচার — এই তিনটি মৌলিক গুণের অধিকারী এবং দেশ ও সমাজের কল্যাণে কাজ করে, তাকে সুনাগরিক বলে।', tag: 'সৃজনশীল' },
+          { q: 'খ. সাম্প্রদায়িকতা সুনাগরিকত্ব অর্জনের একটি বড় অন্তরায় — ব্যাখ্যা করো।', a: 'সংখ্যাগরিষ্ঠ ধর্মের আধিপত্য থেকে বা সংখ্যালঘিষ্ঠদের মধ্যে নিজের ধর্মকে একমাত্র সত্য মনে করলে সাম্প্রদায়িক মনোভাব তৈরি হয়। এর ফলে বিভিন্ন সম্প্রদায়ের মধ্যে বিভেদ ও অশান্তি বিরাজ করে। একজন সুনাগরিক সকল ধর্মের প্রতি শ্রদ্ধাশীল — তাই সাম্প্রদায়িকতা সুনাগরিকতার বিরোধী।', tag: 'সৃজনশীল' },
+          { q: 'গ. রিকশাওয়ালার মাঝে সুনাগরিকের কোন গুণটি প্রকাশ পেয়েছে?', a: 'রিকশাওয়ালার মধ্যে আত্মসংযম গুণটি প্রকাশ পেয়েছে। এক লক্ষ টাকার ব্যাগ পেয়েও তিনি নিজের স্বার্থে তা ব্যবহার করেননি। ব্যক্তিগত লালসা বা স্বার্থপরতাকে দমন করে সঠিক কাজ করেছেন — এটিই আত্মসংযমের প্রকৃষ্ট উদাহরণ।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. "সুনাগরিক হতে হলে রিকশাওয়ালার ঐ গুণটিই যথেষ্ট" — তুমি কি একমত?', a: 'না, আমি একমত নই। কারণ সুনাগরিকের শুধু আত্মসংযম থাকলেই চলে না। রাষ্ট্রবিজ্ঞানীদের মতে, সুনাগরিকের জন্য তিনটি গুণ অপরিহার্য — বুদ্ধিমত্তা, আত্মসংযম ও বিবেক-বিচার। কেবল আত্মসংযম দিয়ে উপযুক্ত প্রতিনিধি নির্বাচন, দেশ পরিচালনায় ভূমিকা বা জটিল সামাজিক সমস্যার সমাধান সম্ভব নয়। তাই তিনটি গুণের সমন্বয়ই পূর্ণ সুনাগরিক তৈরি করে।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ২ (সোবহান ও শেখরবাবুর গল্প)',
+        text: 'সোবহান সাহেব একজন সরকারি কর্মকর্তা, শেখর বাবু একজন ব্যবসায়ী। দুজনেই নিজ নিজ ধর্মীয় উৎসব স্বাধীনভাবে পালন করেন এবং একে অপরের অনুষ্ঠানে আমন্ত্রিত হন।',
+        qa: [
+          { q: 'ক. আত্মসংযম কী?', a: 'আত্মসংযম হলো নিজের ইচ্ছা, প্রবৃত্তি ও স্বার্থকে নিয়ন্ত্রণ করার শক্তি। এটি নাগরিককে দুর্নীতি, স্বজনপ্রীতি, স্বার্থপরতা ও পক্ষপাতিত্ব থেকে বিরত রাখে এবং দেশ ও সমাজের স্বার্থে কাজ করতে অনুপ্রাণিত করে।', tag: 'সৃজনশীল' },
+          { q: 'খ. সুনাগরিক হওয়ার ক্ষেত্রে নির্লিপ্ততা একটি বাধা — ব্যাখ্যা করো।', a: 'নির্লিপ্ততা হলো কাজের প্রতি উদাসীনতা। এই উদাসীনতা নাগরিককে রাষ্ট্রের সামাজিক ও রাজনৈতিক কাজ থেকে দূরে রাখে। নাগরিক দায়িত্ব ও কর্তব্য পালনে অনীহা দেখায়। ফলে দেশের উন্নয়ন বাধাগ্রস্ত হয়। সুনাগরিক সক্রিয় ও দায়িত্বশীল — তাই নির্লিপ্ততা সুনাগরিকতার বিপরীত।', tag: 'সৃজনশীল' },
+          { q: 'গ. উভয় পরিবার স্বাধীনভাবে আচার-অনুষ্ঠান পালনে নাগরিকের কোন অধিকারটি ভোগ করেছে?', a: 'উভয় পরিবার ধর্মচর্চার অধিকার ভোগ করেছে। বাংলাদেশের সংবিধান স্বীকৃত এই মৌলিক অধিকারের আওতায় প্রত্যেক নাগরিক নিজ ধর্ম স্বাধীনভাবে পালন করতে পারেন। সোবহান সাহেব ইদ পালন করেছেন এবং শেখর বাবু পূজা-পার্বণ — উভয়ই নিজ নিজ ধর্মীয় স্বাধীনতা উপভোগ করেছেন।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. সোবহান সাহেব ও শেখরবাবু অধিকার ভোগের পাশাপাশি দায়িত্ব ও কর্তব্য পালন করছেন — মূল্যায়ন করো।', a: 'সোবহান সাহেব সুষ্ঠুভাবে ভোট গ্রহণের দায়িত্ব পালন করেছেন (সরকারি কাজ সুষ্ঠুভাবে সম্পাদন)। শেখর বাবু নিয়মিত কর দেন (নিয়মিত কর প্রদান)। উভয়েই সন্তানের লেখাপড়ায় সচেতন (সন্তানকে শিক্ষাদান)। পাশাপাশি উভয় পরিবারই ধর্মচর্চার অধিকার ভোগ করছেন। এভাবে তারা প্রমাণ করেছেন যে অধিকার ও কর্তব্য সমান্তরালে চলে এবং এটিই প্রকৃত সুনাগরিকতা।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত-উত্তর প্রশ্ন',
+        qa: [
+          { q: 'ব্যক্তির স্বার্থপরতা কীভাবে সুনাগরিকতা অর্জনে বড় বাধা হয়?', a: 'ব্যক্তির স্বার্থপরতার ফলে সে নিজের স্বার্থকে দেশের স্বার্থের চেয়ে বড় মনে করে। এর ফলে দুর্নীতি, স্বজনপ্রীতি ও পক্ষপাতিত্ব হয়। নির্বাচনে যোগ্য প্রার্থীকে বাদ দিয়ে ব্যক্তিগত সুবিধার জন্য ভোট দেওয়া হয়। এ ধরনের কর্মকাণ্ড রাষ্ট্রকে ক্ষতিগ্রস্ত করে বলে এটি সুনাগরিকতার পথে বড় বাধা।', tag: 'সংক্ষিপ্ত' },
+          { q: 'সুনাগরিক দেশের মূল্যবান সম্পদ কেন?', a: 'সুনাগরিক বুদ্ধিমত্তা, আত্মসংযম ও বিবেক-বিচার দিয়ে দেশের আর্থসামাজিক সমস্যা বুঝতে ও সমাধান করতে পারে। তারা দুর্নীতি, স্বজনপ্রীতি থেকে বিরত থেকে সুশাসন প্রতিষ্ঠায় সহায়তা করে। দেশের উন্নয়ন ও অগ্রগতি নির্ভর করে এমন দক্ষ ও সৎ নাগরিকের উপর। তাই সুনাগরিক দেশের মূল্যবান সম্পদ।', tag: 'সংক্ষিপ্ত' },
+          { q: 'নাগরিকের মৌলিক অধিকার বলতে কী বোঝায়?', a: 'বাংলাদেশের সংবিধানে নাগরিকদের যে অধিকারগুলো উল্লেখ আছে এবং যা জাতি, ধর্ম, শ্রেণি, লিঙ্গ নির্বিশেষে সকলের জন্য প্রযোজ্য — তাকেই মৌলিক অধিকার বলে। জীবনধারণ, সম্পত্তি, চলাফেরা, ধর্মচর্চা, শিক্ষা, স্বাধীন মতামত প্রকাশ ইত্যাদি এর মধ্যে পড়ে। এই অধিকার ছাড়া নাগরিকের যথাযথ মানসিক বিকাশ সম্ভব নয়।', tag: 'সংক্ষিপ্ত' }
+        ]
+      }
+    ]
+  }
+];
+
+const keyTopics = [
+  { label: 'সুনাগরিকের গুণ', id: 'l1' },
+  { label: 'প্রতিবন্ধকতা', id: 'l2' },
+  { label: 'আর্থ-সামাজিক গুরুত্ব', id: 'l3' },
+  { label: 'মৌলিক অধিকার', id: 'l4' },
+  { label: 'নাগরিকের কর্তব্য', id: 'l4' },
+  { label: 'অনুশীলনী', id: 'l5' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'নবম অধ্যায়',
+  emoji: '🧓',
+  navLabel: '🧓 প্রবীণ ও নারীর অধিকার',
+  title: 'বাংলাদেশে প্রবীণ ব্যক্তি ও নারীর অধিকার',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+// প্রতিটা শব্দের জন্য meaning + example — এই অধ্যায়ের জন্যই আলাদা (shared নয়)
+const words = {
+  'অধিকার': {
+    meaning: 'সমাজ ও রাষ্ট্র কর্তৃক স্বীকৃত সুযোগ-সুবিধা, যা ভোগ করলে নাগরিকের ব্যক্তিত্বের বিকাশ ঘটে।',
+    example: 'শিক্ষা লাভ করা প্রতিটা শিশুর একটি মৌলিক অধিকার।'
+  },
+  'মানবাধিকার': {
+    meaning: 'জাতিসংঘ ঘোষিত মানুষের মৌলিক অধিকারসমূহ, যা ১৯৪৮ সালে সার্বজনীন ঘোষণাপত্র আকারে প্রকাশিত হয়।',
+    example: 'জাতি, ধর্ম, বর্ণ, লিঙ্গ নির্বিশেষে বিশ্বের সব মানুষের মানবাধিকার আছে।'
+  },
+  'প্রবীণ': {
+    meaning: 'সাধারণত ষাটোর্ধ্ব বয়সের মানুষ, যিনি দৈনন্দিন জীবিকা উপার্জনের কাজ থেকে অবসর নিয়েছেন।',
+    example: 'জাতিসংঘ প্রতি বছর ১ অক্টোবরকে "আন্তর্জাতিক প্রবীণ দিবস" হিসেবে ঘোষণা করেছে।'
+  },
+  'একান্নবর্তী পরিবার': {
+    meaning: 'একই পরিবারে দাদা-দাদি, বাবা-মা, চাচা-চাচি, ভাই-বোন একসাথে বসবাস করার পুরনো পারিবারিক ব্যবস্থা।',
+    example: 'একান্নবর্তী পরিবারে প্রবীণদের একটা বিশেষ মর্যাদা ও ভূমিকা ছিল।'
+  },
+  'অবসর ভাতা': {
+    meaning: 'নির্দিষ্ট সময় সরকারি চাকরি করে অবসর নেওয়ার পর নিয়মিত যে ভাতা (পেনশন) দেওয়া হয়।',
+    example: 'অবসর ভাতা একটি দীর্ঘমেয়াদি সামাজিক নিরাপত্তা ব্যবস্থা।'
+  },
+  'বয়স্ক ভাতা': {
+    meaning: 'গ্রামীণ অসহায় ও দরিদ্র প্রবীণদের প্রতি মাসে সরকার প্রদত্ত আর্থিক সহায়তা।',
+    example: 'ওয়ার্ডের সবচেয়ে অসহায় বয়োজ্যেষ্ঠদের প্রতি মাসে ৬৫০ টাকা হারে বয়স্ক ভাতা দেওয়া হয়।'
+  },
+  'পিতা-মাতার ভরণ-পোষণ আইন': {
+    meaning: '২০১৩ সালে প্রণীত আইন, যাতে প্রতিটা সন্তানকে বাবা-মায়ের ভরণ-পোষণ নিশ্চিত করতে বলা হয়েছে।',
+    example: 'পিতার অবর্তমানে দাদা-দাদিকেও ভরণ-পোষণের বাধ্যবাধকতার কথা এই আইনে বলা আছে।'
+  },
+  'নারী অধিকার': {
+    meaning: 'নারীর জন্য রাষ্ট্র কর্তৃক স্বীকৃত সুযোগ-সুবিধা।',
+    example: 'শিক্ষা, স্বাস্থ্য, চাকরি — সব ক্ষেত্রেই নারী অধিকার নিশ্চিত করা জরুরি।'
+  },
+  'সমানাধিকার': {
+    meaning: 'পরিবার, সমাজ ও রাষ্ট্রের সর্বস্তরে নারী-পুরুষের সমান অধিকার।',
+    example: 'বাংলাদেশের সংবিধানে নারী-পুরুষের সমানাধিকারের স্বীকৃতি দেওয়া হয়েছে।'
+  },
+  'হীনম্মন্যতা': {
+    meaning: 'নিজেকে অবহেলিত বা মূল্যহীন মনে করার একটা মানসিক অবস্থা।',
+    example: 'পরিবারে কোণঠাসা হয়ে থাকা প্রবীণদের মধ্যে অনেক সময় হীনম্মন্যতা দেখা দেয়।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1',
+    num: 'পাঠ ১',
+    icon: '🧓',
+    title: 'প্রবীণ অধিকারের ধারণা ও অধিকারসমূহ',
+    sub: 'অধিকার কী · প্রবীণ কারা · কী কী অধিকার',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'অধিকার ছাড়া মানুষ তার ব্যক্তিত্ব উপলব্ধি করতে পারে না',
+    sections: [
+      {
+        title: '⚖️ অধিকার ও মানবাধিকার',
+        text: 'অধিকার হলো সমাজ ও রাষ্ট্র কর্তৃক স্বীকৃত কতগুলো সুযোগ-সুবিধা, যা ভোগের মাধ্যমে নাগরিকের ব্যক্তিত্বের বিকাশ ঘটে। অধিকার ছাড়া মানুষ তার ব্যক্তিত্বকে উপলব্ধি করতে পারে না। মানুষের সব অধিকারের কথা লেখা আছে মানবাধিকার ঘোষণাপত্রে — জাতিসংঘ ১৯৪৮ সালে এই ঘোষণাপত্র প্রকাশ করে।',
+        chips: ['অধিকার', 'মানবাধিকার']
+      },
+      {
+        title: '🧓 প্রবীণ কারা?',
+        text: 'আমাদের দেশে সাধারণত ষাটোর্ধ্ব বয়সের মানুষকে প্রবীণ বলে গণ্য করা হয়, কারণ এই বয়সের পর মানুষ জীবিকা উপার্জনের কাজ থেকে অবসর নেয়। বাংলাদেশে সরকারি চাকরি থেকে অবসরের বয়স ৫৯ বছর, তবে বিচারপতিদের জন্য ৬৭ এবং বিশ্ববিদ্যালয়ের শিক্ষকদের জন্য সম্প্রতি তা বাড়িয়ে ৬৫ বছর করা হয়েছে। বিশ্বের উন্নত দেশগুলোতেও ৬০-৬৫ বছর বয়সের পর একজন মানুষকে "সিনিয়র সিটিজেন" হিসেবে গণ্য করা হয়।',
+        story: 'জাতিসংঘ প্রতি বছরের ১ অক্টোবরকে "আন্তর্জাতিক প্রবীণ দিবস" হিসেবে ঘোষণা করেছে — যাতে সবাই প্রবীণদের অধিকার ও তাদের প্রতি নিজেদের কর্তব্য সম্পর্কে সচেতন হয়।',
+        storyLabel: '📅 বিশেষ দিন',
+        chips: ['প্রবীণ']
+      },
+      {
+        title: '📋 প্রবীণদের অধিকারসমূহ',
+        qualityItems: [
+          { icon: '🏠', label: 'স্বাধীনতা সংশ্লিষ্ট<br><small>খাদ্য, বাসস্থান, স্বাস্থ্যসেবা</small>' },
+          { icon: '🤝', label: 'অংশগ্রহণ সংশ্লিষ্ট<br><small>নীতি নির্ধারণে অংশগ্রহণ</small>' },
+          { icon: '💊', label: 'পরিচর্যা সংশ্লিষ্ট<br><small>স্বাস্থ্যসেবা ও রক্ষণাবেক্ষণ</small>' },
+          { icon: '🌟', label: 'মর্যাদা সংশ্লিষ্ট<br><small>সম্মান ও সুন্দর আচরণ</small>' }
+        ]
+      },
+      {
+        activity: 'প্রবীণরা কারা এবং তাদের কেন সম্মান করা উচিত — নিজের অভিজ্ঞতার আলোকে ব্যাখ্যা করো।'
+      }
+    ],
+    chain: 'এত অধিকার থাকা সত্ত্বেও প্রবীণরা আসলে কী কী সমস্যায় পড়েন — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l2',
+    num: 'পাঠ ২',
+    icon: '😔',
+    title: 'প্রবীণদের সমস্যা',
+    sub: 'পারিবারিক · অর্থনৈতিক · শারীরিক · মনস্তাত্ত্বিক',
+    type: 'type-4',
+    heroClass: 'hero-4',
+    heroSub: 'একান্নবর্তী পরিবার ভেঙে যাওয়ায় প্রবীণদের জায়গা কমছে',
+    sections: [
+      {
+        title: '🏠 পারিবারিক সমস্যা',
+        text: 'একসময় আমাদের দেশে পরিবারগুলো ছিল একান্নবর্তী, যেখানে প্রবীণদের একটা বিশেষ ভূমিকা ছিল। কিন্তু শিল্পায়ন, নগরায়ণ ও অর্থনৈতিক জীবনধারার পরিবর্তনে এই পরিবারগুলো ভেঙে ছোটো পরিবারে পরিণত হচ্ছে। এই নতুন পরিবার ব্যবস্থায় বৃদ্ধ বাবা-মা বা শ্বশুর-শাশুড়ির জন্য যেন জায়গা কমে যাচ্ছে — তাদের দেখাশোনা করার লোকের অভাব হচ্ছে, ফলে তারা নিঃসঙ্গ বোধ করছেন।',
+        chips: ['একান্নবর্তী পরিবার']
+      },
+      {
+        title: '💰 অর্থনৈতিক সমস্যা',
+        text: 'নিজস্ব আয়-রোজগারের সুযোগ না থাকায় এবং সঞ্চিত অর্থ-সম্পত্তি সন্তানদের মধ্যে ভাগ হয়ে যাওয়ায় বেশিরভাগ প্রবীণই অর্থনৈতিকভাবে অসহায় হয়ে পড়েন। মধ্যবিত্ত বা দরিদ্র পরিবারের প্রবীণদের অবস্থা এক্ষেত্রে আরও কঠিন — বন্যা বা নদীভাঙনের মতো দুর্যোগেও অনেকে সর্বস্বান্ত হয়ে যান।'
+      },
+      {
+        title: '🩺 শারীরিক ও মনস্তাত্ত্বিক সমস্যা',
+        text: 'প্রবীণ বয়সে শারীরিক শক্তি কমে আসে, নানা রোগব্যাধি দেখা দেয় — কিন্তু অনেকেই প্রয়োজনীয় বিশ্রাম বা চিকিৎসা পান না। এ ছাড়া পরিবার-সমাজে কোণঠাসা হয়ে থাকার কারণে অনেক প্রবীণের মধ্যে হীনম্মন্যতা দেখা দেয় — তারা নিজেদের অবহেলিত ও অসহায় ভাবতে শুরু করেন।',
+        chips: ['হীনম্মন্যতা']
+      },
+      {
+        activity: 'তোমার পরিচিত কোনো প্রবীণ ব্যক্তি যেসব সমস্যার মুখোমুখি হন, তার একটা বিবরণ লেখো।'
+      }
+    ],
+    chain: 'এত সমস্যা থাকলে রাষ্ট্র কী করছে? পরের পাঠে জানব প্রবীণদের জন্য কল্যাণমূলক কার্যক্রমের কথা।'
+  },
+  {
+    id: 'l3',
+    num: 'পাঠ ৩',
+    icon: '🏛️',
+    title: 'প্রবীণদের জন্য কল্যাণমূলক কার্যক্রম',
+    sub: 'অবসর ভাতা · বয়স্ক ভাতা · ভরণ-পোষণ আইন',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'সরকারি-বেসরকারি উদ্যোগে প্রবীণদের পাশে দাঁড়ানো',
+    sections: [
+      {
+        title: '📊 বাংলাদেশে প্রবীণদের সংখ্যা',
+        text: 'বর্তমানে বাংলাদেশে প্রবীণদের সংখ্যা প্রায় এক কোটি — বিশ্বের ৫০টিরও বেশি দেশের মোট জনসংখ্যা এর চেয়ে কম! তাই প্রবীণদের কল্যাণে সরকারি ও বেসরকারি উভয় পর্যায়েই বিভিন্ন কার্যক্রম চালু আছে।'
+      },
+      {
+        title: '🏢 বেসরকারি কার্যক্রম',
+        text: 'প্রবীণ হিতৈষী সংঘ ও জরাবিজ্ঞান প্রতিষ্ঠান (শেরেবাংলা নগর, ঢাকা) স্বাস্থ্যসেবা, পুনর্বাসন, চিত্তবিনোদনের ব্যবস্থা করে। বাংলাদেশ অবসরপ্রাপ্ত সরকারি কল্যাণ সমিতি প্রবীণদের স্বাস্থ্য-শিক্ষা অনুদানসহ বিনা সুদে ঋণ দেয়। এ ছাড়া বাংলাদেশ মহিলা স্বাস্থ্য সংঘ, রোটারি ক্লাব, মা ও শিশু নিবাস, বৃদ্ধ নিবাসের মতো প্রতিষ্ঠানও কাজ করছে।'
+      },
+      {
+        title: '🏛️ সরকারি কার্যক্রম',
+        qualityItems: [
+          { icon: '💵', label: 'অবসর ভাতা<br><small>পেনশন — দীর্ঘমেয়াদি নিরাপত্তা</small>', word: 'অবসর ভাতা' },
+          { icon: '👴', label: 'বয়স্ক ভাতা<br><small>মাসে ৬৫০ টাকা</small>', word: 'বয়স্ক ভাতা' },
+          { icon: '👩', label: 'বিধবা ভাতা<br><small>স্বামী নিগৃহীতা নারীর জন্য</small>' }
+        ]
+      },
+      {
+        title: '📖 পিতা-মাতার ভরণ-পোষণ আইন, ২০১৩',
+        bookOrig: '<p>প্রবীণদের অধিকার নিশ্চিতকরণের লক্ষ্যে সরকার পিতা-মাতার ভরণ-পোষণ আইন, ২০১৩ প্রণয়ন করেছে। এই আইনে প্রত্যেক সন্তানকে পিতা-মাতার ভরণ-পোষণ নিশ্চিত করতে বলা হয়েছে। পিতার অবর্তমানে দাদা-দাদিকে এবং মাতার অবর্তমানে নানা-নানিকে ভরণ-পোষণের বাধ্যবাধকতার কথাও আইনে বলা আছে।</p>',
+        chips: ['পিতা-মাতার ভরণ-পোষণ আইন']
+      },
+      {
+        activity: 'বাংলাদেশে প্রবীণদের কল্যাণে চালু থাকা কার্যক্রমগুলো একটা তালিকায় সাজাও।'
+      }
+    ],
+    chain: 'প্রবীণদের কথা তো জানা হলো — এবার জানব সমাজের আরেক গুরুত্বপূর্ণ অংশ, নারীর অধিকারের কথা।'
+  },
+  {
+    id: 'l4',
+    num: 'পাঠ ৪',
+    icon: '👩‍⚖️',
+    title: 'নারী অধিকারের ধারণা ও নারীর অবস্থান',
+    sub: 'নারী অধিকার কী · বাস্তবে নারীর অবস্থা',
+    type: 'type-5',
+    heroClass: 'hero-5',
+    heroSub: 'সংবিধানে সমান অধিকার থাকলেও বাস্তবতা ভিন্ন',
+    sections: [
+      {
+        title: '👩‍⚖️ নারী অধিকার কী?',
+        text: 'নারী অধিকার হলো নারীর জন্য রাষ্ট্র কর্তৃক স্বীকৃত সেই সমস্ত সুযোগ-সুবিধা, যা তার প্রাপ্য। নারীর অধিকারও মানবাধিকারেরই অংশ। জাতিসংঘের মানবাধিকারের সার্বজনীন ঘোষণাপত্র (১৯৪৮) অনুযায়ী জাতি, ধর্ম, বর্ণ, বয়স ও লিঙ্গ নির্বিশেষে বিশ্বের সব মানুষের এই অধিকার পাওয়ার কথা — যার একটা গুরুত্বপূর্ণ অংশ নারী-পুরুষের সমান অধিকার। বাংলাদেশের সংবিধানেও নারীর প্রতি সব ধরনের বৈষম্য দূর করার কথা বলা আছে।',
+        chips: ['নারী অধিকার']
+      },
+      {
+        title: '⚠️ বাস্তবে নারীর অবস্থান',
+        text: 'নানা দিক থেকেই বাংলাদেশের নারীরা এখনও পুরুষের তুলনায় পিছিয়ে আছে। আমাদের দেশে এখনও অনেক বাবা-মা কন্যাশিশুকে বোঝা মনে করেন — তারা ভাবেন, ছেলে বড় হয়ে সংসারের হাল ধরবে, কিন্তু মেয়ে বিয়ের পর অন্য বাড়ি চলে যাবে। এই মনোভাব থেকেই অনেক পরিবার ছেলেকে মেয়ের চেয়ে বেশি গুরুত্ব দেয় এবং মেয়েদের লেখাপড়ায় কম উৎসাহ দেখায়। বিশেষ করে গ্রামাঞ্চলে কম বয়সে মেয়েদের বিয়ে দেওয়ার কারণে ভালো ছাত্রী হয়েও অনেকে বেশিদূর পড়ালেখার সুযোগ পায় না।',
+        story: 'তবে সময়ের সাথে এই চিত্র পাল্টাচ্ছে — এখন মেয়েরাও ছেলেদের মতোই বাবা-মা ও পরিবারের দায়িত্ব নিতে এগিয়ে আসছে, আর নারীর প্রতি সমাজের দৃষ্টিভঙ্গিও ধীরে ধীরে বদলাচ্ছে।',
+        storyLabel: '🌱 পরিবর্তনের ইঙ্গিত',
+        storyClass: 'c3'
+      }
+    ],
+    chain: 'নারীর ঠিক কী কী অধিকার আছে, আর সেগুলো কেন এত জরুরি — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l5',
+    num: 'পাঠ ৫',
+    icon: '📜',
+    title: 'নারী অধিকারসমূহ ও নারী অধিকারের গুরুত্ব',
+    sub: 'অধিকারের তালিকা · কেন এত গুরুত্বপূর্ণ',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'নারী ও পুরুষ যেন একটা গাড়ির দুটি চাকা',
+    sections: [
+      {
+        title: '📋 বাংলাদেশে নারী অধিকারসমূহ',
+        qualityItems: [
+          { icon: '⚖️', label: 'সকল ক্ষেত্রে সমান অধিকার' },
+          { icon: '🗳️', label: 'জাতীয় জীবনে অংশগ্রহণ' },
+          { icon: '🏫', label: 'শিক্ষা প্রতিষ্ঠানে সমান সুযোগ' },
+          { icon: '💼', label: 'সরকারি চাকরিতে সমান সুযোগ' }
+        ]
+      },
+      {
+        title: '🚗 নারী অধিকারের গুরুত্ব',
+        text: 'বাংলাদেশে মোট জনসংখ্যার প্রায় অর্ধেকই নারী। সমাজের এই বিশাল অংশকে পিছনে রেখে দেশের উন্নয়ন কখনোই সম্ভব নয়। নারী শুধু মা, বোন বা কন্যার ভূমিকাই পালন করেন না — সংসার পরিচালনা, সন্তান লালন-পালন থেকে শুরু করে পোশাকশিল্প, শিক্ষা, চিকিৎসা, প্রকৌশলের মতো নানা পেশাতেও তারা দক্ষতার প্রমাণ রাখছেন।',
+        story: 'নারী অধিকার প্রতিষ্ঠার অগ্রদূত বেগম রোকেয়া নারী ও পুরুষকে একটা গাড়ির দুটি চাকার সাথে তুলনা করেছেন — একটা চাকা পিছিয়ে থাকলে পুরো গাড়িই (অর্থাৎ সমাজ) এগোতে পারে না। আর ফরাসি রাষ্ট্রনায়ক নেপোলিয়ন বোনাপার্ট বলেছিলেন, "আমাকে একজন শিক্ষিত মা দাও, আমি তোমাদেরকে একটি সভ্য, শিক্ষিত জাতি উপহার দেওয়ার প্রতিশ্রুতি দেব।"',
+        storyLabel: '💬 বিখ্যাত উক্তি',
+        storyClass: 'c2'
+      },
+      {
+        activity: 'নারী অধিকার কেন গুরুত্বপূর্ণ, তার সপক্ষে তিনটা যুক্তি লেখো।'
+      }
+    ],
+    chain: 'অধিকার তো বোঝা গেল — কিন্তু এই অধিকার বাস্তবে প্রতিষ্ঠা করতে কী করতে হবে? শেষ পাঠে জানব সেটাই।'
+  },
+  {
+    id: 'l6',
+    num: 'পাঠ ৬',
+    icon: '📋',
+    title: 'নারী অধিকার প্রতিষ্ঠায় সুপারিশ ও পদক্ষেপ',
+    sub: 'সমানাধিকার · সরকারি পদক্ষেপ · সচেতনতা',
+    type: 'type-2',
+    heroClass: 'hero-2',
+    heroSub: 'শুধু আইন না, দরকার শিক্ষা ও সচেতনতাও',
+    sections: [
+      {
+        title: '⚖️ সংবিধানে সমানাধিকার',
+        text: 'বাংলাদেশের সংবিধানে নারী-পুরুষের সমানাধিকারের স্বীকৃতি দেওয়া হয়েছে — অর্থাৎ পরিবার, সমাজ ও রাষ্ট্রের সর্বস্তরে পুরুষের পাশাপাশি নারীরও সমান অধিকার। এটা শুধু ভোট দেওয়া বা নির্বাচনে দাঁড়ানোর ক্ষেত্রেই না — শিক্ষা, চাকরি, বেতন-মজুরি সব ক্ষেত্রেই প্রযোজ্য। কোনো অবস্থাতেই নারীর প্রতি বৈষম্য করা যাবে না।',
+        chips: ['সমানাধিকার']
+      },
+      {
+        title: '✅ সরকারের বিশেষ পদক্ষেপসমূহ',
+        text: 'নারীর প্রতি বৈষম্য দূর করতে সরকার বিশেষ কিছু ব্যবস্থা নিয়েছে — উচ্চ মাধ্যমিক পর্যন্ত মেয়েদের বিনা বেতনে লেখাপড়া ও উপবৃত্তি, সন্তানের পরিচয়ে মায়ের নাম লেখা বাধ্যতামূলক করা, নারী নির্যাতন ও অ্যাসিড সন্ত্রাস রোধে কঠোর আইন, এবং মাতৃত্বকালীন ছুটি বাড়িয়ে ৬ মাস করা।',
+        story: 'এসব ব্যবস্থার সুফল নারীরা পেতে শুরু করেছে, তবে সমাজে শিক্ষার বিস্তার আর সবার সচেতনতা ছাড়া পুরোপুরি পরিবর্তন আসবে না। তবে ভালো খবর হলো, বাংলাদেশের নারীরা এখন নিজেদের অধিকার সম্পর্কে ক্রমশ সচেতন হয়ে উঠছেন — বিভিন্ন সভা-সমিতি ও আন্দোলনে তাদের অংশগ্রহণই তার বড় প্রমাণ।',
+        storyLabel: '📌 বাস্তব চিত্র'
+      },
+      {
+        activity: 'বাংলাদেশে নারী অধিকার প্রতিষ্ঠায় সরকারের নেওয়া পদক্ষেপগুলোর একটা তালিকা তৈরি করো।'
+      }
+    ],
+    chain: 'এই অধ্যায়ে যা শিখলে, এবার সেগুলো দিয়েই পরীক্ষার প্রশ্নের উত্তর দেওয়ার পালা।'
+  },
+  {
+    id: 'l7',
+    num: 'অনুশীলনী',
+    icon: '📝',
+    title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'MCQ · সৃজনশীল · সংক্ষিপ্ত — উত্তরসহ',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — ট্যাপ করে উত্তর মিলিয়ে নাও',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. বাংলাদেশে সরকারি চাকরি থেকে অবসর গ্রহণের বয়স কত?',
+            options: [
+              { text: 'ক. ৫৭ বছর', correct: false },
+              { text: 'খ. ৫৯ বছর', correct: true },
+              { text: 'গ. ৬০ বছর', correct: false },
+              { text: 'ঘ. ৬৫ বছর', correct: false }
+            ]
+          },
+          {
+            question: '২. আমাদের সমাজে প্রবীণদের সমস্যার কারণ—',
+            note: 'i. তাদের উপার্জনের সামর্থ্য নেই<br>ii. সামাজিক মূল্যবোধের অবক্ষয়<br>iii. সমাজে নৈতিক শিক্ষার অবনতি',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          },
+          {
+            question: '৩. নিচের উদ্দীপকটি পড়ো:<br><br><em>রোজিনা তার স্বামীকে ছেলেমেয়েদের জন্য খেলনা আনতে বলেন। বাজার থেকে তার স্বামী ছেলের জন্য ক্রিকেট বল-ব্যাট এবং মেয়ের জন্য পুতুল ও হাঁড়ি-পাতিল কিনে আনলেন।</em><br><br>রোজিনার স্বামীর খেলনা ক্রয়ের ঘটনায় ছেলে-মেয়ের প্রতি যে ধরনের আচরণ প্রকাশ পেয়েছে তা হলো—',
+            note: 'i. অর্থনৈতিক বৈষম্য<br>ii. দৃষ্টিভঙ্গির পার্থক্য<br>iii. আদরের পার্থক্য',
+            options: [
+              { text: 'ক. i', correct: false },
+              { text: 'খ. i ও ii', correct: false },
+              { text: 'গ. ii ও iii', correct: true },
+              { text: 'ঘ. i, ii ও iii', correct: false }
+            ]
+          },
+          {
+            question: '৪. উক্ত আচরণের কারণ, এখনও অনেক পিতামাতা—',
+            note: 'i. কন্যাসন্তানকে বোঝা মনে করেন<br>ii. পুত্রসন্তানের চেয়ে কন্যাসন্তানকে কম গুরুত্ব দেন<br>iii. কন্যাসন্তানের জন্য বেশি খরচ করতে চান না',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ১',
+        text: '<strong>উদ্দীপক:</strong> স্বামী ও তিন সন্তান নিয়ে হাফিজার সংসার। স্বামীর একক আয়ে সংসার চলে না বলে হাফিজা নির্মাণ শ্রমিকের কাজ নেন। সপ্তাহ শেষে মালিক তাকে দৈনিক ৬০০ টাকা মজুরি দেয়, অথচ একই কাজের জন্য পুরুষ শ্রমিকদের দেয় ৮০০ টাকা। প্রতিবাদ করলে মালিক তাকে কাজে আসতে নিষেধ করেন।',
+        qa: [
+          {
+            q: 'ক. অবসর ভাতা কী?',
+            a: 'নির্দিষ্ট সময়সীমা পর্যন্ত সরকারি চাকরি করে অবসর গ্রহণ করলে বিধি অনুযায়ী যে ভাতা দেওয়া হয়, তাকে অবসর ভাতা বা পেনশন বলে। এটা একটা দীর্ঘমেয়াদি সামাজিক নিরাপত্তা ব্যবস্থা।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'খ. বয়স্ক ভাতা প্রদান করা হয় কেন?',
+            a: 'গ্রামীণ অসহায়, দুঃস্থ, অবহেলিত ও দরিদ্র প্রবীণ জনগোষ্ঠীর আর্থিক নিরাপত্তা নিশ্চিত করার জন্য বয়স্ক ভাতা কার্যক্রম চালু করা হয়েছে। এতে সবচেয়ে অসহায় বয়োজ্যেষ্ঠদের প্রতি মাসে সরকার নির্দিষ্ট পরিমাণ অর্থ প্রদান করে, যাতে তারা নিজেদের মৌলিক চাহিদা মেটাতে পারেন।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'গ. হাফিজা কোন ধরনের বৈষম্যের শিকার হয়েছেন? ব্যাখ্যা করো।',
+            a: 'হাফিজা মজুরি বৈষম্যের শিকার হয়েছেন। একই কাজ করেও তাকে পুরুষ শ্রমিকদের চেয়ে কম মজুরি (৬০০ টাকা বনাম ৮০০ টাকা) দেওয়া হয়েছে, যা নারী-পুরুষের সমান অধিকারের সরাসরি লঙ্ঘন। এ ছাড়া প্রতিবাদ করায় তাকে কাজ থেকে বাদ দেওয়াও তার অধিকার হরণের আরেকটা দিক।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'ঘ. হাফিজার মতো নারীদের অধিকার আদায়ে করণীয় বিষয়ে মতামত দাও।',
+            a: 'হাফিজার মতো নারীদের অধিকার আদায়ে প্রথমে তাদের নিজেদের অধিকার সম্পর্কে সচেতন হতে হবে এবং সংগঠিতভাবে প্রতিবাদ জানাতে হবে। সমান কাজে সমান মজুরির আইন কঠোরভাবে প্রয়োগ করতে হবে, শ্রমিক অধিকার সংগঠনের সহায়তা নিতে হবে এবং প্রয়োজনে আইনি সহায়তা কেন্দ্রে অভিযোগ জানাতে হবে। পাশাপাশি সমাজে নারী শ্রমিকদের প্রতি ন্যায্য আচরণ নিয়ে ব্যাপক সচেতনতা তৈরি করাও জরুরি।',
+            tag: 'সৃজনশীল'
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ২',
+        text: '<strong>উদ্দীপক:</strong> ৭০ বছরের সিদ্দিকা খাতুনের ইচ্ছা করে পুরানো দিনের গল্প করতে, কিন্তু তার ছেলেমেয়েদের গল্প শোনার সময় নেই। এমনকি তার নাতনির বিয়ের সময়ও তাকে জিজ্ঞাসা করা হয়নি। প্রতিবেশী জোবেদা বেগম সিদ্দিকা খাতুনের ছেলেমেয়েদের বলেন, তোমাদের উচিত মায়ের খাবার ও স্বাস্থ্যের খেয়াল রাখা এবং তাকে মাঝেমধ্যে বেড়াতে নিয়ে যাওয়া।',
+        qa: [
+          {
+            q: 'ক. প্রবীণ কারা?',
+            a: 'সাধারণত ষাটোর্ধ্ব বয়সের মানুষ, যারা দৈনন্দিন জীবিকা উপার্জনের কাজ থেকে অবসর নিয়েছেন, তাদের প্রবীণ বলা হয়।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'খ. প্রবীণদের ক্ষেত্রে বাংলাদেশ অবসরপ্রাপ্ত সরকারি কল্যাণ সমিতির কার্যক্রম ব্যাখ্যা করো।',
+            a: 'এই সমিতি প্রবীণদের স্বাস্থ্যসেবা ও শিক্ষা খাতে অনুদান দিয়ে থাকে এবং প্রয়োজনে তাদের বিনা সুদে ঋণ প্রদান করে। এভাবে সংস্থাটি অবসরপ্রাপ্ত সরকারি কর্মচারীদের আর্থিক ও স্বাস্থ্যগত নিরাপত্তা নিশ্চিতে গুরুত্বপূর্ণ ভূমিকা রাখে।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'গ. সিদ্দিকা খাতুনের সমস্যাটা কোন ধরনের সমস্যা — ব্যাখ্যা করো।',
+            a: 'সিদ্দিকা খাতুনের সমস্যাটা মূলত পারিবারিক ও মনস্তাত্ত্বিক সমস্যা। ছেলেমেয়েরা তার সাথে সময় না কাটানো এবং পারিবারিক সিদ্ধান্তে (নাতনির বিয়ে) তাকে না জানানোর ফলে তিনি অবহেলিত ও নিঃসঙ্গ বোধ করছেন, যা প্রবীণদের মধ্যে হীনম্মন্যতা তৈরি করতে পারে।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'ঘ. সিদ্দিকা খাতুনের ক্ষেত্রে জোবেদা বেগমের পরামর্শ তুমি কি সঠিক বলে মনে করো? মতামত দাও।',
+            a: 'হ্যাঁ, জোবেদা বেগমের পরামর্শ সম্পূর্ণ সঠিক। প্রবীণদের শুধু খাবার ও স্বাস্থ্যের যত্ন নিলেই চলে না, তাদের সাথে সময় কাটানো, মতামত নেওয়া এবং মানসিক সঙ্গ দেওয়াও সমান জরুরি। পরিবারের সিদ্ধান্তে প্রবীণদের সম্পৃক্ত রাখলে তারা নিজেদের গুরুত্বপূর্ণ মনে করবেন, যা তাদের মানসিক সুস্থতার জন্য অপরিহার্য।',
+            tag: 'সৃজনশীল'
+          }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          {
+            q: '১. নারীর প্রতি বৈষম্য দূর করার উপায় কী?',
+            a: 'নারীর প্রতি বৈষম্য দূর করতে হলে নারী শিক্ষার প্রসার ঘটাতে হবে, নারী-পুরুষের সমান মজুরি নিশ্চিত করতে হবে, নারী নির্যাতন রোধে আইনের কঠোর প্রয়োগ করতে হবে এবং সবচেয়ে জরুরি — সমাজে নারী অধিকার সম্পর্কে ব্যাপক সচেতনতা তৈরি করতে হবে।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '২. নারীরা মর্যাদাসম্পন্ন মানুষ হিসেবে বিবেচিত হবেন কীভাবে?',
+            a: 'নারীদের শিক্ষা, প্রশিক্ষণ, চলাফেরা ও মতপ্রকাশের সমান সুযোগ দেওয়া হলে তারা বিভিন্ন ক্ষেত্রে গুরুত্বপূর্ণ ভূমিকা রাখতে পারবেন। এতে পরিবার, সমাজ ও দেশের উন্নয়ন হবে এবং নারীরা মর্যাদাসম্পন্ন মানুষ হিসেবে বিবেচিত হবেন।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '৩. প্রবীণরা কেন মনস্তাত্ত্বিক সমস্যায় ভোগেন?',
+            a: 'পরিবার ও সমাজে কোণঠাসা হয়ে থাকার কারণে প্রবীণদের মধ্যে এক ধরনের হীনম্মন্যতা তৈরি হয় — তারা নিজেদের অবহেলিত ও অসহায় ভাবতে শুরু করেন। আর্থিক অসামর্থ্য, শারীরিক অসুস্থতা ও নিঃসঙ্গতা এই সমস্যাকে আরও বাড়িয়ে তোলে।',
+            tag: 'সংক্ষিপ্ত'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const keyTopics = [
+  { label: 'প্রবীণদের অধিকার', id: 'l1' },
+  { label: 'প্রবীণদের সমস্যা', id: 'l2' },
+  { label: 'কল্যাণমূলক কার্যক্রম', id: 'l3' },
+  { label: 'নারীর অবস্থান', id: 'l4' },
+  { label: 'নারী অধিকার', id: 'l5' },
+  { label: 'করণীয় পদক্ষেপ', id: 'l6' },
+  { label: 'অনুশীলনী', id: 'l7' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

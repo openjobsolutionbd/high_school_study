@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-box.red{background:#fdf0f0;border-color:#e8a0a0}
+.story-box.green{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'ষষ্ঠ অধ্যায়',
+  emoji: '🌦️',
+  navLabel: '🌦️ বাংলাদেশের জলবায়ু',
+  title: 'বাংলাদেশের জলবায়ু',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+// প্রতিটা শব্দের জন্য meaning + example — এই অধ্যায়ের জন্যই আলাদা (shared নয়)
+const words = {
+  'আবহাওয়া': {
+    meaning: 'কোনো জায়গার এক দিন বা বিশেষ সময়ের বায়ুর অবস্থা।',
+    example: 'আজ ঢাকায় আবহাওয়া মেঘলা, যেকোনো সময় বৃষ্টি হতে পারে।'
+  },
+  'জলবায়ু': {
+    meaning: 'কোনো জায়গার দীর্ঘ সময়ের (৩০+ বছর) গড় আবহাওয়া।',
+    example: 'বাংলাদেশের জলবায়ু উষ্ণ ও আর্দ্র মৌসুমি ধরনের।'
+  },
+  'আর্দ্রতা': {
+    meaning: 'বায়ুতে জলীয় বাষ্পের পরিমাণ।',
+    example: 'বর্ষাকালে ঢাকায় আর্দ্রতা অনেক বেশি — ঘামে শরীর ভিজে যায়।'
+  },
+  'বায়ুচাপ': {
+    meaning: 'বায়ু যে চাপে পৃথিবীর পৃষ্ঠে চাপ দেয়।',
+    example: 'আবহাওয়া বিভাগ বায়ুচাপ মেপে ঘূর্ণিঝড়ের পূর্বাভাস দেয়।'
+  },
+  'মৌসুমি বায়ু': {
+    meaning: 'ঋতু অনুযায়ী দিক বদলানো বায়ু।',
+    example: 'গ্রীষ্মকালে মৌসুমি বায়ুর কারণে ঢাকায় প্রচুর বৃষ্টি হয়।'
+  },
+  'জলীয় বাষ্প': {
+    meaning: 'পানি বাষ্প হয়ে বায়ুতে মিশলে তাকে জলীয় বাষ্প বলে।',
+    example: 'সমুদ্রের উপর দিয়ে আসা বায়ু প্রচুর জলীয় বাষ্প বহন করে।'
+  },
+  'তাপমাত্রা': {
+    meaning: 'বায়ু বা কোনো বস্তুর গরম বা ঠান্ডার পরিমাণ।',
+    example: 'আজ ঢাকায় সর্বোচ্চ তাপমাত্রা ৩৩° সেলসিয়াস।'
+  },
+  'বৃষ্টিপাত': {
+    meaning: 'আকাশ থেকে পানি পড়ার পরিমাণ।',
+    example: 'সিলেটে বাংলাদেশের সর্বোচ্চ বৃষ্টিপাত হয়।'
+  },
+  'গ্রিনহাউস গ্যাস': {
+    meaning: 'যেসব গ্যাস পৃথিবীর উষ্ণতা ধরে রাখে — CO₂, মিথেন, নাইট্রাস অক্সাইড।',
+    example: 'ঢাকার যানজটে গাড়ি থেকে প্রতিদিন প্রচুর গ্রিনহাউস গ্যাস বের হয়।'
+  },
+  'কার্বন ডাইঅক্সাইড': {
+    meaning: 'সবচেয়ে বেশি পরিমাণে তৈরি হওয়া গ্রিনহাউস গ্যাস (CO₂)।',
+    example: 'ঢাকার গাড়ি ও কারখানা থেকে প্রচুর CO₂ বের হয়।'
+  },
+  'মিথেন': {
+    meaning: 'ধানক্ষেত ও পশুর পেট থেকে বের হওয়া গ্রিনহাউস গ্যাস (CH₄)।',
+    example: 'ঢাকার ময়লার ভাগাড় থেকে প্রচুর মিথেন গ্যাস বের হয়।'
+  },
+  'বৈশ্বিক উষ্ণায়ন': {
+    meaning: 'পৃথিবীর গড় তাপমাত্রা ধীরে ধীরে বেড়ে যাওয়া।',
+    example: 'বৈশ্বিক উষ্ণায়নে ঢাকায় গত ২০ বছরে গড় তাপমাত্রা বেড়েছে।'
+  },
+  'সমুদ্রের পানি বৃদ্ধি': {
+    meaning: 'বরফ গলার কারণে সমুদ্রের পানির উচ্চতা বাড়তে থাকা।',
+    example: 'সমুদ্রের পানি বাড়লে চট্টগ্রামের উপকূলীয় এলাকা ডুবে যাবে।'
+  },
+  'ঘূর্ণিঝড়': {
+    meaning: 'কম বায়ুচাপে তৈরি হওয়া প্রচণ্ড ঘূর্ণি বায়ু ও ঝড়।',
+    example: '২০০৭ সালের ঘূর্ণিঝড় সিডর চট্টগ্রাম উপকূলে ব্যাপক ক্ষতি করে।'
+  },
+  'জলোচ্ছ্বাস': {
+    meaning: 'ঘূর্ণিঝড়ের সময় সমুদ্রের পানি উপকূলে উপচে পড়া।',
+    example: 'জলোচ্ছ্বাসে কক্সবাজারের কাছের এলাকা পানিতে ডুবে যায়।'
+  },
+  'বন্যা': {
+    meaning: 'নদীর পানি পাড় ছাপিয়ে চারদিকে ছড়িয়ে পড়া।',
+    example: 'বন্যায় ঢাকার নিচু এলাকাগুলো পানিতে ডুবে যায়।'
+  },
+  'নদীভাঙন': {
+    meaning: 'নদীর স্রোতে পাড়ের মাটি ভেঙে নদীতে পড়ে যাওয়া।',
+    example: 'পদ্মার তীরবর্তী মানিকগঞ্জে প্রতি বছর নদীভাঙনে পরিবার গৃহহারা হয়।'
+  },
+  'খরা': {
+    meaning: 'দীর্ঘদিন বৃষ্টি না হওয়ায় পানির তীব্র অভাব।',
+    example: 'খরায় রাজশাহীর কৃষকেরা ক্ষতিগ্রস্ত হন।'
+  },
+  'টর্নেডো': {
+    meaning: 'স্থলভূমিতে তৈরি হওয়া প্রচণ্ড সরু ঘূর্ণি বায়ুস্তম্ভ।',
+    example: 'টর্নেডোয় ময়মনসিংহের একটি গ্রামের ঘরবাড়ি ভেঙে পড়ে।'
+  },
+  'কালবৈশাখী': {
+    meaning: 'বৈশাখ মাসে উত্তর-পশ্চিম থেকে আসা হঠাৎ শীতল ঝড়।',
+    example: 'কালবৈশাখীতে ঢাকায় বিদ্যুৎ বিচ্ছিন্ন হয়, গাছ উপড়ে পড়ে।'
+  },
+  'শৈত্যপ্রবাহ': {
+    meaning: 'শীতকালে হঠাৎ তাপমাত্রা অনেক কমে যাওয়া।',
+    example: 'শৈত্যপ্রবাহে ঢাকার তাপমাত্রা ৮° সেলসিয়াসে নামে।'
+  },
+  'জলবায়ু শরণার্থী': {
+    meaning: 'জলবায়ু পরিবর্তনের কারণে ঘরবাড়ি হারিয়ে অন্যত্র আশ্রয় নিতে বাধ্য মানুষ।',
+    example: 'সমুদ্রের পানি বাড়লে উপকূলের মানুষ জলবায়ু শরণার্থী হয়ে ঢাকায় আসবে।'
+  },
+  'বাস্তুচ্যুত': {
+    meaning: 'দুর্যোগে বাড়িঘর ও ভিটামাটি হারিয়ে উদ্বাস্তু হওয়া।',
+    example: 'ঘূর্ণিঝড়ে হাজার হাজার পরিবার বাস্তুচ্যুত হয়ে ত্রাণশিবিরে যায়।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1',
+    num: 'পাঠ ১',
+    icon: '🌡️',
+    title: 'বাংলাদেশের জলবায়ুর প্রকৃতি',
+    sub: 'আবহাওয়া ও জলবায়ু · ছয় ঋতু · মৌসুমি বায়ু',
+    type: '',
+    heroClass: 'hero-1',
+    heroSub: 'আবহাওয়া ও জলবায়ু — পার্থক্য বুঝি, ছয় ঋতু চিনি',
+    sections: [
+      {
+        title: '🌡️ আবহাওয়া ও জলবায়ু — পার্থক্য কী?',
+        text: '<strong>আবহাওয়া</strong> হলো কোনো একটি জায়গার এক দিন বা দিনের বিশেষ সময়ের বায়ুর অবস্থা। তাপমাত্রা, বায়ুচাপ, আর্দ্রতা, বায়ুপ্রবাহ — এসব মিলিয়ে আবহাওয়া তৈরি হয়। আবহাওয়া প্রতিদিন বদলাতে পারে।<br><br><strong>জলবায়ু</strong> হলো কোনো জায়গার দীর্ঘ সময়ের (সাধারণত ৩০ বছরের বেশি) গড় আবহাওয়া। জলবায়ু সহজে বদলায় না।',
+        story: 'আজ বৃষ্টি হচ্ছে — এটা <strong>আবহাওয়া</strong>।<br>বাংলাদেশে জুন–অক্টোবরে সাধারণত বৃষ্টি হয় — এটা <strong>জলবায়ু</strong>।',
+        storyLabel: '💡 সহজ উদাহরণ',
+        chips: ['আবহাওয়া', 'জলবায়ু', 'আর্দ্রতা', 'বায়ুচাপ']
+      },
+      {
+        title: '🍂 বাংলাদেশের ছয় ঋতু',
+        text: 'বাংলাদেশ ক্রান্তীয় মৌসুমি জলবায়ু অঞ্চলে অবস্থিত। এখানে ছয়টি ঋতু স্পষ্টভাবে অনুভব করা যায়।',
+        qualityItems: [
+          { icon: '☀️', label: 'গ্রীষ্ম<br><small>বৈশাখ–জ্যৈষ্ঠ</small>' },
+          { icon: '🌧️', label: 'বর্ষা<br><small>আষাঢ়–শ্রাবণ</small>' },
+          { icon: '☁️', label: 'শরৎ<br><small>ভাদ্র–আশ্বিন</small>' },
+          { icon: '🌾', label: 'হেমন্ত<br><small>কার্তিক–অগ্রহায়ণ</small>' },
+          { icon: '❄️', label: 'শীত<br><small>পৌষ–মাঘ</small>' },
+          { icon: '🌸', label: 'বসন্ত<br><small>ফাল্গুন–চৈত্র</small>' }
+        ]
+      },
+      {
+        title: '💨 মৌসুমি বায়ু',
+        text: 'বাংলাদেশের জলবায়ুতে মৌসুমি বায়ু সবচেয়ে গুরুত্বপূর্ণ ভূমিকা রাখে।',
+        story: 'ভারত মহাসাগর থেকে আসে। সমুদ্রের উপর দিয়ে আসে বলে প্রচুর জলীয় বাষ্প বহন করে — তাই জুন–অক্টোবরে প্রচুর বৃষ্টি হয়।',
+        storyLabel: '🌿 গ্রীষ্মকালীন মৌসুমি বায়ু (দক্ষিণ-পশ্চিম)',
+        storyClass: 'green',
+        chips: ['মৌসুমি বায়ু', 'জলীয় বাষ্প']
+      },
+      {
+        title: '🌡️ তাপমাত্রা ও বৃষ্টিপাত',
+        text: '<strong>তাপমাত্রা:</strong> গ্রীষ্মকালে সর্বোচ্চ গড় প্রায় <strong>৩৪° সেলসিয়াস</strong>, সর্বনিম্ন প্রায় <strong>২১° সেলসিয়াস</strong>। শীতে উত্তরাঞ্চলে তাপমাত্রা কখনো <strong>৪°–৫° সেলসিয়াস</strong> পর্যন্ত নামে।<br><br><strong>বৃষ্টিপাত:</strong> সিলেট, চট্টগ্রাম, কক্সবাজারে সবচেয়ে <strong>বেশি</strong>। রাজশাহী, পাবনা, কুষ্টিয়ায় সবচেয়ে <strong>কম</strong>।',
+        chips: ['তাপমাত্রা', 'বৃষ্টিপাত']
+      },
+      {
+        title: '📖 বইয়ের গুরুত্বপূর্ণ কথা',
+        bookOrig: '<p>আবহাওয়া ও জলবায়ু শব্দ দুটি এক মনে হলেও এক নয়। আবহাওয়া হলো কোনো একটি জায়গার এক দিন বা দিনের বিশেষ সময়ের বায়ুর অবস্থা। কোনো দেশ বা অঞ্চলের জলবায়ু বোঝার জন্য কমপক্ষে ৩০ বছরের গড় আবহাওয়াকে বলা হয় তার জলবায়ু।</p><p>বাংলাদেশ ক্রান্তীয় অঞ্চলে অবস্থিত হওয়ায় এখানে মৌসুমি জলবায়ু বিরাজ করে। জলবায়ু এখানকার জীবনযাত্রার বাণিজ্যিক ও কৃষিগত বৈশিষ্ট্য নির্ধারণ করে।</p>'
+      },
+      {
+        activity: 'তোমার এলাকায় এখন কোন ঋতু চলছে? সেই ঋতুর তিনটি বৈশিষ্ট্য খাতায় লেখো।'
+      }
+    ],
+    chain: 'জলবায়ুর প্রকৃতি তো জানা হলো — কিন্তু এই জলবায়ু কেন বদলে যাচ্ছে? পরের পাঠে জানব।'
+  },
+  {
+    id: 'l2',
+    num: 'পাঠ ২',
+    icon: '🌍',
+    title: 'জলবায়ু পরিবর্তনের কারণ',
+    sub: 'গ্রিনহাউস গ্যাস · বৈশ্বিক উষ্ণায়ন · মানুষের ভূমিকা',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'গ্রিনহাউস গ্যাস · বৈশ্বিক উষ্ণায়ন · মানুষের ভূমিকা',
+    sections: [
+      {
+        title: '🌍 কেন জলবায়ু পরিবর্তন হচ্ছে?',
+        text: 'পৃথিবীর জলবায়ু সবসময়ই একটু একটু করে বদলায়। কিন্তু গত ১৫০ বছরে মানুষের কারণে এই পরিবর্তন অনেক দ্রুত হচ্ছে। কারণ দুই ধরনের:<br><br><strong>১. প্রাকৃতিক কারণ:</strong> আগ্নেয়গিরির অগ্ন্যুৎপাত, সৌরশক্তির পরিবর্তন, পৃথিবীর কক্ষপথে পরিবর্তন।<br><br><strong>২. মানবিক কারণ (বেশি দায়ী):</strong> শিল্প-কারখানা, যানবাহন, বন উজাড়, ইটভাটা — এসব থেকে গ্রিনহাউস গ্যাস তৈরি হয়।',
+        chips: ['গ্রিনহাউস গ্যাস']
+      },
+      {
+        title: '🏭 গ্রিনহাউস গ্যাস কোথা থেকে আসে?',
+        qa: [
+          { q: '🚗 যানবাহন ও কলকারখানা', a: 'গাড়ি, বাস, ট্রাক, বিমান ও কলকারখানায় তেল-কয়লা পোড়ানোয় বিপুল পরিমাণ <strong>কার্বন ডাইঅক্সাইড (CO₂)</strong> বায়ুতে যোগ হয়। এটাই সবচেয়ে বড় কারণ।' },
+          { q: '🌳 বন উজাড়', a: 'গাছ CO₂ শোষণ করে অক্সিজেন ছাড়ে। বন কেটে ফেলা মানে CO₂ শোষণ কমা। পাশাপাশি কাটা গাছ পচলে আরও CO₂ বের হয়।' },
+          { q: '🍚 কৃষি ও গৃহপালিত পশু', a: 'ধানক্ষেত ও গরু-মহিষের পেট থেকে <strong>মিথেন (CH₄)</strong> গ্যাস বের হয়। মিথেন CO₂-এর চেয়ে ২৫ গুণ বেশি ক্ষতিকর।' },
+          { q: '🗑️ বর্জ্য ও ইটভাটা', a: 'ময়লার ভাগাড় থেকে মিথেন বের হয়। ইটভাটায় কয়লা ও কাঠ পোড়ানোয় CO₂ ও কালো ধোঁয়া বায়ুতে মেশে।' }
+        ],
+        chips: ['গ্রিনহাউস গ্যাস', 'কার্বন ডাইঅক্সাইড', 'মিথেন']
+      },
+      {
+        title: '🌡️ বৈশ্বিক উষ্ণায়ন ও সমুদ্রের পানি বৃদ্ধি',
+        text: 'বৈশ্বিক উষ্ণায়ন (Global Warming) মানে পৃথিবীর গড় তাপমাত্রা ধীরে ধীরে বেড়ে যাওয়া। এর ফলে মেরু অঞ্চলের বরফ গলে সমুদ্রের পানির উচ্চতা বাড়ছে।',
+        story: 'বিজ্ঞানীরা বলছেন, এভাবে চলতে থাকলে বাংলাদেশের মোট আয়তনের প্রায় <strong>১৭ ভাগ</strong> সমুদ্রে ডুবে যাবে। খুলনা, বরিশাল ও চট্টগ্রামের উপকূলীয় এলাকা সবচেয়ে বেশি ঝুঁকিতে।',
+        storyLabel: '⚠️ বাংলাদেশের জন্য বিপদ',
+        storyClass: 'red',
+        chips: ['বৈশ্বিক উষ্ণায়ন', 'সমুদ্রের পানি বৃদ্ধি']
+      },
+      {
+        activity: 'গ্রিনহাউস গ্যাস কমাতে তুমি ব্যক্তিগতভাবে কী কী করতে পারো? পাঁচটি উপায় লেখো।'
+      },
+      {
+        activity: 'বাংলাদেশের কোন কোন কারণে গ্লোবাল ওয়ার্মিং বেশি হচ্ছে? দলীয় আলোচনার মাধ্যমে বের করো।'
+      }
+    ],
+    chain: 'জলবায়ু বদলে যাওয়ার ফল হিসেবে বাংলাদেশে কী কী দুর্যোগ দেখা দেয় — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l3',
+    num: 'পাঠ ৩',
+    icon: '⚠️',
+    title: 'জলবায়ু পরিবর্তনের ফলে সৃষ্ট দুর্যোগ',
+    sub: 'ঘূর্ণিঝড় · বন্যা · নদীভাঙন · খরা · টর্নেডো · কালবৈশাখী',
+    type: 'type-4',
+    heroClass: 'hero-4',
+    heroSub: 'ঘূর্ণিঝড় · বন্যা · নদীভাঙন · খরা · টর্নেডো · কালবৈশাখী · শৈত্যপ্রবাহ',
+    sections: [
+      {
+        title: '⚠️ বাংলাদেশের প্রধান দুর্যোগগুলো',
+        qualityItems: [
+          { icon: '🌀', label: 'ঘূর্ণিঝড় ও জলোচ্ছ্বাস' },
+          { icon: '🌊', label: 'বন্যা' },
+          { icon: '🏞️', label: 'নদীভাঙন' },
+          { icon: '🌵', label: 'খরা' },
+          { icon: '🌪️', label: 'টর্নেডো' },
+          { icon: '⚡', label: 'কালবৈশাখী' }
+        ]
+      },
+      {
+        title: '🌀 ঘূর্ণিঝড় ও জলোচ্ছ্বাস',
+        text: 'বায়ুমণ্ডলের তাপ বেড়ে গেলে সেখানকার বাতাস হালকা হয়ে উপরে উঠে, ফলে বায়ুচাপ কমে। আশপাশ থেকে বায়ু ঘুরতে ঘুরতে এসে ঘূর্ণিঝড় তৈরি করে।<br><br>ঘূর্ণিঝড়ের সময় সমুদ্রের পানি উপকূলে ধেয়ে আসে — এটাই জলোচ্ছ্বাস।',
+        story: '১৯৭০ সালের ১২ নভেম্বর ভয়াবহ ঘূর্ণিঝড়ে প্রায় <strong>পাঁচ লাখ মানুষ</strong> মারা যায়। ২০০৭-এর সিডর ও ২০০৯-এর আইলা উপকূলে ব্যাপক ক্ষতি করে।',
+        storyLabel: '📅 ঐতিহাসিক ঘূর্ণিঝড়',
+        storyClass: 'red',
+        chips: ['ঘূর্ণিঝড়', 'জলোচ্ছ্বাস']
+      },
+      {
+        title: '🌊 বন্যা',
+        text: 'বাংলাদেশে প্রতি বছরই কমবেশি বন্যা হয়। পদ্মা, যমুনা ও মেঘনার উৎস হিমালয়ে। বর্ষায় পাহাড়ের বরফ গলে ও বৃষ্টি হয় — নদীতে অতিরিক্ত পানি আসে, পাড় ছাপিয়ে বন্যা হয়।',
+        qa: [
+          { q: '😢 বন্যায় কী কী ক্ষতি হয়?', a: 'ফসল নষ্ট, বাড়িঘর ভেঙে পড়া, মানুষ বাস্তুচ্যুত, রোগব্যাধি ছড়ানো, রাস্তাঘাট ক্ষতিগ্রস্ত, গবাদিপশু মারা যাওয়া। ১৯৮৮, ১৯৯৮ ও ২০০৪ সালের বন্যায় দেশে ব্যাপক ক্ষতি হয়েছে।' },
+          { q: '🤔 বন্যা কি শুধুই ক্ষতিকর?', a: 'সবসময় না। মাঝারি বন্যায় নদীর পলিমাটি জমিতে পড়ে মাটি উর্বর হয়। কিন্তু অতিরিক্ত বন্যা সবসময়ই ক্ষতিকর।' }
+        ],
+        chips: ['বন্যা']
+      },
+      {
+        title: '🏞️ নদীভাঙন',
+        text: 'নদীভাঙন বাংলাদেশের একটি নিয়মিত দুর্যোগ। প্রতি বর্ষায় এটি দেখা দেয়।',
+        qa: [
+          { q: '❓ নদীভাঙন কেন হয়?', a: 'নদীর গতিপথ পরিবর্তন, বাঁকে তীব্র স্রোত, পাড়ের মাটি দুর্বল হওয়া, পাড়ে গাছপালা না থাকা এবং নদী থেকে বালি উত্তোলন — এসব কারণে নদীভাঙন হয়।' },
+          { q: '😢 নদীভাঙনে কী ক্ষতি হয়?', a: 'আবাদি জমি নদীতে চলে যায়, বসতবাড়ি ভেঙে পড়ে, হাজার হাজার পরিবার গৃহহারা ও ভূমিহারা হয়। তারা শহরে এসে বস্তিবাসী হয়।' }
+        ],
+        chips: ['নদীভাঙন']
+      },
+      {
+        title: '🌵 খরা',
+        text: 'প্রয়োজনীয় বৃষ্টিপাতের অভাবে ও ভূগর্ভস্থ পানির স্তর নিচে নেমে গেলে খরা হয়। উত্তরাঞ্চলে এই সমস্যা বেশি।<br><br>খরায় ফসল মরে, পুকুর-খাল শুকিয়ে যায়, বিশুদ্ধ পানির সংকট দেখা দেয়।',
+        chips: ['খরা']
+      },
+      {
+        title: '❄️ শৈত্যপ্রবাহ',
+        text: 'শীতে হিমালয়ের দিক থেকে শৈত্যপ্রবাহ আসে। তাপমাত্রা হঠাৎ অনেক কমে যায়। শৈত্যপ্রবাহে ফসলের ক্ষতি হয়, শিশু-বৃদ্ধরা অসুস্থ পড়ে, দিনমজুরেরা কাজ করতে পারে না।',
+        chips: ['শৈত্যপ্রবাহ']
+      },
+      {
+        title: '🌪️ টর্নেডো',
+        text: 'টর্নেডো হলো স্থলভূমিতে তৈরি হওয়া একটি প্রচণ্ড সরু ঘূর্ণি বায়ুস্তম্ভ। এটি ভূমি থেকে মেঘ পর্যন্ত বিস্তৃত। টর্নেডো মাত্র কয়েক মিনিটে ঘরবাড়ি উড়িয়ে সবকিছু ধ্বংস করতে পারে। বাংলাদেশে কালবৈশাখীর সাথে টর্নেডো আসে।',
+        chips: ['টর্নেডো']
+      },
+      {
+        title: '⚡ কালবৈশাখী',
+        text: 'বৈশাখ মাসে তাপমাত্রা হঠাৎ বাড়লে পার্শ্ববর্তী অঞ্চলের শীতল বাতাস দ্রুত ছুটে আসে — এটাই কালবৈশাখী। উত্তর-পশ্চিম থেকে আসে বলে এই নাম। এই ঝড়ে ঘরবাড়ির ছাদ উড়ে, গাছ উপড়ে পড়ে, নৌকা ডুবে যায়।',
+        chips: ['কালবৈশাখী']
+      },
+      {
+        activity: 'বাংলাদেশের প্রাকৃতিক দুর্যোগগুলোর একটি তালিকা করো এবং প্রতিটির পাশে ক্ষতির ধরন লেখো।'
+      },
+      {
+        activity: 'বিভিন্ন প্রাকৃতিক দুর্যোগের ধরন ও তার ক্ষয়ক্ষতি সম্পর্কে একটি প্রতিবেদন তৈরি করো।'
+      }
+    ],
+    chain: 'এত দুর্যোগ ঠেকাতে বা মোকাবিলা করতে আমরা কী করতে পারি — পরের পাঠে জানব।'
+  },
+  {
+    id: 'l4',
+    num: 'পাঠ ৪',
+    icon: '🛡️',
+    title: 'জলবায়ু পরিবর্তনজনিত প্রভাব মোকাবিলার করণীয়',
+    sub: 'দুর্যোগের আগে, সময় ও পরে — কী করব?',
+    type: 'type-2',
+    heroClass: 'hero-2',
+    heroSub: 'দুর্যোগের আগে, দুর্যোগের সময় ও পরে — আমরা কী করব?',
+    sections: [
+      {
+        title: '🌀 ঘূর্ণিঝড়–টর্নেডো–কালবৈশাখী মোকাবিলার করণীয়',
+        text: '<strong>ক.</strong> আবহাওয়া বিভাগের <strong>পূর্বাভাস ও সতর্কবার্তা</strong> মেনে চলা, আগে থেকেই নিরাপদ আশ্রয়ে যাওয়া।<br><strong>খ.</strong> বাড়ির আশেপাশে <strong>গাছ লাগানো</strong> — গাছ বায়ুর গতিরোধ করে।<br><strong>গ.</strong> <strong>গ্রিনহাউস গ্যাস নিঃসরণ কমানো</strong> — কারণ এই গ্যাস কমলে ঘূর্ণিঝড়ের তীব্রতা কমবে।<br><strong>ঘ.</strong> ঝড়ের সময় <strong>নৌকা ও ট্রলার</strong> তীরে ভিড়িয়ে রাখা।'
+      },
+      {
+        title: '🌊 বন্যা মোকাবিলার করণীয়',
+        text: '<strong>ক.</strong> নদীর তীরে <strong>বাঁধ নির্মাণ</strong> করা।<br><strong>খ.</strong> ঘরবাড়ির <strong>ভিটা উঁচু</strong> করে তৈরি করা।<br><strong>গ.</strong> নিয়মিত <strong>নদী খনন</strong> ও রক্ষণাবেক্ষণ করা।<br><strong>ঘ.</strong> অভিন্ন নদীর পানি ব্যবস্থাপনায় <strong>প্রতিবেশী দেশের সাথে আলোচনা</strong> করা।'
+      },
+      {
+        title: '🌵 খরা মোকাবিলার করণীয়',
+        text: '<strong>ক.</strong> বর্ষায় পুকুর ও জলাশয়ে <strong>পানি সংরক্ষণ</strong> করা।<br><strong>খ.</strong> ভূগর্ভস্থ পানির স্তর পরীক্ষা করে <strong>অতিরিক্ত উত্তোলন বন্ধ</strong> করা।<br><strong>গ.</strong> <strong>পানিসাশ্রয়ী সেচ পদ্ধতি</strong> ব্যবহার করা।'
+      },
+      {
+        title: '🏞️ নদীভাঙন মোকাবিলার করণীয়',
+        text: '<strong>ক.</strong> নদীর পাড়ে <strong>গাছ লাগানো</strong> — গাছের শিকড় মাটি শক্ত রাখে।<br><strong>খ.</strong> নদীর পাড় <strong>সংরক্ষণ</strong> করা ও তীর রক্ষা বাঁধ নির্মাণ।<br><strong>গ.</strong> নিয়মিত <strong>নদী খনন</strong> করা যাতে পানি প্রবাহ স্বাভাবিক থাকে।'
+      },
+      {
+        title: '📌 মূল বার্তা',
+        story: 'জলবায়ু পরিবর্তন একা কেউ ঠেকাতে পারবে না। সরকার, সমাজ ও প্রতিটি মানুষকে একসাথে কাজ করতে হবে।<br><strong>গাছ লাগাও · পানি বাঁচাও · বিদ্যুৎ সাশ্রয় করো</strong> — এই তিনটি অভ্যাস থেকেই বড় পরিবর্তন শুরু।',
+        storyLabel: '🌿 মনে রাখো',
+        storyClass: 'green'
+      },
+      {
+        activity: 'তোমাদের এলাকার বন্যা বা নদীভাঙন মোকাবিলায় তুমি ও তোমার পরিবার কী কী করতে পারো? খাতায় লিখে শ্রেণিতে উপস্থাপন করো।'
+      }
+    ],
+    chain: 'এত দুর্যোগের প্রভাব আসলে আমাদের জীবনে কীভাবে পড়ে — শেষ পাঠে জানব।'
+  },
+  {
+    id: 'l5',
+    num: 'পাঠ ৫',
+    icon: '🌾',
+    title: 'আর্থ-সামাজিক প্রভাব',
+    sub: 'কৃষি · মৎস্য · স্বাস্থ্য · সমাজ',
+    type: 'type-5',
+    heroClass: 'hero-5',
+    heroSub: 'কৃষি · মৎস্য · স্বাস্থ্য · সমাজ এবং প্রশ্নোত্তর',
+    sections: [
+      {
+        title: '🌾 কৃষিতে প্রভাব',
+        text: 'জলবায়ু পরিবর্তনে ফসলের ব্যাপক ক্ষতি হচ্ছে। অতিরিক্ত তাপমাত্রায় ধান, গম, পাটসহ অনেক ফসল ঠিকমতো জন্মায় না। উপকূলীয় এলাকায় মাটিতে লবণাক্ততা বাড়ছে — লবণাক্ত মাটিতে সাধারণ ফসল জন্মায় না।'
+      },
+      {
+        title: '🐟 মৎস্য সম্পদে প্রভাব',
+        text: 'বন্যায় নদী-পুকুরের মাছ ভেসে যায়। তাপমাত্রা বাড়লে মাছের প্রজনন ব্যাহত হয়। সামুদ্রিক পানির তাপমাত্রা বাড়লে কিছু প্রজাতির মাছ সেখান থেকে চলে যায় বা মারা যায়।'
+      },
+      {
+        title: '🏥 স্বাস্থ্যে প্রভাব',
+        qa: [
+          { q: '🦟 বন্যার পরে কী রোগ হয়?', a: 'বন্যার পরে দূষিত পানি পানের কারণে ডায়রিয়া, কলেরা, টাইফয়েড ও চর্মরোগ ব্যাপকভাবে ছড়ায়।' },
+          { q: '🌡️ গরম বাড়লে কী হয়?', a: 'অতিরিক্ত গরমে হিটস্ট্রোক ও ডিহাইড্রেশন বাড়ে। মশার বংশবৃদ্ধি বেশি হয় বলে ডেঙ্গু ও ম্যালেরিয়ার প্রকোপ বাড়ে।' }
+        ]
+      },
+      {
+        title: '👥 সমাজে প্রভাব',
+        text: 'জলবায়ু পরিবর্তনের কারণে মানুষ এলাকা ছেড়ে শহরে আসছে — এদের জলবায়ু শরণার্থী বলে। শহরে অতিরিক্ত মানুষ আসায় বস্তি বাড়ছে, কর্মসংস্থান কমছে, সামাজিক শৃঙ্খলা বিঘ্নিত হচ্ছে। গ্রামে নারী ও শিশুরা সবচেয়ে বেশি ক্ষতিগ্রস্ত।',
+        chips: ['জলবায়ু শরণার্থী', 'বাস্তুচ্যুত']
+      },
+      {
+        activity: 'বাংলাদেশের প্রাকৃতিক দুর্যোগের প্রভাবে ক্ষতিগ্রস্ত ক্ষেত্রসমূহের একটি তালিকা তৈরি করো।'
+      }
+    ],
+    chain: 'এই অধ্যায়ে যা শিখলে, এবার সেগুলো দিয়েই পরীক্ষার প্রশ্নের উত্তর দেওয়ার পালা।'
+  },
+  {
+    id: 'l6',
+    num: 'অনুশীলনী',
+    icon: '📝',
+    title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'MCQ · সৃজনশীল · সংক্ষিপ্ত — উত্তরসহ',
+    type: 'type-3',
+    heroClass: 'hero-3',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — ট্যাপ করে উত্তর মিলিয়ে নাও',
+    sections: [
+      {
+        title: '🔵 বহুনির্বাচনি প্রশ্ন — ট্যাপ করে উত্তর বাছাই করো',
+        mcqs: [
+          {
+            question: '১. বাংলাদেশে সাধারণত কোন মৌসুমে নদীভাঙন দেখা যায়?',
+            options: [
+              { text: 'ক. গ্রীষ্ম', correct: false },
+              { text: 'খ. বর্ষা', correct: true },
+              { text: 'গ. শীত', correct: false },
+              { text: 'ঘ. বসন্ত', correct: false }
+            ]
+          },
+          {
+            question: '২. আমাদের দেশে নদীভাঙনের কারণ হলো—',
+            note: 'i. নদীতলের পথ সোজা না হওয়া<br>ii. নদীর পাড়ের মাটির দুর্বল গঠন<br>iii. নদীর পাড়ে গাছপালা না থাকা',
+            options: [
+              { text: 'ক. i ও ii', correct: false },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: true }
+            ]
+          },
+          {
+            question: '৩. নিচের উদ্দীপকটি পড়ো:<br><br><em>রনপসা বাবার সাথে বেড়াতে গিয়ে কক্সবাজারের পথে নদীতে ভাসমান বাজার দেখলো। স্থানীয় এক বৃদ্ধ বললেন তার বাড়ি ও জমি নদীতে চলে গেছে।</em><br><br>বৃদ্ধ লোকটির দুর্যোগটির নাম কী?',
+            options: [
+              { text: 'ক. ঘূর্ণিঝড়ের', correct: false },
+              { text: 'খ. ভূমিকম্পের', correct: false },
+              { text: 'গ. নদীভাঙনের', correct: true },
+              { text: 'ঘ. টর্নেডোর', correct: false }
+            ]
+          },
+          {
+            question: '৪. রনপসার আতঙ্কিত হওয়ার কারণ হলো—',
+            note: 'i. পুরো এলাকা প্লাবিত হয়ে যেতে পারে<br>ii. একটি ভাঙনের পর আরেকটি শুরু হতে পারে<br>iii. আশেপাশের সবাইকে সরিয়ে নিতে দেরি হতে পারে',
+            options: [
+              { text: 'ক. i ও ii', correct: true },
+              { text: 'খ. i ও iii', correct: false },
+              { text: 'গ. ii ও iii', correct: false },
+              { text: 'ঘ. i, ii ও iii', correct: false }
+            ]
+          }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর',
+        text: '<strong>উদ্দীপক:</strong> রনপসা বাবার সাথে কক্সবাজার বেড়াতে গিয়ে পথে নদীভাঙনের ভয়াবহতা নিজের চোখে দেখেছে।',
+        qa: [
+          {
+            q: 'ক. আবহাওয়া কাকে বলে?',
+            a: 'কোনো একটি জায়গার এক দিন বা দিনের বিশেষ সময়ের বায়ুর অবস্থাকে আবহাওয়া বলে। তাপমাত্রা, বায়ুচাপ, আর্দ্রতা, বায়ুর গতি ও দিক, বৃষ্টিপাত ইত্যাদি মিলিয়ে আবহাওয়া নির্ধারিত হয়। আবহাওয়া প্রতিদিন বদলাতে পারে।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'খ. বাংলাদেশের জলবায়ুতে মৌসুমি বায়ুর প্রভাব ব্যাখ্যা করো।',
+            a: 'বাংলাদেশের জলবায়ু গঠনে মৌসুমি বায়ু সবচেয়ে গুরুত্বপূর্ণ ভূমিকা রাখে।<br><br><strong>গ্রীষ্মকালীন দক্ষিণ-পশ্চিম মৌসুমি বায়ু:</strong> ভারত মহাসাগরের উপর দিয়ে আসায় প্রচুর জলীয় বাষ্প বহন করে। জুন–অক্টোবরে প্রচুর বৃষ্টি হয়।<br><br><strong>শীতকালীন উত্তর-পূর্ব মৌসুমি বায়ু:</strong> হিমালয়ের উপর দিয়ে আসায় ঠান্ডা ও শুষ্ক। শীতে বৃষ্টি কম হয়।<br><br>এই দুই মৌসুমি বায়ুর কারণে বাংলাদেশে ছয়টি ঋতু স্পষ্টভাবে অনুভব করা যায়।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'গ. উদ্দীপকে বর্ণিত দুর্যোগটি কী? ব্যাখ্যা করো।',
+            a: 'উদ্দীপকে <strong>নদীভাঙন</strong>-এর কথা বলা হয়েছে।<br><br>নদীভাঙন হলো এমন একটি প্রাকৃতিক দুর্যোগ যেখানে নদীর স্রোতে পাড়ের মাটি ভেঙে নদীগর্ভে চলে যায়। নদীর বাঁকে তীব্র স্রোত, পাড়ের মাটি দুর্বল হওয়া, পাড়ে গাছপালা না থাকা — এই কারণগুলো নদীভাঙনের জন্য দায়ী।<br><br>বর্ষাকালে পানির চাপ বেশি থাকে বলে এ সময় ভাঙন বেশি হয়। এতে আবাদি জমি ও বসতবাড়ি নদীতে চলে যায়, হাজার হাজার পরিবার গৃহহারা হয়।',
+            tag: 'সৃজনশীল'
+          },
+          {
+            q: 'ঘ. উদ্দীপকে বর্ণিত দুর্যোগের ক্ষতি কমানোর উপায় সম্পর্কে মতামত দাও।',
+            a: '<strong>নদীভাঙন রোধে:</strong> নদীর পাড়ে গাছ লাগানো, তীর রক্ষা বাঁধ নির্মাণ, নদী খনন ও রক্ষণাবেক্ষণ।<br><br><strong>পরিবেশ সুরক্ষায়:</strong> গ্রিনহাউস গ্যাস কমানো, বনায়ন বাড়ানো, পরিবেশবান্ধব যানবাহন ব্যবহার।<br><br><strong>সামাজিক পদক্ষেপ:</strong> বিদ্যালয়ে পরিবেশ সচেতনতা শিক্ষা, দুর্যোগ ব্যবস্থাপনা কমিটি গঠন।<br><br>আমার মতে, সবচেয়ে কার্যকর পদক্ষেপ হলো <strong>ব্যক্তিগত সচেতনতা</strong> — প্রতিটি মানুষ সচেতন হলেই বড় পরিবর্তন সম্ভব।',
+            tag: 'সৃজনশীল'
+          }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          {
+            q: '১. "শৈত্যপ্রবাহে জনজীবন বিপর্যস্ত হয়" — ব্যাখ্যা করো।',
+            a: 'শীতকালে হিমালয়ের দিক থেকে আসা ঠান্ডা বাতাস বাংলাদেশে শৈত্যপ্রবাহ তৈরি করে। তাপমাত্রা হঠাৎ অনেক কমে যায়। দিনমজুর ও কৃষকেরা কাজ করতে পারে না, রোজগার বন্ধ হয়। ফসলের ব্যাপক ক্ষতি হয়। শিশু ও বৃদ্ধরা ঠান্ডাজনিত রোগে আক্রান্ত হয়। এভাবে শৈত্যপ্রবাহে জনজীবন বিপর্যস্ত হয়।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '২. নদীর পাড় ভাঙতে থাকে কেন?',
+            a: 'নদীর পাড় ভাঙার কারণ: ১. নদীর বাঁকে তীব্র স্রোত; ২. পাড়ের মাটির গঠন দুর্বল হওয়া; ৩. নদীর গতিপথ পরিবর্তন; ৪. পাড়ে গাছপালা না থাকা; ৫. নদী থেকে অতিরিক্ত বালি উত্তোলন। বর্ষাকালে পানির চাপ বেশি থাকায় এ সময় ভাঙন বেশি হয়।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '৩. আবহাওয়া ও জলবায়ুর পার্থক্য লেখো।',
+            a: '<strong>আবহাওয়া:</strong> কোনো জায়গার এক দিন বা বিশেষ সময়ের বায়ুর অবস্থা। প্রতিদিন বদলাতে পারে।<br><br><strong>জলবায়ু:</strong> দীর্ঘ সময়ের (৩০+ বছর) গড় আবহাওয়া। সহজে বদলায় না।<br><br><strong>উদাহরণ:</strong> আজ ঢাকায় বৃষ্টি = আবহাওয়া। জুন–অক্টোবরে বাংলাদেশে বৃষ্টি হয় = জলবায়ু।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '৪. বৈশ্বিক উষ্ণায়ন বাংলাদেশকে কীভাবে হুমকিতে ফেলছে?',
+            a: 'বৈশ্বিক উষ্ণায়নে পৃথিবীর তাপমাত্রা বাড়ছে, মেরুর বরফ গলছে, সমুদ্রের পানি বাড়ছে। বাংলাদেশ নিচু ভূমির দেশ বলে সবচেয়ে ঝুঁকিতে। বিজ্ঞানীরা বলছেন বাংলাদেশের প্রায় ১৭ ভাগ ডুবে যাবে। এছাড়া ঘূর্ণিঝড়, বন্যা ও খরার প্রকোপ বাড়বে।',
+            tag: 'সংক্ষিপ্ত'
+          },
+          {
+            q: '৫. জলবায়ু পরিবর্তন সামাজিক শৃঙ্খলা কীভাবে বিঘ্নিত করে?',
+            a: 'বন্যা, ঘূর্ণিঝড় ও নদীভাঙনে মানুষ বাস্তুচ্যুত হয়ে শহরে আসে। বস্তি বাড়ে, বেকারত্ব বাড়ে, দারিদ্র্য বৃদ্ধি পায়। এর ফলে চুরি-ডাকাতিসহ নানা সামাজিক সমস্যা বাড়ে। পারিবারিক বন্ধন দুর্বল হয়, নারী ও শিশুরা সবচেয়ে বেশি ক্ষতিগ্রস্ত হয়।',
+            tag: 'সংক্ষিপ্ত'
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const keyTopics = [
+  { label: 'আবহাওয়া ও জলবায়ু', id: 'l1' },
+  { label: 'ছয় ঋতু', id: 'l1' },
+  { label: 'গ্রিনহাউস গ্যাস', id: 'l2' },
+  { label: 'ঘূর্ণিঝড়', id: 'l3' },
+  { label: 'বন্যা', id: 'l3' },
+  { label: 'নদীভাঙন', id: 'l3' },
+  { label: 'মোকাবিলার উপায়', id: 'l4' },
+  { label: 'আর্থ-সামাজিক প্রভাব', id: 'l5' },
+  { label: 'অনুশীলনী', id: 'l6' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[অধ্যায়ের শিরোনাম] — ইন্টারেক্টিভ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Baloo+Da+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THEME — প্রতিটা অধ্যায়ের জন্য এই ৫টা রং বদলাও।
+   master-prompt.md-এর বিষয়ভিত্তিক রং-নির্দেশিকা দেখো।
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --c1:       #1A5276;   /* প্রধান রং (nav, hero দের বেস) */
+  --c1-deep:  #0d2f45;
+  --c2:       #D4730A;   /* দ্বিতীয় রং (accent, progress bar) */
+  --c2-deep:  #8a4900;
+  --c3:       #007A6E;   /* তৃতীয় রং (hero variant) */
+  --c3-deep:  #004d44;
+  --c4:       #5C3D2E;   /* চতুর্থ রং (hero variant) */
+  --c4-deep:  #3d2218;
+  --c5:       #1B5E20;   /* পঞ্চম রং (hero variant) */
+  --c5-deep:  #0d3610;
+  --dark:     #0d1b2a;
+  --cream:    #FDFAF4;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.09);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--cream); font-family:'Hind Siliguri',sans-serif; min-height:100vh; color:#1a1a2e; -webkit-font-smoothing:antialiased; }
+
+/* ── NAV ── */
+.nav{background:var(--dark);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.35)}
+.nav-logo{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1rem;display:flex;align-items:center;gap:8px}
+.nav-back{background:rgba(255,255,255,0.12);border:none;color:white;padding:7px 14px;border-radius:20px;font-family:'Hind Siliguri',sans-serif;font-size:0.85rem;cursor:pointer;display:none;align-items:center;gap:6px;transition:background 0.2s}
+.nav-site-home{text-decoration:none;color:rgba(255,255,255,0.75);font-size:1.1rem;display:flex;align-items:center;padding:4px 8px;border-radius:10px;transition:background 0.2s}
+.nav-site-home:hover{background:rgba(255,255,255,0.12)}
+.nav-back:hover{background:rgba(255,255,255,0.22)}
+.nav-back.visible{display:flex}
+.progress-bar{height:3px;background:rgba(255,255,255,0.12)}
+.progress-fill{height:100%;background:var(--c2);transition:width 0.4s ease;width:0%}
+
+/* ── PAGE ROUTING ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME ── */
+.home-header{background:linear-gradient(150deg,var(--c1) 0%,var(--c1-deep) 60%,var(--dark) 100%);padding:26px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.home-header::before{content:attr(data-emoji);position:absolute;font-size:200px;opacity:0.05;bottom:-40px;right:-20px;pointer-events:none}
+.home-chapter-tag{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:0.72rem;padding:3px 12px;border-radius:20px;letter-spacing:0.06em;margin-bottom:8px}
+.home-emoji{font-size:2rem;display:block;margin-bottom:6px}
+.home-header h1{font-family:'Baloo Da 2',cursive;color:#fff;font-size:1.5rem;line-height:1.25;margin-bottom:6px}
+.home-header p{color:rgba(255,255,255,0.65);font-size:0.85rem;margin-bottom:4px}
+.home-hint{text-align:center;padding:14px;color:#888;font-size:0.85rem}
+
+/* ── LESSON CARDS ── */
+.lesson-list{padding:20px 16px 40px;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.lesson-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--card-shadow);border-left:5px solid var(--c1);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.2s,box-shadow 0.2s}
+.lesson-card:hover{transform:translateX(4px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
+.lesson-card.type-2 { border-left-color: var(--c2); }
+.lesson-card.type-3 { border-left-color: var(--c3); }
+.lesson-card.type-4 { border-left-color: var(--c4); }
+.lesson-card.type-5 { border-left-color: var(--c5); }
+.lesson-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',cursive;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,0.2);background:linear-gradient(135deg,var(--c1),var(--c1-deep))}
+.lesson-card.type-2 .lesson-num{background:linear-gradient(135deg,var(--c2),var(--c2-deep))}
+.lesson-card.type-3 .lesson-num{background:linear-gradient(135deg,var(--c3),var(--c3-deep))}
+.lesson-card.type-4 .lesson-num{background:linear-gradient(135deg,var(--c4),var(--c4-deep))}
+.lesson-card.type-5 .lesson-num{background:linear-gradient(135deg,var(--c5),var(--c5-deep))}
+.lesson-info{flex:1}
+.lesson-title{font-family:'Baloo Da 2',cursive;font-size:0.95rem;color:#111827;margin-bottom:3px;line-height:1.3}
+.lesson-sub{font-size:0.78rem;color:#888}
+.lesson-arrow{color:#ccc;font-size:1.1rem;transition:transform 0.2s,color 0.2s}
+.lesson-card:hover .lesson-arrow{color:var(--c1);transform:translateX(3px)}
+
+/* ── DETAIL HERO ── */
+.detail-hero{padding:36px 20px 44px;color:white;position:relative;overflow:hidden}
+.detail-hero::after{content:attr(data-icon);position:absolute;font-size:150px;opacity:0.07;bottom:-20px;right:-10px;pointer-events:none}
+.detail-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;font-family:'Baloo Da 2',cursive;font-size:0.85rem;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.detail-title{font-family:'Baloo Da 2',cursive;font-size:1.45rem;line-height:1.25;margin-bottom:8px}
+.detail-subtitle{font-size:0.9rem;opacity:0.8}
+
+.hero-1{background:linear-gradient(160deg,var(--c1) 0%,var(--c1-deep) 100%);padding-bottom:36px}
+.hero-2{background:linear-gradient(150deg,var(--c2) 0%,var(--c2-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,72% 87%,50% 100%,28% 87%,0% 100%);padding-bottom:56px}
+.hero-3{background:linear-gradient(150deg,var(--c3) 0%,var(--c3-deep) 100%);clip-path:polygon(0 0,100% 0,100% 88%,70% 100%,40% 88%,0% 100%);padding-bottom:56px}
+.hero-4{background:linear-gradient(150deg,var(--c4) 0%,var(--c4-deep) 100%);clip-path:polygon(0 0,100% 0,100% 94%,50% 100%,0% 94%);padding-bottom:48px}
+.hero-5{background:linear-gradient(160deg,var(--c5) 0%,var(--c5-deep) 100%);clip-path:polygon(0 0,100% 0,100% 100%,78% 90%,56% 100%,34% 90%,12% 100%,0% 90%);padding-bottom:56px}
+
+.detail-body{padding:20px 16px 48px;max-width:680px;margin:0 auto}
+
+/* ── GENERIC SECTION CARD ── */
+.section{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--card-shadow)}
+.section-title{font-family:'Baloo Da 2',cursive;font-size:1rem;font-weight:800;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-text{font-size:0.9rem;color:#333;line-height:1.7}
+
+/* ── STORY BOX (উদাহরণ/গল্প) ── */
+.story-box{background:#f0f6ff;border:2px solid #a0c4f0;border-radius:12px;padding:14px 16px;margin:12px 0;font-size:0.88rem;color:#333;line-height:1.65}
+.story-box.c2{background:#fff8f0;border-color:#f5c98a}
+.story-box.c3{background:#f0fff8;border-color:#b0e8d0}
+.story-box.c4{background:#fdf5f0;border-color:#d4a890}
+.story-box.c5{background:#f0fdf4;border-color:#90d4a8}
+.story-box.red{background:#fdf0f0;border-color:#e8a0a0}
+.story-box.green{background:#f0fdf4;border-color:#90d4a8}
+.story-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;margin-bottom:6px}
+
+/* ── QUALITY GRID (ছোট আইকন-কার্ডের গ্রিড — ঋতু/গুণ/ধরন ইত্যাদি তালিকার জন্য) ── */
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+.quality-item{background:#f5f8ff;border:1.5px solid #dce8f8;border-radius:12px;padding:14px 10px;text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+.quality-item.clickable{cursor:pointer}
+.quality-item.clickable:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(26,82,118,0.12)}
+.quality-item.clickable:active{transform:scale(0.97)}
+.q-icon{font-size:1.5rem;margin-bottom:6px}
+.q-label{font-size:0.78rem;color:#333;font-weight:600;line-height:1.35}
+
+/* ── BOOK QUOTE BOX (পাঠ্যবইয়ের হুবহু/কাছাকাছি ভাষা) ── */
+.book-box{background:#faf7f0;border:1.5px solid #e5dcc5;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:16px 18px;margin:12px 0;font-size:0.87rem;color:#4a3f2a;line-height:1.75}
+.book-box p{margin-bottom:8px}
+.book-box p:last-child{margin-bottom:0}
+
+/* ── ACTIVITY BOX (করে দেখো / কাজ) ── */
+.activity-box{background:var(--dark);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;margin:12px 0}
+.activity-num{font-family:'Baloo Da 2',cursive;font-size:1.05rem;font-weight:800;color:var(--c2);flex-shrink:0}
+.activity-text{font-size:0.86rem;color:rgba(255,255,255,0.85);line-height:1.6}
+
+/* ── SUBTOPIC divider (একটা section-এর ভেতরে একাধিক ভাগ থাকলে) ── */
+.subtopic{border-top:1.5px solid #f0f0f0;padding-top:14px;margin-top:14px}
+.subtopic:first-child{border-top:none;padding-top:0;margin-top:0}
+.subtopic-title{font-family:'Baloo Da 2',cursive;font-size:0.9rem;font-weight:800;color:#444;margin-bottom:8px}
+
+/* ── MCQ (বহুনির্বাচনি প্রশ্ন) ── */
+.mcq-item{border:1.5px solid #eee;border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.mcq-item:last-child{margin-bottom:0}
+.mcq-question{font-size:0.88rem;font-weight:600;color:#111827;margin-bottom:8px;line-height:1.6}
+.mcq-note{font-size:0.83rem;color:#555;background:#f7f7f7;padding:8px 12px;border-radius:8px;margin-bottom:10px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:7px}
+.mcq-option{border:1.5px solid #e0e0e0;border-radius:10px;padding:9px 14px;font-size:0.85rem;cursor:pointer;transition:background 0.2s,border-color 0.2s;color:#333}
+.mcq-option:hover{border-color:var(--c1)}
+.mcq-option.disabled{cursor:default}
+.mcq-option.correct{background:#e8f8ee;border-color:#2e7d4f;color:#1b5e35;font-weight:600}
+.mcq-option.wrong{background:#fdecea;border-color:#c0392b;color:#922b21}
+
+/* ── QA (প্রশ্নোত্তর) ── */
+.qa-list{display:flex;flex-direction:column;gap:10px}
+.qa-item{border:1.5px solid #eee;border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.qa-item.open{border-color:var(--c1)}
+.qa-q{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:0.88rem;font-weight:600;color:#111827;background:white;gap:10px;user-select:none}
+.qa-q:hover{background:#f8f8f8}
+.qa-q-text{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.qa-tag{display:inline-block;background:var(--c1);color:white;font-size:0.68rem;font-weight:800;padding:2px 9px;border-radius:10px;font-family:'Baloo Da 2',cursive;flex-shrink:0}
+.qa-icon{width:26px;height:26px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;transition:background 0.2s,transform 0.3s}
+.qa-item.open .qa-icon{background:var(--c1);color:white;transform:rotate(180deg)}
+.qa-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.2s;background:#f7fbff;font-size:0.87rem;color:#333;line-height:1.7;padding:0 16px}
+.qa-item.open .qa-a{max-height:800px;padding:12px 16px}
+
+/* ── WORD CHIPS ── */
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:#f0f0f0;border:1.5px solid #e0e0e0;border-radius:20px;padding:5px 14px;font-size:0.82rem;cursor:pointer;transition:background 0.2s,border-color 0.2s,transform 0.1s;color:#333;font-weight:600}
+.chip:hover{background:var(--c1);color:white;border-color:var(--c1);transform:scale(1.04)}
+.chip:active{transform:scale(0.97)}
+
+/* ── CHAIN BOX (এরপর কী?) ── */
+.chain-box{background:#f0f4ff;border:1.5px solid #c0d0f0;border-radius:12px;padding:14px 16px;font-size:0.87rem;color:#1e2a3a;line-height:1.7}
+.chain-box-label{font-family:'Baloo Da 2',cursive;font-size:0.78rem;font-weight:800;color:#4a5a8a;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+
+/* ── WORD POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.popup-overlay.show{display:flex;animation:fadeOverlay 0.2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.popup{background:white;border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:600px;animation:slideUp 0.3s ease}
+@keyframes slideUp{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.popup-handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 20px}
+.popup-word{font-family:'Baloo Da 2',cursive;font-size:1.4rem;color:var(--c1);margin-bottom:6px}
+.popup-meaning{font-size:0.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.popup-example{background:#f0f6ff;border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 10px 10px 0;font-size:0.86rem;color:#333;line-height:1.6}
+.popup-close{margin-top:18px;width:100%;padding:12px;background:var(--c1);color:white;border:none;border-radius:12px;font-family:'Hind Siliguri',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.popup-close:hover{background:var(--c1-deep)}
+
+/* ── KEY TOPICS BAR ── */
+.key-topics-bar{background:var(--dark);padding:20px;text-align:center}
+.key-topics-bar p{color:rgba(255,255,255,0.5);font-size:0.75rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em}
+.key-topics-wrap{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.key-topic-chip{background:rgba(255,255,255,0.1);color:white;font-family:'Baloo Da 2',cursive;font-size:0.78rem;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:background 0.2s}
+.key-topic-chip:hover{background:rgba(255,255,255,0.22)}
+
+@media (max-width:480px){
+  .home-header{padding:20px 16px 18px}
+  .home-emoji{font-size:1.7rem;margin-bottom:4px}
+  .home-chapter-tag{font-size:0.66rem;padding:3px 10px;margin-bottom:6px}
+  .home-header h1{font-size:1.15rem;margin-bottom:4px}
+  .home-header p{font-size:0.78rem}
+  .home-hint{font-size:0.75rem;padding:10px}
+  .detail-title{font-size:1.2rem}
+  .lesson-title{font-size:0.88rem}
+  .quality-grid{gap:8px}
+}
+@media print{
+  .activity-box{background:#f0f0f0!important;border:1px solid #999}
+  .activity-text{color:#333!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a class="nav-site-home" href="../../index.html" title="মূল হোম">🏠</a>
+    <div class="nav-logo" id="navLogo">[ইমোজি] [অধ্যায়ের ছোট নাম]</div>
+  </div>
+  <button class="nav-back" id="navBack" onclick="goHome()">← ফিরে যাও</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="home-header" id="homeHeader">
+    <div class="home-chapter-tag" id="homeChapterTag">৭ম শ্রেণি · [অধ্যায় নম্বর]</div>
+    <span class="home-emoji" id="homeEmoji">📘</span>
+    <h1 id="homeTitle">[অধ্যায়ের পুরো শিরোনাম]</h1>
+    <p id="homeSubtitle">প্রশ্নোত্তর ও শব্দার্থসহ</p>
+  </div>
+  <p class="home-hint">যেকোনো পাঠে ট্যাপ করো বিস্তারিত জানতে</p>
+  <div class="lesson-list" id="lessonList"></div>
+  <div class="key-topics-bar">
+    <p>গুরুত্বপূর্ণ বিষয়গুলো</p>
+    <div class="key-topics-wrap" id="keyTopics"></div>
+  </div>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="detailPage">
+  <div id="detailContent"></div>
+</div>
+
+<!-- WORD POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-handle"></div>
+    <div class="popup-word" id="popupWord"></div>
+    <div class="popup-meaning" id="popupMeaning"></div>
+    <div class="popup-example" id="popupExample"></div>
+    <button class="popup-close" onclick="closePopupBtn()">বুঝে গেছি! ✓</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ⬇️⬇️⬇️  DATA START — শুধু এই অংশ বদলে নতুন অধ্যায় বানাও  ⬇️⬇️⬇️
+   পুরো schema আর নিয়মের বিস্তারিত ব্যাখ্যা: template-guide.md দেখো।
+   ══════════════════════════════════════════════════════════════ */
+
+const chapterInfo = {
+  num: 'দ্বিতীয় অধ্যায়',
+  emoji: '🎭',
+  navLabel: '🎭 বাংলাদেশের সংস্কৃতি',
+  title: 'বাংলাদেশের সংস্কৃতি',
+  subtitle: 'প্রশ্নোত্তর ও শব্দার্থসহ'
+};
+
+const words = {
+  'সংস্কৃতি': {
+    meaning: 'মানুষ যেভাবে বাঁচে — কী খায়, কী পরে, কীভাবে কথা বলে, কোন উৎসব পালন করে — এই সব মিলিয়েই সংস্কৃতি।',
+    example: 'তুমি বাংলায় কথা বলো, ভাত-মাছ খাও, ঈদে বা পূজায় নতুন জামা পরো — এটাই তোমার সংস্কৃতির অংশ।'
+  },
+  'সাংস্কৃতিক বৈচিত্র্য': {
+    meaning: 'এক দেশে অনেক রকম মানুষ থাকলে তাদের জীবনযাপনও অনেক রকম হয় — এটাই সাংস্কৃতিক বৈচিত্র্য।',
+    example: 'তোমার ক্লাসে একজন ঈদে সেমাই খায়, একজন পূজায় প্রসাদ পায়, একজন বড়দিনে কেক খায় — এই বৈচিত্র্যটাই সুন্দর।'
+  },
+  'নৃগোষ্ঠী': {
+    meaning: 'একই ভাষা আর রীতিনীতির মানুষের দলকে নৃগোষ্ঠী বলে।',
+    example: 'বাঙালি একটা নৃগোষ্ঠী। চাকমারা আরেকটা। গারোরা আরেকটা। বাংলাদেশে এইরকম প্রায় ৫০টা নৃগোষ্ঠী আছে।'
+  },
+  'লোকসংস্কৃতি': {
+    meaning: 'সাধারণ মানুষ যুগ যুগ ধরে মুখে মুখে যা শিখিয়ে এসেছে — কোনো বই নেই, স্কুল নেই — তবু টিকে আছে।',
+    example: 'দাদির রূপকথার গল্প, মায়ের নকশিকাঁথা, গ্রামের বাউল গান — এগুলো কেউ পাঠ্যবইয়ে পড়েনি, তবু জানে।'
+  },
+  'বস্তুগত উপাদান': {
+    meaning: 'হাত দিয়ে ধরা যায়, চোখে দেখা যায় এমন সাংস্কৃতিক জিনিস।',
+    example: 'নকশিকাঁথা হাত দিয়ে ধরতে পারো — এটা বস্তুগত। কিন্তু বাউল গান ধরতে পারো না — এটা অবস্তুগত।'
+  },
+  'অবস্তুগত উপাদান': {
+    meaning: 'হাত দিয়ে ধরা যায় না, শুধু কানে শোনা যায় বা মনে অনুভব করা যায় এমন সংস্কৃতি।',
+    example: 'রূপকথার গল্প, ধাঁধা, প্রবাদ, বাউল গান — এগুলো ধরা যায় না কিন্তু মানুষের মনে বেঁচে আছে।'
+  },
+  'লোকশিল্প': {
+    meaning: 'সাধারণ মানুষ নিজে হাতে যে শিল্পকর্ম তৈরি করে — কোনো প্রশিক্ষণ ছাড়া, পূর্বপুরুষের কাছ থেকে শিখে।',
+    example: 'কুমারের মাটির হাঁড়ি, তাঁতির বোনা কাপড়, গ্রামের মেয়ের নকশিকাঁথা — এগুলোই লোকশিল্প।'
+  },
+  'টোটেম': {
+    meaning: 'নৃগোষ্ঠীর একটা গোত্রের প্রতীক — কোনো প্রাণী বা গাছ। সেটাকে পবিত্র মনে করে, খায় না বা নষ্ট করে না।',
+    example: 'ধরো কোনো গোত্রের টোটেম হরিণ। সেই গোত্রের মানুষ হরিণ শিকার করবে না, হরিণকে রক্ষা করবে।'
+  },
+  'সহাবস্থান': {
+    meaning: 'ভিন্ন ধর্ম বা জাতির মানুষ পাশাপাশি মিলেমিশে শান্তিতে থাকা।',
+    example: 'তোমার পাশের বাড়িতে হিন্দু পরিবার থাকে, তুমি মুসলিম — ঈদে তোমরা সেমাই বিনিময় করো, পূজায় তারা প্রসাদ দেয়। এটাই সহাবস্থান।'
+  },
+  'মিথস্ক্রিয়া': {
+    meaning: 'দুটো জিনিস যখন পরস্পরকে প্রভাবিত করে — একজন আরেকজনের কাছ থেকে কিছু নেয়, কিছু দেয়।',
+    example: 'গ্রামের ছেলে শহরে এসে বার্গার খেতে শিখল। শহরের মানুষ গ্রামে গিয়ে পিঠা খেতে পছন্দ করল। দুজনই পাল্টাল — এটাই মিথস্ক্রিয়া।'
+  },
+  'গ্রামীণ সংস্কৃতি': {
+    meaning: 'গ্রামের মানুষের খাওয়া-দাওয়া, কাজ, উৎসব, বিশ্বাস মিলিয়ে যে জীবনযাপন।',
+    example: 'ভোরে উঠে মাঠে যাওয়া, দুপুরে ভাত-মাছ খাওয়া, বিকেলে নদীতে গোসল, রাতে প্রতিবেশীর সাথে গল্প — এটাই গ্রামীণ সংস্কৃতি।'
+  },
+  'নবান্ন': {
+    meaning: '"নব" মানে নতুন, "অন্ন" মানে ভাত। নতুন ধান কাটার পর যে আনন্দ উৎসব।',
+    example: 'অগ্রহায়ণ মাসে মাঠ থেকে নতুন ধান আসল। মা সেই ধানের পিঠা বানাল, পাশের বাড়িতে দিল। পাশের বাড়িও দিল। এই আনন্দটাই নবান্ন।'
+  },
+  'বৈসাবি': {
+    meaning: 'পাহাড়ের তিনটা সম্প্রদায়ের তিনটা উৎসব একসাথে — বৈসু+সাংগ্রাই+বিজু = বৈসাবি।',
+    example: 'ত্রিপুরারা বৈসু, মারমারা সাংগ্রাই, চাকমারা বিজু পালন করে। এখন তিনজন একসাথে বৈসাবি নামে পালন করে — বৈশাখের ঠিক আগে।'
+  },
+  'মাতৃসূত্রীয়': {
+    meaning: 'যে সমাজে মায়ের নামে পরিচয় হয় আর মেয়েরাই সম্পত্তি পায়।',
+    example: 'গারো সমাজে বিয়ের পর জামাই মেয়ের বাড়িতে চলে আসে — মেয়ের বাবার বাড়িতে। উল্টো নিয়ম! কারণ এটা মাতৃসূত্রীয় সমাজ।'
+  },
+  'লোককাহিনি': {
+    meaning: 'কোনো বইতে লেখা নেই, তবু মুখে মুখে প্রজন্মের পর প্রজন্ম চলে আসা গল্প।',
+    example: '"এক দেশে এক রাজা ছিল, তার সাত রানি..." — দাদি এটা তার দাদির কাছে শুনেছিল, তার দাদি তার দাদির কাছে। কেউ বইতে পড়েনি।'
+  },
+  'প্রবাদ-প্রবচন': {
+    meaning: 'ছোট্ট এক বাক্যে বড় জীবনের সত্য কথা — সাধারণ মানুষের অভিজ্ঞতা থেকে তৈরি।',
+    example: '"অতি লোভে তাঁতি নষ্ট" — মানে বেশি লোভ করলে সব হারাতে হয়। এটা কোনো বড় পণ্ডিত লেখেননি — গ্রামের মানুষ জীবন থেকে শিখেছে।'
+  },
+  'ঔপনিবেশিক': {
+    meaning: 'যখন একটা শক্তিশালী দেশ অন্য একটা দেশ জোর করে দখল করে সেখানে রাজত্ব করে।',
+    example: '২০০ বছর ইংরেজরা ভারত শাসন করেছিল — এই সময়টা ছিল ঔপনিবেশিক আমল। তখন নৃগোষ্ঠীরাও ইংরেজদের সংস্কৃতির সংস্পর্শে আসে।'
+  },
+  'কীর্তন': {
+    meaning: 'রাধা-কৃষ্ণের গান গেয়ে ভক্তি প্রকাশ করা — হিন্দু ধর্মের একটি সংগীতধারা।',
+    example: 'মণিপুরি মেয়েরা দল বেঁধে রাধা-কৃষ্ণের গান গায় আর নাচে — এটাকে গোপী নাচ বা কীর্তন বলে।'
+  },
+  'হালখাতা': {
+    meaning: 'পহেলা বৈশাখে দোকানদার পুরনো হিসাব শেষ করে নতুন খাতা শুরু করে।',
+    example: 'দোকানদার রহিম সাহেব পহেলা বৈশাখে দোকান সাজালেন। খদ্দেররা এলেন পুরনো বাকি দিতে। মিষ্টি দেওয়া হলো। নতুন খাতায় নতুন হিসাব শুরু — এটাই হালখাতা।'
+  },
+  'মৃৎশিল্প': {
+    meaning: 'মাটি দিয়ে হাঁড়ি, পাতিল, মূর্তি, খেলনা বানানো।',
+    example: 'কুমার পাড়ায় গেলে দেখবে মাটি থেকে কীভাবে সুন্দর হাঁড়ি তৈরি হয়। পুজোর মৌসুমে মাটির দুর্গাপ্রতিমাও কুমাররাই বানায়।'
+  },
+  'নকশিকাঁথা': {
+    meaning: 'পুরনো কাপড় একসাথে সেলাই করে তার উপর রঙিন সুতায় সুন্দর নকশা করা।',
+    example: 'দাদি পুরনো শাড়ি ছিঁড়ে গেলে ফেলে দিতেন না। সেই কাপড় দিয়ে কাঁথা বানিয়ে তাতে ফুল-পাখি-নদীর নকশা করতেন। এটাই নকশিকাঁথা।'
+  }
+};
+
+const lessons = [
+  {
+    id: 'l1', num: 'পাঠ ১', icon: '🌈', title: 'সাংস্কৃতিক বৈচিত্র্যের ধারণা',
+    sub: 'ধর্ম · ভাষা · সম্প্রদায়', type: 'type-3', heroClass: 'hero-3',
+    heroSub: 'ধর্ম, ভাষা ও সম্প্রদায় বিচারে বৈচিত্র্য',
+    sections: [
+      {
+        text: 'সংস্কৃতি মানে হলো মানুষ যেভাবে বাঁচে — কী খায়, কী পরে, কীভাবে কথা বলে, কোন উৎসব পালন করে, কীসে বিশ্বাস রাখে। বাংলাদেশে অনেক রকম মানুষ থাকে। তাদের ধর্ম আলাদা, ভাষা আলাদা, রীতি আলাদা। তাই এদেশে সংস্কৃতিও অনেক রকম। এই বিভিন্নতাকেই বলে সাংস্কৃতিক বৈচিত্র্য।',
+        story: 'ধরো তোমার ক্লাসে একজন মুসলিম বন্ধু ঈদে সেমাই খায়, একজন হিন্দু বন্ধু পূজায় প্রসাদ খায়, একজন বৌদ্ধ বন্ধু বুদ্ধপূর্ণিমায় মন্দিরে যায়। তিনজনের উৎসব আলাদা — কিন্তু তিনজনই বাংলাদেশের মানুষ। এটাই সাংস্কৃতিক বৈচিত্র্য।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c2',
+        chips: ['সংস্কৃতি', 'সাংস্কৃতিক বৈচিত্র্য', 'সহাবস্থান', 'মিথস্ক্রিয়া', 'নৃগোষ্ঠী']
+      },
+      { title: 'ধর্ম অনুযায়ী সংস্কৃতির পার্থক্য', text: 'বাংলাদেশে চার ধর্মের মানুষ থাকে। মুসলমানরা দুটো ঈদ পালন করে — ঈদুল ফিতর (রোজার ঈদ) আর ঈদুল আজহা (কোরবানির ঈদ)। হিন্দুরা দুর্গাপূজা, কালীপূজা, সরস্বতী পূজা করে। বৌদ্ধরা বুদ্ধপূর্ণিমা পালন করে। খ্রিষ্টানরা বড়দিন উদযাপন করে। উৎসব আলাদা হলেও সব ধর্মের মূল কথা একটাই — মানুষকে ভালোবাসো, শান্তিতে থাকো। বাংলাদেশে এই চার ধর্মের মানুষ পাশাপাশি বহু বছর ধরে ভালোভাবেই থাকছে।' },
+      { title: 'ভাষা অনুযায়ী সংস্কৃতির পার্থক্য', text: 'বাংলাদেশের বেশিরভাগ মানুষ বাংলায় কথা বলে। কিন্তু সবাই নয়। পাহাড়ে চাকমারা চাকমা ভাষায় কথা বলে, মারমারা মারমা ভাষায়, গারোরা গারো ভাষায়। উত্তরবঙ্গে সাঁওতালরা নিজেদের ভাষায় কথা বলে। এইভাবে ভাষার দিক থেকেও দেশটা বৈচিত্র্যময়। আর বাংলা ভাষাতেও হাজার বছরে আরবি, ফার্সি, ইংরেজি, পর্তুগিজসহ অনেক ভাষার শব্দ মিশে গেছে।' },
+      { title: 'এক সংস্কৃতি আরেক সংস্কৃতিকে প্রভাবিত করে', text: 'যখন দুই সম্প্রদায়ের মানুষ পাশাপাশি থাকে, তারা একে অপরের কাছ থেকে কিছু না কিছু নেয়। যেমন — হিন্দু-মুসলিম উভয়েই নকশিকাঁথা বানায়, বাউল গান শোনে। হিন্দু প্রতিবেশীর মিষ্টি ঈদে মুসলিমের ঘরে আসে, মুসলিম প্রতিবেশীর সেমাই পূজায় হিন্দুর ঘরে যায়। এইভাবে সংস্কৃতির মিশ্রণ হতে থাকে।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'সংস্কৃতি মানে কী?', a: 'মানুষ যেভাবে জীবন কাটায় — কী খায়, কী পরে, কীভাবে কথা বলে, কোন উৎসব পালন করে, কীসে বিশ্বাস রাখে — এই সব মিলিয়েই সংস্কৃতি। যেমন ভাত-মাছ খাওয়া, বাংলায় কথা বলা, বৈশাখ পালন করা — এটা বাঙালির সংস্কৃতি।' },
+          { q: 'বাংলাদেশের সংস্কৃতিতে বৈচিত্র্য কেন?', a: 'তিনটি কারণে। এক — এদেশে মুসলিম, হিন্দু, বৌদ্ধ, খ্রিষ্টান ভিন্ন ভিন্ন ধর্মের মানুষ থাকে। দুই — বাঙালি ছাড়াও চাকমা, গারো, সাঁওতালসহ নানা জাতির মানুষ আছে যাদের ভাষা আলাদা। তিন — বাংলাদেশে ছয়টি ঋতু আছে, প্রতিটি ঋতুতে আলাদা উৎসব ও জীবনযাপন।' },
+          { q: 'এক সংস্কৃতি আরেক সংস্কৃতিকে কীভাবে প্রভাবিত করে?', a: 'দুই সম্প্রদায়ের মানুষ পাশাপাশি থাকলে ধীরে ধীরে একে অপরের খাবার খেয়ে দেখে, গান শোনে, উৎসবে যোগ দেয়। এভাবে একটু একটু করে একজনের সংস্কৃতি আরেকজনকে প্রভাবিত করে। যেমন নকশিকাঁথা, বাউল গান — এগুলো সব ধর্মের মানুষ মিলে তৈরি করেছে।' },
+          { q: 'বাংলা ভাষায় বিদেশি শব্দ কোথা থেকে এলো?', a: 'হাজার বছর ধরে নানা দেশের মানুষ বাংলাদেশে এসেছে। আরবরা এনেছে আরবি শব্দ (যেমন: কিতাব, কলম), ফার্সিরা এনেছে ফার্সি শব্দ (যেমন: দরজা, বাজার), পর্তুগিজরা এনেছে পর্তুগিজ শব্দ (যেমন: আলমারি, বালতি), ইংরেজরা এনেছে ইংরেজি শব্দ। এগুলো এখন বাংলার নিজের শব্দ হয়ে গেছে।' }
+        ]
+      }
+    ],
+    chain: 'এই বৈচিত্র্য গ্রামে আর শহরে কেমন দেখায় — সেটা পাঠ ২ ও ৩-এ।'
+  },
+  {
+    id: 'l2', num: 'পাঠ ২-৩', icon: '🏘️', title: 'গ্রাম ও শহরের সংস্কৃতি',
+    sub: 'কৃষিজীবন · উৎসব · পার্থক্য', type: 'type-2', heroClass: 'hero-2',
+    heroSub: 'গ্রামীণ ও শহুরে জীবনের সংস্কৃতির তুলনা',
+    sections: [
+      {
+        text: 'বাংলাদেশে দুই ধরনের মানুষ থাকে — গ্রামের মানুষ আর শহরের মানুষ। দুজনের জীবন অনেকটা আলাদা। গ্রামে মানুষ মাঠে কাজ করে, নদীতে মাছ ধরে। শহরে মানুষ অফিসে চাকরি করে, কারখানায় কাজ করে। কিন্তু দুজনেই পহেলা বৈশাখ পালন করে, ঈদে নতুন জামা পরে — কিছু কিছু জিনিস এক।',
+        story: 'ধরো তোমার দুই বন্ধু আছে। একজন গ্রামে থাকে — সে সকালে উঠে মাঠে যায়, প্রতিবেশীর সঙ্গে গল্প করে, রাতে যাত্রাপালা দেখে। আরেকজন ঢাকায় থাকে — সে একা ফ্ল্যাটে থাকে, প্রতিবেশীকে চেনে না, স্কুলের পর বার্গার খায়। দুজনেই বাংলাদেশি, কিন্তু জীবন কতটা আলাদা!',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'c4',
+        chips: ['গ্রামীণ সংস্কৃতি', 'নবান্ন', 'হালখাতা', 'মিথস্ক্রিয়া']
+      },
+      { title: 'গ্রামের জীবন ও সংস্কৃতি', text: 'গ্রামের বেশিরভাগ মানুষ মাটির সাথে জড়িত। কেউ চাষ করে, কেউ মাছ ধরে, কেউ কাপড় বোনে (তাঁতি), কেউ মাটির জিনিস বানায় (কুমার), কেউ লোহার কাজ করে (কামার)। আগে গরু দিয়ে জমি চাষ হতো, এখন ট্র্যাক্টর দিয়ে হয়। খাবার হলো ভাত-মাছ-শাকসবজি। পুরুষরা লুঙি-ফতুয়া পরে, মেয়েরা শাড়ি পরে — এখন শার্ট-প্যান্ট আর সালোয়ার কামিজও চলে। গ্রামে সামাজিক বন্ধন শক্ত — কেউ অসুস্থ হলে পাড়ার সবাই দেখতে আসে।' },
+      { title: 'গ্রামের উৎসব ও বিনোদন', text: 'গ্রামে সব ধর্মের মানুষ মিলে কিছু উৎসব করে — বৈশাখী মেলা, নবান্ন (নতুন ধানের উৎসব), নৌকাবাইচ, হালখাতা (দোকানদারদের নতুন বছর শুরুর উৎসব)। এছাড়া যার যার ধর্মের উৎসব তো আছেই। বিনোদনের জন্য আগে রাতভর যাত্রাপালা হতো — গান, নাচ, অভিনয় মিলিয়ে এক মজার অনুষ্ঠান। এখন এটা কমে গেছে।' },
+      { title: 'শহরের জীবন ও সংস্কৃতি', text: 'শহরে মানুষ চাকরি করে, ব্যবসা করে, কারখানায় কাজ করে। গ্রাম থেকে অনেক মানুষ ঢাকায় এসে গার্মেন্টসে কাজ নেয়, রিকশা চালায়। শহরে প্রতিবেশীর সাথে সম্পর্ক কম — একই দালানে থেকেও অনেকে একে অপরকে চেনে না। খাবারে এসেছে ফাস্ট ফুড — বার্গার, স্যান্ডউইচ। পোশাকে বেশি বৈচিত্র্য।' },
+      { title: 'শহরের উৎসব ও বিনোদন', text: 'শহরে পহেলা বৈশাখ অনেক বড় করে হয় — রমনায় ছায়ানটের গান, মঙ্গল শোভাযাত্রা। একুশের বইমেলা এখন পুরো একমাসের উৎসব। বিনোদনের জন্য সিনেমা হল, মঞ্চনাটক, টেলিভিশন, ইন্টারনেট। গ্রামের মানুষ শহরে এলে কিছু শহুরে জিনিস শিখে গ্রামে নিয়ে যায়, আবার শহরের মানুষও গ্রামের সংস্কৃতি থেকে কিছু নেয়।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'গ্রাম ও শহরের সংস্কৃতির মূল পার্থক্য কী?', a: 'গ্রামে সামাজিক বন্ধন শক্ত — কারো বিপদে সবাই এগিয়ে আসে, উৎসবে সবাই একসাথে। শহরে বন্ধন আলগা — একই বাড়িতে থেকেও মানুষ অপরিচিত থাকে। গ্রামে কৃষিকাজ প্রধান, শহরে চাকরি-ব্যবসা।' },
+          { q: 'নবান্ন উৎসব কী? কখন হয়?', a: '"নব" মানে নতুন, "অন্ন" মানে ভাত। হেমন্তকালে (অগ্রহায়ণ মাসে) নতুন ধান কাটা হলে সেই ধানের পিঠা-পায়েস বানানো হয়। প্রতিবেশীকে পিঠা দেওয়া হয়। এটা সব ধর্মের মানুষ একসাথে পালন করে।' },
+          { q: 'হালখাতা কী?', a: 'পহেলা বৈশাখে দোকানদাররা নতুন হিসাবের খাতা শুরু করে। পুরনো বাকি-পাওনা মিটিয়ে নতুন বছর শুরু হয়। দোকানে মিষ্টি দেওয়া হয়, খুশির পরিবেশ থাকে। এটা ব্যবসায়ীদের একটা ঐতিহ্যবাহী উৎসব।' },
+          { q: 'গ্রাম ও শহর কীভাবে একে অপরকে প্রভাবিত করে?', a: 'গ্রাম থেকে মানুষ শহরে আসলে গ্রামের গান, খাবার, পোশাক শহরে আসে। শহর থেকে ফিরে গেলে ফাস্ট ফুড, নতুন পোশাক, শহরের উৎসবের ধারণা গ্রামে যায়। এভাবে দুই সংস্কৃতি পরস্পরকে পাল্টে দেয়।' }
+        ]
+      }
+    ],
+    chain: 'গ্রামের মানুষ হাজার বছর ধরে যে সংস্কৃতি বুকে ধরে রেখেছে — সেটার নাম লোকসংস্কৃতি। পাঠ ৪-এ এটা বিস্তারিত।'
+  },
+  {
+    id: 'l3', num: 'পাঠ ৪', icon: '🎵', title: 'লোকসংস্কৃতি ও এর উপাদান',
+    sub: 'বস্তুগত · অবস্তুগত · লোকশিল্প', type: 'type-4', heroClass: 'hero-4',
+    heroSub: 'সাধারণ মানুষের হাজার বছরের সংস্কৃতি',
+    sections: [
+      {
+        text: 'লোকসংস্কৃতি মানে হলো সাধারণ মানুষের সংস্কৃতি। কোনো বই ছিল না, কোনো স্কুল ছিল না — তবু দাদি তার নাতনিকে ছড়া শিখিয়েছে, মা তার মেয়েকে নকশিকাঁথা বানাতে শিখিয়েছে, গায়েন তার শিষ্যকে বাউল গান শিখিয়েছে। এভাবেই প্রজন্মের পর প্রজন্ম এই সংস্কৃতি বেঁচে থেকেছে।',
+        story: 'দাদির মুখে রূপকথার গল্প, নকশিকাঁথার প্রতিটি ফোঁড়ায় গ্রামের ছবি, বাউলের একতারায় মনের কথা — এগুলো কেউ লিখে রাখেনি। তবু হাজার বছর ধরে মানুষের মুখে মুখে বেঁচে আছে। এটাই লোকসংস্কৃতির শক্তি।',
+        storyLabel: '💡 সহজ উদাহরণ',
+        chips: ['লোকসংস্কৃতি', 'বস্তুগত উপাদান', 'অবস্তুগত উপাদান', 'লোকশিল্প', 'নকশিকাঁথা', 'মৃৎশিল্প', 'লোককাহিনি', 'প্রবাদ-প্রবচন']
+      },
+      { title: 'লোকসংস্কৃতি কীভাবে তৈরি হয়?', text: 'ভয় থেকে: মানুষ ভূতের ভয় পেত। তাই শাঁকচুন্নি, পেতনি, মামদো ভূতের গল্প তৈরি হলো। ওঝারা ঝাড়ফুঁক করে ভূত তাড়ায় — এটাও লোকবিশ্বাস। বিয়ে থেকে: গায়েহলুদ একটা পুরনো রীতি — বিয়ের আগে হলুদ মাখানো হয়। কেউ কিতাবে পড়ে শেখেনি, মা-দাদিরা শিখিয়ে দিয়েছে। রোগ সারাতে: আগে ডাক্তার ছিল না। তাই তাবিজ-কবজ, পানিপড়া দিয়ে রোগ সারানোর চেষ্টা হতো। বৃষ্টির জন্য: খরা হলে মেয়েরা কুলা নিয়ে বাড়ি বাড়ি যেত, বৃষ্টির গান গাইত — বিশ্বাস ছিল এতে বৃষ্টি আসবে।' },
+      { title: 'বস্তুগত উপাদান — যা ধরা যায়, ছোঁয়া যায়', text: 'লোকশিল্প: নকশিকাঁথা (পুরনো কাপড়ে সুন্দর সেলাই), মৃৎশিল্প (মাটি দিয়ে হাঁড়ি-পাতিল বানানো), তাঁতশিল্প (হাতে কাপড় বোনা), বেতশিল্প (বাঁশ-বেত দিয়ে ঝুড়ি-চেয়ার বানানো), শাঁখা বানানো। লোকবিজ্ঞান: চরকা (সুতা কাটার যন্ত্র), চাই (মাছ ধরার বাঁশের ফাঁদ), লাঙল-কাস্তে বানানোর পদ্ধতি। লোকযান: নৌকা (বিভিন্ন ধরনের — ডিঙি, পালের নৌকা), পালকি।' },
+      { title: 'অবস্তুগত উপাদান — যা ধরা যায় না, শুধু অনুভব করা যায়', text: 'লোককাহিনি: রূপকথার গল্প, পরির গল্প — "এক দেশে এক রাজা ছিল..." দিয়ে শুরু। প্রবাদ-প্রবচন: ছোট বাক্যে বড় সত্য — "অতি লোভে তাঁতি নষ্ট", "আম পাকলে কাকের অভাব নেই"। ডাকের কথা ও খনার বচন: আবহাওয়া ও চাষ সম্পর্কে পুরনো জ্ঞান — "আষাঢ়ে বাদল নামে, শীতে শিশির জমে"। ছেলে ভুলানো ছড়া: "আয় আয় চাঁদ মামা টিপ দিয়ে যা..." ধাঁধা: "এক হাতে তালি বাজে না" — এই ধরনের ধাঁধা বুদ্ধি খেলায় ব্যবহার হয়। বাউল গান, মুর্শিদি গান: একতারা বাজিয়ে মনের কথা বলা।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'লোকসংস্কৃতি কী? সহজ ভাষায় বলো।', a: 'লোকসংস্কৃতি হলো সাধারণ মানুষের তৈরি সংস্কৃতি। কোনো বিশেষজ্ঞ বানায়নি, কোনো বইতে লেখা নেই — তবু মানুষের মুখে মুখে প্রজন্মের পর প্রজন্ম বেঁচে আছে। যেমন দাদির রূপকথার গল্প, মায়ের নকশিকাঁথা, গ্রামের বাউল গান।' },
+          { q: 'বস্তুগত আর অবস্তুগত উপাদানের পার্থক্য কী?', a: 'বস্তুগত মানে হাত দিয়ে ধরা যায় — নকশিকাঁথা, মাটির হাঁড়ি, বাঁশের ঝুড়ি। অবস্তুগত মানে ধরা যায় না, শুধু শোনা বা অনুভব করা যায় — রূপকথার গল্প, বাউল গান, প্রবাদ, ধাঁধা।' },
+          { q: 'গায়েহলুদকে লোকসংস্কৃতি বলা হয় কেন?', a: 'কারণ এটা কোনো ধর্মীয় বইতে লেখা নেই। মানুষের মুখে মুখে চলে আসা পুরনো রীতি। দাদির কাছ থেকে মা শিখেছে, মায়ের কাছ থেকে মেয়ে শিখেছে — এভাবেই টিকে আছে। এটাই লোকসংস্কৃতির বৈশিষ্ট্য।' },
+          { q: 'প্রবাদ-প্রবচন কী? উদাহরণ দাও।', a: 'প্রবাদ হলো ছোট বাক্যে বড় জীবনের সত্য কথা। যেমন — "অতি লোভে তাঁতি নষ্ট" মানে বেশি লোভ করলে সব হারাতে হয়। "সকাল বেলার বৃষ্টি, রাত্তিরে হয় পিঠি" মানে সকালে বৃষ্টি হলে রাতে পরিষ্কার থাকে। এগুলো গ্রামের মানুষ অভিজ্ঞতা থেকে শিখেছে।' }
+        ]
+      }
+    ],
+    chain: 'এই লোকসংস্কৃতির একটা বড় অংশ ধরে রেখেছে বাংলাদেশের বিভিন্ন নৃগোষ্ঠী — তাদের কথা পাঠ ৫-এ।'
+  },
+  {
+    id: 'l4', num: 'পাঠ ৫', icon: '🏔️', title: 'বিভিন্ন নৃগোষ্ঠীর সংস্কৃতি',
+    sub: 'চাকমা · মারমা · গারো · সাঁওতাল', type: 'type-5', heroClass: 'hero-5',
+    heroSub: 'বাংলাদেশের প্রায় ৫০টি নৃগোষ্ঠীর সাংস্কৃতিক জীবন',
+    sections: [
+      {
+        text: 'বাংলাদেশে শুধু বাঙালি না — আরও প্রায় ৫০ রকমের মানুষ থাকে যাদের ভাষা, পোশাক, উৎসব, খাবার — সব আলাদা। পাহাড়ে চাকমা-মারমা, ময়মনসিংহে গারো, সিলেটে খাসিয়া-মণিপুরি, উত্তরবঙ্গে সাঁওতাল-ওরাঁও, কক্সবাজারে রাখাইন। এরা সবাই বাংলাদেশের মানুষ, কিন্তু প্রত্যেকের নিজস্ব পরিচয় আছে।',
+        story: 'পাহাড়ের চাকমা মেয়েটি লাল-কালো পিনোন পরে, বিজু উৎসবে নাচে। সমতলের গারো মেয়েটি দকমান্দা পরে, ফাগুয়া উৎসবে আনন্দ করে। সাঁওতাল মেয়েটি গলায় হাসলি পরে, সোহরাই উৎসবে গান গায়। তিনজন বাংলাদেশি — তিনটি আলাদা জগৎ।',
+        storyLabel: '💡 সহজ উদাহরণ', storyClass: 'green',
+        chips: ['নৃগোষ্ঠী', 'বৈসাবি', 'মাতৃসূত্রীয়', 'টোটেম', 'কীর্তন', 'ঔপনিবেশিক']
+      },
+      { title: 'ধর্ম ও প্রকৃতির সাথে সম্পর্ক', text: 'নৃগোষ্ঠীর মানুষেরা আগে প্রকৃতিকে পূজা করত। তারা বিশ্বাস করে — মানুষ প্রকৃতির সন্তান, প্রকৃতিকে নষ্ট করা উচিত না। এখনও তাদের গোত্রের প্রতীক হিসেবে কোনো গাছ বা প্রাণী থাকে — যাকে বলে টোটেম। সেই প্রাণী বা গাছ কেউ নষ্ট করে না। পরে অনেকে নতুন ধর্ম নিয়েছে — চাকমা, মারমা, রাখাইন বৌদ্ধ ধর্ম নিয়েছে। গারো, সাঁওতাল, ওরাঁও খ্রিষ্টধর্ম নিয়েছে। কিন্তু প্রকৃতির প্রতি মমতা এখনো আছে।' },
+      { title: 'আনন্দ উৎসব', text: 'মণিপুরি: রাধা-কৃষ্ণের গান ও নাচ (গোপী নাচ বলে) তাদের সবচেয়ে প্রিয়। বসন্তে হোলি উৎসব। ওরাঁও: ফাল্গুন মাসে নববর্ষ পালন করে, নাম ফাগুয়া। সাঁওতাল: সোহরাই (ফসল কাটার পর), বাহা (ফুলের উৎসব)। চাকমা-মারমা-ত্রিপুরা: বৈশাখের আগে বৈসাবি — বৈসু+সাংগ্রাই+বিজু মিলিয়ে তিন সম্প্রদায় একসাথে পালন করে। মারমা ও রাখাইন: নববর্ষে জল উৎসব — একে অপরের গায়ে পানি ছিটায়।' },
+      { title: 'পোশাক ও অলংকার', text: 'চাকমা মেয়েরা পরে "পিনোন" — লাল ও কালো রঙের পোশাক, সাথে ব্লাউজ। মারমা মেয়েদের পোশাকের নাম "থামি"। গারো মেয়েরা পরে দকমান্দা, দকশাড়ি। ওরাঁও মহিলারা গলায় হাসলি, নাকে নোলক বা নাকচনা, কানে কানখুলি বা তিপার পাতা পরে। এই গয়নাগুলো প্রাচীন আমল থেকে চলে আসছে।' },
+      { title: 'খাবার ও লোকবিশ্বাস', text: 'গারোরা শুঁটকি মাছ (নাখাম) খুব ভালোবাসে। পার্বত্য চট্টগ্রামের নৃগোষ্ঠীরা নাপ্পি বা সিঁদোল (চিংড়ি শুঁটকির গুঁড়া) খায়। ওরাঁওরা পৌষ মাসে ঘর বানায় না — তাদের বিশ্বাস এতে অমঙ্গল হয়। গারোরা রাতে ঘরের ময়লা বাইরে ফেলে না। খাসিয়া ও গারো সমাজে মেয়েরাই সম্পত্তির মালিক — জামাই স্ত্রীর বাড়িতে থাকে।' },
+      {
+        title: '💬 প্রশ্নোত্তর',
+        qa: [
+          { q: 'নৃগোষ্ঠী মানে কী?', a: 'একই ভাষা, রীতিনীতি ও পরিচয়ের মানুষের দলকে নৃগোষ্ঠী বলে। বাঙালি একটি নৃগোষ্ঠী, চাকমা আরেকটি, গারো আরেকটি। বাংলাদেশে এইরকম প্রায় ৫০টি নৃগোষ্ঠী আছে।' },
+          { q: 'বৈসাবি কী? নামটা কোথা থেকে এলো?', a: 'পার্বত্য চট্টগ্রামের তিনটি নৃগোষ্ঠীর তিনটি আলাদা উৎসব — ত্রিপুরাদের বৈসু, মারমাদের সাংগ্রাই, চাকমাদের বিজু। তিনটি উৎসবের প্রথম অক্ষর মিলিয়ে হলো বৈ+সা+বি = বৈসাবি। এখন তিন সম্প্রদায় একসাথে পালন করে।' },
+          { q: 'টোটেম কী?', a: 'নৃগোষ্ঠীর প্রতিটি গোত্রের একটা প্রতীক থাকে — কোনো প্রাণী বা গাছ। যেমন কোনো গোত্রের টোটেম হরিণ হলে, সেই গোত্রের মানুষ হরিণ খাবে না, হরিণকে পবিত্র মনে করবে। এটা তাদের গোত্রের পরিচয়চিহ্ন।' },
+          { q: 'মাতৃসূত্রীয় সমাজ মানে কী?', a: 'সাধারণত বাবার নামে পরিচয় হয়, সম্পত্তি ছেলেরা পায়। কিন্তু গারো ও খাসিয়া সমাজ উল্টো — মায়ের নামে পরিচয়, সম্পত্তি মেয়েরা পায়। বিয়ের পর জামাই স্ত্রীর বাড়িতে চলে আসে।' },
+          { q: 'নৃগোষ্ঠীর মানুষ প্রকৃতিকে এত ভালোবাসে কেন?', a: 'তারা মনে করে মানুষ প্রকৃতির অংশ — প্রকৃতি ছাড়া মানুষ বাঁচতে পারে না। তাই গাছ কাটা, পশু মারা — এগুলো তাদের কাছে পাপের মতো। এই বিশ্বাস থেকেই টোটেম প্রথা, প্রকৃতি পূজা এসেছে।' }
+        ]
+      }
+    ],
+    chain: 'বাংলাদেশের এই বৈচিত্র্যময় সংস্কৃতি — ধর্ম, ভাষা, গ্রাম, শহর, লোকসংস্কৃতি, নৃগোষ্ঠী — সব মিলিয়েই আমাদের পরিচয়।'
+  },
+  {
+    id: 'l5', num: 'অনুশীলনী', icon: '📝', title: 'পরীক্ষার প্রশ্নোত্তর',
+    sub: 'সৃজনশীল · সংক্ষিপ্ত · উত্তরসহ', type: '', heroClass: 'hero-1',
+    heroSub: 'পাঠ্যবইয়ের অনুশীলনী — সহজ উত্তরসহ',
+    sections: [
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ১ (রাকীন ও আবীরের গল্প)',
+        text: 'রাকীন গ্রামে থাকে। হেমন্তে নতুন ধান উঠলে পিঠা-পায়েস হয়, বাড়িতে বাড়িতে দেওয়া-নেওয়া হয়। সে যাত্রাপালা দেখে। তার চাচাতো ভাই আবীর কুমিল্লায় ফ্ল্যাটে থাকে। বাবা ডাক্তার, মা শিক্ষক — দুজনই ব্যস্ত। আবীর একা থাকে। ক্ষুধা লাগলে বার্গার বা স্যান্ডউইচ খায়।',
+        qa: [
+          { q: 'ক. লোকসংস্কৃতির বস্তুগত উপাদান কাকে বলে?', a: 'লোকসংস্কৃতির যেসব উপাদান হাত দিয়ে ধরা যায় বা চোখে দেখা যায়, সেগুলোকে বস্তুগত উপাদান বলে। যেমন — নকশিকাঁথা, মাটির হাঁড়ি (মৃৎশিল্প), তাঁতের কাপড়, বাঁশ-বেতের ঝুড়ি, নৌকা, পালকি।', tag: 'সৃজনশীল' },
+          { q: 'খ. বাংলাদেশের সংস্কৃতি কী? ব্যাখ্যা করো।', a: 'বাংলাদেশে মুসলিম, হিন্দু, বৌদ্ধ, খ্রিষ্টানসহ বিভিন্ন ধর্মের এবং বাঙালি, চাকমা, গারো, সাঁওতালসহ নানা নৃগোষ্ঠীর মানুষ বাস করে। বহু বছর পাশাপাশি থাকতে থাকতে তাদের ভাষা, খাবার, পোশাক, উৎসবে পরস্পরের প্রভাব পড়েছে। এই মিশ্রণ ও সহাবস্থানের মধ্য দিয়ে যে সংস্কৃতি তৈরি হয়েছে — সেটাই বাংলাদেশের সংস্কৃতি।', tag: 'সৃজনশীল' },
+          { q: 'গ. উদ্দীপকে (রাকীন-আবীর) শহরের সংস্কৃতির কোন ধরনটি ফুটে উঠেছে?', a: 'আবীরের জীবনে শহরের সামাজিক-অর্থনৈতিক সংস্কৃতি ফুটে উঠেছে। আবীর একা ফ্ল্যাটে থাকে — শহরে সামাজিক বন্ধন দুর্বল। বাবা ডাক্তার, মা শিক্ষক — শহরে পেশানির্ভর জীবন। ক্ষুধায় বার্গার-স্যান্ডউইচ — শহরের ফাস্ট ফুড সংস্কৃতি। গ্রামের রাকীনের মতো প্রতিবেশীর সাথে পিঠা ভাগ করা বা যাত্রাপালা দেখার সুযোগ তার নেই।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. রাকীন ও আবীর কি একই রকম বিনোদন পায়? মতামত দাও।', a: 'না, দুজনের বিনোদন সম্পূর্ণ আলাদা। রাকীন যাত্রাপালা দেখে, নবান্নে পিঠা খায়, প্রতিবেশীর সাথে আনন্দ করে — এটা সামাজিক ও ঐতিহ্যবাহী বিনোদন। আবীর একা ফ্ল্যাটে থাকে, সম্ভবত টিভি বা মোবাইলে বিনোদন পায় — এটা একক ও আধুনিক বিনোদন। রাকীনের বিনোদন সামাজিক বন্ধন তৈরি করে, আবীরের বিনোদন একাকিত্ব বাড়ায়।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '💡 সৃজনশীল প্রশ্নোত্তর — উদ্দীপক ২ (শান্তার গল্প)',
+        text: 'শান্তা ময়মনসিংহ অঞ্চলের একটি ক্ষুদ্র নৃগোষ্ঠীর মেয়ে। তার বাবা মায়ের বাড়িতেই থাকে। বন্ধু অন্তরা বেড়াতে গিয়ে অবাক হয়। শান্তাদের এলাকায় রাস্তা হয়েছে, মানুষ পড়াশোনা করছে, পোশাক-খাবারে পরিবর্তন আসছে।',
+        qa: [
+          { q: 'ক. গোপী নাচ কী?', a: 'গোপী নাচ হলো মণিপুরি সম্প্রদায়ের একটি ঐতিহ্যবাহী ধর্মীয় নৃত্য। রাধা-কৃষ্ণের উদ্দেশ্যে ভক্তি প্রকাশের জন্য মণিপুরি মেয়েরা দল বেঁধে এই নাচ করে এবং কীর্তন গায়। এটা তাদের সবচেয়ে প্রিয় উৎসব।', tag: 'সৃজনশীল' },
+          { q: 'খ. বৈসাবি বলতে কী বোঝায়?', a: 'বৈসাবি হলো পার্বত্য চট্টগ্রামের তিনটি নৃগোষ্ঠীর তিনটি আলাদা উৎসবের মিলিত নাম। ত্রিপুরাদের বৈসু + মারমাদের সাংগ্রাই + চাকমাদের বিজু = বৈসাবি। বৈশাখের আগে তিন সম্প্রদায় একসাথে এই উৎসব পালন করে।', tag: 'সৃজনশীল' },
+          { q: 'গ. শান্তা কোন নৃগোষ্ঠীর? ব্যাখ্যা করো।', a: 'শান্তা গারো নৃগোষ্ঠীর। কারণ উদ্দীপকে বলা হয়েছে শান্তার বাবা মায়ের বাড়িতে থাকে — এটা মাতৃসূত্রীয় সমাজের বৈশিষ্ট্য, যেখানে বিয়ের পর জামাই স্ত্রীর পরিবারে থাকে। ময়মনসিংহ অঞ্চলে যেসব নৃগোষ্ঠী মাতৃসূত্রীয় সমাজে বাস করে, তাদের মধ্যে গারো অন্যতম।', tag: 'সৃজনশীল' },
+          { q: 'ঘ. অন্যান্য নৃগোষ্ঠীর জীবনেও কি পরিবর্তন এসেছে? যুক্তি দাও।', a: 'হ্যাঁ, পরিবর্তন এসেছে। কারণ — রাস্তাঘাট উন্নত হওয়ায় বাইরের জগতের সাথে যোগাযোগ বেড়েছে। শিক্ষার প্রসারে নতুন প্রজন্ম আধুনিক জ্ঞান পাচ্ছে। বাজার-অর্থনীতির প্রভাবে খাবার ও পোশাকে পরিবর্তন আসছে। তবে নিজস্ব ভাষা, উৎসব ও ঐতিহ্য এখনও ধরে রেখেছে।', tag: 'সৃজনশীল' }
+        ]
+      },
+      {
+        title: '✍️ সংক্ষিপ্ত প্রশ্নোত্তর',
+        qa: [
+          { q: 'গায়েহলুদকে লোকসংস্কৃতি বলা হয় কেন?', a: 'গায়েহলুদ কোনো ধর্মীয় গ্রন্থে লেখা নেই, কোনো বিশেষজ্ঞ তৈরি করেননি। প্রজন্মের পর প্রজন্ম মায়ের কাছ থেকে মেয়ে শিখেছে — মুখে মুখে ও কাজে কাজে। এভাবে প্রজন্ম থেকে প্রজন্মে বেঁচে থাকাই লোকসংস্কৃতির মূল বৈশিষ্ট্য।', tag: 'সংক্ষিপ্ত' },
+          { q: 'টোটেম কী?', a: 'টোটেম হলো নৃগোষ্ঠীর কোনো গোত্রের প্রতীক হিসেবে ব্যবহৃত প্রাণী বা গাছ। সেটিকে ওই গোত্রের মানুষ পবিত্র মনে করে — খায় না, নষ্ট করে না। যেমন কোনো গোত্রের টোটেম হরিণ হলে, সেই গোত্র হরিণ শিকার করবে না।', tag: 'সংক্ষিপ্ত' },
+          { q: 'শহরের সংস্কৃতি কীভাবে গ্রামীণ সংস্কৃতিকে প্রভাবিত করছে?', a: 'গ্রামের মানুষ শহরে কাজ করতে আসে। শহর থেকে ফেরার সময় সাথে নিয়ে যায় — ফাস্ট ফুডের অভ্যাস, শহরের পোশাক (প্যান্ট-শার্ট, সালোয়ার কামিজ), টেলিভিশন দেখার অভ্যাস। এভাবে শহরের সংস্কৃতি ধীরে ধীরে গ্রামীণ সংস্কৃতিতে ঢুকে পড়ছে।', tag: 'সংক্ষিপ্ত' }
+        ]
+      }
+    ],
+    chain: 'এই প্রশ্নগুলো ভালো করে বুঝলে পরীক্ষায় নিজের ভাষায় লিখতে পারবে — হুবহু মুখস্থ না করলেও হবে।'
+  }
+];
+
+const keyTopics = [
+  { label: 'সাংস্কৃতিক বৈচিত্র্য', id: 'l1' },
+  { label: 'গ্রামীণ সংস্কৃতি', id: 'l2' },
+  { label: 'লোকসংস্কৃতি', id: 'l3' },
+  { label: 'নকশিকাঁথা', id: 'l3' },
+  { label: 'বৈসাবি', id: 'l4' },
+  { label: 'গারো-চাকমা', id: 'l4' },
+  { label: 'টোটেম', id: 'l4' },
+  { label: 'নবান্ন', id: 'l2' },
+  { label: 'অনুশীলনী', id: 'l5' }
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ⬆️⬆️⬆️  DATA END — এর নিচের কোড বদলানোর দরকার নেই  ⬆️⬆️⬆️
+   ══════════════════════════════════════════════════════════════ */
+
+
+// ══════════════════════════════
+// INIT HOME HEADER TEXT
+// ══════════════════════════════
+document.getElementById('navLogo').textContent = chapterInfo.navLabel;
+document.getElementById('homeChapterTag').textContent = '৭ম শ্রেণি · ' + chapterInfo.num;
+document.getElementById('homeEmoji').textContent = chapterInfo.emoji;
+document.getElementById('homeHeader').setAttribute('data-emoji', chapterInfo.emoji);
+document.getElementById('homeTitle').textContent = chapterInfo.title;
+document.getElementById('homeSubtitle').textContent = chapterInfo.subtitle;
+document.title = chapterInfo.title + ' — ইন্টারেক্টিভ';
+
+// ══════════════════════════════
+// RENDER HOME
+// ══════════════════════════════
+function renderHome() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = lessons.map(l => `
+    ${l.id === 'l_শেষ' || l.num === 'অনুশীলনী' ? '<div style="border-top:2px dashed #ddd;margin:8px 0 4px;padding-top:4px;text-align:center;font-size:0.78rem;color:#aaa;">পরীক্ষার প্রস্তুতি</div>' : ''}
+    <div class="lesson-card ${l.type || ''}" onclick="openDetail('${l.id}')">
+      <div class="lesson-num">${l.num}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${l.icon} ${l.title}</div>
+        <div class="lesson-sub">${l.sub || ''}</div>
+      </div>
+      <span class="lesson-arrow">›</span>
+    </div>
+  `).join('');
+
+  document.getElementById('keyTopics').innerHTML = keyTopics.map(k => `
+    <span class="key-topic-chip" onclick="openDetail('${k.id}')">${k.label}</span>
+  `).join('');
+}
+
+// ══════════════════════════════
+// RENDER ONE SECTION (generic — handles all block types)
+// ══════════════════════════════
+function renderSection(s) {
+  // Activity-only block (no card wrapper needed inside a card, but keep consistent: standalone card)
+  if (s.activity !== undefined && s.title === undefined) {
+    return `
+      <div class="section">
+        <div class="activity-box">
+          <div class="activity-num">কাজ</div>
+          <div class="activity-text">${s.activity}</div>
+        </div>
+      </div>`;
+  }
+
+  let inner = '';
+  if (s.text) inner += `<div class="section-text">${s.text}</div>`;
+  if (s.story) inner += `<div class="story-box ${s.storyClass || ''}" style="margin-top:${s.text ? '14px' : '0'}">${s.storyLabel ? `<div class="story-label">${s.storyLabel}</div>` : ''}${s.story}</div>`;
+  if (s.qualityItems) {
+    inner += `<div class="quality-grid">${s.qualityItems.map(q => `
+      <div class="quality-item ${q.word ? 'clickable' : ''}" ${q.word ? `onclick="showWord('${q.word}')"` : ''}>
+        <div class="q-icon">${q.icon}</div>
+        <div class="q-label">${q.label}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.bookOrig) inner += `<div class="book-box">${s.bookOrig}</div>`;
+  if (s.activity) inner += `<div class="activity-box"><div class="activity-num">কাজ</div><div class="activity-text">${s.activity}</div></div>`;
+  if (s.mcqs) {
+    inner += s.mcqs.map(m => `
+      <div class="mcq-item">
+        <div class="mcq-question">${m.question}</div>
+        ${m.note ? `<div class="mcq-note">${m.note}</div>` : ''}
+        <div class="mcq-options">${m.options.map(o => `
+          <div class="mcq-option" data-correct="${o.correct}" onclick="checkMCQ(this)">${o.text}</div>
+        `).join('')}</div>
+      </div>`).join('');
+  }
+  if (s.qa) {
+    inner += `<div class="qa-list">${s.qa.map((q, i) => `
+      <div class="qa-item" id="qa-${s._lessonId}-${s._sIdx}-${i}">
+        <div class="qa-q" onclick="toggleQA('qa-${s._lessonId}-${s._sIdx}-${i}')">
+          <span class="qa-q-text">${q.tag ? `<span class="qa-tag">${q.tag}</span>` : ''}${q.q}</span>
+          <div class="qa-icon">▼</div>
+        </div>
+        <div class="qa-a">${q.a}</div>
+      </div>`).join('')}</div>`;
+  }
+  if (s.chips) {
+    inner += `<div class="word-chips">${s.chips.map(w => `<span class="chip" onclick="showWord('${w}')">${w}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="section">
+      ${s.title ? `<div class="section-title">${s.title}</div>` : ''}
+      ${inner}
+    </div>`;
+}
+
+// ══════════════════════════════
+// OPEN DETAIL
+// ══════════════════════════════
+function openDetail(id) {
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+
+  const sectionsHtml = (l.sections || []).map((s, i) => {
+    s._lessonId = id; s._sIdx = i;
+    return renderSection(s);
+  }).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-hero ${l.heroClass}" data-icon="${l.icon}">
+      <div class="detail-badge">${l.num}</div>
+      <div class="detail-title">${l.icon} ${l.title}</div>
+      <div class="detail-subtitle">${l.heroSub || ''}</div>
+    </div>
+    <div class="detail-body">
+      ${sectionsHtml}
+      ${l.chain ? `
+      <div class="section">
+        <div class="chain-box-label">➜ পরের অধ্যায়</div>
+        <div class="chain-box">${l.chain}</div>
+      </div>` : ''}
+    </div>
+  `;
+
+  document.getElementById('homePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  document.getElementById('navBack').classList.add('visible');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// GO HOME
+// ══════════════════════════════
+function goHome() {
+  document.getElementById('detailPage').classList.remove('active');
+  document.getElementById('homePage').classList.add('active');
+  document.getElementById('navBack').classList.remove('visible');
+  document.getElementById('progressFill').style.width = '0%';
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════
+// MCQ CHECK
+// ══════════════════════════════
+function checkMCQ(el) {
+  const group = el.parentElement;
+  if (group.classList.contains('answered')) return;
+  group.classList.add('answered');
+  Array.from(group.children).forEach(opt => {
+    opt.classList.add('disabled');
+    if (opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if (el.dataset.correct !== 'true') el.classList.add('wrong');
+}
+
+// ══════════════════════════════
+// Q&A TOGGLE
+// ══════════════════════════════
+function toggleQA(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ══════════════════════════════
+// WORD POPUP
+// ══════════════════════════════
+function showWord(word) {
+  const w = words[word];
+  if (!w) return;
+  document.getElementById('popupWord').textContent = word;
+  document.getElementById('popupMeaning').textContent = w.meaning;
+  document.getElementById('popupExample').textContent = w.example;
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e) {
+  if (e.target === document.getElementById('popupOverlay')) closePopupBtn();
+}
+function closePopupBtn() {
+  document.getElementById('popupOverlay').classList.remove('show');
+}
+
+renderHome();
+</script>
+</body>
+</html>
