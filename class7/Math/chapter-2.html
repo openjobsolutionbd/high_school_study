@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অধ্যায় ২ — সমানুপাত ও লাভ-ক্ষতি | গণিত সপ্তম শ্রেণি</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000000;
+    --page-bg:#ffffff;
+    --surround-bg:#e8e6e1;
+    --rule:#000000;
+    --box-border:#000000;
+    --page-w: 780px;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--surround-bg);
+    color:var(--ink);
+    font-family:'Tiro Bangla', serif;
+    font-size:17px;
+    line-height:1.85;
+  }
+
+  .toolbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:#1f1f1f;
+    color:#e9e6dc;
+    padding:.6rem 1rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    font-size:.85rem;
+    flex-wrap:wrap;
+  }
+  .toolbar .title{font-weight:600;}
+  .toolbar nav{
+    display:flex;
+    gap:.35rem;
+    flex-wrap:wrap;
+  }
+  .toolbar nav a{
+    color:#e9e6dc;
+    text-decoration:none;
+    border:1px solid #4a4a48;
+    padding:.22rem .55rem;
+    border-radius:5px;
+    font-size:.76rem;
+    white-space:nowrap;
+  }
+  .toolbar nav a:hover{background:#3a3a38;}
+
+  .page{
+    max-width:var(--page-w);
+    margin:2rem auto;
+    background:var(--page-bg);
+    padding:3rem 3.2rem 3.6rem;
+    box-shadow:0 0 0 1px #d3d0c8, 0 12px 30px -18px rgba(0,0,0,0.35);
+    position:relative;
+  }
+
+  .page.cover{
+    text-align:center;
+    padding-top:5rem;
+    padding-bottom:5rem;
+  }
+  .cover .chapter-tag{
+    font-size:1.1rem;
+    margin-bottom:.4rem;
+  }
+  .cover h1{
+    font-size:2.3rem;
+    font-weight:400;
+    margin:.3rem 0 2.5rem;
+  }
+
+  .pageheader{
+    display:flex;
+    justify-content:space-between;
+    font-size:.95rem;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:.4rem;
+    margin-bottom:1.8rem;
+  }
+
+  .pagefooter{
+    text-align:center;
+    margin-top:2.4rem;
+    font-size:.95rem;
+  }
+
+  h2.sectiontitle{
+    font-size:1.3rem;
+    font-weight:400;
+    margin:1.8rem 0 .9rem;
+  }
+  h3.subtitle{
+    font-size:1.08rem;
+    font-weight:400;
+    margin:1.4rem 0 .6rem;
+    text-decoration:underline;
+  }
+
+  p{margin:.7rem 0;text-align:justify;}
+
+  .box{
+    border:1.4px solid var(--box-border);
+    padding:.9rem 1.1rem;
+    margin:1.1rem 0;
+  }
+  .box .box-label{
+    font-weight:600;
+    margin-right:.3rem;
+  }
+  .box p{margin:.4rem 0;}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:1rem 0;
+  }
+  table, th, td{
+    border:1.2px solid var(--rule);
+  }
+  th, td{
+    padding:.5rem .6rem;
+    text-align:center;
+  }
+  th{font-weight:600;}
+
+  .worksheet{
+    font-family:'Noto Sans Mono', 'Noto Sans Bengali', 'Tiro Bangla', monospace;
+    white-space:pre;
+    overflow-x:auto;
+    margin:.8rem 0;
+    padding:.6rem 0 .6rem 1rem;
+    line-height:2.1;
+    font-size:1.02rem;
+    tab-size:2;
+  }
+
+  /* Fraction-style working (a / b) shown stacked, matching the book's
+     handwritten "রাশি১ : রাশি২" and stacked-fraction layouts */
+  .frac{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    vertical-align:middle;
+    margin:0 .25em;
+    line-height:1.15;
+  }
+  .frac .num{border-bottom:1.2px solid #000; padding:0 .2em .05em;}
+  .frac .den{padding:.05em .2em 0;}
+
+  .center{text-align:center;}
+
+  ol.stepnum, ul.dashlist{
+    margin:.6rem 0;
+    padding-left:1.6rem;
+  }
+  ol.stepnum li, ul.dashlist li{margin:.4rem 0; text-align:justify;}
+  ul.dashlist{list-style:none; padding-left:1.1rem;}
+  ul.dashlist li::before{content:"● "; }
+
+  /* interactive worked examples, styled as an unobtrusive book annotation */
+  details.example{
+    border:1.4px solid var(--box-border);
+    margin:1.1rem 0;
+    padding:0;
+  }
+  details.example > summary{
+    cursor:pointer;
+    list-style:none;
+    padding:.7rem 1.1rem;
+    font-weight:600;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+  }
+  details.example > summary::-webkit-details-marker{display:none;}
+  details.example > summary::after{
+    content:"[ দেখাও ]";
+    font-weight:400;
+    font-size:.85rem;
+    color:#555;
+    white-space:nowrap;
+  }
+  details.example[open] > summary::after{content:"[ লুকাও ]";}
+  details.example .ex-body{
+    padding:0 1.1rem 1rem;
+    border-top:1px dashed #999;
+  }
+
+  .lab-page{
+    background:#fbfaf7;
+  }
+  .lab-box{
+    border:1.4px solid var(--box-border);
+    padding:1.2rem 1.3rem;
+    margin-top:1rem;
+  }
+  .lab-row{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    margin:1rem 0;
+  }
+  .lab-field label{
+    display:block;
+    font-size:.85rem;
+    margin-bottom:.3rem;
+  }
+  .lab-field input, .lab-field select{
+    font-family:'Tiro Bangla', serif;
+    font-size:1.05rem;
+    padding:.4rem .6rem;
+    border:1.2px solid #000;
+    width:160px;
+    background:#fff;
+  }
+  .lab-box button{
+    font-family:'Tiro Bangla', serif;
+    font-size:1rem;
+    padding:.5rem 1.2rem;
+    border:1.4px solid #000;
+    background:#000;
+    color:#fff;
+    cursor:pointer;
+  }
+  .lab-box button:hover{background:#333;}
+  .lab-output{
+    border-top:1px dashed #999;
+    margin-top:1rem;
+    padding-top:.8rem;
+    white-space:pre-wrap;
+    font-size:1rem;
+    min-height:2.4em;
+  }
+
+  .status-note{
+    font-size:.85rem;
+    color:#555;
+    border:1px dashed #999;
+    padding:.7rem 1rem;
+    margin-top:1.6rem;
+  }
+
+  @media (max-width:820px){
+    .page{margin:0; padding:2rem 1.3rem 2.4rem; box-shadow:none;}
+    .toolbar{position:static;}
+  }
+
+  @media print{
+    .toolbar{display:none;}
+    .page{box-shadow:none; margin:0;}
+    details.example{border:1px solid #000;}
+    details.example > summary::after{content:"";}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="title">গণিত · সপ্তম শ্রেণি · অধ্যায় ২</span>
+  <nav>
+    <a href="#p1">১</a><a href="#p2">২</a><a href="#p3">৩</a><a href="#p4">৪</a>
+    <a href="#p5">৫</a><a href="#p6">৬</a><a href="#p7">৭</a><a href="#p8">৮</a>
+    <a href="#p9">৯</a><a href="#p10">১০</a><a href="#p11">১১</a><a href="#p12">১২</a>
+    <a href="#p13">১৩</a><a href="#p14">১৪</a><a href="#p15">১৫</a><a href="#p16">১৬</a>
+    <a href="#p17">১৭</a><a href="#p18">১৮</a><a href="#p19">১৯</a><a href="#p20">২০</a>
+    <a href="#lab">ক্যালকুলেটর</a>
+  </nav>
+</div>
+
+<!-- COVER -->
+<section class="page cover">
+  <div class="chapter-tag">অধ্যায় ২</div>
+  <h1>সমানুপাত ও লাভ-ক্ষতি</h1>
+  <p style="text-align:center; max-width:46ch; margin:0 auto;">
+    এই অধ্যায় শেষে শিক্ষার্থীরা—
+  </p>
+  <ul class="dashlist" style="max-width:46ch; margin:1rem auto; text-align:left;">
+    <li>বহুরাশিক ও ধারাবাহিক অনুপাত ব্যাখ্যা করতে পারবে;</li>
+    <li>সমানুপাতের ধারণা ব্যাখ্যা করতে পারবে;</li>
+    <li>সমানুপাত সংক্রান্ত সমস্যা সমাধান করতে পারবে;</li>
+    <li>লাভ-ক্ষতি কী তা ব্যাখ্যা করতে পারবে;</li>
+    <li>লাভ-ক্ষতি সংক্রান্ত সমস্যার সমাধান করতে পারবে;</li>
+    <li>কর, ভ্যাট, কমিশন ও মুদ্রাবিনিময় সংক্রান্ত দৈনন্দিন জীবনের সমস্যা সমাধান করতে পারবে;</li>
+    <li>ঐকিক ও অনুপাত ব্যবহার করে বাস্তব জীবনে সময় ও কাজ, নল ও চৌবাচ্চা, সময় ও দূরত্ব এবং নৌকা ও স্রোত বিষয়ক সমস্যা সমাধান করতে পারবে।</li>
+  </ul>
+</section>
+
+<!-- PAGE 1 (book p.18) -->
+<section class="page" id="p1">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>১৮</span></div>
+
+  <p>আমরা প্রতিদিন এমন অনেক সমস্যার মুখোমুখি হই, যেগুলো অনুপাত ও সমানুপাতের ধারণা ব্যবহার করে সহজেই সমাধান করা যায়। তাই শিক্ষার্থীদের অনুপাত ও সমানুপাতের ধারণা ও এর প্রয়োগের দক্ষতা অর্জন করা দরকার। একইভাবে, আমাদের দৈনন্দিন জীবনে অনেকখানি জায়গা জুড়ে আছে লেনদেন আর যার সাথে জড়িত লাভ-ক্ষতি। এ কারণে লাভ-ক্ষতি সম্পর্কে শিক্ষার্থীদের পরিষ্কার ধারণা থাকা প্রয়োজন। তাই এ অধ্যায়ে অনুপাত-সমানুপাত ও লাভ-ক্ষতি সম্পর্কিত বিষয় আলোচনা করা হয়েছে।</p>
+
+  <h2 class="sectiontitle">২.১ বহুরাশিক অনুপাত ও ধারাবাহিক অনুপাত</h2>
+  <p><strong>বহুরাশিক অনুপাত:</strong> মনে করি, একটি বাক্সের দৈর্ঘ্য, প্রস্থ ও উচ্চতা যথাক্রমে ৮ সে.মি., ৫ সে.মি. ও ৬ সে.মি.</p>
+  <p>দৈর্ঘ্য, প্রস্থ ও উচ্চতার অনুপাত = ৮ : ৫ : ৬</p>
+  <p>সংক্ষেপে, দৈর্ঘ্য : প্রস্থ : উচ্চতা = ৮ : ৫ : ৬</p>
+  <p>এখানে তিনটি রাশির অনুপাত উপস্থাপন করা হয়েছে। এরূপ তিন বা ততোধিক রাশির অনুপাতকে <strong>বহুরাশিক অনুপাত</strong> বলে।</p>
+
+  <p><strong>ধারাবাহিক অনুপাত:</strong> মনে করি, পুত্র ও পিতার বয়সের অনুপাত = ১৫ : ৪১ (পূর্ব রাশি: উত্তর রাশি)</p>
+  <p>এবং পিতা ও দাদার বয়সের অনুপাত = ৪১ : ৬৫</p>
+  <p>দুটি অনুপাতকে একত্র করে পাই, পুত্রের বয়স : পিতার বয়স : দাদার বয়স = ১৫ : ৪১ : ৬৫। এ ধরনের অনুপাতকে <strong>ধারাবাহিক অনুপাত</strong> বলে। এখানে লক্ষণীয় যে, প্রথম অনুপাতের উত্তর রাশি ও দ্বিতীয় অনুপাতের পূর্ব রাশি সমান। প্রথম অনুপাতের উত্তর রাশি ও দ্বিতীয় অনুপাতের পূর্ব রাশি সমান না হলে তাদেরকে সমান করে ধারাবাহিক অনুপাত বের করতে হয়।</p>
+
+  <div class="box">
+    <p>দুটি অনুপাতকে ধারাবাহিক অনুপাতে রূপান্তরের জন্য প্রথম অনুপাতের উত্তর রাশি দ্বারা দ্বিতীয় অনুপাতের উভয় রাশিকে গুণ করতে হবে এবং দ্বিতীয় অনুপাতের পূর্ব রাশি দ্বারা প্রথম অনুপাতের উভয় রাশিকে গুণ করতে হবে।</p>
+  </div>
+</section>
+
+<!-- PAGE 2 (book p.19) -->
+<section class="page" id="p2">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>১৯</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১। ৭ : ৫ এবং ৮ : ৯ দুটি অনুপাত। এদেরকে ধারাবাহিক অনুপাতে প্রকাশ কর।</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> ১ম অনুপাত = ৭ : ৫ = <span class="frac"><span class="num">৭</span><span class="den">৫</span></span> = <span class="frac"><span class="num">৭ × ৮</span><span class="den">৫ × ৮</span></span> = <span class="frac"><span class="num">৫৬</span><span class="den">৪০</span></span> = ৫৬ : ৪০</p>
+      <p>২য় অনুপাত = ৮ : ৯ = <span class="frac"><span class="num">৮</span><span class="den">৯</span></span> = <span class="frac"><span class="num">৮ × ৫</span><span class="den">৯ × ৫</span></span> = <span class="frac"><span class="num">৪০</span><span class="den">৪৫</span></span> = ৪০ : ৪৫</p>
+      <p>∴ অনুপাত দুটির ধারাবাহিক অনুপাত ৫৬ : ৪০ : ৪৫</p>
+      <p style="font-style:italic;">বিকল্প সমাধান: ১ম অনুপাত = ৭ : ৫ = ৭ × ৮ : ৫ × ৮ = ৫৬ : ৪০; ২য় অনুপাত = ৮ : ৯ = ৮ × ৫ : ৯ × ৫ = ৪০ : ৪৫ (একইভাবে ৫৬ : ৪০ : ৪৫ পাওয়া যায়)।</p>
+    </div>
+  </details>
+
+  <div class="box">
+    <p><span class="box-label">কাজ:</span> নিচের অনুপাতগুলোকে ধারাবাহিক অনুপাতে প্রকাশ করো।</p>
+    <p>১। ১২ : ১৭ এবং ৫ : ১২ &nbsp;&nbsp; ২। ২৩ : ১১ এবং ৭ : ১৩ &nbsp;&nbsp; ৩। ১৯ : ২৫ এবং ৯ : ১৭ &nbsp;&nbsp; ৪। ৫ : ৮ এবং ১২ : ১৭</p>
+  </div>
+
+  <h2 class="sectiontitle">২.২ সমানুপাত</h2>
+  <p>মনে করি, সোহাগ কোনো দোকান থেকে ১০ টাকা দিয়ে একটি চিপসের প্যাকেট এবং ২৫ টাকা দিয়ে ১ কেজি লবণ কিনল। এখানে লবণ ও চিপস্‌ এর দামের অনুপাত = ২৫ : ১০ বা ৫ : ২।</p>
+  <p>আবার, সোহাগদের শ্রেণিতে শিক্ষার্থীর সংখ্যা ৭০। এদের মধ্যে ছাত্র ৫০জন এবং ছাত্রী ২০জন। এখানে ছাত্র ও ছাত্রীসংখ্যার অনুপাত = ৫০ : ২০ বা ৫ : ২। উভয়ক্ষেত্রে অনুপাত দুটি সমান।</p>
+  <p>অতএব, আমরা বলতে পারি, ২৫ : ১০ = ৫০ : ২০। এই অনুপাতে ৪টি রাশি আছে। এই ৪টি রাশি একটি সমানুপাত তৈরি করেছে।</p>
+  <p>এর মধ্যে ১ম রাশি ২৫, ২য় রাশি ১০, ৩য় রাশি ৫০ এবং ৪র্থ রাশি ২০ হিসেবে বিবেচনা করলে আমরা লিখতে পারি,</p>
+  <div class="box center">১ম রাশি : ২য় রাশি = ৩য় রাশি : ৪র্থ রাশি।</div>
+
+  <div class="box">
+    <p>চারটি রাশির ১ম ও ২য় রাশির অনুপাত এবং ৩য় ও ৪র্থ রাশির অনুপাত পরস্পর সমান হলে, রাশি চারটি একটি <strong>সমানুপাত</strong> তৈরি করে। সমানুপাতের প্রত্যেক রাশিকে <strong>সমানুপাতী</strong> বলে।</p>
+  </div>
+</section>
+
+<!-- PAGE 3 (book p.20) -->
+<section class="page" id="p3">
+  <div class="pageheader"><span>গণিত</span><span>২০</span></div>
+
+  <p>সমানুপাতের ১ম ও ২য় রাশি সমজাতীয় এবং ৩য় ও ৪র্থ রাশি সমজাতীয় হবে। অর্থাৎ ৪টি রাশি সমজাতীয় হওয়ার প্রয়োজন নেই। প্রত্যেক অনুপাতের রাশি দুইটি সমজাতীয় হলেই সমানুপাত তৈরি হয়।</p>
+
+  <p>সমানুপাতের ১ম ও ৪র্থ রাশিকে প্রান্তীয় রাশি এবং ২য় ও ৩য় রাশিকে মধ্য রাশি বলে। সমানুপাতে '=' চিহ্নের পরিবর্তে '::' চিহ্নও ব্যবহার করা হয়। অতএব আমরা লিখতে পারি, ২৫ : ১০ :: ৫০ : ২০।</p>
+  <p>আবার, ১ম রাশি : ২য় রাশি = ৩য় রাশি : ৪র্থ রাশি</p>
+  <p>বা, <span class="frac"><span class="num">১ম রাশি</span><span class="den">২য় রাশি</span></span> = <span class="frac"><span class="num">৩য় রাশি</span><span class="den">৪র্থ রাশি</span></span> &nbsp;&nbsp; বা, ১ম রাশি × ৪র্থ রাশি = ২য় রাশি × ৩য় রাশি</p>
+
+  <h3 class="subtitle">ত্রৈরাশিক</h3>
+  <p>আমরা জানি, ১ম রাশি × ৪র্থ রাশি = ২য় রাশি × ৩য় রাশি</p>
+  <p>মনে করি, ১ম, ২য় ও ৩য় রাশি যথাক্রমে ৯, ১৮, ২০।</p>
+  <p>তবে, ৯ × ৪র্থ রাশি = ১৮ × ২০</p>
+  <p>∴ ৪র্থ রাশি = <span class="frac"><span class="num">১৮ × ২০</span><span class="den">৯</span></span> = ৪০</p>
+  <p>∴ ৪র্থ রাশি = ৪০</p>
+
+  <div class="box">
+    <p>এভাবে সমানুপাতের তিনটি রাশি জানা থাকলে ৪র্থ রাশি নির্ণয় করা যায়। এই ৪র্থ রাশি নির্ণয় করার পদ্ধতিকে <strong>ত্রৈরাশিক</strong> বলে।</p>
+  </div>
+
+  <p>লক্ষ করি,</p>
+  <ul class="dashlist">
+    <li>সমানুপাতের ১ম ও ৪র্থ রাশিকে প্রান্তীয় রাশি বলে।</li>
+    <li>সমানুপাতের ২য় ও ৩য় রাশিকে মধ্য রাশি বলে।</li>
+  </ul>
+
+  <details class="example" open>
+    <summary>উদাহরণ ২। ৩, ৬, ৭ এর ৪র্থ সমানুপাতী নির্ণয় কর।</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> এখানে ১ম রাশি ৩, ২য় রাশি ৬, ৩য় রাশি ৭</p>
+      <p>আমরা জানি, ১ম রাশি × ৪র্থ রাশি = ২য় রাশি × ৩য় রাশি</p>
+      <p>৩ × ৪র্থ রাশি = ৬ × ৭</p>
+      <p>বা, ৪র্থ রাশি = <span class="frac"><span class="num">৬ × ৭</span><span class="den">৩</span></span> বা, ১৪</p>
+      <p>নির্ণেয় ৪র্থ সমানুপাতী ১৪</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 4 (book p.21) -->
+<section class="page" id="p4">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>২১</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৩। ৮, ৭ এবং ১৪ এর ৩য় রাশি নির্ণয় কর।</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> এখানে ১ম রাশি ৮, ২য় রাশি ৭ এবং ৪র্থ রাশি ১৪</p>
+      <p>আমরা জানি, ১ম রাশি × ৪র্থ রাশি = ২য় রাশি × ৩য় রাশি</p>
+      <p>বা, ৮ × ১৪ = ৭ × ৩য় রাশি</p>
+      <p>∴ ৩য় রাশি = <span class="frac"><span class="num">৮ × ১৪</span><span class="den">৭</span></span> = ১৬</p>
+    </div>
+  </details>
+
+  <div class="box">
+    <p><span class="box-label">কাজ:</span></p>
+    <p>নিচের খালি ঘর পূরণ করো।</p>
+    <p>(ক) ▢ : ৯ :: ১৬ : ৮</p>
+    <p>(খ) ৯ : ১৮ :: ২৫ : ▢</p>
+  </div>
+
+  <h3 class="subtitle">ক্রমিক সমানুপাত</h3>
+  <p>মনে করি, ৫ টাকা, ১০ টাকা ও ২০ টাকা এই তিনটি রাশি দ্বারা ৫ : ১০ এবং ১০ : ২০ এই দুটি অনুপাত নেওয়া হলো। এখানে, ৫ : ১০ :: ১০ : ২০। এ ধরনের সমানুপাতকে <strong>ক্রমিক সমানুপাত</strong> বলে। ৫ টাকা, ১০ টাকা ও ২০ টাকাকে <strong>ক্রমিক সমানুপাতী</strong> বলে।</p>
+
+  <div class="box">
+    <p>তিনটি রাশির ১ম ও ২য় রাশির অনুপাত এবং ২য় ও ৩য় রাশির অনুপাত পরস্পর সমান হলে, সমানুপাতটিকে ক্রমিক সমানুপাত বলে। রাশি তিনটিকে ক্রমিক সমানুপাতী বলে।</p>
+    <p>ক : খ :: খ : গ সমানুপাতটির তিনটি রাশি ক, খ, গ ক্রমিক সমানুপাতী হলে, <span class="frac"><span class="num">ক</span><span class="den">খ</span></span> = <span class="frac"><span class="num">খ</span><span class="den">গ</span></span> বা ক × গ = (খ)² হবে।</p>
+  </div>
+
+  <p>অর্থাৎ, ১ম ও ৩য় রাশির গুণফল দ্বিতীয় রাশির বর্গের সমান।</p>
+  <p><strong>লক্ষ করি:</strong></p>
+  <ul class="dashlist">
+    <li>২য় রাশিকে ১ম ও ৩য় রাশির মধ্য সমানুপাতী বা মধ্য রাশি বলে।</li>
+    <li>ক্রমিক সমানুপাতের তিনটি রাশিই সমজাতীয়।</li>
+  </ul>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৪। একটি ক্রমিক সমানুপাতের ১ম ও ৩য় রাশি যথাক্রমে ৪ ও ১৬ হলে, মধ্য সমানুপাতী ও ক্রমিক সমানুপাত নির্ণয় কর।</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> আমরা জানি, ১ম রাশি × ৩য় রাশি = (২য় রাশি)²</p>
+      <p>এখানে, ১ম রাশি = ৪ এবং ৩য় রাশি = ১৬</p>
+      <p>∴ ৪ × ১৬ = (মধ্য রাশি)²</p>
+      <p>অথবা, (মধ্য রাশি)² = ৬৪</p>
+      <p>∴ মধ্য রাশি = √৬৪ = ৮</p>
+      <p>নির্ণেয় ক্রমিক সমানুপাত ৪ : ৮ :: ৮ : ১৬ এবং নির্ণেয় মধ্য সমানুপাতী ৮</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 5 (book p.22) -->
+<section class="page" id="p5">
+  <div class="pageheader"><span>গণিত</span><span>২২</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৫। ৫টি খাতার দাম ২০০ টাকা হলে, ৭টি খাতার দাম কত?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> এখানে খাতার সংখ্যা বাড়লে দামও বাড়বে।</p>
+      <p>অর্থাৎ, খাতার সংখ্যার অনুপাত = খাতার দামের অনুপাত</p>
+      <p>৫ : ৭ = ২০০ টাকা : ৭টি খাতার দাম</p>
+      <p>বা, <span class="frac"><span class="num">৫</span><span class="den">৭</span></span> = <span class="frac"><span class="num">২০০ টাকা</span><span class="den">৭টি খাতার দাম</span></span></p>
+      <p>বা, ৭টি খাতার দাম = <span class="frac"><span class="num">৭ × ২০০ টাকা</span><span class="den">৫</span></span> = ২৮০ টাকা।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৬। ১২জন লোক একটি কাজ ৯ দিনে করতে পারে। একই হারে কাজ করলে ১৮জনে কাজটি কত দিনে করতে পারবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> লক্ষ করি, লোকসংখ্যা বাড়লে সময় কম লাগবে, আবার লোকসংখ্যা কমলে সময় বেশি লাগবে। লোকসংখ্যার সরল অনুপাত সময়ের ব্যস্ত অনুপাতের সমান হবে।</p>
+      <p>১২ : ১৮ = নির্ণেয় সময় : ৯ দিন</p>
+      <p>বা, <span class="frac"><span class="num">১২</span><span class="den">১৮</span></span> = <span class="frac"><span class="num">নির্ণেয় সময়</span><span class="den">৯ দিন</span></span></p>
+      <p>বা, নির্ণেয় সময় = <span class="frac"><span class="num">১২ × ৯</span><span class="den">১৮</span></span> দিন = ৬ দিন</p>
+    </div>
+  </details>
+
+  <h3 class="subtitle">সমানুপাতিক ভাগ</h3>
+  <p>মনে করি, ৫০০ টাকা ৩ : ২ অনুপাতে বণ্টন করতে হবে।</p>
+  <p>এখানে ৩ : ২ অনুপাতের পূর্বরাশি ও উত্তর রাশির যোগফল = ৩ + ২ = ৫</p>
+  <p>∴ ১ম ভাগ = ৫০০ টাকার <span class="frac"><span class="num">৩</span><span class="den">৫</span></span> অংশ = ৩০০ টাকা</p>
+  <p>এবং ২য় ভাগ = ৫০০ টাকার <span class="frac"><span class="num">২</span><span class="den">৫</span></span> অংশ = ২০০ টাকা।</p>
+
+  <div class="box">
+    অতএব, একটি অংশের পরিমাণ = প্রদত্ত রাশি × <span class="frac"><span class="num">ঐ অংশের আনুপাতিক সংখ্যা</span><span class="den">অনুপাতের পূর্ব ও উত্তর রাশির যোগফল</span></span>
+  </div>
+
+  <p>এভাবে উপরের পদ্ধতিতে একটি রাশিকে বিভিন্ন ভাগে বিভক্ত করা যায়।</p>
+  <div class="box">একটি প্রদত্ত রাশিকে একাধিক নির্দিষ্ট সংখ্যার অনুপাতে বিভক্ত করাকে <strong>সমানুপাতিক ভাগ</strong> বলে।</div>
+</section>
+
+<!-- PAGE 6 (book p.23) -->
+<section class="page" id="p6">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>২৩</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৭। ২০ মিটার কাপড়কে তিন ভাইবোন আরিফ, আসিফ ও সাফার মধ্যে ৫ : ৩ : ২ অনুপাতে ভাগ করলে প্রত্যেকের কাপড়ের পরিমাণ কত?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> কাপড়ের পরিমাণ = ২০ মিটার</p>
+      <p>প্রদত্ত অনুপাত = ৫ : ৩ : ২</p>
+      <p>অনুপাতের সংখ্যাগুলোর যোগফল = ৫ + ৩ + ২ = ১০</p>
+      <p>∴ আরিফের অংশ = ২০ মিটারের <span class="frac"><span class="num">৫</span><span class="den">১০</span></span> অংশ = ১০ মিটার</p>
+      <p>আসিফের অংশ = ২০ মিটারের <span class="frac"><span class="num">৩</span><span class="den">১০</span></span> অংশ = ৬ মিটার</p>
+      <p>এবং সাফার অংশ = ২০ মিটারের <span class="frac"><span class="num">২</span><span class="den">১০</span></span> অংশ = ৪ মিটার</p>
+      <p>আরিফ, আসিফ ও সাফার কাপড়ের পরিমাণ যথাক্রমে ১০ মিটার, ৬ মিটার ও ৪ মিটার।</p>
+    </div>
+  </details>
+
+  <div class="box">
+    <p><span class="box-label">কাজ:</span></p>
+    <p>১। ক : খ = ৪ : ৫, খ : গ = ৭ : ৯ হলে, ক : খ : গ নির্ণয় করো।</p>
+    <p>২। ৪৮০০ টাকা আয়েশা, ফিরোজা ও খাদিজার মধ্যে ৪ : ৩ : ১ অনুপাতে ভাগ করে দিলে কে কত টাকা পাবে?</p>
+    <p>৩। তিনজন ছাত্রের মধ্যে ৫৭০ টাকা তাদের বয়সের অনুপাতে ভাগ করে দেওয়া হলো। তাদের বয়স যথাক্রমে ১০, ১৩ ও ১৫ বছর হলে, কে কত টাকা পাবে?</p>
+  </div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৮। হাসান ও মাসুদের আয়ের অনুপাত ৪ : ৩। মাসুদ ও সাজিদের আয়ের অনুপাত ৫ : ৪। হাসানের আয় ১২০ টাকা হলে, সাজিদের আয় কত?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> হাসান ও মাসুদের আয়ের অনুপাত ৪ : ৩ = <span class="frac"><span class="num">৪</span><span class="den">৩</span></span> = <span class="frac"><span class="num">৪ × ৫</span><span class="den">৩ × ৫</span></span> = <span class="frac"><span class="num">২০</span><span class="den">১৫</span></span> = ২০ : ১৫</p>
+      <p>মাসুদ ও সাজিদের আয়ের অনুপাত <span class="frac"><span class="num">৫</span><span class="den">৪</span></span> = <span class="frac"><span class="num">৫ × ৩</span><span class="den">৪ × ৩</span></span> = <span class="frac"><span class="num">১৫</span><span class="den">১২</span></span> = ১৫ : ১২</p>
+      <p>হাসানের আয় : মাসুদের আয় : সাজিদের আয় = ২০ : ১৫ : ১২</p>
+      <p>∴ হাসানের আয় : সাজিদের আয় = ২০ : ১২</p>
+      <p>বা, <span class="frac"><span class="num">হাসানের আয়</span><span class="den">সাজিদের আয়</span></span> = <span class="frac"><span class="num">২০</span><span class="den">১২</span></span></p>
+      <p>বা, সাজিদের আয় = <span class="frac"><span class="num">হাসানের আয় × ১২</span><span class="den">২০</span></span> টাকা = <span class="frac"><span class="num">১২০ × ১২</span><span class="den">২০</span></span> টাকা বা ৭২ টাকা।</p>
+      <p>∴ সাজিদের আয় ৭২ টাকা</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 7 (book p.24) -->
+<section class="page" id="p7">
+  <div class="pageheader"><span>গণিত</span><span>২৪</span></div>
+
+  <h2 class="sectiontitle">অনুশীলনী ২.১</h2>
+  <ol class="stepnum">
+    <li>নিচের রাশিগুলো দিয়ে সমানুপাত লেখো।
+      <br>(ক) ৩ কেজি, ৫ টাকা, ৬ কেজি, ১০ টাকা
+      <br>(খ) ৯ বছর, ১০ দিন, ১৮ বছর ও ২০ দিন
+      <br>(গ) ৭ সে.মি., ১৫ সেকেন্ড, ২৮ সে.মি. ও ১ মিনিট
+      <br>(ঘ) ১২টি খাতা, ১৫টি পেনসিল, ২০ টাকা ও ২৫ টাকা
+      <br>(ঙ) ১২৫ জন ছাত্র ও ২৫জন শিক্ষক, ২৫০০ টাকা ও ৫০০ টাকা</li>
+    <li>নিচের ক্রমিক সমানুপাতের প্রান্তীয় রাশি দুটি দেওয়া আছে। সমানুপাত তৈরি করো।
+      <br>(ক) ৬, ২৪ &nbsp; (খ) ২৫, ৮১ &nbsp; (গ) ১৬, ৪৯ &nbsp; (ঘ) ৫/৭, ১২/৫ &nbsp; (ঙ) ১.৫, ১৩.৫।</li>
+    <li>শূন্যস্থান পূরণ করো।
+      <br>(ক) ১১ : ২৫ :: ▢ : ৫০ &nbsp; (খ) ৭ : ▢ :: ৮ : ৬৪ &nbsp; (গ) ২.৫ : ৫.০ :: ৭ : ▢
+      <br>(ঘ) ১/৩ : ১/৫ :: ▢ : ৭/১০ &nbsp; (ঙ) ▢ : ১২.৫ :: ৫ : ২৫</li>
+    <li>নিচের রাশিগুলোর ৪র্থ সমানুপাতী নির্ণয় করো।
+      <br>(ক) ৫, ৭, ১০ &nbsp; (খ) ১৫, ২৫, ৩৩ &nbsp; (গ) ১৬, ২৪, ৩২ &nbsp; (ঘ) ৮, ৮ ১/২, ৪ &nbsp; (ঙ) ৫, ৪.৫, ৭</li>
+    <li>১৫ কেজি চালের দাম ৬০০ টাকা হলে, এরূপ ২৫ কেজি চালের দাম কত?</li>
+    <li>একটি গার্মেন্টস ফ্যাক্টরিতে দৈনিক ৫৫০টি শার্ট তৈরি হয়। ঐ ফ্যাক্টরিতে একই হারে ১ সপ্তাহে কতটি শার্ট তৈরি হয়?</li>
+    <li>কবির সাহেবের তিন পুত্রের বয়স যথাক্রমে ৫ বছর, ৭ বছর ও ৯ বছর। তিনি ৪২০০ টাকা তিন পুত্রকে তাদের বয়স অনুপাতে ভাগ করে দিলেন, কে কত টাকা পাবে?</li>
+    <li>২১৬০ টাকা রুমি, জেসমিন ও কাকলির মধ্যে ১ : ২ : ৩ অনুপাতে ভাগ করে দিলে কে কত টাকা পাবে?</li>
+    <li>কিছু টাকা লাবিব, সামি ও সিয়ামের মধ্যে ৫ : ৪ : ২ অনুপাতে ভাগ করে দেওয়া হলো। সিয়াম ১৮০ টাকা পেলে লাবিব ও সামি কত টাকা পাবে নির্ণয় করো।</li>
+  </ol>
+</section>
+
+<!-- PAGE 8 (book p.25) -->
+<section class="page" id="p8">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>২৫</span></div>
+
+  <ol class="stepnum" start="10">
+    <li>সবুজ, ডালিম ও লিংকন তিন ভাই। তাদের পিতা ৬৩০০ টাকা তাদের মধ্যে ভাগ করে দিলেন। এতে সবুজ ডালিমের ৩/৫ অংশ এবং ডালিম লিংকনের দ্বিগুণ টাকা পায়। প্রত্যেকের টাকার পরিমাণ বের করো।</li>
+    <li>তামা, দস্তা ও রুপা মিশিয়ে এক রকমের গহনা তৈরি করা হলো। ঐ গহনায় তামা ও দস্তার অনুপাত ১ : ২ এবং দস্তা ও রুপার অনুপাত ৩ : ৫। ১৯ গ্রাম ওজনের গহনায় কত গ্রাম রুপা আছে?</li>
+    <li>দুটি সমান মাপের গ্লাস শরবতে পূর্ণ আছে। ঐ শরবতে পানি ও সিরাপের অনুপাত যথাক্রমে প্রথম গ্লাসে ৩ : ২ ও দ্বিতীয় গ্লাসে ৫ : ৪। ঐ দুটি গ্লাসের শরবত একত্রে মিশ্রণ করলে পানি ও সিরাপের অনুপাত নির্ণয় করো।</li>
+    <li>ক : খ = ৪ : ৭, খ : গ = ১০ : ৭ হলে, ক : খ : গ নির্ণয় করো।</li>
+    <li>৯৬০০ টাকা সারা, মাইমুনা ও রাইসার মধ্যে ৪ : ৩ : ১ অনুপাতে ভাগ করে দিলে কে কত টাকা পাবে?</li>
+    <li>তিনজন ছাত্রের মধ্যে ৪২০০ টাকা তাদের শ্রেণি অনুপাতে ভাগ করে দেওয়া হলো। তারা যদি যথাক্রমে ৬ষ্ঠ, ৭ম ও ৮ম শ্রেণির শিক্ষার্থী হয়, তবে কে কত টাকা পাবে?</li>
+    <li>সোলায়মান ও সালমানের আয়ের অনুপাত ৫ : ৭। সালমান ও ইউসুফের আয়ের অনুপাত ৪ : ৫। সোলায়মানের আয় ১২০ টাকা হলে ইউসুফের আয় কত?</li>
+  </ol>
+
+  <h2 class="sectiontitle">২.৩ লাভ-ক্ষতি</h2>
+  <p>একজন দোকানদার ১ ডজন বলপেন ৬০ টাকায় ক্রয় করে ৭২ টাকায় বিক্রয় করলেন। এখানে দোকানদার ১২টি বলপেন ৬০ টাকায় ক্রয় করলেন। ফলে ১টি বলপেনের ক্রয়মূল্য <span class="frac"><span class="num">৬০</span><span class="den">১২</span></span> টাকা বা ৫ টাকা। আবার তিনি ১২টি বলপেন ৭২ টাকায় বিক্রয় করলেন। ফলে ১টি বলপেনের বিক্রয়মূল্য <span class="frac"><span class="num">৭২</span><span class="den">১২</span></span> টাকা বা ৬ টাকা।</p>
+  <p>১টি বলপেনের ক্রয়মূল্য ৫ টাকা ও বিক্রয়মূল্য ৬ টাকা।</p>
+
+  <div class="box">কোনো জিনিস যে মূল্যে ক্রয় করা হয়, তাকে <strong>ক্রয়মূল্য</strong> এবং যে মূল্যে বিক্রয় করা হয়, তাকে <strong>বিক্রয়মূল্য</strong> বলে। ক্রয়মূল্যের চেয়ে বিক্রয়মূল্য বেশি হলে, <strong>লাভ</strong> হয়।</div>
+
+  <p>লাভ = বিক্রয়মূল্য − ক্রয়মূল্য = (৬ টাকা − ৫ টাকা) বা ১ টাকা।</p>
+  <p>এখানে দোকানদার প্রতিটি বলপেনে ১ টাকা করে লাভ করলেন।</p>
+  <p>আবার মনে করি, একজন কলাবিক্রেতা ১ হালি কলা ২০ টাকায় ক্রয় করে ১৮ টাকায় বিক্রয় করলেন। ক্রয়মূল্যের চেয়ে বিক্রয়মূল্য কম হলে, <strong>ক্ষতি</strong> বা <strong>লোকসান</strong> হয়।</p>
+  <p>ক্ষতি = ক্রয়মূল্য − বিক্রয়মূল্য = (২০−১৮) টাকা = ২ টাকা</p>
+  <p>এখানে কলাবিক্রেতা প্রতি হালিতে ২ টাকা করে ক্ষতি করলেন।</p>
+</section>
+
+<!-- PAGE 9 (book p.26) -->
+<section class="page" id="p9">
+  <div class="pageheader"><span>গণিত</span><span>২৬</span></div>
+
+  <p>মনে করি, একজন কাপড় ব্যবসায়ী মার্কেটে একটি দোকান ভাড়া নিয়ে ৫ জন কর্মচারী নিয়োগ দিলেন। তিনি দোকানের ভাড়া, কর্মচারীদের বেতন, দোকানের বিদ্যুৎ বিল ও অন্যান্য আনুষঙ্গিক খরচ বহন করেন। এ সকল খরচ তাঁর কাপড়ের ক্রয়মূল্যের সাথে যোগ করা হয়। এই যোগফলকেই মোট খরচ বলে। যদি ঐ কাপড় ব্যবসায়ী মাসে ২,০০,০০০ টাকা ব্যবসায় খাটিয়ে ২,৫০,০০০ টাকায় ঐ কাপড় বিক্রয় করেন, তবে তার (২,৫০,০০০ − ২,০০,০০০) টাকা বা ৫০,০০০ টাকা লাভ হবে। আবার যদি মাস শেষে ১,৮০,০০০ টাকার কাপড় বিক্রয় করে থাকেন তাহলে তাঁর (২,০০,০০০ − ১,৮০,০০০) টাকা বা ২০,০০০ টাকা ক্ষতি বা লোকসান হবে।</p>
+
+  <p><strong>লক্ষ করি:</strong></p>
+  <p>লাভ = বিক্রয়মূল্য − ক্রয়মূল্য<br>
+  বা, বিক্রয়মূল্য = ক্রয়মূল্য + লাভ<br>
+  বা, ক্রয়মূল্য = বিক্রয়মূল্য − লাভ</p>
+  <p>ক্ষতি = ক্রয়মূল্য − বিক্রয়মূল্য<br>
+  বা, ক্রয়মূল্য = বিক্রয়মূল্য + ক্ষতি<br>
+  বা, বিক্রয়মূল্য = ক্রয়মূল্য − ক্ষতি</p>
+
+  <p>লাভ বা ক্ষতিকে আমরা শতকরায় প্রকাশ করতে পারি। যেমন, উপরের আলোচনায় ৫ টাকায় বলপেন কিনে ৬ টাকায় বিক্রয় করায় ১ টাকা লাভ হয়।</p>
+  <p>অর্থাৎ, ৫ টাকায় লাভ হয় ১ টাকা</p>
+  <p>∴ ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">৫</span></span> &nbsp;&nbsp;&nbsp; "</p>
+  <p>∴ ১০০ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১ × ১০০</span><span class="den">৫</span></span> &nbsp;&nbsp;&nbsp; " = ২০ টাকা</p>
+  <p>∴ নির্ণেয় লাভ ২০%।</p>
+
+  <p>অনুরূপভাবে, কলা বিক্রেতা ২০ টাকার কলা কিনে ১৮ টাকায় বিক্রয় করায় ২ টাকা ক্ষতি হয়েছে।</p>
+  <p>অর্থাৎ, ২০ টাকায় ক্ষতি হয় ২ টাকা</p>
+  <p>∴ ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">২</span><span class="den">২০</span></span> &nbsp;&nbsp;&nbsp; "</p>
+  <p>∴ ১০০ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">২ × ১০০</span><span class="den">২০</span></span> &nbsp;&nbsp;&nbsp; " বা ১০ টাকা</p>
+  <p>∴ নির্ণেয় ক্ষতি ১০%</p>
+</section>
+
+<!-- PAGE 10 (book p.27) -->
+<section class="page" id="p10">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>২৭</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ৯। একজন কমলা বিক্রেতা প্রতিশত কমলা ১০০০ টাকায় কিনে ১২০০ টাকায় বিক্রয় করলেন। তাঁর কত লাভ হলো?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> ১০০টি কমলার ক্রয়মূল্য ১০০০ টাকা</p>
+      <p>এবং ১০০টি &nbsp; " &nbsp;&nbsp; বিক্রয়মূল্য ১২০০ "</p>
+      <p>এখানে ক্রয়মূল্যের চেয়ে বিক্রয়মূল্য বেশি হওয়ায় লাভ হয়েছে।</p>
+      <p>অর্থাৎ, লাভ = বিক্রয়মূল্য − ক্রয়মূল্য = ১২০০ টাকা − ১০০০ টাকা = ২০০ টাকা</p>
+      <p>নির্ণেয় লাভ ২০০ টাকা।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১০। একজন দোকানদার ৫০ কেজির ১ বস্তা চাল ১৬০০ টাকায় কিনলেন। চালের দাম কমে যাওয়ায় ১৫০০ টাকায় বিক্রয় করেন, তাঁর কত ক্ষতি হলো?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> এখানে, ১ বস্তা চালের ক্রয়মূল্য ১৬০০ টাকা</p>
+      <p>এবং ১ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; বিক্রয়মূল্য ১৫০০ "</p>
+      <p>∴ ক্রয়মূল্যের চেয়ে বিক্রয়মূল্য কম হওয়ায় ক্ষতি হয়েছে।</p>
+      <p>∴ ক্ষতি = ক্রয়মূল্য − বিক্রয়মূল্য = ১৬০০ টাকা − ১৫০০ টাকা = ১০০ টাকা</p>
+      <p>নির্ণেয় ক্ষতি ১০০ টাকা।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১১। ৭৫ টাকায় ১৫টি বলপেন কিনে ৯০ টাকায় বিক্রয় করলে শতকরা কত লাভ হবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> এখানে, ১৫টি বলপেনের ক্রয়মূল্য ৭৫ টাকা</p>
+      <p>এবং ১৫টি &nbsp; " &nbsp;&nbsp; বিক্রয়মূল্য ৯০ টাকা</p>
+      <p>ক্রয়মূল্যের চেয়ে বিক্রয়মূল্য বেশি হওয়ায় লাভ হয়েছে।</p>
+      <p>∴ লাভ = বিক্রয়মূল্য − ক্রয়মূল্য = ৯০ টাকা − ৭৫ টাকা = ১৫ টাকা</p>
+      <p>∴ ৭৫ টাকায় লাভ হয় ১৫ টাকা</p>
+      <p>১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১৫</span><span class="den">৭৫</span></span> &nbsp;&nbsp;&nbsp; "</p>
+      <p>∴ ১০০ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১৫ × ১০০</span><span class="den">৭৫</span></span> &nbsp;&nbsp;&nbsp; " বা ২০ টাকা</p>
+      <p>অতএব লাভ ২০%।</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 11 (book p.28) -->
+<section class="page" id="p11">
+  <div class="pageheader"><span>গণিত</span><span>২৮</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১২। একজন মাছ বিক্রেতা প্রতি হালি ইলিশ মাছ ১৬০০ টাকায় কিনে প্রতিটি মাছ ৩৫০ টাকা করে বিক্রয় করলেন। তাঁর শতকরা কত লাভ বা ক্ষতি হলো?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> প্রতি হালি বা ৪টি ইলিশের দাম = ১৬০০ টাকা</p>
+      <p>∴ ১টি &nbsp; " &nbsp;&nbsp; " &nbsp; = <span class="frac"><span class="num">১৬০০</span><span class="den">৪</span></span> টাকা = ৪০০ টাকা</p>
+      <p>আবার, ১টি ইলিশের বিক্রয়মূল্য ৩৫০ টাকা</p>
+      <p>এখানে, ক্রয়মূল্যের চেয়ে বিক্রয়মূল্য কম হওয়ায় ক্ষতি হয়েছে।</p>
+      <p>∴ ক্ষতি = ক্রয়মূল্য − বিক্রয়মূল্য = ৪০০ টাকা − ৩৫০ টাকা = ৫০ টাকা</p>
+      <p>∴ ৪০০ টাকায় ক্ষতি হয় ৫০ টাকা</p>
+      <p>১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">৫০</span><span class="den">৪০০</span></span> &nbsp;&nbsp;&nbsp; "</p>
+      <p>∴ ১০০ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">৫০ × ১০০</span><span class="den">৪০০</span></span> &nbsp;&nbsp;&nbsp; " বা <span class="frac"><span class="num">২৫</span><span class="den">২</span></span> টাকা বা ১২<span class="frac"><span class="num">১</span><span class="den">২</span></span> টাকা</p>
+      <p>∴ ক্ষতি ১২<span class="frac"><span class="num">১</span><span class="den">২</span></span>%</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৩। একবাক্স আঙুর ২৭৫০ টাকায় বিক্রয় করায় ৪৫০ টাকা ক্ষতি হলো। ঐ আঙুর ৩৬০০ টাকায় বিক্রয় করলে কত লাভ বা ক্ষতি হতো?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> আঙুরের বিক্রয়মূল্য = ২৭৫০ টাকা</p>
+      <p>ক্ষতি &nbsp;&nbsp;&nbsp; = ৪৫০ টাকা &nbsp;&nbsp; (যোগ করে)</p>
+      <p>ক্রয়মূল্য = ৩২০০ টাকা</p>
+      <p>আবার, বিক্রয়মূল্য = ৩৬০০ টাকা</p>
+      <p>ক্রয়মূল্য &nbsp; = ৩২০০ টাকা &nbsp;&nbsp; (বিয়োগ করে)</p>
+      <p>লাভ = ৪০০ টাকা</p>
+      <p>∴ লাভ ৪০০ টাকা।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৪। একজন চা ব্যবসায়ী একবাক্স চা পাতা কেজি প্রতি ৮০ টাকা হিসাবে ক্রয় করেন। সব চা পাতা কেজি প্রতি ৭৫ টাকা দরে বিক্রয় করায় ৫০০ টাকা ক্ষতি হয়। তিনি কত কেজি চা পাতা ক্রয় করেছিলেন?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> কেজি প্রতি চা পাতার ক্রয়মূল্য ৮০ টাকা</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp; বিক্রয়মূল্য ৭৫ টাকা</p>
+      <p>∴ ১ কেজি চা পাতা বিক্রয় করলে ক্ষতি হয় ৫ টাকা</p>
+      <p>∴ ৫ টাকা ক্ষতি হয় ১ কেজিতে</p>
+      <p>১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">৫</span></span> &nbsp;&nbsp;&nbsp; "</p>
+      <p>৫০০ " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১ × ৫০০</span><span class="den">৫</span></span> &nbsp;&nbsp;&nbsp; " = ১০০ কেজিতে</p>
+      <p>∴ চা পাতা ক্রয় করেছিলেন ১০০ কেজি।</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 12 (book p.29) -->
+<section class="page" id="p12">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>২৯</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৫। একজন ডিম বিক্রেতা প্রতি ডজন ডিম ১০১ টাকা দরে ৫ ডজন এবং ৯০ টাকা দরে ৬ ডজন ডিম কিনে কত দরে বিক্রয় করলে তাঁর ডজন প্রতি ৩ টাকা লাভ হবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> ১ ডজন ডিমের ক্রয়মূল্য ১০১ টাকা</p>
+      <p>∴ ৫ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp; ১০১ × ৫ টাকা বা ৫০৫ টাকা</p>
+      <p>আবার, ১ ডজন ডিমের ক্রয়মূল্য ৯০ টাকা</p>
+      <p>∴ ৬ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp; ৯০ × ৬ টাকা বা ৫৪০ টাকা</p>
+      <p>∴ (৫+৬) ডজন বা ১১ ডজন ডিমের ক্রয়মূল্য (৫০৫ + ৫৪০) টাকা বা ১০৪৫ টাকা</p>
+      <p>∴ ১ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp; <span class="frac"><span class="num">১০৪৫</span><span class="den">১১</span></span> টাকা বা ৯৫ টাকা</p>
+      <p>গড়ে ১ ডজন ডিমের ক্রয়মূল্য ৯৫ টাকা</p>
+      <p>ডজন প্রতি ৩ টাকা লাভে ১ ডজন ডিমের বিক্রয়মূল্য (৯৫ + ৩) টাকা বা ৯৮ টাকা</p>
+      <p>∴ প্রতি ডজন ডিমের বিক্রয়মূল্য ৯৮ টাকা হলে ডজন প্রতি ৩ টাকা লাভ হবে।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৬। একটি ছাগল ১০% ক্ষতিতে বিক্রয় করা হলো। বিক্রয়মূল্য ৪৫০ টাকা বেশি হলে ৫% লাভ হতো। ছাগলটির ক্রয়মূল্য কত?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> মনে করি, ছাগলটির ক্রয়মূল্য ১০০ টাকা</p>
+      <p>১০% ক্ষতিতে বিক্রয়মূল্য (১০০ − ১০) টাকা বা, ৯০ টাকা</p>
+      <p>৫% লাভে বিক্রয়মূল্য (১০০ + ৫) টাকা = ১০৫ টাকা</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 13 (book p.30) -->
+<section class="page" id="p13">
+  <div class="pageheader"><span>গণিত</span><span>৩০</span></div>
+
+  <p>৫% লাভে বিক্রয়মূল্য − ১০% ক্ষতিতে বিক্রয়মূল্য</p>
+  <p>= (১০৫ − ৯০) টাকা বা, ১৫ টাকা</p>
+  <p>∴ বিক্রয়মূল্য ১৫ টাকা বেশি হলে ক্রয়মূল্য ১০০ টাকা</p>
+  <p>১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১০০</span><span class="den">১৫</span></span> &nbsp;&nbsp;&nbsp; "</p>
+  <p>∴ ৪৫০ " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১০০ × ৪৫০</span><span class="den">১৫</span></span> &nbsp;&nbsp;&nbsp; " = ৩০০০ টাকা</p>
+  <p>ছাগলটির ক্রয়মূল্য ৩০০০ টাকা</p>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৭। নাবিল মিষ্টির দোকান থেকে প্রতি কেজি ২৫০ টাকা হিসাবে ২ কেজি সন্দেশ ক্রয় করল। ভ্যাটের হার ৪ টাকা হলে, সন্দেশ ক্রয় বাবদ সে দোকানিকে কত টাকা দেবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> ১ কেজি সন্দেশের দাম ২৫০ টাকা</p>
+      <p>∴ ২ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp; (২৫০ × ২) টাকা = ৫০০ টাকা</p>
+      <p>১০০ টাকায় ভ্যাট ৪ টাকা</p>
+      <p>∴ ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">৪</span><span class="den">১০০</span></span> &nbsp;&nbsp;&nbsp; "</p>
+      <p>∴ ৫০০ " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">৪ × ৫০০</span><span class="den">১০০</span></span> &nbsp;&nbsp;&nbsp; " = ২০ টাকা</p>
+      <p>∴ নাবিল সন্দেশ ক্রয় বাবদ দোকানিকে দেবে (৫০০ + ২০) টাকা বা ৫২০ টাকা।</p>
+    </div>
+  </details>
+
+  <p style="font-style:italic;">লক্ষণীয়: কোনো দ্রব্যের ক্রয়মূল্যের সাথে নির্দিষ্ট হারে প্রদানকৃত করকে মূল্য সংযোজন কর বা ভ্যাট (Value Added Tax) বলে।</p>
+
+  <div class="box">
+    <p><span class="box-label">কাজ:</span></p>
+    <p>১। কণা শপিংমলে গিয়ে ১,২০০ টাকায় একটি সিল্কের শাড়ি ও ১,৮০০ টাকায় একটি থ্রিপিস ক্রয় করল। ভ্যাটের হার ৪ টাকা হলে, সে দোকানিকে কত টাকা দেবে?</p>
+    <p>২। ইশরাক মনিহারি দোকানে গিয়ে এক ডজন পেনসিল ক্রয় করে দোকানিকে ২৫০ টাকা দিল। ভ্যাটের হার ৪ টাকা হলে, প্রতিটি পেনসিলের দাম কত?</p>
+  </div>
+</section>
+
+<!-- PAGE 14 (book p.31) -->
+<section class="page" id="p14">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>৩১</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৮। নাসির সাহেবের মাসিক মূল বেতন ২৭,৬৫০ টাকা। বার্ষিক মোট আয়ের প্রথম দুই লক্ষ পঞ্চাশ হাজার টাকার আয়কর ০ (শূন্য) টাকা। পরবর্তী টাকার উপর আয়করের হার ১০ টাকা হলে, নাসির সাহেব কত টাকা আয়কর দেন?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> ১ মাসের মূল বেতন ২৭,৬৫০ টাকা</p>
+      <p>∴ ১২ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp; (২৭,৬৫০ × ১২) টাকা = ৩,৩১,৮০০ টাকা</p>
+      <p>∴ করযোগ্য টাকার পরিমাণ (৩,৩১,৮০০ − ২,৫০,০০০) টাকা বা ৮১,৮০০ টাকা</p>
+      <p>১০০ টাকায় আয়কর ১০ টাকা</p>
+      <p>∴ ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১০</span><span class="den">১০০</span></span> &nbsp;&nbsp;&nbsp; "</p>
+      <p>∴ ৮১,৮০০ " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১০ × ৮১,৮০০</span><span class="den">১০০</span></span> &nbsp;&nbsp;&nbsp; " বা ৮,১৮০ টাকা</p>
+      <p>∴ নাসির সাহেব ৮,১৮০ টাকা আয়কর দেন।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ১৯। যদি ১ ইউএস ডলার = ১২০.৫০ টাকা হয়, তবে ৭০০০ ইউএস ডলার বাংলাদেশি কত টাকার সমান হবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> ১ ইউএস ডলার ১২০.৫০ টাকা</p>
+      <p>৭০০০ &nbsp; " &nbsp;&nbsp; " &nbsp; ১২০.৫০ × ৭০০০ টাকা</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ৮,৪৩,৫০০.০০ টাকা</p>
+      <p>নির্ণেয় টাকার পরিমাণ = ৮,৪৩,৫০০.০০ টাকা।</p>
+    </div>
+  </details>
+
+  <h2 class="sectiontitle">অনুশীলনী ২.২</h2>
+  <ol class="stepnum">
+    <li>একজন দোকানদার প্রতি মিটার ২০০ টাকা দরে ৫ মিটার কাপড় কিনে প্রতি মিটার ২২৫ টাকা দরে বিক্রয় করলে কত লাভ হয়েছে?</li>
+    <li>একজন কমলা বিক্রেতা প্রতি হালি ৬০ টাকা দরে ৫ ডজন কমলা কিনে প্রতি হালি ৫০ টাকা দরে বিক্রয় করলে কত ক্ষতি হয়েছে?</li>
+    <li>রবি প্রতি কেজি ৪০ টাকা দরে ৫০ কেজি চাউল কিনে প্রতি কেজি ৪৪ টাকা দরে বিক্রয় করলে কত লাভ বা ক্ষতি হবে?</li>
+    <li>প্রতি লিটার মিল্কভিটা দুধ ৫২ টাকায় কিনে ৫৫ টাকা দরে বিক্রয় করলে শতকরা কত লাভ হয়?</li>
+  </ol>
+</section>
+
+<!-- PAGE 15 (book p.32) -->
+<section class="page" id="p15">
+  <div class="pageheader"><span>গণিত</span><span>৩২</span></div>
+
+  <ol class="stepnum" start="5">
+    <li>প্রতিটি চকলেট ৮ টাকা হিসেবে ক্রয় করে ৮.৫০ টাকা হিসেবে বিক্রয় করে ২৫ টাকা লাভ হলো, মোট কয়টি চকলেট ক্রয় করা হয়েছিল?</li>
+    <li>প্রতি মিটার ১২৫ টাকা দরে কাপড় ক্রয় করে ১৫০ টাকা দরে বিক্রয় করলে দোকানদারের ২০০০ টাকা লাভ হয়। দোকানদার মোট কত মিটার কাপড় ক্রয় করেছিলেন?</li>
+    <li>একটি দ্রব্য ১৯০ টাকায় ক্রয় করে ১৭৫ টাকায় বিক্রয় করলে শতকরা কত লাভ বা ক্ষতি হবে?</li>
+    <li>২৫ মিটার কাপড় যে মূল্যে ক্রয় করে, সেই মূল্যে ২০ মিটার কাপড় বিক্রয় করলে শতকরা কত লাভ বা ক্ষতি হবে?</li>
+    <li>৫ টাকায় ৮টি লেবু ক্রয় করে ৫ টাকায় ৬টি দরে বিক্রয় করলে শতকরা কত লাভ বা ক্ষতি হবে?</li>
+    <li>একটি গাড়ির বিক্রয়মূল্য গাড়ির ক্রয়মূল্যের ৮/৫ অংশের সমান। শতকরা লাভ বা ক্ষতি নির্ণয় করো।</li>
+    <li>একটি দ্রব্য ৪০০ টাকায় বিক্রয় করলে যত ক্ষতি হয় ৪৮০ টাকায় বিক্রয় করলে, তার তিনগুণ লাভ হয়। দ্রব্যটির ক্রয়মূল্য নির্ণয় করো।</li>
+    <li>একটি ঘড়ি ৬২৫ টাকায় বিক্রয় করলে ১০% ক্ষতি হয়। কত টাকায় বিক্রয় করলে ১০% লাভ হবে?</li>
+    <li>মাইশা প্রতি মিটার ২০ টাকা দরে ১৫ মিটার লাল ফিতা ক্রয় করল। ভ্যাটের হার ৪ টাকা। সে দোকানিকে ৫০০ টাকার একটি নোট দিল। দোকানি তাকে কত টাকা ফেরত দেবেন?</li>
+    <li>মি. রায় একজন সরকারি কর্মকর্তা। তিনি তীর্থস্থান পরিদর্শনের জন্য ভারতে যাবেন। যদি বাংলাদেশি ১ টাকা সমান ভারতীয় ০.৮৫ রুপি হয়, তবে ভারতীয় ৪২,৫০০ রুপির জন্য বাংলাদেশের কত টাকা প্রয়োজন হবে?</li>
+    <li>নীলিম সাহেব একজন চাকুরিজীবী। তাঁর মাসিক মূল বেতন ২২,২৫০ টাকা। বার্ষিক মোট আয়ের প্রথম দুই লক্ষ পঞ্চাশ হাজার টাকার আয়কর ০ (শূন্য) টাকা। পরবর্তী টাকার উপর আয়করের হার ১০ টাকা হলে নীলিম কর বাবদ কত টাকা পরিশোধ করেন?</li>
+  </ol>
+
+  <h2 class="sectiontitle">২.৪ গতি বিষয়ক সমস্যা</h2>
+  <p>স্থির পানি ও স্রোতস্বিনী নদীতে নৌকার বেগ এক হবে না। স্রোতস্বিনী নদীতে স্রোতের অনুকূলে (একই দিকে) নৌকা চালালে নৌকার নিজস্ব বেগের সাথে স্রোতের বেগ যোগ করতে হবে। স্রোতের প্রতিকূলে (বিপরীত দিকে) নৌকার নিজস্ব বেগ থেকে স্রোতের বেগ বিয়োগ করতে হবে। স্রোতের অনুকূলে বা প্রতিকূলে নৌকা যে গতিতে চলে তা হলো নৌকার কার্যকরী গতিবেগ।</p>
+
+  <div class="box">
+    স্রোতের অনুকূলে নৌকার কার্যকরী গতিবেগ = নৌকার প্রকৃত গতিবেগ + স্রোতের গতিবেগ।<br>
+    স্রোতের প্রতিকূলে নৌকার কার্যকরী গতিবেগ = নৌকার প্রকৃত গতিবেগ − স্রোতের গতিবেগ।
+  </div>
+</section>
+
+<!-- PAGE 16 (book p.33) -->
+<section class="page" id="p16">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>৩৩</span></div>
+
+  <details class="example" open>
+    <summary>উদাহরণ ২০। একটি নৌকা স্থির পানিতে ঘণ্টায় ৬ কি.মি. যেতে পারে। স্রোতের প্রতিকূলে ৬ কি.মি. যেতে নৌকাটির ৩ গুণ সময় লাগে। স্রোতের অনুকূলে ৫০ কি.মি. যেতে নৌকাটির কত সময় লাগবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> নৌকাটি স্থির পানিতে ৬ কি.মি. যায় ১ ঘণ্টায়</p>
+      <p>স্রোতের প্রতিকূলে ৬ কি.মি. যায় ১×৩ ঘণ্টায় বা ৩ ঘণ্টায়</p>
+      <p>প্রশ্নমতে, ৩ ঘণ্টায় যায় ৬ কি.মি.</p>
+      <p>∴ ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">৬</span><span class="den">৩</span></span> &nbsp;&nbsp;&nbsp; " বা ২ কি.মি.</p>
+      <p>স্রোতের প্রতিকূলে (বিপরীত দিকে) নৌকার কার্যকরী বেগ = নৌকার প্রকৃত বেগ − স্রোতের বেগ</p>
+      <p>∴ স্রোতের বেগ = নৌকার প্রকৃত বেগ − নৌকার কার্যকরী বেগ = (৬ − ২) কি.মি. বা ৪ কি.মি. প্রতি ঘণ্টায়</p>
+      <p>স্রোতের অনুকূলে নৌকার (একই দিকে) কার্যকরী বেগ = নৌকার প্রকৃত গতিবেগ + স্রোতের বেগ = (৬ + ৪) কি.মি. বা ১০ কি.মি. প্রতি ঘণ্টায়</p>
+      <p>স্রোতের অনুকূলে ১০ কি.মি. যায় ১ ঘণ্টায়</p>
+      <p>" &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">১০</span></span> &nbsp;&nbsp;&nbsp; "</p>
+      <p>∴ " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; ৫০ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১ × ৫০</span><span class="den">১০</span></span> &nbsp;&nbsp;&nbsp; ঘণ্টায় বা ৫ ঘণ্টায়</p>
+      <p>স্রোতের অনুকূলে যেতে ৫ ঘণ্টা লাগবে।</p>
+    </div>
+  </details>
+
+  <details class="example" open>
+    <summary>উদাহরণ ২১। একটি চৌবাচ্চায় তিনটি নল আছে। প্রথম ও দ্বিতীয় নল দ্বারা যথাক্রমে ৩০ মিনিট ও ২০ মিনিটে চৌবাচ্চাটি পূর্ণ হয়। তৃতীয় নল দ্বারা পূর্ণ চৌবাচ্চাটি ৬০ মিনিটে খালি হয়।</summary>
+    <div class="ex-body">
+      <p>(ক) তৃতীয় নল দ্বারা ১ মিনিটে চৌবাচ্চাটির কত অংশ খালি হয়?</p>
+      <p>(খ) তিনটি নল একসঙ্গে খুলে দিলে চৌবাচ্চাটি কত মিনিটে পূর্ণ হবে?</p>
+      <p>(গ) প্রথম নল কখন বন্ধ করলে ১ম ও ২য় নল দ্বারা চৌবাচ্চাটি ১৮ মিনিটে পানি পূর্ণ হবে?</p>
+      <p><strong>সমাধান: (ক)</strong> তৃতীয় নল দ্বারা ৬০ মিনিটে খালি হয় ১টি চৌবাচ্চা</p>
+      <p>&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; ১ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">৬০</span></span> অংশ</p>
+      <p><strong>(খ)</strong> ১ম নল দ্বারা ৩০ মিনিটে পূর্ণ হয় ১ অংশ</p>
+      <p>&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; ১ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">৩০</span></span> অংশ</p>
+      <p>২য় নল দ্বারা ২০ মিনিটে পূর্ণ হয় ১ অংশ</p>
+      <p>&nbsp;&nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; ১ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">২০</span></span> অংশ</p>
+      <p>এবং ৩য় নল দ্বারা ৬০ মিনিটে খালি হয় ১ অংশ</p>
+      <p>৩য় &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; ১ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">৬০</span></span> অংশ</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 17 (book p.34) -->
+<section class="page" id="p17">
+  <div class="pageheader"><span>গণিত</span><span>৩৪</span></div>
+
+  <p>তিনটি নল একসঙ্গে খুলে দিলে ১ মিনিটে পূর্ণ হয় (<span class="frac"><span class="num">১</span><span class="den">৩০</span></span> + <span class="frac"><span class="num">১</span><span class="den">২০</span></span> − <span class="frac"><span class="num">১</span><span class="den">৬০</span></span>) অংশ</p>
+  <p>= <span class="frac"><span class="num">২ + ৩ − ১</span><span class="den">৬০</span></span> অংশ = <span class="frac"><span class="num">৪</span><span class="den">৬০</span></span> অংশ = <span class="frac"><span class="num">১</span><span class="den">১৫</span></span> অংশ</p>
+  <p><span class="frac"><span class="num">১</span><span class="den">১৫</span></span> অংশ পূর্ণ হয় ১ মিনিটে</p>
+  <p>সুতরাং ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; ১ × ১৫ &nbsp; "</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ১৫ মি.</p>
+
+  <p><strong>(গ)</strong> ২য় নল দ্বারা ২০ মিনিটে পূর্ণ হয় ১ অংশ</p>
+  <p>২য় &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; ১ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">২০</span></span> অংশ</p>
+  <p>২য় &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; ১৮ &nbsp; " &nbsp;&nbsp; " &nbsp;&nbsp; <span class="frac"><span class="num">১ × ১৮</span><span class="den">২০</span></span> অংশ</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <span class="frac"><span class="num">৯</span><span class="den">১০</span></span> অংশ।</p>
+  <p>সুতরাং, অবশিষ্ট থাকে (১ − <span class="frac"><span class="num">৯</span><span class="den">১০</span></span>) অংশ = <span class="frac"><span class="num">১০ − ৯</span><span class="den">১০</span></span> অংশ</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <span class="frac"><span class="num">১</span><span class="den">১০</span></span> অংশ।</p>
+  <p>১ম নল দ্বারা ১ মিনিটে পূর্ণ হয় <span class="frac"><span class="num">১</span><span class="den">৩০</span></span> অংশ।</p>
+  <p><span class="frac"><span class="num">১</span><span class="den">৩০</span></span> অংশ পূর্ণ হতে সময় লাগে ১ মিনিট</p>
+  <p>১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; ১ × ৩০ মিনিট</p>
+  <p><span class="frac"><span class="num">১</span><span class="den">১০</span></span> &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১ × ৩০</span><span class="den">১ × ১০</span></span> মিনিট</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ৩ মিনিট</p>
+  <p>সুতরাং প্রথম নলটি ৩ মিনিট পর বন্ধ করলে ১ম ও ২য় নল দ্বারা চৌবাচ্চাটি ১৮ মিনিটে পানি পূর্ণ হবে।</p>
+
+  <details class="example" open>
+    <summary>উদাহরণ ২২। ৬০ মিটার দীর্ঘ একটি ট্রেনের গতিবেগ ঘণ্টায় ৪৮ কি.মি.। রেললাইনের পাশের একটি খুঁটিকে অতিক্রম করতে ট্রেনটির কত সময় লাগবে?</summary>
+    <div class="ex-body">
+      <p><strong>সমাধান:</strong> খুঁটিটি অতিক্রম করতে ট্রেনটিকে নিজের দৈর্ঘ্যের সমান দূরত্ব অতিক্রম করতে হবে।</p>
+      <p>৪৮ কি.মি. = ৪৮ × ১০০০ মিটার বা ৪৮০০০ মিটার</p>
+    </div>
+  </details>
+</section>
+
+<!-- PAGE 18 (book p.35) -->
+<section class="page" id="p18">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>৩৫</span></div>
+
+  <p>ট্রেনটি ৪৮০০০ মি. অতিক্রম করে ১ ঘণ্টায়</p>
+  <p>" &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; ১ &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১</span><span class="den">৪৮০০০</span></span> ঘণ্টায় বা <span class="frac"><span class="num">১ × ৬০ × ৬০</span><span class="den">৪৮০০০</span></span> সেকেন্ডে</p>
+  <p>" &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; ৬০ &nbsp; " &nbsp;&nbsp;&nbsp; " &nbsp;&nbsp;&nbsp; <span class="frac"><span class="num">১ × ৬০ × ৬০ × ৬০</span><span class="den">৪৮০০০</span></span> সেকেন্ডে</p>
+  <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <span class="frac"><span class="num">৯</span><span class="den">২</span></span> সেকেন্ড = ৪<span class="frac"><span class="num">১</span><span class="den">২</span></span> সেকেন্ড</p>
+  <p>ট্রেনটি ৪<span class="frac"><span class="num">১</span><span class="den">২</span></span> সেকেন্ডে খুঁটিটি অতিক্রম করবে।</p>
+
+  <h2 class="sectiontitle">অনুশীলনী ২.৩</h2>
+  <ol class="stepnum">
+    <li>৪ : ৯ এর দ্বিভাজিত অনুপাত কোনটি?
+      <br>(ক) ২ : ৩ &nbsp; (খ) ৪ : ৯ &nbsp; (গ) ৯ : ৪ &nbsp; (ঘ) ১৬ : ৮১</li>
+    <li>ক : খ = ৪ : ৭ এবং খ : গ = ১০ : ৭ হলে গ : খ : ক = কত?
+      <br>(ক) ৪৯ : ৭০ : ৪০ &nbsp; (খ) ৪৯ : ৪০ : ৭০ &nbsp; (গ) ৪০ : ৭০ : ৪৯ &nbsp; (ঘ) ৪০ : ৪৯ : ৭০</li>
+    <li>৪ : ৩ ও ৫ : ৬ এর ধারাবাহিক অনুপাতের দ্বিতীয় রাশির মান কত?
+      <br>(ক) ২০ &nbsp; (খ) ১৮ &nbsp; (গ) ১৬ &nbsp; (ঘ) ১৫</li>
+    <li>৫ : ৩ এবং ২ : ৫ এর ধারাবাহিক অনুপাত কোনটি?
+      <br>(ক) ১০ : ৬ : ১৫ &nbsp; (খ) ৩ : ৫ : ৬ &nbsp; (গ) ৫ : ৬ : ৫ &nbsp; (ঘ) ১৫ : ৬ : ১০</li>
+    <li>৩, ৫, ১৫ এর চতুর্থ সমানুপাতী কোনটি?
+      <br>(ক) ২০ &nbsp; (খ) ২৫ &nbsp; (গ) ৩০ &nbsp; (ঘ) ৩৫</li>
+    <li>একজন কলাবিক্রেতা প্রতি হালি কলা ২৫ টাকা দরে ক্রয় করে প্রতি হালি ২৭ টাকা দরে বিক্রয় করলে, তাঁর ৫০ টাকা লাভ হয়। সে কত হালি কলা ক্রয় করেছিল?
+      <br>(ক) ২৫ হালি &nbsp; (খ) ২০ হালি &nbsp; (গ) ৫০ হালি &nbsp; (ঘ) ২৭ হালি</li>
+    <li>৫ জন শ্রমিক ৬ দিনে ৮ বিঘা জমির ফসল উঠাতে পারে। ২০ বিঘা জমির ফসল উঠাতে ২৫জন শ্রমিকের কত দিন লাগবে?</li>
+    <li>স্বপন একটি কাজ ২৪ দিনে করতে পারে। রতন উক্ত কাজ ১৬ দিনে করতে পারে। স্বপন ও রতন একত্রে কাজটি কত দিনে শেষ করতে পারবে?</li>
+    <li>হাবিবা ও হালিমা একটি কাজ একত্রে ২০ দিনে করতে পারে। হাবিবা ও হালিমা একত্রে ৮ দিন কাজ করার পর হাবিবা চলে গেল। হালিমা বাকি কাজ ২১ দিনে শেষ করল। সম্পূর্ণ কাজটি হালিমা কত দিনে করতে পারত?</li>
+  </ol>
+</section>
+
+<!-- PAGE 19 (book p.36) -->
+<section class="page" id="p19">
+  <div class="pageheader"><span>গণিত</span><span>৩৬</span></div>
+
+  <ol class="stepnum" start="10">
+    <li>৩০জন শ্রমিক ২০ দিনে একটি বাড়ি তৈরি করতে পারে। কাজ শুরুর ১০ দিন পরে খারাপ আবহাওয়ার জন্য ৬ দিন কাজ বন্ধ রাখতে হয়েছে। নির্ধারিত সময়ে কাজটি শেষ করতে অতিরিক্ত কতজন শ্রমিক লাগবে?</li>
+    <li>একটি কাজ ক ও খ একত্রে ১৬ দিনে, খ ও গ একত্রে ১২ দিনে এবং ক ও গ একত্রে ২০ দিনে করতে পারে। ক, খ ও গ একত্রে কাজটি কত দিনে করতে পারবে?</li>
+    <li>একটি চৌবাচ্চায় দুটি নল আছে। প্রথম ও দ্বিতীয় নল দ্বারা যথাক্রমে ১২ ঘণ্টা ও ১৮ ঘণ্টায় খালি চৌবাচ্চাটি পূর্ণ হয়। দুটি নল এক সাথে খুলে দিলে খালি চৌবাচ্চাটি কত ঘণ্টায় পূর্ণ হবে?</li>
+    <li>স্রোতের অনুকূলে একটি নৌকা ৪ ঘণ্টায় ৩৬ কি.মি. পথ অতিক্রম করে। স্রোতের বেগ প্রতি ঘণ্টায় ৩ কি.মি. হলে, স্থির পানিতে নৌকার বেগ কত?</li>
+    <li>স্রোতের প্রতিকূলে একটি জাহাজ ১১ ঘণ্টায় ৭৭ কি.মি. পথ অতিক্রম করে। স্থির পানিতে জাহাজের গতিবেগ প্রতি ঘণ্টায় ৯ কি.মি. হলে, স্রোতের গতিবেগ প্রতি ঘণ্টায় কত?</li>
+    <li>দাঁড় বেয়ে একটি নৌকা স্রোতের অনুকূলে ১৫ মিনিটে ৩ কি.মি. এবং স্রোতের প্রতিকূলে ১৫ মিনিটে ১ কি.মি. পথ অতিক্রম করে। স্থির পানিতে নৌকার গতিবেগ ও স্রোতের পানিতে নৌকার গতিবেগ নির্ণয় করো।</li>
+    <li>লিলি একা একটি কাজ ১০ ঘণ্টায় করতে পারেন। মিলি একা ঐ কাজটি ৮ ঘণ্টায় করতে পারেন। লিলি ও মিলি একত্রে ঐ কাজটি কত ঘণ্টায় করতে পারবেন?</li>
+    <li>দুটি নল দ্বারা একটি খালি চৌবাচ্চা যথাক্রমে ২০ মিনিটে ও ৩০ মিনিটে পানি-পূর্ণ করা যায়। চৌবাচ্চাটি খালি থাকা অবস্থায় দুটি নল এক সাথে খুলে দেওয়া হলো। প্রথম নলটি কখন বন্ধ করলে চৌবাচ্চাটি ১৮ মিনিটে পানি-পূর্ণ হবে?</li>
+    <li>১০০ মিটার দীর্ঘ একটি ট্রেনের গতিবেগ ঘণ্টায় ৪৮ কিলোমিটার। ঐ ট্রেনটি ৩০ সেকেন্ডে একটি সেতু অতিক্রম করে। সেতুটির দৈর্ঘ্য কত?</li>
+    <li>১২০ মিটার দীর্ঘ একটি ট্রেন ৩৩০ মিটার দীর্ঘ একটি সেতু অতিক্রম করে। ট্রেনটির গতিবেগ ঘণ্টায় ৩০ কি.মি. হলে, সেতুটি অতিক্রম করতে ট্রেনটির কত সময় লাগবে?</li>
+    <li>তামা, দস্তা ও রুপা মিশিয়ে একটি গহনা তৈরি করা হলো। ঐ গহনায় তামা ও দস্তার অনুপাত ১ : ২ এবং দস্তা : রুপার অনুপাত ৩ : ৫। গহনার ওজন ১৯০ গ্রাম।
+      <br>(ক) তামা, দস্তা ও রুপার অনুপাত নির্ণয় করো।
+      <br>(খ) গহনায় তামা, দস্তা ও রুপার ওজন পৃথকভাবে নির্ণয় করো।
+      <br>(গ) ঐ গহনায় কি পরিমাণ দস্তা মিশালে তামা ও দস্তার অনুপাত ১ : ৩ হবে।</li>
+  </ol>
+</section>
+
+<!-- PAGE 20 (book p.37) -->
+<section class="page" id="p20">
+  <div class="pageheader"><span>অধ্যায় ২. সমানুপাত ও লাভ-ক্ষতি</span><span>৩৭</span></div>
+
+  <h2 class="sectiontitle">নমুনা প্রশ্ন</h2>
+  <h3 class="subtitle">বহুনির্বাচনি প্রশ্ন</h3>
+  <ol class="stepnum">
+    <li>একজন দোকানদার একটি দিয়াশলাই বাক্স ১.৫০ টাকায় ক্রয় করে ২.০০ টাকায় বিক্রয় করলে তাঁর শতকরা কত লাভ হবে?
+      <br>(ক) ২০% &nbsp; (খ) ১৫% &nbsp; (গ) ২৫% &nbsp; (ঘ) ৩৩<span class="frac"><span class="num">১</span><span class="den">৩</span></span>%</li>
+    <li>দুইটি অনুপাত ২ : ৩ ও ৮ : ১২ হলে—
+      <br><em>i.</em> ২য় অনুপাতের উত্তর রাশি ৮
+      <br><em>ii.</em> অনুপাত দুটির ধারাবাহিক অনুপাত ১৬ : ২৪ : ৩৬
+      <br><em>iii.</em> অনুপাত দুটির চারটি রাশি সমানুপাত তৈরি করে।
+      <br><strong>নিচের কোনটি সঠিক?</strong>
+      <br>(ক) i ও ii &nbsp; (খ) i ও iii &nbsp; (গ) ii ও iii &nbsp; (ঘ) i, ii ও iii</li>
+    <li>নিচের তথ্যের ভিত্তিতে ৩ ও ৪ নং প্রশ্নের উত্তর দাও। ৩০ মিটার কাপড় মাইশা, মারিয়া ও তানিয়ার মধ্যে ৫ : ৩ : ২ অনুপাতে ভাগ করে দেওয়া হল।
+      <br>মাইশা কত মিটার কাপড় পেল?
+      <br>(ক) ১৫ &nbsp; (খ) ৯ &nbsp; (গ) ৬ &nbsp; (ঘ) ৫</li>
+    <li>তানিয়া থেকে মারিয়া কত মিটার কাপড় বেশি পেল?
+      <br>(ক) ৩ &nbsp; (খ) ৫ &nbsp; (গ) ৬ &nbsp; (ঘ) ৯</li>
+  </ol>
+
+  <h3 class="subtitle">সৃজনশীল প্রশ্ন</h3>
+  <p>৫। একজন ব্যবসায়ী ২৫% লাভে ১৬০০ টাকায় একটি ক্যালকুলেটর বিক্রয় করেন এবং একটি ঘড়ি ৮০০ টাকায় বিক্রয় করায় তার ক্ষতি হলো। ঘড়িটি ১২০০ টাকায় বিক্রয় করতে পারলে ক্ষতির তিনগুণ টাকা লাভ হতো।</p>
+  <p>(ক) ৫ সে.মি., ৭ সে.মি., ১৪ সে.মি. এবং ১০ সে.মি. রাশি চারটি দ্বারা সমানুপাত লেখো।</p>
+  <p>(খ) ক্যালকুলেটরটি বিক্রয় করে ঐ ব্যবসায়ীর কত টাকা লাভ হয়েছিল তা নির্ণয় করো।</p>
+  <p>(গ) ঘড়িটি ৮০০ টাকায় বিক্রয় করায় ঐ ব্যবসায়ীর শতকরা কত টাকা ক্ষতি হয় তা নির্ণয় করো।</p>
+
+  <h3 class="subtitle">সংক্ষিপ্ত-উত্তর প্রশ্ন</h3>
+  <p>৬। ক) অমি ও সুমির মধ্যে ৬০ টাকা ভাগ করে দেওয়া হলো। অমি সুমি অপেক্ষা ১২ টাকা বেশি পেলে তাদের প্রাপ্ত টাকার অনুপাত নির্ণয় করো।</p>
+  <p>খ) ক্রমিক সমানুপাতে থাকা চারজন লোকের তিন জনের বয়স ১১ বছর, ১৬ বছর, ২২ বছর হলে, চতুর্থ জনের বয়স কত বছর তা নির্ণয় করো।</p>
+  <p>গ) একটি দ্রব্য ১২০ টাকায় ক্রয় করে ২০ টাকা লাভে বিক্রয় করলে ক্রয়মূল্য ও বিক্রয়মূল্যের অনুপাত নির্ণয় করো।</p>
+</section>
+
+<!-- LAB PAGE: Profit/Loss & Percentage Calculator -->
+<section class="page lab-page" id="lab">
+  <div class="pageheader"><span>ইন্টারঅ্যাকটিভ অনুশীলন</span><span>+</span></div>
+  <h2 class="sectiontitle">লাভ-ক্ষতি হিসাব যন্ত্র</h2>
+  <p>ক্রয়মূল্য ও বিক্রয়মূল্য লিখলে শতকরা লাভ বা ক্ষতি হিসাব করে দেখাবে — ঠিক এই অধ্যায়ের উদাহরণগুলোর পদ্ধতি অনুসরণ করে।</p>
+
+  <div class="lab-box">
+    <div class="lab-row">
+      <div class="lab-field">
+        <label for="cpInput">ক্রয়মূল্য (টাকা)</label>
+        <input type="number" id="cpInput" min="0" step="0.01" placeholder="যেমন: 75">
+      </div>
+      <div class="lab-field">
+        <label for="spInput">বিক্রয়মূল্য (টাকা)</label>
+        <input type="number" id="spInput" min="0" step="0.01" placeholder="যেমন: 90">
+      </div>
+      <button id="checkBtn" type="button">হিসাব করো</button>
+    </div>
+    <div class="lab-output" id="labOutput">ক্রয়মূল্য ও বিক্রয়মূল্য লিখে "হিসাব করো" চাপো। উদাহরণ: ক্রয়মূল্য ৭৫, বিক্রয়মূল্য ৯০</div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const btn = document.getElementById('checkBtn');
+  const cpInput = document.getElementById('cpInput');
+  const spInput = document.getElementById('spInput');
+  const out = document.getElementById('labOutput');
+
+  const bnDigits = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  function toBn(n){
+    return String(n).split('').map(ch => /[0-9]/.test(ch) ? bnDigits[+ch] : ch).join('');
+  }
+
+  function run(){
+    const cp = Number(cpInput.value);
+    const sp = Number(spInput.value);
+    if(!cpInput.value || !spInput.value || isNaN(cp) || isNaN(sp) || cp <= 0){
+      out.textContent = 'দয়া করে ক্রয়মূল্য ও বিক্রয়মূল্য উভয়ই লিখো (ক্রয়মূল্য শূন্যের বেশি হতে হবে)।';
+      return;
+    }
+    let msg = '';
+    if(sp > cp){
+      const profit = sp - cp;
+      const percent = (profit * 100) / cp;
+      msg += 'লাভ = বিক্রয়মূল্য − ক্রয়মূল্য = ' + toBn(sp) + ' − ' + toBn(cp) + ' = ' + toBn(profit.toFixed(2)) + ' টাকা\n';
+      msg += toBn(cp) + ' টাকায় লাভ হয় ' + toBn(profit.toFixed(2)) + ' টাকা\n';
+      msg += '১০০ টাকায় লাভ হয় ' + toBn(percent.toFixed(2)) + ' টাকা\n';
+      msg += '∴ শতকরা লাভ ' + toBn(percent.toFixed(2)) + '%';
+    } else if(cp > sp){
+      const loss = cp - sp;
+      const percent = (loss * 100) / cp;
+      msg += 'ক্ষতি = ক্রয়মূল্য − বিক্রয়মূল্য = ' + toBn(cp) + ' − ' + toBn(sp) + ' = ' + toBn(loss.toFixed(2)) + ' টাকা\n';
+      msg += toBn(cp) + ' টাকায় ক্ষতি হয় ' + toBn(loss.toFixed(2)) + ' টাকা\n';
+      msg += '১০০ টাকায় ক্ষতি হয় ' + toBn(percent.toFixed(2)) + ' টাকা\n';
+      msg += '∴ শতকরা ক্ষতি ' + toBn(percent.toFixed(2)) + '%';
+    } else {
+      msg = 'ক্রয়মূল্য ও বিক্রয়মূল্য সমান — কোনো লাভ বা ক্ষতি নেই।';
+    }
+    out.textContent = msg;
+  }
+
+  btn.addEventListener('click', run);
+  [cpInput, spInput].forEach(el => el.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') run();
+  }));
+})();
+</script>
+
+</body>
+</html>
