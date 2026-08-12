@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অধ্যায় ৩ — নিরাপদ ও নৈতিক ব্যবহার</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --slate:#1E3A34;
+  --slate-2:#28483F;
+  --paper:#FBF7EC;
+  --paper-2:#F2EAD3;
+  --ink:#22281f;
+  --indigo:#2F5D9E;
+  --indigo-dark:#1F3F6B;
+  --mustard:#E3A93B;
+  --good:#3E8E5A;
+  --bad:#B2483A;
+  --stitch:#C9B98A;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+}
+h1,h2,h3,.display{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--slate);
+  font-weight:700;
+}
+::selection{background:var(--mustard);color:var(--slate);}
+
+.stitch{
+  height:14px;
+  margin:0 auto;
+  max-width:1100px;
+  background-image:repeating-linear-gradient(
+    115deg,
+    var(--stitch) 0 8px,
+    transparent 8px 16px
+  );
+  opacity:.65;
+}
+.stitch.vertical-space{margin:36px auto;}
+
+header.topbar{
+  background:
+    radial-gradient(circle at 8px 8px, rgba(227,169,59,.14) 1.4px, transparent 1.4px),
+    linear-gradient(155deg, var(--slate-2) 0%, var(--slate) 62%, #142822 100%);
+  background-size: 26px 26px, cover;
+  color:var(--paper);
+  padding:38px 24px 46px;
+  position:relative;
+  overflow:hidden;
+}
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  margin:0 auto;
+}
+.header-illustration{
+  position:absolute;
+  right:-10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:220px;
+  height:220px;
+  opacity:.16;
+  z-index:1;
+  pointer-events:none;
+}
+.badge-patch{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paper);
+  color:var(--slate);
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:700;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:13px;
+  border:2px dashed var(--mustard);
+  transform:rotate(-2deg);
+  margin-bottom:16px;
+  box-shadow:0 3px 0 rgba(0,0,0,.18);
+}
+header.topbar .kicker{
+  font-size:13.5px;
+  letter-spacing:.08em;
+  color:var(--mustard);
+  font-weight:700;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+header.topbar .kicker::before,
+header.topbar .kicker::after{
+  content:"";
+  height:1px;
+  width:22px;
+  background:var(--mustard);
+  opacity:.6;
+}
+header.topbar .eyebrow{
+  display:block;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  color:#a9c9bc;
+  margin-bottom:2px;
+  letter-spacing:.02em;
+}
+header.topbar h1{
+  color:var(--paper);
+  font-size:clamp(28px,4.4vw,42px);
+  line-height:1.28;
+  margin:0 0 12px;
+  max-width:640px;
+}
+header.topbar h1 .hl{
+  color:var(--mustard);
+}
+header.topbar p.sub{
+  margin:0;
+  color:#cfe3da;
+  font-size:15.5px;
+  max-width:560px;
+  position:relative;
+  padding-right:18px;
+}
+header.topbar p.sub::before{
+  content:"";
+  position:absolute;
+  right:0;top:4px;bottom:4px;
+  width:3px;
+  background:var(--mustard);
+  border-radius:3px;
+  opacity:.7;
+}
+
+.header-edge{
+  height:20px;
+  width:100%;
+  background:var(--paper);
+  clip-path:polygon(
+    0% 100%,0% 35%,4.3% 100%,8.6% 35%,12.9% 100%,17.2% 35%,21.5% 100%,25.8% 35%,
+    30.1% 100%,34.4% 35%,38.7% 100%,43% 35%,47.3% 100%,51.6% 35%,55.9% 100%,60.2% 35%,
+    64.5% 100%,68.8% 35%,73.1% 100%,77.4% 35%,81.7% 100%,86% 35%,90.3% 100%,94.6% 35%,100% 100%,100% 100%
+  );
+  margin-top:-1px;
+}
+
+nav.lesson-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--slate-2);
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:11px 16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  margin-top:-1px;
+}
+nav.lesson-nav a{
+  flex:0 0 auto;
+  color:#e8f1ec;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  white-space:nowrap;
+  transition:.2s;
+}
+nav.lesson-nav a:hover,nav.lesson-nav a.active{
+  background:var(--mustard);
+  color:var(--slate);
+  border-color:var(--mustard);
+}
+
+main{max-width:900px;margin:0 auto;padding:28px 18px 80px;}
+
+.objectives{
+  background:var(--paper-2);
+  border:2px dashed var(--stitch);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:26px 0;
+}
+.objectives h2{margin-top:0;font-size:20px;}
+.objectives ol{margin:0;padding-right:0;padding-left:20px;}
+.objectives li{margin-bottom:6px;}
+
+section.lesson{margin:56px 0;scroll-margin-top:70px;}
+section.lesson>h2{
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+section.lesson>h2 .num{
+  background:var(--indigo);
+  color:#fff;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:15px;
+  padding:5px 12px;
+  border-radius:999px;
+}
+.lesson-intro-note{
+  color:#5b6b60;
+  font-size:14.5px;
+  margin-bottom:22px;
+}
+
+.book-text{
+  background:#fff;
+  border-right:6px solid var(--indigo);
+  padding:20px 22px;
+  border-radius:8px;
+  margin:18px 0;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:16.5px;
+  line-height:1.95;
+  color:#2b3129;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.book-text .book-label{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--indigo);
+  letter-spacing:.04em;
+  display:block;
+  margin-bottom:8px;
+}
+.book-text p{margin:0 0 14px;}
+.book-text p:last-child{margin-bottom:0;}
+.book-text h4{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--indigo-dark);
+  margin:0 0 8px;
+  font-size:17px;
+}
+
+details.simple-box{
+  background:#FFF8E7;
+  border:2px solid var(--mustard);
+  border-radius:var(--radius);
+  margin:14px 0 26px;
+  overflow:hidden;
+}
+details.simple-box summary{
+  cursor:pointer;
+  list-style:none;
+  padding:12px 18px;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  color:#7a5a12;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  user-select:none;
+}
+details.simple-box summary::-webkit-details-marker{display:none;}
+details.simple-box summary::before{
+  content:"▶";
+  font-size:11px;
+  transition:transform .2s;
+}
+details.simple-box[open] summary::before{transform:rotate(90deg);}
+details.simple-box .simple-body{
+  padding:2px 20px 18px;
+  font-size:16px;
+  color:#3b3223;
+}
+details.simple-box .simple-body p{margin:8px 0;}
+details.simple-box .simple-body b{color:var(--indigo-dark);}
+
+.selfcheck{
+  background:var(--paper-2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin:20px 0;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.selfcheck .icon-box{
+  flex:0 0 auto;
+  width:74px;height:74px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--indigo);
+}
+.selfcheck .icon-box svg{width:38px;height:38px;stroke:var(--indigo);}
+.selfcheck .sc-content{flex:1;min-width:200px;}
+.selfcheck .sc-content .name{font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;font-weight:700;color:var(--slate);font-size:17px;margin-bottom:4px;}
+.selfcheck .sc-question{font-size:14.5px;color:#5b6b60;margin-bottom:8px;}
+.selfcheck .sc-btns{display:flex;gap:8px;}
+.sc-btn{
+  border:2px solid var(--indigo);
+  background:#fff;
+  color:var(--indigo);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:13.5px;
+  cursor:pointer;
+}
+.sc-btn:hover{background:var(--indigo);color:#fff;}
+.sc-answer{
+  display:none;
+  margin-top:10px;
+  padding:12px 14px;
+  background:#fff;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--mustard);
+}
+.sc-answer.show{display:block;}
+
+.glossary-wrap{
+  margin:22px 0 30px;
+  background:#EEF3EE;
+  border-radius:var(--radius);
+  padding:18px 20px;
+}
+.glossary-wrap h4{
+  margin:0 0 12px;
+  font-size:15px;
+  color:var(--slate);
+  display:flex;align-items:center;gap:6px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  background:#fff;
+  border:1.5px solid var(--indigo);
+  color:var(--indigo-dark);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+.chip:hover{background:var(--indigo);color:#fff;}
+.chip.active{background:var(--indigo);color:#fff;}
+.chip-def{
+  display:none;
+  margin-top:12px;
+  background:#fff;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--indigo);
+}
+.chip-def.show{display:block;}
+.chip-def b{color:var(--indigo-dark);}
+
+.groupwork{
+  background:var(--slate);
+  color:#eaf1ec;
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:26px 0;
+}
+.groupwork .gw-label{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--mustard);
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.groupwork p{margin:0 0 12px;font-size:15.5px;}
+.groupwork textarea{
+  width:100%;
+  min-height:80px;
+  border-radius:8px;
+  border:none;
+  padding:10px 12px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:14.5px;
+  resize:vertical;
+}
+.groupwork .hint{font-size:12.5px;color:#a9c2b6;margin-top:6px;}
+
+.quiz{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-radius:var(--radius);
+  padding:22px 22px 8px;
+  margin:34px 0;
+}
+.quiz>h3{margin-top:0;font-size:19px;display:flex;align-items:center;gap:8px;}
+.qitem{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed #ddd;}
+.qitem:last-of-type{border-bottom:none;}
+.qitem p.qtext{font-weight:600;color:var(--slate);margin:0 0 10px;font-size:16px;}
+.qoptions{display:flex;flex-direction:column;gap:8px;}
+.qoption{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;
+  border:1.5px solid #e2ddc9;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.15s;
+}
+.qoption:hover{background:#FAF6EA;}
+.qoption.correct{background:#e5f4ea;border-color:var(--good);}
+.qoption.wrong{background:#fbe9e6;border-color:var(--bad);}
+.qoption input{accent-color:var(--indigo);}
+.qfeedback{
+  margin-top:10px;font-size:14.5px;padding:8px 12px;border-radius:6px;display:none;
+}
+.qfeedback.show{display:block;}
+.qfeedback.ok{background:#e5f4ea;color:#255c39;}
+.qfeedback.no{background:#fbe9e6;color:#7a2e21;}
+
+.progress-wrap{max-width:900px;margin:0 auto;padding:0 18px;}
+.progress-bar{
+  height:6px;background:#e2ddc9;border-radius:99px;overflow:hidden;margin-top:14px;
+}
+.progress-fill{height:100%;width:0%;background:var(--mustard);transition:width .4s;}
+.progress-label{font-size:12.5px;color:#5b6b60;margin-top:6px;}
+
+.warn-box{
+  background:#FBEDEA;
+  border-right:6px solid var(--bad);
+  border-radius:8px;
+  padding:16px 20px;
+  margin:18px 0;
+  font-size:15.5px;
+  color:#5c261d;
+}
+.warn-box b{color:var(--bad);}
+
+footer{
+  text-align:center;padding:40px 20px 60px;color:#7d8a7f;font-size:13.5px;
+}
+footer a{color:var(--indigo);}
+
+@media(max-width:640px){
+  section.lesson>h2{font-size:22px;}
+}
+
+.download-btn{
+  margin-top:14px;
+  background:var(--indigo);
+  color:#fff;
+  border:none;
+  padding:9px 18px;
+  border-radius:999px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+}
+.download-btn:hover{background:var(--indigo-dark);}
+.download-btn:focus-visible,
+.chip:focus-visible,
+.sc-btn:focus-visible,
+.qoption:focus-within,
+nav.lesson-nav a:focus-visible,
+summary:focus-visible{
+  outline:3px solid var(--mustard);
+  outline-offset:2px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <svg class="header-illustration" viewBox="0 0 200 200" fill="none" stroke="#FBF7EC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 20 L165 45 V95 C165 135 135 165 100 180 C65 165 35 135 35 95 V45 Z"/>
+    <path d="M78 100 L94 116 L128 82" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="header-inner">
+    <div class="badge-patch">🛡️ সপ্তম শ্রেণি</div>
+    <div class="kicker">ইন্টারেক্টিভ সংস্করণ</div>
+    <h1><span class="eyebrow">অধ্যায় ৩</span>নিরাপদ ও <span class="hl">নৈতিক ব্যবহার</span></h1>
+    <p class="sub">ইন্টারনেট আসক্তি, প্রতারণা, কপিরাইট আর নিরাপদে চলার নিয়ম — সচেতন হয়ে প্রযুক্তি ব্যবহারের পথে তোমার সাথী।</p>
+  </div>
+</header>
+<div class="header-edge"></div>
+
+<nav class="lesson-nav" id="lessonNav">
+  <a href="#cover">শুরুর কথা</a>
+  <a href="#lesson19">পাঠ ১৯ · সচেতন ব্যবহার</a>
+  <a href="#lesson2022">পাঠ ২০-২২ · আসক্তি</a>
+  <a href="#lesson24">আইন ও কপিরাইট</a>
+  <a href="#lesson25">অনৈতিক-বেআইনি কাজ</a>
+  <a href="#lesson26">ভাইরাস-প্লেজিয়ারিজম</a>
+  <a href="#finalquiz">অধ্যায় পরীক্ষা</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">তোমার অগ্রগতি: ০%</div>
+  <button id="downloadWorkBtn" class="download-btn" type="button">📥 তোমার লেখা ও ফলাফল ডাউনলোড করো</button>
+</div>
+
+<main>
+
+<section id="cover">
+  <div class="objectives">
+    <h2>📘 এই অধ্যায় শেষে আমরা যা যা পারব</h2>
+    <ol>
+      <li>মাত্রাতিরিক্ত ইন্টারনেট ব্যবহারের ক্ষতিকর দিকগুলো ব্যাখ্যা করতে পারব;</li>
+      <li>সামাজিক ক্ষেত্রে এর প্রভাব বর্ণনা করতে পারব;</li>
+      <li>তথ্য ও যোগাযোগ প্রযুক্তি ব্যবহার সম্পর্কিত আইন ব্যাখ্যা করতে পারব;</li>
+      <li>নিরাপদ ও নৈতিক ব্যবহারের প্রয়োজনীয়তা ব্যাখ্যা করতে পারব;</li>
+      <li>মাত্রাতিরিক্ত ইন্টারনেট ব্যবহারের পরিণতি সম্পর্কে কার্টুন আঁকতে পারব।</li>
+    </ol>
+  </div>
+  <details class="simple-box" open>
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>প্রযুক্তি একটা ধারালো দা-এর মতো — সঠিকভাবে ব্যবহার করলে অনেক উপকার, কিন্তু অসাবধান হলে বড় বিপদ। এই অধ্যায়ে আমরা শিখব কীভাবে ইন্টারনেট-কম্পিউটার নিরাপদে ও সততার সাথে ব্যবহার করতে হয় — আসক্তি এড়িয়ে, প্রতারণা থেকে বেঁচে, আর অন্যের কাজের কৃতিত্ব ঠিকভাবে দিয়ে।</p>
+    </div>
+  </details>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 19 ================= -->
+<section class="lesson" id="lesson19">
+  <h2><span class="num">পাঠ ১৯</span> সচেতন ব্যবহার</h2>
+
+  <div class="book-text">
+    <p>তোমাকে যদি একটা ছোট ছুরি দিয়ে একটা গাছের ডাল কাটতে বলা হয়- তুমি সারাদিন চেষ্টা করে খুঁচিয়ে খুঁচিয়ে বড়জোর গাছের বাকল একটুখানি তুলতে পারবে- তার বেশি কিছু করতে পারবে না। কিন্তু তোমাকে যদি একটা ধারালো দা দেয়া হয়- কয়েক কোপ দিয়েই তুমি গাছের ডালটা কেটে ফেলতে পারবে। এখানে একটা জিনিস লক্ষ করো, ছোট ছুরিটা যদি তুমি অসতর্কভাবে ব্যবহার কর তোমার হাতে পায়ে বড়জোর একটু খোঁচা লাগতে পারে- কিন্তু ধারালো দা অসতর্কভাবে ব্যবহার করলে ভুল জায়গায় কোপ লেগে ভয়াবহ রক্তারক্তি হয়ে যেতে পারে।</p>
+    <p>ছোট কাঠি থেকে ধারালো দায়ের ক্ষমতা অনেক বেশি তাই সচেতনভাবে সেটা ব্যবহার করে অনেক বড় কাজ করা যাবে- কিন্তু অসচেতনভাবে সেটা ব্যবহার করলে অনেক বড় বিপদ হয়ে যেতে পারে। এটা সবসময় মনে রাখবে- জীবনের সবকিছুর বেলাতেও এটা সত্যি। সবচেয়ে বেশি সত্যি এটা তথ্য প্রযুক্তির বেলায়- প্রযুক্তির ক্ষমতা কত সেটা নিশ্চয়ই তুমি এখন অনুমান করতে শুরু করেছো, তাই তুমি নিশ্চয়ই বুঝতে পারছো এটাকে ভুল করে ব্যবহার করলে অনেক বড় সর্বনাশ হয়ে যেতে পারে।</p>
+    <p>কাজেই প্রথমেই আমাদের একটা জিনিস খুব ভালো করে শিখে নিতে হবে, আমরা কম্পিউটার, ইন্টারনেট, তথ্য প্রযুক্তি ব্যবহার করব- কিন্তু সেটি ব্যবহার করব খুব সচেতনভাবে যেন কখনো কোনো সমস্যা না হতে পারে। অনেকের কাছেই কম্পিউটারের মূল ব্যবহার হয়ে দাঁড়িয়েছে ইন্টারনেটের ব্যবহার। এই ইন্টারনেটে পৃথিবীর সব কম্পিউটার যুক্ত আছে তাই কেউ যখন ঘরের ভেতরে বসে কম্পিউটারে ইন্টারনেট ব্যবহার করে তখন হঠাৎ করে পুরো পৃথিবীটা যেন তোমার ছোটো ঘরের ভেতর হাজির হয়। এই পৃথিবীতে যেরকম অনেক সুন্দর জায়গা রয়েছে- যেখানে তোমাদের যেতে ইচ্ছে করে, ঠিক সেরকম অনেক ভয়ংকর বিপজ্জনক জায়গা আছে- যেখান থেকে তোমার একশ হাত দূরে থাকতে হবে। ইন্টারনেটের বেলাতেও তোমাদের সাথে একই ব্যাপার ঘটে, তোমার চোখের সামনে অনেক চমৎকার ওয়েবসাইট রয়েছে যেটা তুমি উপভোগ করবে আবার তার পাশাপাশি অনেক বিপজ্জনক ওয়েবসাইট রয়েছে যেগুলো কোনোভাবেই তোমার দেখা উচিত না।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>ছুরি আর দা-এর গল্পটা মনে রাখো এভাবে: <b>যত বেশি শক্তিশালী জিনিস, তত বেশি সাবধানতা দরকার।</b> ইন্টারনেট খুব শক্তিশালী একটা জিনিস — এক ক্লিকে সারা পৃথিবীর সাথে যুক্ত হয়ে যাও। তাই একটু অসাবধান হলেই বিপদ হতে পারে, ঠিক যেমন ধারালো দা দিয়ে অসাবধানে কোপ দিলে বিপদ হয়।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>শুধু যে ওয়েবসাইট তা নয়, ইন্টারনেট ব্যবহার করে তুমি যখন অন্যদের সাথে যোগাযোগ করো তখন হঠাৎ করে শুধু পরিচিত মানুষ নয়, সম্পূর্ণ অপরিচিত মানুষের সাথেও যোগাযোগ হয়ে যেতে পারে। না বুঝে কোনো অপরিচিত মানুষের সাথে সরল বিশ্বাসে যোগাযোগ করে তুমি যদি আবিষ্কার করো মানুষটি আসলে একটা অসৎ উদ্দেশ্য নিয়ে ইন্টারনেটে হানা দিয়েছে? মানুষটিকে তুমি যদি তোমার নাম ঠিকানা, ফোন নম্বর, ছবি দিয়ে বসে থাকো আর সেই মানুষটি যদি সেগুলো কোনো খারাপ উদ্দেশ্যে ব্যবহার করে, তখন তুমি কী করবে?</p>
+    <p>কাজেই কম্পিউটারে ইন্টারনেট ব্যবহার করার প্রথম নিয়মটিই হচ্ছে কখনো অপরিচিত মানুষকে নিজের পরিচয়, নাম, ঠিকানা আর পাসওয়ার্ড দিতে হয় না।</p>
+    <p>ইন্টারনেটে অপরিচিত মানুষদের সাথে যোগাযোগ করলে অনেক রকম বিপদ হতে পারে, যেহেতু কেউ দেখছে না, তাই তাদের কথাবার্তা অনেক সময় অসংযত হয়ে যেতে পারে, শালীনতা ছাড়িয়ে যেতে পারে। সত্যিকার জীবনে আমি যদি অসংযত বা অশালীন ব্যাপার না দেখি তাহলে সাইবার জগতে কেনো সেটি দেখব?</p>
+    <p>সবকিছুতেই বয়সের একটা ব্যাপার আছে- তুমি নিশ্চয়ই লক্ষ করেছ তোমার বয়সি ছেলেমেয়েদের জন্য লেখা বইগুলো পড়তে তোমার ভালো লাগে, বড়দের জন্য লেখা বইগুলো তত ভালো নাও লাগতে পারে। শুধু তাই নয়, অনেক সময় সেটা পড়তে গিয়ে তার বিষয়বস্তুর কারণে তুমি রীতিমতো ধাক্কা খেতে পারো। সাইবার জগতে সেটা হতে পারে, হঠাৎ করে তোমার সামনে যদি এমন কিছু চলে আসে যেটা মোটেও তোমার বয়সের উপযোগী না, তুমি রীতিমতো ধাক্কা খেতে পারো- তোমার মনটাই বিষিয়ে যেতে পারে। কাজেই সতর্ক থাকা ভালো।</p>
+    <p>তোমরা যারা কম্পিউটারে ইন্টারনেট ব্যবহার করো তারা নিচের তিনটি নিয়ম মেনে চলবে, দেখবে কখনো কোনো সমস্যা হবে না।</p>
+    <p>(১) ইন্টারনেট কখনো একা অন্যদের চোখের আড়ালে ব্যবহার করবে না, এমন জায়গায় বসে ব্যবহার করবে যেখানে সবাই তোমার কম্পিউটারের স্ক্রিন দেখতে পায়।<br>
+    (২) ভুলেও কোনো অপরিচিত মানুষকে নিজের নাম, পরিচয়, ছবি বা পাসওয়ার্ড দেবে না।<br>
+    (৩) ইন্টারনেট ব্যবহার করবে আনন্দের জন্য, কারো ক্ষতি করার জন্য নয়- তোমাকে হয়তো কেউ দেখছে না তবুও কখনো অসংযত হবে না, রূঢ় হবে না, অশালীন হবে না।</p>
+  </div>
+  <div class="warn-box">
+    <b>মনে রাখার তিনটি নিয়ম:</b> ১) সবার সামনে বসে ব্যবহার করো, লুকিয়ে না। ২) অপরিচিতকে নাম-ঠিকানা-পাসওয়ার্ড দিও না। ৩) আনন্দের জন্য ব্যবহার করো, কারো ক্ষতির জন্য নয়।
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>(১) কম্পিউটার বা ইন্টারনেট ছাড়াও তোমার জীবনে ব্যবহার করা আর কী কী প্রযুক্তি সচেতনভাবে ব্যবহার করা উচিত তার একটা তালিকা করো।<br>(২) ইন্টারনেট ব্যবহার করার তিনটি নিয়ম লিখে একটি সুন্দর পোস্টার তৈরি করো।</p>
+    <textarea placeholder="তোমার তালিকা/পরিকল্পনা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson19">
+      <button class="chip" data-def="ইন্টারনেটের মাধ্যমে গড়ে ওঠা জগৎ, যেখানে মানুষ একে অপরের সাথে যোগাযোগ করে, তথ্য বিনিময় করে।">সাইবার জগৎ</button>
+      <button class="chip" data-def="এমন ওয়েবসাইট যেখানে ক্ষতিকর, অনুপযুক্ত বা প্রতারণামূলক কনটেন্ট থাকতে পারে।">বিপজ্জনক ওয়েবসাইট</button>
+      <button class="chip" data-def="নিজের একাউন্ট সুরক্ষিত রাখতে ব্যবহৃত গোপন শব্দ/সংখ্যা, যা কখনো অন্য কাউকে দেওয়া উচিত নয়।">পাসওয়ার্ড</button>
+    </div>
+    <div class="chip-def" id="def-lesson19"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১৯ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ইন্টারনেট ব্যবহারের প্রথম নিয়ম কী (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="544194967">
+        <label class="qoption"><input type="radio" name="q1" value="0">সবসময় হেডফোন পরা</label>
+        <label class="qoption"><input type="radio" name="q1" value="1">অপরিচিত মানুষকে নাম-ঠিকানা-পাসওয়ার্ড না দেওয়া</label>
+        <label class="qoption"><input type="radio" name="q1" value="2">দ্রুত টাইপ করা</label>
+        <label class="qoption"><input type="radio" name="q1" value="3">রাতে বেশি ব্যবহার করা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. বই অনুযায়ী ইন্টারনেট কোথায় বসে ব্যবহার করা উচিত?</p>
+      <div class="qoptions" data-hash="2369735504">
+        <label class="qoption"><input type="radio" name="q2" value="0">একা লুকিয়ে</label>
+        <label class="qoption"><input type="radio" name="q2" value="1">এমন জায়গায় যেখানে সবাই স্ক্রিন দেখতে পায়</label>
+        <label class="qoption"><input type="radio" name="q2" value="2">রাতে দরজা বন্ধ করে</label>
+        <label class="qoption"><input type="radio" name="q2" value="3">শুধু হেডফোন পরে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ছোট ছুরি ও ধারালো দা-এর উপমাটি বইয়ে কী বোঝাতে ব্যবহৃত হয়েছে?</p>
+      <div class="qoptions" data-hash="2098253709">
+        <label class="qoption"><input type="radio" name="q3" value="0">রান্নার কৌশল</label>
+        <label class="qoption"><input type="radio" name="q3" value="1">ক্ষমতা বেশি হলে সচেতন ব্যবহার আরও জরুরি</label>
+        <label class="qoption"><input type="radio" name="q3" value="2">কৃষিকাজের পদ্ধতি</label>
+        <label class="qoption"><input type="radio" name="q3" value="3">কাঠ কাটার নিয়ম</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 20-22 ================= -->
+<section class="lesson" id="lesson2022">
+  <h2><span class="num">পাঠ ২০-২২</span> আসক্তি</h2>
+
+  <div class="book-text">
+    <p>২০০৯ সালে চীন দেশে দুজনকে গ্রেপ্তার করা হয়, সম্পর্কে তারা স্বামী-স্ত্রী। তাদেরকে গ্রেপ্তার করা হয়েছে কারণ তারা তাদের ছেলেমেয়েদের বিক্রি করে দিয়েছে। সবমিলিয়ে ভিন্ন ভিন্ন সময়ে তারা তাদের তিন ছেলেমেয়েকে বিক্রি করেছে আনুমানিক ৯০০০ ডলার। তোমরা যারা খবরের কাগজ পড় মাঝে মাঝে আমাদের দেশেও হয়তো এরকম খবর তোমাদের চোখে পড়েছে, যেখানে কোনো একজন অসহায় মা, নিজের সন্তানদের মানুষ করার সামর্থ্য নেই বলে কিছু অর্থের বিনিময়ে অন্য কাউকে তার নিজের সন্তানকে দিয়ে দিচ্ছে।</p>
+    <p>চীন দেশের স্বামী-স্ত্রীর ঘটনা কিন্তু মোটেও সেরকম কোনো ঘটনা নয়- তারা তাদের বাচ্চাদের বিক্রি করেছে কম্পিউটার গেম খেলার জন্য। তাদের দুজনেরই এমএমও (Massively multiplayer online game) নামে এক ধরনের কম্পিউটার গেম খেলার জন্যে আসক্তি জন্মেছে, সেই আসক্তি এত তীব্র যে সেটি খেলার খরচ জোগাড় করার জন্যে তারা তাদের নিজের সন্তানদের বিক্রি করে দিয়েছে।</p>
+    <p>এটি খুবই একটি অস্বাভাবিক ঘটনা এবং যখন এই ঘটনাটি সারা পৃথিবীতে জানাজানি হয় তখন এটা নিয়ে তোলপাড় হয়েছিল। আমাদের সবারই এটা মনে রাখা দরকার। কোনো কিছু ভালোলাগা খুবই স্বাভাবিক ঘটনা, আমাদের জীবনে অনেক কিছুই আমাদের ভালো লাগে। কিন্তু আসক্তি সম্পূর্ণ অন্য ব্যাপার। তার মাঝে ভালো কিছু নেই! কেউ যখন কোনো কিছুতে আসক্ত হয়ে যায় তখন তার কাছে যুক্তি কাজ করে না। মাদক হচ্ছে তার সবচেয়ে বড় উদাহরণ- যখন কেউ মাদকে আসক্ত হয়ে যায় তখন সে তার ভয়ংকর আকর্ষণ থেকে বের হতে পারে না। তার নিজের এবং আশপাশে যারা আছে তাদের সবার জীবন সে ধ্বংস করে দেয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>খুব জরুরি একটা পার্থক্য: <b>ভালো লাগা</b> স্বাভাবিক আর সুস্থ ব্যাপার — যেমন তোমার খেলা ভালো লাগতে পারে। কিন্তু <b>আসক্তি</b> মানে হলো এমন একটা টান, যেখানে যুক্তি কাজ করে না, নিজের বা পরিবারের ক্ষতি হচ্ছে জেনেও ছাড়তে পারা যায় না। চীনের সেই দম্পতির মতো — গেম খেলতে খেলতে তারা নিজেদের সন্তানকেই বিক্রি করে দিয়েছিল, এটাই দেখায় আসক্তি কতটা বিপজ্জনক হতে পারে।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>কম্পিউটার গেমের আসক্তিও ঠিক সে ধরনের হতে পারে। তোমরা যারা কম্পিউটার গেম খেলেছ কিংবা যারা হয়তো ভবিষ্যতে কম্পিউটার গেম খেলবে তাদের এই কথাটা মনে রাখতে হবে- তোমরা যেন বিষয়টা উপভোগ করতে পারো কিন্তু কোনোভাবেই যেন আসক্ত না হয়ে পড়ো।</p>
+    <p>কোনো একটা বিষয়ে আসক্ত হয়েছে কি না সেটা কীভাবে বোঝা সম্ভব? কাজটি মোটেও কঠিন নয়- যখনই দেখবে কেউ একজন কোনো একটি কাজে মাত্রা ছাড়িয়ে ফেলেছে তখনই বুঝবে সে সেই কাজে আসক্ত হয়ে গেছে। আমাদের দেশে টেলিভিশনে অনেক রকম কার্টুন দেখায়- তোমরা সবাই সেইসব কার্টুন দেখেছ, দেখে হয়তো হাসিতে কুটিকুটি হয়েছ। যখন টেলিভিশনের সামনে থেকে উঠে এসে সেই কার্টুনের কথা ভুলে অন্য কোনো কাজে মন দিয়েছ- তাহলে ঠিক আছে। কিন্তু যদি এরকম হয় যে তুমি টেলিভিশন ছেড়ে উঠতে পারছো না কিংবা যখনই টেলিভিশনের সামনে আসো তখনই টেলিভিশনে কার্টুন দেখ এবং তোমার জন্য অন্যেরা টেলিভিশনে অন্য কিছু দেখতে পারে না তখনই তুমি বুঝবে যে তোমার আসক্তি জন্মাতে শুরু করেছে।</p>
+    <p>শুধু যে কার্টুন চ্যানেল বা কম্পিউটার গেমে আসক্তি হতে পারে তা নয়, কোনো এক ধরনের খাবারেও আসক্তি হতে পারে। কিছুদিন আগে খবরের কাগজে দেখা গিয়েছে ব্রিটেনের একটি মেয়ে পিৎজা ছাড়া আর কোনো কিছু খেতে পারে না। গত একত্রিশ বছর থেকে সে সকালের নাস্তায়, দুপুরের লাঞ্চ, রাতের ডিনার বা দুটো খাবারের মাঝখানে কিছু খেলেও সে শুধু পিৎজা খায়। তাই এটাও খুব বড় ধরনের আসক্তি।</p>
+    <p>কাজেই তোমাদের সবারই খুব সতর্ক থাকতে হবে যেন কোনো কিছুতে তোমাদের আসক্তি জন্মে না যায়। যেহেতু একবার আসক্ত হয়ে গেলে সেখান থেকে বের হওয়া খুব কঠিন। তাই সবচেয়ে ভালো হচ্ছে কোনো কিছুতেই কোনোভাবে আসক্ত না হওয়া।</p>
+    <p>এক সময় আসক্তি শব্দটা ব্যবহার করা হতো জুয়া খেলা বা মাদক ব্যবহার এরকম বিষয়ের জন্য। তোমরা শুনে নিশ্চয়ই অবাক হবে যে এখন অতিরিক্ত কম্পিউটার ব্যবহারও আসক্তি হিসেবে ধরা শুরু হয়েছে। যারা খুব বেশি ইন্টারনেট ব্যবহার করে তাদের জন্যে IAD বা Internet Addiction Disorder নামে একটা নতুন নাম পর্যন্ত আবিষ্কার করা হয়েছে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>আসক্তি চেনার সবচেয়ে সহজ উপায়: <b>"মাত্রা ছাড়িয়ে গেছে কি না"</b> সেটা দেখা। যদি তুমি টিভি/গেম/ফোন থেকে উঠতেই না পারো, বা অন্যদের সেটা ব্যবহার করতে না দাও — বুঝবে সমস্যা শুরু হয়ে গেছে। শুধু গেম বা টিভি না, খাবারেও (যেমন পিৎজা) আসক্তি হতে পারে!</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>আজকাল অনেকেই কমবেশি কম্পিউটার ব্যবহার করে। কাজেই, প্রথমেই বুঝতে হবে কোন ব্যবহারটা হচ্ছে প্রয়োজনে আর কোনটা হচ্ছে আসক্তিতে। একজন যখন তার মা-বাবা, ভাই-বোন, বন্ধু-বান্ধবকে সময় না দিয়ে সেই সময়টাও কম্পিউটারের পেছনে দেয় তখন বুঝতে হবে তার কম্পিউটারে আসক্তি জন্মেছে। যখন কম্পিউটারে আসক্তি হবে তখন দেখা যাবে তার কাজকর্মে ক্ষতি হচ্ছে, লেখাপড়ায় সমস্যা হচ্ছে। যখন আসক্তি আরও বেড়ে যাবে তখন দেখা যাবে মানুষটি ঠিকমতো না ঘুমিয়ে সেই সময়টা কম্পিউটারের পিছনে বসে আছে, তখন তার স্বাস্থ্যের ক্ষতি হতে শুরু করে।</p>
+    <p>কম্পিউটার আসক্তির কুফল কী হতে পারে? কম বয়সি ছেলেমেয়েদের বেড়ে উঠার জন্য মাঠে ঘাটে ছোটাছুটি করতে হয়, খেলতে হয়। যে সময়টা খেলার মাঠে ছোটাছুটি করে খেলার কথা, সেই সময়টাতে তারা যদি ঘরের কোনায় কম্পিউটারের সামনে মাথা গুঁজে বসে থাকে তাহলে সেটা তার জন্য মোটেই ভালো একটি ব্যাপার নয়।</p>
+    <p>যেকোনো আসক্তির জন্য একটা কথা সত্যি, একবার কোনো কিছুতে আসক্ত হয়ে যাওয়ার পর সেটা থেকে বের হয়ে আসা খুব কঠিন। কাজেই তোমাদের বয়সি ছেলেমেয়েদের সবারই জানতে হবে এর অবশ্যই কয়েকটা কারণ আছে, প্রথম কারণ হচ্ছে এই সামাজিক নেটওয়ার্কে একজন আরেকজনকে সামনাসামনি দেখতে পায় না তাই ছোটরা তাদের সাথে সামাজিকভাবে মিশছে তা অনেক সময় বোঝা যায় না।</p>
+    <p>শুধু ছোট ছেলেমেয়ে নয়, বড়দের জন্য যেটা এখন সমস্যা হয়ে দাঁড়িয়েছে সেটা হচ্ছে এই সামাজিক নেটওয়ার্কে আসক্তি। অনেক সময় দেখা গিয়েছে মানুষজন এই সামাজিক নেটওয়ার্কে বসে একজন আরেকজনের সাথে তথ্য বিনিময় করেছে। তথ্য প্রযুক্তি ব্যবহার করে পুরো বিষয়টা এত সহজ করে দেয়া হয়েছে যে, কোনো মানুষ সত্যিকার অর্থে কোনো কাজ না করে ঘণ্টার পর ঘণ্টা সামাজিক নেটওয়ার্কের পরিচিত, অর্ধ-পরিচিত কিংবা অপরিচিত মানুষের সাথে কাটিয়ে দিতে পারে। বিষয়টা বড় সমস্যা হয়ে গেছে বলে অনেক জায়গাতে অফিসে বা কর্মক্ষেত্রে এটি বন্ধ করে দেয়া হয়েছে। জোর করে কোনো কিছু ব্যবহার করতে না দেয়া এক ধরনের সমাধান হতে পারে কিন্তু সেটা ভালো সমাধান না। ভালো সমাধান হচ্ছে যখন কোনো মানুষ তার নিজের বিচার বিবেচনা বুদ্ধি দিয়ে কোনো কিছু পরিমিতভাবে করে। আসক্ত হয়ে বিবেকহীনভাবে তা করে না।</p>
+    <p>সামাজিক নেটওয়ার্ক থেকে মানুষজনের অসামাজিক হয়ে যাবারও এক ধরনের আশঙ্কা থাকে। যারা একে অন্যের সাথে সামাজিক নেটওয়ার্ক করে তারা অনেক সময় নিজেরা একে অন্যকে "বন্ধু" বলে বিবেচনা করে এবং সামাজিক নেটওয়ার্কে একজন আরেকজনের কাছে তথ্য পাঠানোকেই বন্ধুত্ব বলে মনে করে। কিন্তু সত্যিকারের বন্ধুত্ব আরো অনেক গভীর অনেক বেশি আন্তরিক, অনেক বেশি বাস্তব। কাজেই, তথ্য প্রযুক্তির বন্ধুত্বকে সত্যিকার বন্ধুত্ব মনে করে কেউ যদি তাতেই সন্তুষ্ট হয়ে যায় তাহলে সে তার জীবনের অনেক বড় কিছু থেকে বঞ্চিত হবে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশের সবচেয়ে গুরুত্বপূর্ণ কথাটা মনে রাখো: <b>সামাজিক নেটওয়ার্কের "বন্ধু" আর সত্যিকারের বন্ধু এক জিনিস না।</b> ফোনে বার্তা আদান-প্রদান করাকে বন্ধুত্ব ভাবলে ভুল হবে — সত্যিকারের বন্ধুত্বে থাকে সামনাসামনি সময় কাটানো, একে অপরের পাশে দাঁড়ানো, যা শুধু স্ক্রিনে হয় না।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>কম্পিউটার গেমের আসক্তির ভয়াবহতা নিয়ে একটি নাটক লিখে সবাই মিলে অভিনয় করো। এছাড়া ক্লাসের দুটি দল ভাগ হয়ে তোমাদের ক্লাসের ছেলেমেয়েদের সামাজিক নেটওয়ার্কে যোগ দেয়ার পক্ষে এবং বিপক্ষে একটি বিতর্কের আয়োজন করো।</p>
+    <textarea placeholder="তোমার নাটকের রূপরেখা বা বিতর্কের যুক্তি এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="7" r="2.4"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6M14 14c3 .3 5 2.3 5 6"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🎮 IAD (Internet Addiction Disorder)</div>
+      <div class="sc-question">এই শব্দটা কি আগে শুনেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">এটা একটা নাম, যা ডাক্তার-বিজ্ঞানীরা দিয়েছেন তাদের জন্য যারা ইন্টারনেট/গেম/সোশ্যাল মিডিয়া এত বেশি ব্যবহার করে যে তাদের পড়াশোনা, স্বাস্থ্য বা সম্পর্কের ক্ষতি হচ্ছে, কিন্তু তারপরও তারা ছাড়তে পারছে না। ঠিক যেমন মাদকাসক্তির একটা নাম আছে, তেমনি এটাও একটা স্বীকৃত সমস্যা।</div>
+    </div>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson2022">
+      <button class="chip" data-def="Massively Multiplayer Online Game — এক ধরনের কম্পিউটার গেম, যেখানে ইন্টারনেটে একসাথে অনেক মানুষ খেলতে পারে।">এমএমও</button>
+      <button class="chip" data-def="কোনো কিছুর প্রতি এমন প্রবল টান, যা ছাড়া থাকা যায় না ও যা ক্ষতিকর হলেও ছাড়া যায় না।">আসক্তি</button>
+      <button class="chip" data-def="আসক্তির ইংরেজি প্রতিশব্দ।">Addiction</button>
+      <button class="chip" data-def="কোনো মানসিক বা আচরণগত সমস্যা/গোলযোগ।">Disorder</button>
+      <button class="chip" data-def="Internet Addiction Disorder — অতিরিক্ত ইন্টারনেট ব্যবহারজনিত আসক্তি বোঝানোর জন্য ব্যবহৃত নাম।">IAD</button>
+      <button class="chip" data-def="একচ্ছত্র ক্ষমতাবলে শাসনকারী ব্যক্তি বা গোষ্ঠী।">স্বৈরশাসক</button>
+      <button class="chip" data-def="পৃথিবীর সবচেয়ে বেশি ব্যবহৃত সামাজিক যোগাযোগ মাধ্যম।">ফেসবুক</button>
+      <button class="chip" data-def="একটি জনপ্রিয় সামাজিক যোগাযোগ মাধ্যম, যেখানে ছোট ছোট পোস্ট দ্রুত ছড়িয়ে যায়।">এক্স</button>
+      <button class="chip" data-def="পেশাগত যোগাযোগ ও চাকরির জন্য ব্যবহৃত সামাজিক নেটওয়ার্ক সাইট।">লিংকডইন</button>
+    </div>
+    <div class="chip-def" id="def-lesson2022"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ২০-২২ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. চীনের সেই দম্পতি কেন তাদের সন্তান বিক্রি করেছিল?</p>
+      <div class="qoptions" data-hash="3023374438">
+        <label class="qoption"><input type="radio" name="q4" value="0">খাবারের অভাবে</label>
+        <label class="qoption"><input type="radio" name="q4" value="1">কম্পিউটার গেম খেলার খরচ জোগাড় করতে</label>
+        <label class="qoption"><input type="radio" name="q4" value="2">চিকিৎসার জন্য</label>
+        <label class="qoption"><input type="radio" name="q4" value="3">ঋণ শোধ করতে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. IAD-এর পূর্ণরূপ কী?</p>
+      <div class="qoptions" data-hash="3555507961">
+        <label class="qoption"><input type="radio" name="q5" value="0">Internet Addiction Disorder</label>
+        <label class="qoption"><input type="radio" name="q5" value="1">Internet Access Denial</label>
+        <label class="qoption"><input type="radio" name="q5" value="2">Information Addiction Disease</label>
+        <label class="qoption"><input type="radio" name="q5" value="3">Internet Application Disorder</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. আসক্তি চেনার সহজ উপায় কী (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="2209244290">
+        <label class="qoption"><input type="radio" name="q6" value="0">বেশি বই পড়া</label>
+        <label class="qoption"><input type="radio" name="q6" value="1">কোনো কাজে মাত্রা ছাড়িয়ে ফেলা</label>
+        <label class="qoption"><input type="radio" name="q6" value="2">তাড়াতাড়ি ঘুমানো</label>
+        <label class="qoption"><input type="radio" name="q6" value="3">বন্ধু বেশি থাকা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. সামাজিক নেটওয়ার্কের "বন্ধু" আর সত্যিকারের বন্ধুত্ব নিয়ে বই কী বলেছে?</p>
+      <div class="qoptions" data-hash="604937619">
+        <label class="qoption"><input type="radio" name="q7" value="0">দুটো একই জিনিস</label>
+        <label class="qoption"><input type="radio" name="q7" value="1">সত্যিকারের বন্ধুত্ব অনেক বেশি গভীর ও বাস্তব</label>
+        <label class="qoption"><input type="radio" name="q7" value="2">সামাজিক নেটওয়ার্কের বন্ধুত্ব বেশি ভালো</label>
+        <label class="qoption"><input type="radio" name="q7" value="3">কোনো পার্থক্য নেই</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 24 - COPYRIGHT ================= -->
+<section class="lesson" id="lesson24">
+  <h2><span class="num">আইন</span> আইনগত বিষয়াবলি ও কপিরাইট</h2>
+
+  <div class="book-text">
+    <p>সৃজনশীল কর্মকাণ্ডের জন্য একটি আইন রয়েছে, যার আওতায় এর নির্মাতা তার অধিকার সংরক্ষণ করতে পারেন। বর্তমানে যেসব দেশে এই আইন আছে সেসব দেশে সৃজনশীল কাজের কপিরাইট স্রষ্টার মৃত্যুর পরও বলবৎ থাকে। এটি কোনো কোনো দেশে এমনকি ১০০ বছর পর্যন্ত হতে পারে। তবে সাধারণত এটি লেখক, শিল্পী, নাট্যকারের মৃত্যুর পর ৫০ থেকে ৭০ বছর পর্যন্ত বলবৎ থাকে। বাংলাদেশের কপিরাইট আইনে (কপিরাইট আইন ২০০০) এর মেয়াদ ৬০ বছর। যখন কোনো সৃজনশীল কর্মের কপিরাইট ভঙ্গ করে সেটি পুনরুৎপাদন করা হয় তখন সেটিকে বলা হয় চোরাই (Pirated) কপি। যেহেতু কম্পিউটারের বিষয়গুলো সহজে কপি করা যায় তাই এগুলোর চোরাই কপি পাওয়া যায় সবচেয়ে বেশি।</p>
+    <p>কম্পিউটার ব্যবহার করার সময় আমাদের এই বিষয়টি সব সময় খেয়াল রাখতে হয়। আমরা যখন কাউকে কোনো কিছু কম্পিউটার থেকে কপি করে দেব তখন যেন কপিরাইট আইন ভঙ্গ না করি। শুধু কম্পিউটার প্রোগ্রাম বা গেমস নয়, আমাদের কম্পিউটারে অনেক সময় অনেক ছবি থাকে, অনেকের গল্প-কবিতাও থাকে। আমরা যখন কাউকে সেটা কপি করে দেব তখন আমাদের মনে রাখতে হবে যে, কোনো কোনো ক্ষেত্রে আমাদের কিছু সেগুলো কপি করে অন্যকে দেওয়ার অধিকার নেই। তবে সৃজনশীল কর্ম ব্যবহার করার ক্ষেত্রে কিছু কিছু স্বাধীনতাও থাকে। বিশেষ করে, একাডেমিক বা পড়ালেখার কাজে সৃজনশীল কাজ কপি করা যায়। পড়ালেখার কাজে আমরা কোনো বইয়ের যে ফটোকপি করি, তা কপিরাইট আইন ভঙ্গ করে না। এরকম ব্যবহারকে বলা হয় 'ফেয়ার ইউজ'।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>কপিরাইট</b> মানে হলো — কেউ কোনো গান, বই, ছবি বা সফটওয়্যার তৈরি করলে সেটার মালিকানা আইনত তারই থাকে। অনুমতি ছাড়া সেটা কপি করে বিক্রি বা বিতরণ করা যায় না — এটাই <b>চুরি করা (Pirated) কপি।</b> তবে পড়াশোনার জন্য অল্প অংশ ফটোকপি করা যায়, এটাকে বলে <b>ফেয়ার ইউজ</b> (ন্যায্য ব্যবহার)।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>কপিরাইটের এই সংরক্ষণবাদী মনোভাবের বিরুদ্ধে একটি ভিন্নধর্মী ধারণাও বর্তমানে বেশ চালু হয়েছে। এর মূল কথা হলো কোনো লেখক, শিল্পী, প্রোগ্রামার বা নাট্যকার ইচ্ছে করলে তার সৃষ্ট সৃজনশীল কর্মকে শর্তসাপেক্ষে কপি করার জন্য উন্মুক্ত করে দিতে পারেন। এই দর্শনকে বলা হয় মুক্ত দর্শন বা ওপেন সোর্স ফিলসফি (Open Source Philosophy)। যারা এই দর্শনের অনুসারী তারা তাদের সৃজনশীল কর্মকে কয়েকটি লাইসেন্সের মাধ্যমে সবাইকে ব্যবহার করতে দেন। এর মধ্যে কপিরাইটের একেবারে উল্টোটি হলো কপিলেফট (Copyleft)। যার অর্থ সৃজনশীল কর্মের স্রষ্টা সবাইকে এই কাজ কপি করার সানন্দ অনুমতি দিয়ে দিচ্ছেন। কপিরাইট আর কপিলেফটের মাঝখানে রয়েছে সৃজনী সাধারণ বা ক্রিয়েটিভ কমন্স (Creative Commons)। সৃজনী সাধারণ লাইসেন্সের বিভিন্ন ক্যাটাগরিতে কর্মস্রষ্টার কিছু কিছু অধিকার সংরক্ষিত হয়ে থাকে। যেমন- যে কেউ ইচ্ছে করলে লেখকের বই তার লিখিত বা কোনো আইনি অনুমতি ছাড়াই প্রকাশ করতে পারবে। তবে লেখকের নামে প্রকাশ করতে হবে বা সেটি দিয়ে কোনো মুনাফা লাভ করা যাবে না।</p>
+    <p>মুক্ত দর্শনের আওতায় যে কম্পিউটারের সফটওয়্যারগুলো প্রকাশিত হয় সেগুলোকে একত্রে মুক্ত সফটওয়্যার বা ওপেন সোর্স সফটওয়্যার (Open Source Software) বলা হয়। এই সফটওয়্যারগুলো সহজে একজন অন্যজনকে কপি করে দিতে পারে, ব্যবহারও করতে পারে। তবে যেহেতু সবাই কপি এবং পরিবর্তন করতে পারে তাই সারাবিশ্বের লোকেরা মিলে এই সফটওয়্যারগুলোকে খুবই শক্তিশালী হিসেবে গড়ে তোলে। এই দর্শনের আর একটি বড় প্রকাশ হলো মুক্ত জ্ঞানভাণ্ডার উইকিপিডিয়া (www.wikipedia.org)। সবাই মিলে ইন্টারনেটে এই মুক্ত জ্ঞানকোষ গড়ে তুলেছে কয়েকটি মুক্ত লাইসেন্সের আওতায়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>একটা স্কেল ভাবো: এক প্রান্তে <b>কপিরাইট</b> (কড়া নিয়ম, অনুমতি ছাড়া কপি করা যাবে না), মাঝখানে <b>ক্রিয়েটিভ কমন্স</b> (শর্তসাপেক্ষে ব্যবহার করা যায়, যেমন নাম উল্লেখ করে), আর অন্য প্রান্তে <b>কপিলেফট</b> (স্রষ্টা নিজেই খুশি মনে সবাইকে কপি করার অনুমতি দিয়ে রেখেছেন)। উইকিপিডিয়া এই মুক্ত দর্শনের সবচেয়ে বড় উদাহরণ — সবাই মিলে বিনামূল্যে এটা গড়ে তুলেছে।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">©️ কপিরাইট / ওপেন সোর্স</div>
+      <div class="sc-question">এই ধারণাগুলো কি আগে শুনেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">তুমি হয়তো লক্ষ করেছ, ইউটিউবে কোনো গান আপলোড করলে মাঝেমধ্যে "কপিরাইট" নোটিশ আসে — এটা মূল শিল্পীর অধিকার রক্ষার জন্য। আবার তুমি যে উইকিপিডিয়া ব্যবহার করো, সেটা সবার লেখা, বিনামূল্যে ব্যবহার করা যায় — এটাই ওপেন সোর্স/মুক্ত দর্শনের উদাহরণ।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>মুক্ত দর্শনের পক্ষে এবং বিপক্ষে দুটি দল তৈরি করে শিক্ষকের সহায়তা নিয়ে একটি বিতর্কের আয়োজন করো।</p>
+    <textarea placeholder="তোমার দলের যুক্তিগুলো এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson24">
+      <button class="chip" data-def="সৃজনশীল কাজের (বই, গান, সফটওয়্যার) উপর স্রষ্টার আইনি অধিকার, অনুমতি ছাড়া কপি করা যায় না।">কপিরাইট</button>
+      <button class="chip" data-def="কপিরাইটের বিপরীত — স্রষ্টা নিজেই সবাইকে তার কাজ কপি করার অনুমতি দিয়ে দেন।">কপিলেফট</button>
+      <button class="chip" data-def="কপিরাইট ও কপিলেফটের মাঝামাঝি এক ধরনের লাইসেন্স, শর্তসাপেক্ষে ব্যবহার করা যায়।">ক্রিয়েটিভ কমন্স</button>
+      <button class="chip" data-def="বিনামূল্যে সবার ব্যবহার ও পরিবর্তনের জন্য উন্মুক্ত করে দেওয়া সফটওয়্যার।">ওপেন সোর্স সফটওয়্যার</button>
+      <button class="chip" data-def="কপিরাইট ভঙ্গ করে তৈরি করা চোরাই কপি।">Pirated</button>
+      <button class="chip" data-def="পড়ালেখা বা একাডেমিক কাজে সৃজনশীল কর্মের সীমিত ব্যবহার, যা কপিরাইট আইন ভঙ্গ করে না।">ফেয়ার ইউজ</button>
+      <button class="chip" data-def="সৃজনশীল কাজকে শর্তসাপেক্ষে সবার ব্যবহারের জন্য উন্মুক্ত করে দেওয়ার চিন্তাধারা।">মুক্ত দর্শন</button>
+    </div>
+    <div class="chip-def" id="def-lesson24"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. বাংলাদেশের কপিরাইট আইন অনুযায়ী কপিরাইটের মেয়াদ কত বছর?</p>
+      <div class="qoptions" data-hash="3760760462">
+        <label class="qoption"><input type="radio" name="q8" value="0">৫০ বছর</label>
+        <label class="qoption"><input type="radio" name="q8" value="1">৬০ বছর</label>
+        <label class="qoption"><input type="radio" name="q8" value="2">৭০ বছর</label>
+        <label class="qoption"><input type="radio" name="q8" value="3">১০০ বছর</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. কপিরাইট ভঙ্গ করে পুনরুৎপাদিত কপিকে কী বলা হয়?</p>
+      <div class="qoptions" data-hash="404387127">
+        <label class="qoption"><input type="radio" name="q9" value="0">ফেয়ার ইউজ</label>
+        <label class="qoption"><input type="radio" name="q9" value="1">চোরাই (Pirated) কপি</label>
+        <label class="qoption"><input type="radio" name="q9" value="2">ক্রিয়েটিভ কমন্স</label>
+        <label class="qoption"><input type="radio" name="q9" value="3">ওপেন সোর্স</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. পড়ালেখার কাজে বইয়ের ফটোকপি করাকে কী বলা হয়?</p>
+      <div class="qoptions" data-hash="3273275772">
+        <label class="qoption"><input type="radio" name="q10" value="0">পাইরেসি</label>
+        <label class="qoption"><input type="radio" name="q10" value="1">ফেয়ার ইউজ</label>
+        <label class="qoption"><input type="radio" name="q10" value="2">কপিলেফট</label>
+        <label class="qoption"><input type="radio" name="q10" value="3">হ্যাকিং</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. মুক্ত জ্ঞানভাণ্ডার হিসেবে বইয়ে কোন ওয়েবসাইটের উদাহরণ দেওয়া হয়েছে?</p>
+      <div class="qoptions" data-hash="689568699">
+        <label class="qoption"><input type="radio" name="q11" value="0">ফেসবুক</label>
+        <label class="qoption"><input type="radio" name="q11" value="1">উইকিপিডিয়া</label>
+        <label class="qoption"><input type="radio" name="q11" value="2">ইউটিউব</label>
+        <label class="qoption"><input type="radio" name="q11" value="3">গুগল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 25 - UNETHICAL/ILLEGAL ================= -->
+<section class="lesson" id="lesson25">
+  <h2><span class="num">সতর্কতা</span> অনৈতিক ও বেআইনি কাজ</h2>
+
+  <div class="book-text">
+    <p>অনেক সময় কেউ ইচ্ছে করে এমন একটা পরিবেশ তৈরি করে ফেলতে পারে যেখানে একটা কম্পিউটারের একটা প্রোগ্রাম কৃত্রিমভাবে কোনো একটা ওয়েবসাইটে প্রতি সেকেন্ডে শত সহস্রবার প্রবেশ করতে পারে- তখন তার ধাক্কায় ওয়েবসাইটটি অচল হয়ে পড়ে। কাজেই এটাও অনৈতিক কাজ, ইচ্ছে করে একটা ওয়েবসাইট অচল করে দেয়ার মাঝে কোনো কৃতিত্ব নেই।</p>
+    <p>আজকাল অনেক পত্রপত্রিকাও ওয়েবসাইটে দেয়া হয়। অনেক পত্রপত্রিকাতেই একটা খবর বা কোনো একটা লেখার পিছনে পাঠকরা নিজেদের মন্তব্য লিখতে পারে। পাঠক ইচ্ছে করলেই অনেক সুচিন্তিতভাবে একটা খাঁটি মন্তব্য লিখতে পারে- কিন্তু অনেক সময়েই দেখা যায় একজন পাঠক শুধু শুধু যুক্তিহীন, অশালীন একটা কথা লিখে রেখেছে। বিষয়টি নিয়ে কিছু করার নেই-কিন্তু সবাইকে জানতে হবে বিষয়টা অনৈতিক।</p>
+    <p>ইন্টারনেটে যেহেতু মানুষের নিজের মত প্রকাশের বিশাল স্বাধীনতা রয়েছে- যে কেউ যেভাবে ইচ্ছা সেভাবে সেটা প্রকাশ করতে পারে। তাই মাঝে মাঝে সেটাকে অপব্যবহার করা হয়। ই-মেইলে অনেক সময় কাউকে আঘাত দিয়ে কিংবা হুমকি দিয়ে চিঠি পাঠিয়ে দেয়া হয়। লুকিয়ে করা হয় বলে সেটা নিয়ে অনেক সময় কিছু করাও যায় না। কখনো কখনো দেখা যায় কোনো একজনকে অসম্মান করার জন্যে তার সম্পর্কে মিথ্যা কিংবা অসম্মানজনক কোনো তথ্য ইন্টারনেটে ছড়িয়ে দেয়া হয়।</p>
+    <p>কখনো কখনো ইন্টারনেট বা তথ্য প্রযুক্তিতে শুধু যে অনৈতিক কাজ করা হয় তা কিন্তু নয়- সীমা অতিক্রম করে বেআইনি কাজও করার চেষ্টা করা হয়। ওয়েবসাইট হ্যাকিং করা শুধু যে অনৈতিক কাজ তা নয়, সেটা একই সাথে বেআইনি কাজ।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশে তিনটা খারাপ কাজের কথা বলা হয়েছে: <b>(১)</b> ওয়েবসাইট ইচ্ছাকৃতভাবে অচল করে দেওয়া, <b>(২)</b> কারো নামে মিথ্যা কথা বা অসম্মানজনক কথা ছড়িয়ে দেওয়া, <b>(৩)</b> ওয়েবসাইট হ্যাকিং করা। এই তিনটাই শুধু অনৈতিক না, অনেকগুলো একইসাথে <b>বেআইনি</b>ও (আইন ভঙ্গকারী)।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>আমাদের সেগুলো জানা থাকা ভালো। যেহেতু পুরো বিষয়টা হয় সাইবার জগতে, চোখের আড়ালে তাই প্রতারণার কাজটি হয় সবচেয়ে বেশি। যেমন হয়তো কারো সাথে যোগাযোগ করে বলা হলো যে সে লটারিতে অনেক টাকা পেয়েছে। টাকাটা নিতে হলে অমুক জায়গায় যোগাযোগ করতে হবে। সরল বিশ্বাসে হয়তো সেই মানুষটি যোগাযোগ করে। তখন তাকে বোঝানো হয় কিছু টাকা দিলে বড় পুরস্কারটা পেয়ে যাবে। অনেক সময় মানুষটি- সেই টাকা দিয়ে প্রতারণার ফাঁদে পড়ে যায়। কাজেই সবার জানা থাকা ভালো অপরিচিত ইমেইলের এরকম অবিশ্বাস্য লোভনীয় আশ্বাস নিঃসন্দেহে প্রতারণা।</p>
+    <p>ইন্টারনেটের বড় একটি অপরাধ হয় ক্রেডিট কার্ড নিয়ে। ইন্টারনেটে ক্রেডিট কার্ড ব্যবহার করতে হলে সেই কার্ডটিরও প্রয়োজন হয় না- শুধু নম্বরটি জানলেই চলে। কাজেই, মানুষের ক্রেডিট কার্ডের নম্বর জানার জন্য বড় অপরাধীরা অনেক বড় সাইবার অপরাধ করে। প্রতারকরা মানুষকে প্রতারণা করে ধোঁকা দিয়ে নম্বরটি জেনে নেবার চেষ্টা করে এবং মানুষটি বোঝার আগে সেই নম্বরটি ব্যবহার করে বড় অঙ্কের টাকা তুলে নেয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>মনে রাখার সহজ নিয়ম: <b>"লটারি জিতেছেন" বা "টাকা এসেছে, নিরাপদ রাখতে হবে" — এমন কোনো অপরিচিত মেসেজ পেলেই বুঝবে এটা প্রতারণা।</b> সত্যিকার কোনো পুরস্কার কখনো আগে টাকা চায় না। এই ধরনের প্রতারণাকে ইংরেজিতে "ফিশিং" (Phishing) বলা হয় — মাছ ধরার মতো, লোভ দেখিয়ে মানুষকে ফাঁদে ফেলা।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v14H4z"/><path d="M4 6l8 6 8-6"/><path d="M14 15l3 3 5-5" stroke="none"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">✉️ প্রতারণামূলক ইমেইল / লটারি বার্তা</div>
+      <div class="sc-question">এমন কোনো মেসেজ/ইমেইল কি আগে দেখেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, দেখেছি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">দেখিনি</button>
+      </div>
+      <div class="sc-answer">অনেক সময় ফোনে বা ইমেইলে বার্তা আসে "আপনি ১০ লক্ষ টাকা জিতেছেন, টাকা পেতে এই নম্বরে যোগাযোগ করুন" বা "আপনার একাউন্টে সমস্যা, এখানে ক্লিক করে তথ্য দিন" — এগুলো প্রায় সবসময়ই প্রতারণা। আসল কোম্পানি বা ব্যাংক কখনো এভাবে আগে টাকা চায় না।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <p>আজকাল অপরাধীরাও ইন্টারনেটকে ব্যবহার করা শুরু করেছে। তারা তাদের অবৈধ কাজের তথ্য ইন্টারনেটের ভেতর দিয়ে পাচার করে। সারা পৃথিবীতেই সেজন্য আইন পাস করা হচ্ছে। যাদের প্রচলিত আইনে বিচার করা যায় না তাদেরকে এই বিশেষ আইন দিয়ে বিচার করতে হয়।</p>
+    <p>দেশে দেশে এমন অনেক মানুষ আছে যারা অন্য সম্প্রদায় বা জাতি-গোষ্ঠীর প্রতি প্রচণ্ড ঘৃণা ও ক্ষোভ পোষণ করে। এরা যে কোনো চরম রাজনৈতিক- ডান, বাম, সেকুলার, জাতীয়তাবাদী বা রাজতান্ত্রিক-গোষ্ঠীর সদস্য হতে পারে। এই ধরণের মানুষ ইন্টারনেট ব্যবহার করে নানা প্রতিশ্রুতি দিয়ে তোমার মতো তরুণদের দলে নেয় এবং নিজেদের অশুভ পরিকল্পনা বাস্তবায়নে ব্যবহার করে। তাই ইন্টারনেটে অপরিচিত কারো সাথে বন্ধুত্ব করার ক্ষেত্রে সবসময় সতর্ক থাকবে। মনে রাখবে, অন্যায়, অত্যাচার বা জুলুম অবসানে নিয়মতান্ত্রিক পথই উত্তম; ধ্বংসাত্মক পথে টেকসই পরিবর্তন আসে না।</p>
+    <p>তবে তোমাদের এসব নিয়ে আতঙ্কিত হবার কোনো কারণ নেই। তোমাদের জানতে হবে তথ্য প্রযুক্তি, ইন্টারনেট কিংবা সাইবার জগৎ একটি অত্যন্ত শক্তিশালী মাধ্যম। এটাকে ভুলভাবে ব্যবহার করে কিছু মানুষ হয়তো বড় ধরনের অন্যায় অপরাধ করে ফেলতে পারে কিন্তু তাদের সংখ্যা খুব কম।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশের সবচেয়ে জরুরি সতর্কতা: ইন্টারনেটে অপরিচিত মানুষ মিষ্টি কথায় তোমাকে দলে টানার চেষ্টা করতে পারে খারাপ উদ্দেশ্যে। তাই অচেনা মানুষের সাথে বন্ধুত্বে সবসময় সতর্ক থাকবে। আর মনে রাখবে — কোনো অন্যায়ের প্রতিবাদ করতে হলে সঠিক ও শান্তিপূর্ণ পথই সবচেয়ে ভালো ফল দেয়, ধ্বংসাত্মক পথে নয়।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>হ্যাকিং করে কোনো একটি ওয়েবসাইট নষ্ট করে দিলে সেই ক্ষতিটুকু কোথা থেকে শুরু করে কোথায় পর্যন্ত যেতে পারে সেটি বের করো। তোমার বক্তব্যের পেছনে যুক্তি দেওয়ার জন্যে সম্ভাব্য হ্যাকিংয়ের একটা উদাহরণ দাও।</p>
+    <textarea placeholder="তোমার বিশ্লেষণ এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson25">
+      <button class="chip" data-def="অনুমতি ছাড়া কারো কম্পিউটার সিস্টেম বা ওয়েবসাইটে অনধিকার প্রবেশ করে ক্ষতি করা বা তথ্য চুরি করা।">হ্যাকিং</button>
+      <button class="chip" data-def="যে হ্যাকার খারাপ উদ্দেশ্যে (চুরি, ক্ষতি করতে) সিস্টেমে অনধিকার প্রবেশ করে।">কালো টুপি হ্যাকার</button>
+      <button class="chip" data-def="যে হ্যাকার সিস্টেমের নিরাপত্তা দুর্বলতা খুঁজে বের করে তা ঠিক করতে সাহায্য করে, ভালো উদ্দেশ্যে কাজ করে।">সাদা টুপি হ্যাকার</button>
+      <button class="chip" data-def="কেনাকাটা বা টাকা লেনদেনে ব্যবহৃত একটি কার্ড, যার নম্বর চুরি করে প্রতারকরা টাকা তুলে নিতে পারে।">ক্রেডিট কার্ড</button>
+    </div>
+    <div class="chip-def" id="def-lesson25"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. অপরিচিত ইমেইলে লটারির বড় পুরস্কারের প্রলোভন সাধারণত কী হয়?</p>
+      <div class="qoptions" data-hash="1834740159">
+        <label class="qoption"><input type="radio" name="q12" value="0">সত্যিকারের সুযোগ</label>
+        <label class="qoption"><input type="radio" name="q12" value="1">প্রতারণা</label>
+        <label class="qoption"><input type="radio" name="q12" value="2">সরকারি উপহার</label>
+        <label class="qoption"><input type="radio" name="q12" value="3">স্কুলের পুরস্কার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. ইন্টারনেটে ক্রেডিট কার্ড ব্যবহারে অপরাধীদের মূল লক্ষ্য কী?</p>
+      <div class="qoptions" data-hash="3198323017">
+        <label class="qoption"><input type="radio" name="q13" value="0">কার্ডের নম্বর জেনে নেওয়া</label>
+        <label class="qoption"><input type="radio" name="q13" value="1">ব্যাংকের নাম জানা</label>
+        <label class="qoption"><input type="radio" name="q13" value="2">ঠিকানা জানা</label>
+        <label class="qoption"><input type="radio" name="q13" value="3">ফোন নম্বর জানা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ওয়েবসাইট হ্যাকিং করা বই অনুযায়ী কেমন কাজ?</p>
+      <div class="qoptions" data-hash="2117300292">
+        <label class="qoption"><input type="radio" name="q14" value="0">শুধু অনৈতিক</label>
+        <label class="qoption"><input type="radio" name="q14" value="1">শুধু বেআইনি</label>
+        <label class="qoption"><input type="radio" name="q14" value="2">অনৈতিক ও বেআইনি দুটোই</label>
+        <label class="qoption"><input type="radio" name="q14" value="3">কোনোটাই নয়</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. অন্যায়-অত্যাচার অবসানে বই কোন পথকে উত্তম বলেছে?</p>
+      <div class="qoptions" data-hash="3888297632">
+        <label class="qoption"><input type="radio" name="q15" value="0">ধ্বংসাত্মক পথ</label>
+        <label class="qoption"><input type="radio" name="q15" value="1">নিয়মতান্ত্রিক পথ</label>
+        <label class="qoption"><input type="radio" name="q15" value="2">চুপ থাকা</label>
+        <label class="qoption"><input type="radio" name="q15" value="3">প্রতিশোধ নেওয়া</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 26 - VIRUS & PLAGIARISM ================= -->
+<section class="lesson" id="lesson26">
+  <h2><span class="num">সততা</span> ভাইরাস ও প্লেজিয়ারিজম</h2>
+
+  <div class="book-text">
+    <p>কম্পিউটার ভাইরাসের কথা তোমরা আগেই জেনেছ। অনেকে মজা করার জন্য হোক বা অপরাধ করার জন্যেই হোক, নানা ধরনের কম্পিউটার ভাইরাস তৈরি করে সেটাকে ইন্টারনেটে ছড়িয়ে দেয়। সেগুলো ইন্টারনেটের ভেতর দিয়ে আমাদের ঘরের ভেতরে কম্পিউটারে ঢুকে পড়ে। ছোটখাটো যন্ত্রণা থেকে শুরু করে সেগুলো অনেক বড় বড় সমস্যা ঘটাতে পারে। Mydoom Worm নামে একটা কম্পিউটার ভাইরাস ২০০৪ সালের জানুয়ারি মাসে একদিনে আড়াই লক্ষ কম্পিউটারকে আক্রান্ত করেছিল। ১৯৯৯ সালে Melissa নামে একটা কম্পিউটার ভাইরাস এত শক্তিশালীভাবে সাইবার জগৎকে আক্রমণ করেছিল যে, মাইক্রোসফটের মতো বড় কোম্পানিকে তাদের ইমেইল সার্ভার বন্ধ রাখতে হয়েছিল। ভাইরাসের কারণে পৃথিবীতে কোটি কোটি টাকার সম্পদ নষ্ট হয়ে যেতে পারে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>কম্পিউটার ভাইরাসও মানুষের অসুখের ভাইরাসের মতো — একবার ঢুকলে দ্রুত ছড়িয়ে পড়ে ও ক্ষতি করে। Mydoom আর Melissa দুটোই এমন বিখ্যাত ভাইরাস, যেগুলো লক্ষ লক্ষ কম্পিউটারে ক্ষতি করেছিল — এমনকি মাইক্রোসফটের মতো বড় কোম্পানিও রক্ষা পায়নি।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <h4>প্লেজিয়ারিজম</h4>
+    <p>নিজের লেখায় অন্যের লেখা কোনো কিছু ব্যবহার করতে হলে সবসময় সেটি পরিষ্কার করে বলে অন্যের অবদান স্বীকার করতে হয়।</p>
+    <p>আমরা যখন লেখাপড়া করি তখন আমরা অনেক নতুন নতুন জিনিস শিখি যা আগে জানতাম না- তার সাথে সাথে আমরা আরও একটা খুব গুরুত্বপূর্ণ বিষয় শিখি, সেটা হচ্ছে সত্যিকারের মানুষ হওয়া, খাঁটি মানুষ হওয়া। খাঁটি মানুষেরা অন্যায় করে না, অন্যায় সহ্যও করে না। নিজেরা অন্যায় করে না, অন্যদেরকেও অন্যায় করতে দেয় না।</p>
+    <p>তারপরেও আমরা মাঝে মাঝে দেখি ছাত্রছাত্রীরা পরীক্ষার সময় দেখাদেখি করে। তোমরা কখনো কখনো দেখে থাকবে বড় কোনো পরীক্ষার সময় কিছু ছাত্রছাত্রী নকল করতে গিয়ে ধরা পড়েছে, তাদের পরীক্ষার হল থেকে বের করে দেয়া হচ্ছে- এই ছাত্রছাত্রীরা নির্বুদ্ধিতা করে নিজেদের ভবিষ্যৎটাকেই নষ্ট করে ফেলছে।</p>
+    <p>এরকম ব্যাপার পৃথিবীর সব জায়গাতেই দেখা যায়- তথ্য প্রযুক্তির যুগে এই বিষয়গুলো হঠাৎ করে নতুন একটা মাত্রা পেয়েছে। লেখাপড়া করতে গেলেই হোমওয়ার্ক করতে হয়। হোমওয়ার্কগুলো সব সময়েই নিজে করতে হয়। অন্য কেউ হোমওয়ার্ক করে দিলে হয়তো ভালো নম্বর পাওয়া যায় কিন্তু শেখা তো হয় না। যারা সত্যিকারের ছাত্র তারা নিজেরা পড়াশোনা করে খাটাখাটি করে গবেষণা করে সুন্দর সুন্দর রচনা লেখে। অনেক সময়েই কোনো কোনো শিক্ষার্থী সেই পরিশ্রম করতে রাজি হয় না।</p>
+    <p>যেহেতু ইন্টারনেটে পৃথিবীর প্রায় সব বিষয়েই কিছু না কিছু তথ্য আছে তাই তারা সেখান থেকে হুবহু বিষয়টা নিয়ে নিজের নামে জমা দিয়ে দেয়। কিন্তু অন্যের লেখা চুরি করে নিজের নামে চালিয়ে দেওয়া বা প্রকাশ করাকেই প্লেজিয়ারিজম বলে।</p>
+    <p>আমরা অবশ্যই অন্যের লেখা পড়ে শিখব এবং নিজেরা কিছু লেখার সময় অন্যের লেখার সাহায্য নেওয়াটাও অন্যায় কিছু নয়। কিন্তু অন্যের কাছ থেকে কোনো সাহায্য নিলে নিজের লেখায় সেটা খুব পরিষ্কারভাবে বলে দিতে হয়। কোন অংশটুকু তুমি নিজে লিখেছ আর কোন অংশটা অন্যের লেখা থেকে নিয়েছ সেগুলো যদি খুব স্পষ্ট থাকে তাহলেই কোনো সমস্যা হয় না।</p>
+    <p>তথ্য প্রযুক্তির যুগে প্লেজিয়ারিজম যেমন বেড়েছে ঠিক সেরকম প্লেজিয়ারিজম ধরার কৌশলও অনেক বেড়েছে। তোমরা কি জানো কোনো মানুষ যদি ইন্টারনেটের কোনো জায়গা থেকে কোনো কিছু হুবহু টুকে নেয় সেটা কম্পিউটারের সফটওয়্যার ব্যবহার করে সাথে সাথে খুঁজে বের করা যায়?</p>
+    <p>অন্যায় করলে সেটা নিজের জন্য বিপজ্জনক হতে পারে- কিন্তু নিজের জন্য বিপজ্জনক সেজন্য নয়, তোমরা কখনোই কোনো অন্যায় করবে না। কারণ তোমরা বাংলাদেশের একেবারের খাঁটি মানুষ হয়ে বড় হবে এবং বড় হয়ে তোমরাই একদিন এই দেশের দায়িত্ব নেবে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>প্লেজিয়ারিজম</b> মানে হলো — কারো লেখা ইন্টারনেট থেকে কপি করে নিজের নামে জমা দেওয়া, যেন তুমিই লিখেছ। এটা এক ধরনের চুরি! সমস্যা নেই যদি তুমি অন্যের লেখা থেকে সাহায্য নাও — কিন্তু সেটা স্পষ্ট করে বলতে হবে "এই অংশটা আমি অমুক জায়গা থেকে নিয়েছি"। আজকাল কম্পিউটার সফটওয়্যার দিয়েই বোঝা যায় কে কার লেখা কপি করেছে, তাই এটা করা আরও ঝুঁকিপূর্ণ।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">📋 প্লেজিয়ারিজম (Plagiarism)</div>
+      <div class="sc-question">এই শব্দটা কি আগে শুনেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">ধরো তোমাকে "বৃক্ষরোপণের উপকারিতা" নিয়ে রচনা লিখতে দেওয়া হলো। তুমি যদি ইন্টারনেট থেকে কারো লেখা হুবহু কপি করে নিজের খাতায় লিখে জমা দাও, বলে না দাও যে এটা অন্য কারো লেখা — এটাই প্লেজিয়ারিজম। এটা পরীক্ষায় নকল করার মতোই একটা অসততা।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>ক্লাসের সবাই দুটি দল ভাগ হয়ে প্লেজিয়ারিজম আর নিজের তৈরি করা কাজের মধ্যে পার্থক্য নিয়ে একটি বিতর্কের আয়োজন করো।</p>
+    <textarea placeholder="তোমার দলের যুক্তিগুলো এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson26">
+      <button class="chip" data-def="২০০৪ সালে ছড়িয়ে পড়া একটি বিখ্যাত কম্পিউটার ভাইরাস, একদিনে আড়াই লক্ষ কম্পিউটার আক্রান্ত করেছিল।">Mydoom Worm</button>
+      <button class="chip" data-def="১৯৯৯ সালের একটি বিখ্যাত কম্পিউটার ভাইরাস, যা মাইক্রোসফটের ইমেইল সার্ভার বন্ধ করে দিতে বাধ্য করেছিল।">Melissa</button>
+      <button class="chip" data-def="অন্যের লেখা চুরি করে নিজের নামে চালিয়ে দেওয়া বা প্রকাশ করা।">প্লেজিয়ারিজম</button>
+    </div>
+    <div class="chip-def" id="def-lesson26"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. Melissa ভাইরাসের কারণে কোন কোম্পানিকে তাদের ইমেইল সার্ভার বন্ধ রাখতে হয়েছিল?</p>
+      <div class="qoptions" data-hash="985453399">
+        <label class="qoption"><input type="radio" name="q16" value="0">গুগল</label>
+        <label class="qoption"><input type="radio" name="q16" value="1">মাইক্রোসফট</label>
+        <label class="qoption"><input type="radio" name="q16" value="2">অ্যাপল</label>
+        <label class="qoption"><input type="radio" name="q16" value="3">ফেসবুক</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. Mydoom Worm ভাইরাসটি কত সালে ছড়িয়েছিল?</p>
+      <div class="qoptions" data-hash="2808136939">
+        <label class="qoption"><input type="radio" name="q17" value="0">১৯৯৯ সাল</label>
+        <label class="qoption"><input type="radio" name="q17" value="1">২০০৪ সাল</label>
+        <label class="qoption"><input type="radio" name="q17" value="2">২০০৯ সাল</label>
+        <label class="qoption"><input type="radio" name="q17" value="3">২০১৮ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. অন্যের লেখা চুরি করে নিজের নামে চালিয়ে দেওয়াকে কী বলে?</p>
+      <div class="qoptions" data-hash="2182380210">
+        <label class="qoption"><input type="radio" name="q18" value="0">কপিরাইট</label>
+        <label class="qoption"><input type="radio" name="q18" value="1">প্লেজিয়ারিজম</label>
+        <label class="qoption"><input type="radio" name="q18" value="2">ফেয়ার ইউজ</label>
+        <label class="qoption"><input type="radio" name="q18" value="3">হ্যাকিং</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. হোমওয়ার্ক অন্য কেউ করে দিলে বই অনুযায়ী কী হয়?</p>
+      <div class="qoptions" data-hash="696639245">
+        <label class="qoption"><input type="radio" name="q19" value="0">ভালো নম্বর ও শেখা দুটোই হয়</label>
+        <label class="qoption"><input type="radio" name="q19" value="1">নম্বর পাওয়া গেলেও শেখা হয় না</label>
+        <label class="qoption"><input type="radio" name="q19" value="2">কিছুই হয় না</label>
+        <label class="qoption"><input type="radio" name="q19" value="3">শুধু শেখা হয়</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= FINAL QUIZ ================= -->
+<section class="lesson" id="finalquiz">
+  <h2><span class="num">📝</span> অধ্যায় ৩ · সম্পূর্ণ পরীক্ষা</h2>
+  <p class="lesson-intro-note">পুরো অধ্যায় থেকে মিলিয়ে কয়েকটা প্রশ্ন — নিজেকে যাচাই করে দেখো কতটা মনে রাখতে পেরেছ।</p>
+  <div class="quiz">
+    <div class="qitem">
+      <p class="qtext">১. সাইবার জগতে সবচেয়ে বেশি কোন ধরনের অন্যায় হয় (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="1834740159">
+        <label class="qoption"><input type="radio" name="fq1" value="0">চুরি</label>
+        <label class="qoption"><input type="radio" name="fq1" value="1">প্রতারণা</label>
+        <label class="qoption"><input type="radio" name="fq1" value="2">মারামারি</label>
+        <label class="qoption"><input type="radio" name="fq1" value="3">অগ্নিকাণ্ড</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. কপিরাইটের বিপরীত ধারণাকে কী বলা হয়?</p>
+      <div class="qoptions" data-hash="3730513030">
+        <label class="qoption"><input type="radio" name="fq2" value="0">ফেয়ার ইউজ</label>
+        <label class="qoption"><input type="radio" name="fq2" value="1">কপিলেফট</label>
+        <label class="qoption"><input type="radio" name="fq2" value="2">পাইরেসি</label>
+        <label class="qoption"><input type="radio" name="fq2" value="3">ট্রেডমার্ক</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. IAD কীসের জন্য ব্যবহৃত হয়?</p>
+      <div class="qoptions" data-hash="206313531">
+        <label class="qoption"><input type="radio" name="fq3" value="0">ভালো ইন্টারনেট গতি বোঝাতে</label>
+        <label class="qoption"><input type="radio" name="fq3" value="1">অতিরিক্ত ইন্টারনেট ব্যবহারজনিত আসক্তি বোঝাতে</label>
+        <label class="qoption"><input type="radio" name="fq3" value="2">ওয়াইফাই রাউটার বোঝাতে</label>
+        <label class="qoption"><input type="radio" name="fq3" value="3">কম্পিউটার ভাইরাস বোঝাতে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. ইন্টারনেট ব্যবহারের তিনটি নিয়মের একটি কী?</p>
+      <div class="qoptions" data-hash="657639557">
+        <label class="qoption"><input type="radio" name="fq4" value="0">অপরিচিতকে পাসওয়ার্ড না দেওয়া</label>
+        <label class="qoption"><input type="radio" name="fq4" value="1">রাতে বেশি ব্যবহার করা</label>
+        <label class="qoption"><input type="radio" name="fq4" value="2">শুধু গেম খেলা</label>
+        <label class="qoption"><input type="radio" name="fq4" value="3">ক্যামেরা সবসময় বন্ধ রাখা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৫. নিজের লেখায় অন্যের লেখা ব্যবহার করলে কী করতে হবে?</p>
+      <div class="qoptions" data-hash="1895586992">
+        <label class="qoption"><input type="radio" name="fq5" value="0">চুপচাপ ব্যবহার করা যায়</label>
+        <label class="qoption"><input type="radio" name="fq5" value="1">পরিষ্কারভাবে অন্যের অবদান স্বীকার করতে হবে</label>
+        <label class="qoption"><input type="radio" name="fq5" value="2">শুধু শিক্ষককে জানালেই হয়</label>
+        <label class="qoption"><input type="radio" name="fq5" value="3">কিছু করার দরকার নেই</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৬. Melissa ও Mydoom কী ধরনের প্রোগ্রাম?</p>
+      <div class="qoptions" data-hash="82031244">
+        <label class="qoption"><input type="radio" name="fq6" value="0">গেম</label>
+        <label class="qoption"><input type="radio" name="fq6" value="1">কম্পিউটার ভাইরাস</label>
+        <label class="qoption"><input type="radio" name="fq6" value="2">সার্চ ইঞ্জিন</label>
+        <label class="qoption"><input type="radio" name="fq6" value="3">সোশ্যাল মিডিয়া অ্যাপ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  সপ্তম শ্রেণি · তথ্য ও যোগাযোগ প্রযুক্তি — অধ্যায় ৩ ইন্টারেক্টিভ সংস্করণ। মূল পাঠ্যবই: জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড, বাংলাদেশ।
+</footer>
+
+<script>
+function toggleAnswer(btn, forceOpen){
+  const wrap = btn.closest('.sc-content');
+  const ans = wrap.querySelector('.sc-answer');
+  if(forceOpen){
+    ans.classList.add('show');
+  } else {
+    ans.classList.remove('show');
+  }
+}
+
+document.querySelectorAll('.chips').forEach(function(group){
+  const targetId = 'def-' + group.getAttribute('data-glossary');
+  const defBox = document.getElementById(targetId);
+  group.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      const already = chip.classList.contains('active');
+      group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      if(already){
+        defBox.classList.remove('show');
+        defBox.innerHTML = '';
+        return;
+      }
+      chip.classList.add('active');
+      defBox.innerHTML = '<b>'+chip.textContent+'</b> — '+chip.getAttribute('data-def');
+      defBox.classList.add('show');
+    });
+  });
+});
+
+// ---- quiz logic (hash-verified + locks after answering) ----
+function strHash(s){
+  let h = 5381;
+  for(let i=0;i<s.length;i++){
+    h = ((h*33) + s.charCodeAt(i)) >>> 0;
+  }
+  return String(h);
+}
+document.querySelectorAll('.qoptions').forEach(function(optGroup){
+  const targetHash = optGroup.getAttribute('data-hash');
+  const feedback = optGroup.parentElement.querySelector('.qfeedback');
+  feedback.setAttribute('aria-live','polite');
+  const optionLabels = optGroup.querySelectorAll('.qoption');
+  optGroup.querySelectorAll('input[type=radio]').forEach(function(input){
+    input.addEventListener('change', function(){
+      optionLabels.forEach(l=>l.classList.remove('correct','wrong'));
+      let correctLabel = null, correctText = '';
+      optionLabels.forEach(function(lbl){
+        const txt = lbl.textContent.trim();
+        if(strHash(txt) === targetHash){ correctLabel = lbl; correctText = txt; }
+      });
+      const chosenLabel = input.closest('.qoption');
+      if(chosenLabel === correctLabel){
+        chosenLabel.classList.add('correct');
+        feedback.textContent = '✅ ঠিক আছে! খুব ভালো হয়েছে।';
+        feedback.className = 'qfeedback show ok';
+      } else {
+        chosenLabel.classList.add('wrong');
+        if(correctLabel) correctLabel.classList.add('correct');
+        feedback.textContent = '❌ এটা ঠিক না। সঠিক উত্তর: ' + correctText + ' — উপরের বইয়ের অংশটা আরেকবার পড়ে নাও।';
+        feedback.className = 'qfeedback show no';
+      }
+      // lock this question so guessing repeatedly isn't possible
+      optGroup.querySelectorAll('input[type=radio]').forEach(i=>i.disabled=true);
+      updateProgress();
+    });
+  });
+});
+
+const navLinks = document.querySelectorAll('#lessonNav a');
+const sections = document.querySelectorAll('main section');
+function onScroll(){
+  let current = sections[0].id;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120) current = sec.id;
+  });
+  navLinks.forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+function updateProgress(){
+  const totalQ = document.querySelectorAll('.qoptions').length;
+  const answered = document.querySelectorAll('.qoptions input[type=radio]:checked').length;
+  const pct = totalQ ? Math.round((answered/totalQ)*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'তোমার অগ্রগতি: '+pct+'% (কুইজ উত্তর দেওয়ার ভিত্তিতে)';
+}
+updateProgress();
+function collectWork(){
+  const lines = [];
+  lines.push('তোমার কাজ ও উত্তর');
+  lines.push('========================================');
+  lines.push('');
+  let anyWork = false;
+  document.querySelectorAll('textarea').forEach(function(ta){
+    if(ta.value.trim()){
+      anyWork = true;
+      let promptEl = ta.previousElementSibling;
+      let promptText = (promptEl ? promptEl.textContent.trim() : '').slice(0,200);
+      lines.push('▸ ' + (promptText || 'তোমার লেখা'));
+      lines.push(ta.value.trim());
+      lines.push('');
+    }
+  });
+  if(!anyWork){ lines.push('(তুমি এখনো কোনো দলগত কাজ বা প্রশ্নের উত্তর লেখোনি)'); lines.push(''); }
+  lines.push('========================================');
+  lines.push('কুইজের ফলাফল');
+  let total = 0, correct = 0;
+  document.querySelectorAll('.qitem').forEach(function(qi){
+    const fb = qi.querySelector('.qfeedback');
+    const qtext = qi.querySelector('.qtext');
+    if(fb && fb.classList.contains('show')){
+      total++;
+      const ok = fb.classList.contains('ok');
+      if(ok) correct++;
+      lines.push((ok ? '✓ ' : '✗ ') + (qtext ? qtext.textContent.trim() : ('প্রশ্ন ' + total)));
+    }
+  });
+  lines.push('');
+  lines.push('মোট উত্তর দেওয়া হয়েছে: ' + total + ' টি, সঠিক হয়েছে: ' + correct + ' টি');
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'আমার-কাজ-ও-ফলাফল.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+const dwBtn = document.getElementById('downloadWorkBtn');
+if(dwBtn){ dwBtn.addEventListener('click', collectWork); }
+
+</script>
+
+</body>
+</html>

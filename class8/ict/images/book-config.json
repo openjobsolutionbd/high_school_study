@@ -1,0 +1,15 @@
+{
+  "subject_name": "তথ্য ও যোগাযোগ প্রযুক্তি — অষ্টম শ্রেণি",
+  "zip_file": "original-book-pages.zip",
+  "image_prefix": "Secondary (BV)-2026_Class 8_ICT_compressed_page-",
+  "image_offset": 5,
+  "markdown_dir": "../markdown",
+  "chapter_file_pattern": "chapter-{:02d}-*.md",
+  "chapters": [
+    { "num": 1, "title": "তথ্য ও যোগাযোগ প্রযুক্তির গুরুত্ব", "start": 1, "end": 19 },
+    { "num": 2, "title": "কম্পিউটার নেটওয়ার্ক", "start": 20, "end": 36 },
+    { "num": 3, "title": "তথ্য ও যোগাযোগ প্রযুক্তির নিরাপদ ও নৈতিক ব্যবহার", "start": 37, "end": 52 },
+    { "num": 4, "title": "স্প্রেডশিটের ব্যবহার", "start": 53, "end": 63 },
+    { "num": 5, "title": "শিক্ষা ও দৈনন্দিন জীবনে ইন্টারনেটের ব্যবহার", "start": 64, "end": 79 }
+  ]
+}

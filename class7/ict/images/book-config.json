@@ -1,0 +1,15 @@
+{
+  "subject_name": "তথ্য ও যোগাযোগ প্রযুক্তি — সপ্তম শ্রেণি",
+  "zip_file": "original-book-pages.zip",
+  "image_prefix": "ICT_compressed (1)_page-",
+  "image_offset": 5,
+  "markdown_dir": "../markdown",
+  "chapter_file_pattern": "chapter-{:02d}-*.md",
+  "chapters": [
+    { "num": 1, "title": "প্রাত্যহিক জীবনে তথ্য ও যোগাযোগ প্রযুক্তি", "start": 1, "end": 16 },
+    { "num": 2, "title": "কম্পিউটার-সংশ্লিষ্ট যন্ত্রপাতি", "start": 17, "end": 36 },
+    { "num": 3, "title": "নিরাপদ ও নৈতিক ব্যবহার", "start": 37, "end": 52 },
+    { "num": 4, "title": "ওয়ার্ড প্রসেসিং", "start": 53, "end": 60 },
+    { "num": 5, "title": "শিক্ষায় ইন্টারনেটের ব্যবহার", "start": 61, "end": 72 }
+  ]
+}

@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অধ্যায় ১ — প্রাত্যহিক জীবনে তথ্য ও যোগাযোগ প্রযুক্তি</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --slate:#1E3A34;
+  --slate-2:#28483F;
+  --paper:#FBF7EC;
+  --paper-2:#F2EAD3;
+  --ink:#22281f;
+  --indigo:#2F5D9E;
+  --indigo-dark:#1F3F6B;
+  --mustard:#E3A93B;
+  --good:#3E8E5A;
+  --bad:#B2483A;
+  --stitch:#C9B98A;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+}
+h1,h2,h3,.display{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--slate);
+  font-weight:700;
+}
+::selection{background:var(--mustard);color:var(--slate);}
+
+/* stitched divider - kantha embroidery motif */
+.stitch{
+  height:14px;
+  margin:0 auto;
+  max-width:1100px;
+  background-image:repeating-linear-gradient(
+    115deg,
+    var(--stitch) 0 8px,
+    transparent 8px 16px
+  );
+  opacity:.65;
+}
+.stitch.vertical-space{margin:36px auto;}
+
+/* header */
+header.topbar{
+  background:
+    radial-gradient(circle at 8px 8px, rgba(227,169,59,.14) 1.4px, transparent 1.4px),
+    linear-gradient(155deg, var(--slate-2) 0%, var(--slate) 62%, #142822 100%);
+  background-size: 26px 26px, cover;
+  color:var(--paper);
+  padding:38px 24px 46px;
+  position:relative;
+  overflow:hidden;
+}
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  margin:0 auto;
+}
+.header-illustration{
+  position:absolute;
+  right:-10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:220px;
+  height:220px;
+  opacity:.16;
+  z-index:1;
+  pointer-events:none;
+}
+.badge-patch{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paper);
+  color:var(--slate);
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:700;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:13px;
+  border:2px dashed var(--mustard);
+  transform:rotate(-2deg);
+  margin-bottom:16px;
+  box-shadow:0 3px 0 rgba(0,0,0,.18);
+}
+header.topbar .kicker{
+  font-size:13.5px;
+  letter-spacing:.08em;
+  color:var(--mustard);
+  font-weight:700;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+header.topbar .kicker::before,
+header.topbar .kicker::after{
+  content:"";
+  height:1px;
+  width:22px;
+  background:var(--mustard);
+  opacity:.6;
+}
+header.topbar .eyebrow{
+  display:block;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  color:#a9c9bc;
+  margin-bottom:2px;
+  letter-spacing:.02em;
+}
+header.topbar h1{
+  color:var(--paper);
+  font-size:clamp(28px,4.4vw,42px);
+  line-height:1.28;
+  margin:0 0 12px;
+  max-width:640px;
+}
+header.topbar h1 .hl{
+  color:var(--mustard);
+}
+header.topbar p.sub{
+  margin:0;
+  color:#cfe3da;
+  font-size:15.5px;
+  max-width:560px;
+  position:relative;
+  padding-right:18px;
+}
+header.topbar p.sub::before{
+  content:"";
+  position:absolute;
+  right:0;top:4px;bottom:4px;
+  width:3px;
+  background:var(--mustard);
+  border-radius:3px;
+  opacity:.7;
+}
+
+/* zigzag stitched edge transitioning header into page */
+.header-edge{
+  height:20px;
+  width:100%;
+  background:var(--paper);
+  clip-path:polygon(
+    0% 100%,0% 35%,4.3% 100%,8.6% 35%,12.9% 100%,17.2% 35%,21.5% 100%,25.8% 35%,
+    30.1% 100%,34.4% 35%,38.7% 100%,43% 35%,47.3% 100%,51.6% 35%,55.9% 100%,60.2% 35%,
+    64.5% 100%,68.8% 35%,73.1% 100%,77.4% 35%,81.7% 100%,86% 35%,90.3% 100%,94.6% 35%,100% 100%,100% 100%
+  );
+  margin-top:-1px;
+}
+
+/* sticky lesson nav */
+nav.lesson-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--slate-2);
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:11px 16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  margin-top:-1px;
+}
+nav.lesson-nav a{
+  flex:0 0 auto;
+  color:#e8f1ec;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  white-space:nowrap;
+  transition:.2s;
+}
+nav.lesson-nav a:hover,nav.lesson-nav a.active{
+  background:var(--mustard);
+  color:var(--slate);
+  border-color:var(--mustard);
+}
+
+main{max-width:900px;margin:0 auto;padding:28px 18px 80px;}
+
+/* objective box on cover */
+.objectives{
+  background:var(--paper-2);
+  border:2px dashed var(--stitch);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:26px 0;
+}
+.objectives h2{margin-top:0;font-size:20px;}
+.objectives ol{margin:0;padding-right:0;padding-left:20px;}
+.objectives li{margin-bottom:6px;}
+
+/* lesson section */
+section.lesson{margin:56px 0;scroll-margin-top:70px;}
+section.lesson>h2{
+  font-size:26px;
+  border-right:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+section.lesson>h2 .num{
+  background:var(--indigo);
+  color:#fff;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:15px;
+  padding:5px 12px;
+  border-radius:999px;
+}
+.lesson-intro-note{
+  color:#5b6b60;
+  font-size:14.5px;
+  margin-bottom:22px;
+}
+
+/* original book text block */
+.book-text{
+  background:#fff;
+  border-right:6px solid var(--indigo);
+  padding:20px 22px;
+  border-radius:8px;
+  margin:18px 0;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:16.5px;
+  line-height:1.95;
+  color:#2b3129;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.book-text .book-label{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--indigo);
+  letter-spacing:.04em;
+  display:block;
+  margin-bottom:8px;
+}
+.book-text p{margin:0 0 14px;}
+.book-text p:last-child{margin-bottom:0;}
+.book-text h4{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--indigo-dark);
+  margin:0 0 8px;
+  font-size:17px;
+}
+
+/* simple explanation - expandable */
+details.simple-box{
+  background:#FFF8E7;
+  border:2px solid var(--mustard);
+  border-radius:var(--radius);
+  margin:14px 0 26px;
+  overflow:hidden;
+}
+details.simple-box summary{
+  cursor:pointer;
+  list-style:none;
+  padding:12px 18px;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  color:#7a5a12;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  user-select:none;
+}
+details.simple-box summary::-webkit-details-marker{display:none;}
+details.simple-box summary::before{
+  content:"▶";
+  font-size:11px;
+  transition:transform .2s;
+}
+details.simple-box[open] summary::before{transform:rotate(90deg);}
+details.simple-box .simple-body{
+  padding:2px 20px 18px;
+  font-size:16px;
+  color:#3b3223;
+}
+details.simple-box .simple-body p{margin:8px 0;}
+details.simple-box .simple-body b{color:var(--indigo-dark);}
+
+/* self-check for unfamiliar devices */
+.selfcheck{
+  background:var(--paper-2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin:20px 0;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.selfcheck .icon-box{
+  flex:0 0 auto;
+  width:74px;height:74px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--indigo);
+}
+.selfcheck .icon-box svg{width:38px;height:38px;stroke:var(--indigo);}
+.selfcheck .sc-content{flex:1;min-width:200px;}
+.selfcheck .sc-content .name{font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;font-weight:700;color:var(--slate);font-size:17px;margin-bottom:4px;}
+.selfcheck .sc-question{font-size:14.5px;color:#5b6b60;margin-bottom:8px;}
+.selfcheck .sc-btns{display:flex;gap:8px;}
+.sc-btn{
+  border:2px solid var(--indigo);
+  background:#fff;
+  color:var(--indigo);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:13.5px;
+  cursor:pointer;
+}
+.sc-btn:hover{background:var(--indigo);color:#fff;}
+.sc-answer{
+  display:none;
+  margin-top:10px;
+  padding:12px 14px;
+  background:#fff;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--mustard);
+}
+.sc-answer.show{display:block;}
+
+/* glossary chips */
+.glossary-wrap{
+  margin:22px 0 30px;
+  background:#EEF3EE;
+  border-radius:var(--radius);
+  padding:18px 20px;
+}
+.glossary-wrap h4{
+  margin:0 0 12px;
+  font-size:15px;
+  color:var(--slate);
+  display:flex;align-items:center;gap:6px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  background:#fff;
+  border:1.5px solid var(--indigo);
+  color:var(--indigo-dark);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+.chip:hover{background:var(--indigo);color:#fff;}
+.chip.active{background:var(--indigo);color:#fff;}
+.chip-def{
+  display:none;
+  margin-top:12px;
+  background:#fff;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--indigo);
+}
+.chip-def.show{display:block;}
+.chip-def b{color:var(--indigo-dark);}
+
+/* group work */
+.groupwork{
+  background:var(--slate);
+  color:#eaf1ec;
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:26px 0;
+}
+.groupwork .gw-label{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--mustard);
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.groupwork p{margin:0 0 12px;font-size:15.5px;}
+.groupwork textarea{
+  width:100%;
+  min-height:80px;
+  border-radius:8px;
+  border:none;
+  padding:10px 12px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:14.5px;
+  resize:vertical;
+}
+.groupwork .hint{font-size:12.5px;color:#a9c2b6;margin-top:6px;}
+
+/* quiz */
+.quiz{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-radius:var(--radius);
+  padding:22px 22px 8px;
+  margin:34px 0;
+}
+.quiz>h3{margin-top:0;font-size:19px;display:flex;align-items:center;gap:8px;}
+.qitem{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed #ddd;}
+.qitem:last-of-type{border-bottom:none;}
+.qitem p.qtext{font-weight:600;color:var(--slate);margin:0 0 10px;font-size:16px;}
+.qoptions{display:flex;flex-direction:column;gap:8px;}
+.qoption{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;
+  border:1.5px solid #e2ddc9;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.15s;
+}
+.qoption:hover{background:#FAF6EA;}
+.qoption.correct{background:#e5f4ea;border-color:var(--good);}
+.qoption.wrong{background:#fbe9e6;border-color:var(--bad);}
+.qoption input{accent-color:var(--indigo);}
+.qfeedback{
+  margin-top:10px;font-size:14.5px;padding:8px 12px;border-radius:6px;display:none;
+}
+.qfeedback.show{display:block;}
+.qfeedback.ok{background:#e5f4ea;color:#255c39;}
+.qfeedback.no{background:#fbe9e6;color:#7a2e21;}
+
+/* progress */
+.progress-wrap{max-width:900px;margin:0 auto;padding:0 18px;}
+.progress-bar{
+  height:6px;background:#e2ddc9;border-radius:99px;overflow:hidden;margin-top:14px;
+}
+.progress-fill{height:100%;width:0%;background:var(--mustard);transition:width .4s;}
+.progress-label{font-size:12.5px;color:#5b6b60;margin-top:6px;}
+
+footer{
+  text-align:center;padding:40px 20px 60px;color:#7d8a7f;font-size:13.5px;
+}
+footer a{color:var(--indigo);}
+
+@media(max-width:640px){
+  .book-badge{display:none;}
+  section.lesson>h2{font-size:22px;}
+}
+
+.download-btn{
+  margin-top:14px;
+  background:var(--indigo);
+  color:#fff;
+  border:none;
+  padding:9px 18px;
+  border-radius:999px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+}
+.download-btn:hover{background:var(--indigo-dark);}
+.download-btn:focus-visible,
+.chip:focus-visible,
+.sc-btn:focus-visible,
+.qoption:focus-within,
+nav.lesson-nav a:focus-visible,
+summary:focus-visible{
+  outline:3px solid var(--mustard);
+  outline-offset:2px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <svg class="header-illustration" viewBox="0 0 200 200" fill="none" stroke="#FBF7EC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 60 C20 55 24 52 30 52 L92 52 L92 145 L30 145 C24 145 20 148 20 153 Z"/>
+    <path d="M180 60 C180 55 176 52 170 52 L108 52 L108 145 L170 145 C176 145 180 148 180 153 Z"/>
+    <path d="M92 52 L92 145 M108 52 L108 145" stroke-dasharray="3 5"/>
+    <circle cx="150" cy="24" r="7"/>
+    <path d="M150 24 L150 8M150 24 L162 16M150 24 L162 32" stroke-dasharray="2 4"/>
+    <path d="M118 30 C126 22 134 22 140 28" />
+    <path d="M112 36 C124 24 148 24 158 34" />
+  </svg>
+  <div class="header-inner">
+    <div class="badge-patch">📗 সপ্তম শ্রেণি</div>
+    <div class="kicker">ইন্টারেক্টিভ সংস্করণ</div>
+    <h1><span class="eyebrow">অধ্যায় ১</span>প্রাত্যহিক জীবনে <span class="hl">তথ্য ও যোগাযোগ প্রযুক্তি</span></h1>
+    <p class="sub">বইয়ের আসল লেখা সাথেই থাকছে — পাশাপাশি প্রতিটা কঠিন জায়গায় থাকছে "সহজ কথায় বুঝি" বাক্স, ছবি, আর প্রশ্নোত্তর অনুশীলন।</p>
+  </div>
+</header>
+<div class="header-edge"></div>
+
+<nav class="lesson-nav" id="lessonNav">
+  <a href="#cover">শুরুর কথা</a>
+  <a href="#lesson12">পাঠ ১-২ · ব্যক্তিজীবন</a>
+  <a href="#lesson34">পাঠ ৩-৪ · কর্মক্ষেত্র (১)</a>
+  <a href="#lesson5">পাঠ ৫ · কর্মক্ষেত্র (২)</a>
+  <a href="#lesson67">পাঠ ৬-৭ · সমাজজীবন</a>
+  <a href="#finalquiz">অধ্যায় পরীক্ষা</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">তোমার অগ্রগতি: ০%</div>
+  <button id="downloadWorkBtn" class="download-btn" type="button">📥 তোমার লেখা ও ফলাফল ডাউনলোড করো</button>
+</div>
+
+<main>
+
+<section id="cover">
+  <div class="objectives">
+    <h2>📘 এই অধ্যায় শেষে আমরা যা যা পারব</h2>
+    <ol>
+      <li>ব্যক্তিজীবনে তথ্য ও যোগাযোগ প্রযুক্তির ব্যবহার ব্যাখ্যা করতে পারব;</li>
+      <li>কর্মক্ষেত্রে তথ্য ও যোগাযোগ প্রযুক্তি ব্যবহারের ক্ষেত্র চিহ্নিত করতে পারব;</li>
+      <li>কর্মক্ষেত্রে তথ্য ও যোগাযোগ প্রযুক্তি ব্যবহারের গুরুত্ব বিশ্লেষণ করতে পারব;</li>
+      <li>সমাজ জীবনে তথ্য ও যোগাযোগ প্রযুক্তির প্রভাব মূল্যায়ন করতে পারব।</li>
+    </ol>
+  </div>
+  <details class="simple-box" open>
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অধ্যায়ে আমরা দেখব <b>তথ্য ও যোগাযোগ প্রযুক্তি</b> (সংক্ষেপে <b>আইসিটি</b>) আমাদের জীবনের কোথায় কোথায় লুকিয়ে আছে — বাসায়, স্কুলে, অফিসে, আর সমাজে। ভয় পাওয়ার কিছু নেই — তুমি প্রতিদিনই এই প্রযুক্তি ব্যবহার করছ, হয়তো খেয়ালই করোনি!</p>
+    </div>
+  </details>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 1-2 ================= -->
+<section class="lesson" id="lesson12">
+  <h2><span class="num">পাঠ ১-২</span> ব্যক্তিজীবনে তথ্য ও যোগাযোগ প্রযুক্তি</h2>
+  <p class="lesson-intro-note">নিচে বইয়ের আসল লেখা রয়েছে (নীল দাগ দেওয়া বাক্সে) — প্রতিটার নিচে "সহজ কথায় বুঝি" চাপলে সহজ ব্যাখ্যা দেখতে পাবে।</p>
+
+  <div class="book-text">
+    <span class="book-label">বইয়ের ভাষায়</span>
+    <p>পৃথিবীতে কত নতুন নতুন প্রযুক্তির জন্ম হচ্ছে, আমরা হয়তো তার সবগুলোর কথা জানতেও পারি না। তাই সেগুলো হয়তো আমাদের জীবনে কোনো প্রভাব ফেলতে পারে না। কিন্তু তথ্য ও যোগাযোগ প্রযুক্তি এমন একটি প্রযুক্তি যেটি আমাদের সবার জীবনেই কোনো না কোনোভাবে প্রভাব ফেলেছে। পৃথিবীতে মনে হয় একজন মানুষকেও খুঁজে পাওয়া যাবে না, যে কোনো না কোনোভাবে এ প্রযুক্তি ব্যবহার করেনি কিংবা তার জীবনে তথ্য ও যোগাযোগ প্রযুক্তি কোনো না কোনো পরিবর্তন আনেনি।</p>
+    <p>তথ্য ও যোগাযোগ প্রযুক্তি শুধু যে রাষ্ট্রীয় বড় বড় বিষয়ে কিংবা আন্তর্জাতিক জগতে ব্যবহৃত হয় তা নয়- একেবারে সাধারণ মানুষের জীবনেও সেটি ব্যবহৃত হয়। তুমি যদি চোখ মেলে চারদিকে তাকাও তুমি দেখবে তোমার চারপাশে তোমার পরিচিত মানুষেরা, তোমার আত্মীয়স্বজন, তোমার স্কুলের শিক্ষকরা, তোমার ক্লাসের বন্ধুবান্ধবরা এবং তুমি কোনো না কোনোভাবে এ প্রযুক্তি ব্যবহার করেছ। এই যে তুমি এই মুহূর্তে এই লেখাটি পড়ছ সেটি কেউ একজন লিখেছে-তথ্য প্রযুক্তি ব্যবহার করে সেগুলো ছাপা হয়েছে, তোমার সামনে আনা হয়েছে এবং তুমি এখন পড়তে পারছ। এরকম কত উদাহরণ দেয়া যাবে- তুমি কল্পনাও করতে পারবে না।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>খুব সহজ কথায়: তুমি যে <b>মোবাইল ফোনে গান শোনো</b>, <b>টিভিতে খবর দেখো</b>, কিংবা এই যে <b>বইটাই পড়ছ</b> — এসবই তথ্য ও যোগাযোগ প্রযুক্তির উদাহরণ। এটা শুধু বড় বড় অফিস বা সরকারের বিষয় না, তোমার নিজের জীবনেও প্রতিদিন এটা কাজ করছে।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <h4>ব্যক্তিগত যোগাযোগ</h4>
+    <p>একজন মানুষের জীবনে তথ্য ও যোগাযোগ প্রযুক্তির কী কী ব্যবহার হতে পারে তার একটা তালিকা তৈরি করার চেষ্টা করলে সেটা মনে হয় কোনোদিন শেষ করা যাবে না। কিন্তু একটু চেষ্টা করে দেখলে কেমন হয়? অন্ততপক্ষে গুরুত্বপূর্ণ কয়েকটা চেষ্টা করে দেখা যাক। তথ্য প্রযুক্তির ব্যবহারের প্রথম উদাহরণ হতে পারে ব্যক্তিগত যোগাযোগ। আমাদের চারপাশের প্রায় সবার কাছেই এখন মোবাইল টেলিফোন রয়েছে, যে কেউ এখন ইচ্ছে করলে অন্য একজনের সাথে মোবাইল টেলিফোনে যোগাযোগ করতে পারে। কোনো মানুষের সাথে টেলিফোনে যোগাযোগ করতে পারার কারণে আমাদের জীবনের মান এখন অনেক বেড়ে গিয়েছে, অনেক কম পরিশ্রমে আমরা এখন অনেক কিছু করতে পারি যেটা আগে কল্পনাও করতে পারতাম না।</p>
+  </div>
+
+  <div class="book-text">
+    <h4>বিনোদন</h4>
+    <p>তথ্য ও যোগাযোগ প্রযুক্তি দিয়ে আমরা যে শুধু কাজ করতে পারি তা নয়- এটা এখন বিনোদনেরও চমৎকার মাধ্যম হয়ে দাঁড়িয়েছে। আগে গান শোনার জন্যে মানুষকে আলাদাভাবে কোনো একটা যন্ত্র কিনতে হতো- এখন মোবাইল টেলিফোনেই সে গান শুনতে পারে। একটা সময় ক্যামেরা ছিল শুধু ধনীদের ব্যবহারের বিষয়- এখন সাধারণ স্মার্টফোন দিয়েই যেকোনো মানুষ ছবি তুলতে পারে, ভিডিয়ো করতে পারে। মোবাইল টেলিফোন ধীরে ধীরে বুদ্ধিমান একটা যন্ত্র হয়ে দাঁড়িয়েছে। এটা দিয়ে অনেক ধরনের কাজ করা যায়- ঠিক সেরকম কম্পিউটারও ছোট হতে শুরু করেছে। ডেস্কটপ থেকে ল্যাপটপ, ল্যাপটপ থেকে নোটবুক, নোটবুক থেকে স্মার্টফোন অর্থাৎ আমাদের হাতে এমন একটা যন্ত্র চলে আসছে যেটা দিয়ে আমরা অসংখ্য কাজ করতে পারি।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>আগে গান শুনতে রেডিও-ক্যাসেট লাগতো, ছবি তুলতে দামি ক্যামেরা লাগতো — এখন সবকিছু একটা <b>স্মার্টফোনেই</b> হয়ে যায়। কম্পিউটারও ছোট হতে হতে হাতের মুঠোয় চলে এসেছে — <b>ডেস্কটপ → ল্যাপটপ → নোটবুক → স্মার্টফোন</b>, এই ধারাটা মনে রাখো, পরীক্ষায় আসতে পারে।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🛰️ জিপিএস (GPS)</div>
+      <div class="sc-question">এই যন্ত্র/প্রযুক্তিটা কি তুমি আগে চেনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">জিপিএস মানে হলো এমন একটা ব্যবস্থা যা আকাশের উপগ্রহ (স্যাটেলাইট) থেকে সংকেত নিয়ে বলে দেয় তুমি পৃথিবীর ঠিক কোন জায়গায় আছ। বাসে-গাড়িতে "ম্যাপ" অ্যাপ যেভাবে রাস্তা দেখায়, সেটাই জিপিএসের কাজ — যেন আকাশ থেকে কেউ তোমাকে পথ দেখিয়ে দিচ্ছে।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <h4>জিপিএস</h4>
+    <p>গাড়ি চালিয়ে কোথাও যাওয়ার প্রথম শর্তই হচ্ছে আমাদের পথঘাট চিনতে হবে। কেউ যদি পথঘাট চিনতে না পারে তাহলে সে কেমন করে গন্তব্যে পৌঁছবে। অথচ মজার ব্যাপার হলো কোথাও যেতে হলে এখন কাউকে পথঘাট চিনতে হয় না। পৃথিবীটাকে ঘিরে অনেক উপগ্রহ ঘুরছে তারা পৃথিবীতে সংকেত পাঠায়, সেই সংকেতকে বিশ্লেষণ করে যেকোনো মানুষ বুঝে ফেলতে পারে সে কোথায় আছে! তার সাথে একটা জায়গার ম্যাপকে জুড়ে দিতে পারলেই একজন মানুষ যে কোনো জায়গায় চলে যেতে পারে। আজকাল নতুন সব গাড়িতেই জিপিএস লাগিয়ে দেয়া হয়। কোথায় যেতে হবে সেটি জিপিএস-এ নির্দিষ্ট করে দিলে জিপিএস গাড়ির ড্রাইভারকে সঠিক পথ বাতলে দিয়ে গন্তব্যে পৌঁছে দিতে পারবে। ১২ই মে ২০১৮ বাংলাদেশের প্রথম স্যাটেলাইট মহাকাশে প্রেরণ করা হয়। বাংলাদেশ স্যাটেলাইট-১ নামের এই মহাকাশযানটি যুক্তরাষ্ট্রের কেনেডি মহাকাশ কেন্দ্র থেকে উৎক্ষেপণ করা হয়। নিজস্ব স্যাটেলাইটের অধিকারী দেশগুলোর মধ্যে বাংলাদেশ পৃথিবীর ৫৭তম দেশ।</p>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>মনে করো তুমি ঠিক করেছ কোনো ধরনের তথ্য প্রযুক্তি ব্যবহার না করে তোমার দিন কাটাবে। সারাদিনে কোন কাজগুলো তুমি করতে পারবে না তার একটি তালিকা করো।</p>
+    <textarea placeholder="এখানে তোমার তালিকাটি লেখো... (পরে খাতায় তুলে নিতে পারো)"></textarea>
+    <div class="hint">এটা তোমার নিজের অনুশীলনের জন্য — লেখাটা সংরক্ষণ হয় না, তাই ভালো লাগলে খাতায় টুকে রাখো।</div>
+  </div>
+
+  <div class="book-text">
+    <span class="book-label">বইয়ের ভাষায় · সাগরের একদিন</span>
+    <p>দৈনন্দিন জীবনে আমরা প্রতি মুহূর্তে তথ্য ও যোগাযোগ প্রযুক্তিকে ব্যবহার করি। এ প্রযুক্তি ব্যবহারে আমরা এত অভ্যস্ত হয়ে গেছি যে অনেক সময় বিষয়টা আমরা লক্ষ পর্যন্ত করি না! এটির ব্যবহার কত ব্যাপক সেটা বোঝার জন্যে আমরা কাল্পনিক একজন মানুষের একটা দিনের কথা চিন্তা করি- ধরা যাক, তার নাম সাগর।</p>
+    <p>সাগরের ঘুম ভাঙল এলার্মের শব্দে, সে তার মোবাইল ফোনে ভোর ছয়টার এলার্ম দিয়ে রেখেছিল। ঘুম থেকে ওঠার পর প্রথমেই তার মনে পড়ল আজ ছুটির দিন, তাকে কাজে যেতে হবে না! সাথে সাথে তার মনটা ভালো হয়ে গেল। এলার্মটা বন্ধ করার সময় লক্ষ করল- সেখানে ডেস্ক ক্যালেন্ডার তাকে মনে করিয়ে দিয়েছে, আজ তার বন্ধুর জন্মদিন, বিকেলে তার বাসায় জন্মদিনের উৎসব।</p>
+    <p>হাত-মুখ ধুয়ে নাশতা করতে করতে সে টেলিভিশনে ভোরের খবরটা শুনে নেয়। ধানের বাম্পার ফলন হয়েছে শুনে তার মনটা ভালো হয়ে যায়। আবার বঙ্গোপসাগরে একটা নিম্নচাপ হয়ে ঘূর্ণিঝড়ের আশঙ্কা দেখা দিয়েছে বলে সাগরের খানিকটা দুশ্চিন্তাও হলো।</p>
+    <p>নাশতা করে সাগর তার ল্যাপটপটি নিয়ে বসে, প্রথমেই সে তার ইমেইলগুলো দেখে, তার প্রবাসী ভাই তার পরিবারের একটা ছবি পাঠিয়েছে। ছবিটা ভারি সুন্দর- সাগরের মনে হলো সেটা ঘরে টানিয়ে রাখলে মন্দ হয় না। তাই সে প্রিন্টারে সেটা প্রিন্ট করে নিল।</p>
+    <p>ইমেইলে চিঠিপত্রের উত্তর দিয়ে সে তার প্রিয় কয়েকটা গান বাজাতে শুরু করে দেয়। গান শুনতে শুনতে সে তার ই-বুক রিডারের একটা বই পড়তে শুরু করে। প্রিয় বই পড়তে পড়তে কীভাবে যে সময় কেটে গেল সাগর বুঝতেই পারল না!</p>
+    <p>যখন বইটা শেষ হয়েছে তখন একটু বেলা হয়ে গেছে। হঠাৎ করে তার মনে হলো বাসায় খাবার নেই। বাজার করা হয়নি। সাগরের হঠাৎ মনে হলো ইন্টারনেটে খাবারের অর্ডার দেয়া যায়- তারা বাসায় এসে খাবার পৌঁছে দেয়। সাগর তখনই ইন্টারনেটে তার প্রিয় খাবার বিরিয়ানির অর্ডার দিয়ে দেয়।</p>
+    <p>কিছুক্ষণের মধ্যেই হাসিখুশি এক তরুণ তার বাসায় বিরিয়ানি নিয়ে আসে। সাগর বলল, "আমার বাসাটা খুঁজে পেতে তোমার কি কোনো সমস্যা হয়েছে?" তরুণটি বলল, "একটুও অসুবিধে হয়নি- আমি জিপিএসে আপনার ঠিকানাটা দিয়ে দিয়েছি, সেটা আমাকে কোন পথে আসতে হবে বলে দিয়েছে।"</p>
+    <p>সাগর খেতে খেতে আবার তার কম্পিউটারে পৃথিবীর খবরাখবর নেয়। নিউট্রিনো (Neutrino) নিয়ে বিজ্ঞানের একটা চমকপ্রদ খবর বের হয়েছে। নিউট্রিনো কী- সাগর সেটা জানে না তাই সে উইকিপিডিয়াতে নিউট্রিনো সম্পর্কে চমৎকার একটা লেখা পড়ে নিল। শুধু তাই নয়, নতুন একটা সিনেমা খুব নাম করেছে- সিনেমাটা দেখলে মন্দ হয় না। সাগর তখনই সিনেমাটা ডাউনলোড করতে শুরু করে দেয়, রাতে সে সেটা দেখবে।</p>
+    <p>বিকেলে বন্ধুর বাসায় জন্মদিনের উৎসবে সে যাবে- তাকে কিছু একটা উপহার দেয়া দরকার। বন্ধুটি বই পড়তে খুব ভালোবাসে তাই সাগর ইন্টারনেটে একটা বই অর্ডার দিয়ে দেয়, বন্ধুর বাসায় বইটা পৌঁছে যাবে। সে নিজের জন্যেও একটা বই অর্ডার দিল। ব্যাংকে যথেষ্ট টাকা আছে কি না জানা দরকার। সাগর তখন তার ব্যাংকে খোঁজ নিল, সেভিংস থেকে কিছু টাকা তার চেকিং একাউন্টে নিয়ে আসে।</p>
+    <p>ঘর থেকে বের হওয়ার সময় তার মোবাইল বেজে উঠে- বাড়ি থেকে তার মা ফোন করেছেন। সাগর জিজ্ঞেস করল, "মা ভালো আছ তোমরা?" মা বললেন, "হ্যাঁ ভালোই আছি, তবে তোর বাবার চশমাটা মনে হয় বদলাতে হবে, স্পষ্ট নাকি দেখতে পায় না।" সাগর বলল, "তুমি চিন্তা করো না মা, আমি সামনের সপ্তাহে চলে আসব, বাবাকে চোখের ডাক্তারের কাছে নিয়ে যাব।"</p>
+    <p>মায়ের সাথে কথা শেষ করে সাগর মোবাইল টেলিফোনে তখনই ট্রেনের টিকেট বুক করে দেয়। ভালো চোখের ডাক্তারের খোঁজ নেবার জন্য সে রাতে ই-চিকিৎসা কেন্দ্রে খোঁজ নেবে।</p>
+    <p>বন্ধুর বাসায় জন্মদিনের উৎসবে সবাই মিলে খুব আনন্দ করল, ছোট বাচ্চারা ঘরের এক কোনায় হইচই করে কম্পিউটার গেম খেলছে। রাতে খাবার খেয়ে সাগর বাসায় ফিরে আসে। পরদিন কাজে যেতে হবে তাই সে সকাল সকাল শুয়ে পড়ে। বিছানায় শুয়ে শুয়ে সে শেষ খবরটা শুনে নেয়। উপগ্রহ থেকে ছবি তুলে দেখা গেছে ঘূর্ণিঝড়টা ঘুরে অন্যদিকে চলে গেছে। দেশের কোনো বিপদ নেই। খবরটা শুনে সাগরের মনটা ভালো হয়ে যায়- নিশ্চিন্ত মনে সে ঘুমাতে গেল।</p>
+    <p>তোমরা কি লক্ষ করেছ তথ্য ও যোগাযোগ প্রযুক্তি দিয়ে সাগর সারাটা দিন কত কাজ করেছে? অল্প কিছুদিন আগেও কেউ কি এটা কল্পনা করতে পারতো?</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই গল্পটা একটা তালিকার মতো পড়ো — সাগর একদিনে কতবার প্রযুক্তি ব্যবহার করল, গুনে দেখো:</p>
+      <p>📱 এলার্ম দিয়ে ঘুম থেকে ওঠা → 📺 টিভিতে খবর শোনা → 💻 ইমেইল দেখা ও ছবি প্রিন্ট করা → 🎵 গান শোনা → 📖 ই-বুকে বই পড়া → 🍽️ ইন্টারনেটে খাবার অর্ডার → 🛰️ জিপিএসে ঠিকানা খুঁজে পাওয়া → 🔬 উইকিপিডিয়ায় তথ্য খোঁজা → 🎬 সিনেমা ডাউনলোড → 📚 অনলাইনে বই অর্ডার → 🏦 ব্যাংকিং → 🚆 ট্রেনের টিকেট বুকিং → 🏥 ই-চিকিৎসা কেন্দ্রে খোঁজ নেওয়া।</p>
+      <p>একটা সাধারণ দিনেই এতগুলো কাজ! বোঝাই যাচ্ছে প্রযুক্তি এখন আমাদের জীবনে মিশে গেছে, আলাদা করে বোঝাও যায় না।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>এখানে উল্লেখ করা হয়নি কিন্তু তথ্য ও যোগাযোগ প্রযুক্তি ব্যবহার করে আর কী কী কাজ করা সম্ভব তার একটি তালিকা তৈরি করো।</p>
+    <textarea placeholder="তোমার তালিকা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson12">
+      <button class="chip" data-def="ছোট, হালকা কম্পিউটার যা টেবিলে রেখে ব্যবহার করা হয়, সহজে বহন করা যায় না।">ডেস্কটপ</button>
+      <button class="chip" data-def="ভাঁজ করা যায় এমন কম্পিউটার, ব্যাগে নিয়ে যেকোনো জায়গায় বহন করা যায়।">ল্যাপটপ</button>
+      <button class="chip" data-def="ল্যাপটপের চেয়েও ছোট ও হালকা কম্পিউটার।">নোটবুক</button>
+      <button class="chip" data-def="ফোন কল করা ছাড়াও ইন্টারনেট, ক্যামেরা, গান শোনা ইত্যাদি অনেক কাজ করা যায় এমন বুদ্ধিমান মোবাইল ফোন।">স্মার্টফোন</button>
+      <button class="chip" data-def="Global Positioning System — উপগ্রহের সংকেত ব্যবহার করে পৃথিবীর কোথায় আছি তা বের করার ব্যবস্থা, রাস্তা খুঁজে পেতে সাহায্য করে।">জিপিএস</button>
+      <button class="chip" data-def="বাংলাদেশের নিজস্ব প্রথম স্যাটেলাইট, ১২ই মে ২০১৮ সালে মহাকাশে পাঠানো হয়।">বাংলাদেশ স্যাটেলাইট-১</button>
+      <button class="chip" data-def="বই পড়ার জন্য বিশেষভাবে তৈরি ইলেকট্রনিক যন্ত্র বা অ্যাপ, যেখানে কাগজের বইয়ের মতো পাতা পড়া যায়।">ই-বুক রিডার</button>
+      <button class="chip" data-def="বিশ্বের সবচেয়ে বড় মুক্ত (ফ্রি) বিশ্বকোষ ওয়েবসাইট, যেকোনো বিষয়ে তথ্য পাওয়া যায়।">উইকিপিডিয়া</button>
+      <button class="chip" data-def="ইন্টারনেট থেকে কোনো ফাইল (গান, ছবি, সিনেমা, বই) নিজের কম্পিউটার বা ফোনে নিয়ে আসা।">ডাউনলোড</button>
+      <button class="chip" data-def="ইন্টারনেটের মাধ্যমে ডাক্তারের পরামর্শ নেওয়ার ব্যবস্থা।">ই-চিকিৎসা কেন্দ্র</button>
+      <button class="chip" data-def="এক ধরনের ক্ষুদ্র কণা, যা নিয়ে বিজ্ঞানীরা গবেষণা করেন।">নিউট্রিনো</button>
+    </div>
+    <div class="chip-def" id="def-lesson12"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১-২ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ডেস্কটপ থেকে ল্যাপটপ, ল্যাপটপ থেকে নোটবুক — এই ধারাটার পরের ধাপ কোনটি (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="1188765552">
+        <label class="qoption"><input type="radio" name="q1" value="0">ডেস্কটপ</label>
+        <label class="qoption"><input type="radio" name="q1" value="1">টেলিভিশন</label>
+        <label class="qoption"><input type="radio" name="q1" value="2">স্মার্টফোন</label>
+        <label class="qoption"><input type="radio" name="q1" value="3">প্রিন্টার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. বাংলাদেশ স্যাটেলাইট-১ কবে মহাকাশে পাঠানো হয়?</p>
+      <div class="qoptions" data-hash="3618044307">
+        <label class="qoption"><input type="radio" name="q2" value="0">১২ই মে ২০১৬</label>
+        <label class="qoption"><input type="radio" name="q2" value="1">১২ই মে ২০১৮</label>
+        <label class="qoption"><input type="radio" name="q2" value="2">১২ই জুন ২০১৮</label>
+        <label class="qoption"><input type="radio" name="q2" value="3">২২শে মে ২০১৮</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. নিজস্ব স্যাটেলাইটের অধিকারী দেশগুলোর মধ্যে বাংলাদেশ পৃথিবীর কততম দেশ?</p>
+      <div class="qoptions" data-hash="2180568719">
+        <label class="qoption"><input type="radio" name="q3" value="0">৪৭তম</label>
+        <label class="qoption"><input type="radio" name="q3" value="1">৫০তম</label>
+        <label class="qoption"><input type="radio" name="q3" value="2">৫৭তম</label>
+        <label class="qoption"><input type="radio" name="q3" value="3">৬৭তম</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. সাগর তার প্রবাসী ভাইয়ের পাঠানো ছবিটি নিয়ে প্রথমে কী করল?</p>
+      <div class="qoptions" data-hash="4155101459">
+        <label class="qoption"><input type="radio" name="q4" value="0">ফেসবুকে পোস্ট করল</label>
+        <label class="qoption"><input type="radio" name="q4" value="1">প্রিন্টারে প্রিন্ট করে নিল</label>
+        <label class="qoption"><input type="radio" name="q4" value="2">ডিলিট করে দিল</label>
+        <label class="qoption"><input type="radio" name="q4" value="3">বন্ধুকে পাঠিয়ে দিল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 3-4 ================= -->
+<section class="lesson" id="lesson34">
+  <h2><span class="num">পাঠ ৩-৪</span> কর্মক্ষেত্রে তথ্য ও যোগাযোগ প্রযুক্তি</h2>
+
+  <div class="book-text">
+    <p>তোমরা সবাই জানো শিক্ষার্থীরা স্কুল শেষ করে কলেজে যায়, কলেজ শেষ করে ইউনিভার্সিটিতে পড়তে যায়। আমাদের দেশে অনেকগুলো পাবলিক বিশ্ববিদ্যালয় আছে। উচ্চমাধ্যমিক পড়া শেষ করে শিক্ষার্থীদের পাবলিক বিশ্ববিদ্যালয়ে ভর্তির জন্য আলাদা করে ভর্তি পরীক্ষা দিতে হয়। এক সময় এই ভর্তি পরীক্ষার কাজটি ছিল খুব কঠিন, শিক্ষার্থীদের অনেক দূর থেকে দেশের ছড়িয়ে-ছিটিয়ে থাকা বিশ্ববিদ্যালয়ে বাসে, ট্রেনে, জাহাজে যেতে হতো, লাইনে দাঁড়িয়ে ভর্তির ফর্ম আনতে হতো। সেই ফর্ম পূরণ করে আবার তাদের সেই বিশ্ববিদ্যালয়ে যেতে হতো, ক্যাশ টাকা এবং ফর্ম জমা দিয়ে পরীক্ষার প্রবেশপত্র নিতে হতো, অতঃপর সেই প্রবেশপত্র নিয়ে পরীক্ষা দিতে হতো। পরীক্ষার খাতা দেখা শেষ হলে ফলাফল প্রকাশিত হতো- খবরের কাগজে সেই ফলাফল দেখে যারা সুযোগ পেত, তারা বিশ্ববিদ্যালয়ে ভর্তি হতো।</p>
+    <p>২০০৯ সালে শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয় ঠিক করল তারা পুরো প্রক্রিয়াটি তথ্য প্রযুক্তি দিয়ে শেষ করবে- এবং এই ভর্তি প্রক্রিয়ায় কোথাও কোনো কাগজ ব্যবহার হবে না। ভর্তির রেজিস্ট্রেশনের জন্য কোনো প্রার্থীকে তার ঘর থেকে বের হতে হবে না। ২০০৯ সাল থেকে দেশের প্রায় সব স্কুল, কলেজ, বিশ্ববিদ্যালয়ে ভর্তির সময় এভাবে তথ্য প্রযুক্তি ব্যবহার করা হয়। এখন সবাই নিজের ঘরে বসে শুধু স্মার্ট ফোন ব্যবহার করে এই প্রক্রিয়া শেষ করে ফেলতে পারে। তথ্য ও যোগাযোগ প্রযুক্তি ব্যবহার করার কারণে বিশাল একটি কর্মযজ্ঞ হয়ে গেল পানির মতো সহজ!</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>আগে বিশ্ববিদ্যালয়ে ভর্তি হতে গেলে বাসে চড়ে দূরে যেতে হতো, লাইনে দাঁড়াতে হতো, কাগজ জমা দিতে হতো — অনেক ঝক্কি! এখন ঘরে বসেই মোবাইল ফোন দিয়ে পুরো ভর্তির কাজ সেরে ফেলা যায়। এই পরিবর্তনটাই তথ্যপ্রযুক্তির শক্তি দেখায়।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>কাগজ ব্যবহার না করে অফিসের কাজকর্ম করার এই বিষয়টি আমাদের দেশে মাত্র শুরু হলেও ধারণাটি কিন্তু নতুন নয়। ১৯৭৫ সালে বিজনেস উইক নামের একটা ম্যাগাজিনে প্রথমবার এটি সম্পর্কে একটি প্রবন্ধ ছাপা হয়েছিল কিন্তু তখন সেটি ছিল অনেকটা কল্পবিজ্ঞানের মতো, কারণ এটি বাস্তবে রূপ দিতে হলে অফিসের সবার কাছে একটা কম্পিউটার থাকতে হবে- যেটি তখন কেউ চিন্তাও করতে পারত না।</p>
+    <p>এখন সেটি বাস্তবসম্মত হয়েছে। এখন অনেক অফিস পুরোপুরি কাগজবিহীন অফিসে পাল্টে গেছে। অফিসে কাগজে কিছু লিখতে হয় না- কম্পিউটারে লিখে একজন আরেকজনের কাছে পাঠিয়ে দেয়। কম্পিউটারগুলো নেটওয়ার্ক দিয়ে একটির সাথে আরেকটি যুক্ত হয়ে আছে কাজেই চোখের পলকে সব কাজকর্ম হয়ে যায়। কাগজে কিছু লেখা হয় না বলে কাগজের খরচ বেঁচে যায়। কাগজ তৈরি হয় গাছ থেকে তাই যখন কাগজ বেঁচে যায় তখন গাছও বেঁচে যায়, পরিবেশটা থাকে অনেক সুন্দর। কাগজে লেখার কালি বা টোনার ব্যবহার হয় না বলে রাসায়নিক দ্রব্য দিয়ে পরিবেশও দূষণ হয় না।</p>
+    <p>যত দিন যাচ্ছে কম্পিউটারের মনিটরগুলো বড় হচ্ছে, তাই সেখানে কিছু একটা পড়ার কাজটিও হয়েছে অনেক সহজ। দেখা গেছে নতুন প্রজন্মের তরুণরা আজকাল কাগজে না লিখে কম্পিউটারে লিখতে পছন্দ করে, কাগজে না পড়ে মনিটরে পড়তে স্বাচ্ছন্দ্যবোধ করে। এক সময় ক্যামেরায় ছবি তুলে সেগুলো প্রিন্ট করতে হতো। আজকাল ক্যামেরায় তোলা ছবি প্রিন্ট না করেই মানুষ সরাসরি কম্পিউটারে বা মোবাইলের স্ক্রিনে দেখে নেয়।</p>
+    <p>আমাদের দেশের ব্যাংকগুলোও তথ্য প্রযুক্তি ব্যবহারের মাধ্যমে কাগজবিহীন অফিসে রূপান্তরিত হয়েছে। এর ফলে ব্যাংকিং কার্যক্রম এবং গ্রাহকদের সাথে ব্যাংকের যোগাযোগ থেকে শুরু করে গ্রাহকের সকল কার্যক্রম অনলাইনে সম্পন্ন করা যাচ্ছে। এই সিস্টেমে গ্রাহকগণ তাদের অ্যাকাউন্ট পরিচালনা, তহবিল স্থানান্তর এবং বাহ্যিক কাগজপত্রের প্রয়োজন ছাড়াই যেকোনো বিল পরিশোধ করতে পারে। মোবাইল ফোনে নির্দিষ্ট অ্যাপের সাহায্যে ব্যাংকে লেনদেন, ইউটিলিটি বিল পরিশোধ, কেনাকাটা করা, বাস-ট্রেন ও বিমানের টিকিট কেনাসহ নানারকম সেবা গ্রহণ করা যায়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>কাগজবিহীন অফিস</b> মানে হলো — অফিসে কাগজে না লিখে সব কম্পিউটারে করা। ফায়দা তিনটা: (১) কাগজ বাঁচে মানে গাছ বাঁচে, (২) কাজ দ্রুত হয়, (৩) পরিবেশ দূষণও কমে। যেমন এখন তোমার বাবা-মা মোবাইল অ্যাপ দিয়েই বিদ্যুৎ বিল দিতে পারেন, ব্যাংকে গিয়ে লাইনে দাঁড়াতে হয় না।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>তোমাদের স্কুলের অফিসকে কাগজবিহীন অফিসে রূপান্তর করতে হলে কী কী কাজ করতে হবে তা গুছিয়ে লেখো।</p>
+    <textarea placeholder="তোমার পরিকল্পনা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 21h10M9 17v4M15 17v4"/><circle cx="12" cy="10" r="2.4"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🗳️ ইলেকট্রনিক ভোটিং মেশিন (EVM)</div>
+      <div class="sc-question">এই যন্ত্রটা কি তুমি আগে দেখেছ/চেনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">এটা এমন একটা যন্ত্র যেখানে ভোট দেওয়ার সময় কাগজে সিল না মেরে, বোতাম চেপে ভোট দেওয়া হয়। যন্ত্রটাই নিজে ভোট গুনে ফেলে, তাই ফলাফল দ্রুত পাওয়া যায় আর ভুল হওয়ার সুযোগ কম থাকে।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ (বিতর্ক)</div>
+    <p>তোমাদের ক্লাসে দুটি দল তৈরি করে ইলেকট্রনিক ভোটিং মেশিন ব্যবহার করলে কী সুবিধা এবং কী অসুবিধা সেটি নিয়ে একটি বিতর্কের আয়োজন করো।</p>
+    <textarea placeholder="তোমার দলের যুক্তিগুলো এখানে লিখে রাখতে পারো..."></textarea>
+  </div>
+
+  <div class="book-text">
+    <p>কাগজ ব্যবহার না করে অফিসের কাজকর্ম চালানো যদি তথ্য প্রযুক্তির একটা ধাপ হয় তাহলে তার পরের ধাপটি কী হতে পারে? তোমরা কেউ কেউ নিশ্চয়ই অনুমান করে ফেলেছ- সেটি হবে অফিসে না গিয়েই অফিস করা। আমরা সবকিছুই যদি কম্পিউটার দিয়ে করি, আর সব কম্পিউটারই যদি নেটওয়ার্ক দিয়ে একটার সাথে আরেকটা জুড়ে দেয়া থাকে তাহলে আমি সেই কম্পিউটারটা অফিসে বসে ব্যবহার করছি নাকি বাসায় বসে ব্যবহার করছি তাতে কী আসে যায়? আসলেই কিছু আসে যায় না- আর সেটাই হচ্ছে সম্পূর্ণ নতুন এক ধরনের অফিসের ধারণা। ১৯৮৩ সালে প্রথম এটা নিয়ে আলোচনা হয় আর ১৯৯৪ সালে প্রথম এ ধরনের একটা অফিস শুরু হয়। যারা কাজ করেছে তারা সশরীরে কেউ অফিসে নেই কিন্তু অফিসের কাজ চলছে- এরকম অফিসের নাম হচ্ছে ভার্চুয়াল অফিস।</p>
+    <p>সব অফিসকেই যে ভার্চুয়াল অফিস বানানো যাবে তা নয়- কিন্তু যেগুলো বানানো যাবে- সেখানে অনেক লাভ। প্রথমত তোমাকে অফিসের জন্যে বড় বিল্ডিং করতে হবে না। রাস্তাঘাটের ট্রাফিক জ্যামের সাথে যুদ্ধ করে কাউকে অফিসে আসতে হবে না। বাসায় বসে কাজ করতে পারবে বলে অফিসের কাজের পাশাপাশি বাসার কাজকর্মও করতে পারবে। অফিসে গেলে নির্দিষ্ট সময় পর্যন্ত কাজ করতে হবে- কিন্তু বাসায় বসে কাজ করলে অফিসের সময়ের বাইরেও অনেক কাজ করা সম্ভব। কাজেই ভার্চুয়াল অফিসের কাজকর্ম সাধারণ অফিস থেকেও বেশি হতে পারে।</p>
+    <p>ভার্চুয়াল অফিসের সবচেয়ে চমকপ্রদ সুবিধার কথাটা এখনো বলা হয়নি। সাধারণ অফিসে যারা কাজ করে তাদেরকে অফিসের কাছাকাছি থাকতে হয়। ভার্চুয়াল অফিসে যেহেতু কাউকে সশরীরে থাকতে হয় না তাই তারা যেখানে ইচ্ছা সেখানে থাকতে পারে। কাজেই এক অফিসের একেকজন হয়তো একেক শহরে থাকে। সত্যি কথা বলতে কী, অনেক অফিসেই কিন্তু এভাবে কাজ করে। পৃথিবীটা যেহেতু তার অক্ষের উপর ঘুরে তাই এক পৃষ্ঠে যখন দিন তখন পৃথিবীর অন্য পৃষ্ঠে রাত। দিনের বেলা হয়তো একদল অফিস করে ঘুমাতে গেল, তখন পৃথিবীর অন্য পৃষ্ঠের অন্য দল ঘুম থেকে উঠে কাজ শুরু করে দিলো। যার অর্থ অফিসটা চব্বিশ ঘণ্টা চলছে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>ভার্চুয়াল অফিস</b> মানে — কেউ অফিসে না গিয়ে, বাসায় বসেই অফিসের কাজ করে। যেমন ধরো, তোমার এলাকার কেউ যদি ঢাকার একটা কোম্পানির হয়ে গ্রামে বসেই কম্পিউটারে কাজ করে, ইমেইল পাঠায়, মিটিং করে — এটাই ভার্চুয়াল অফিস। বড় সুবিধা: অফিস বিল্ডিং লাগে না, যানজটে বসে থাকতে হয় না, আর একেকজন একেক শহর/দেশে থেকেও একসাথে কাজ করতে পারে।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>আজকাল কল সেন্টার বলে প্রায়ই একটা কথা শোনা যায়- আমাদের দেশেও অনেক কল সেন্টার আছে। নানা ধরনের কল সেন্টার নানা ধরনের কাজ করে। কোন কোন কল সেন্টারের কর্মীরা নির্দিষ্ট কোন কোম্পানি বা প্রতিষ্ঠানের পক্ষ থেকে গ্রাহক বা সেবা গ্রহীতার নানা জিজ্ঞাসার জবাব দেয় এবং সেবা প্রদান করে। ধরা যাক কেউ একটা কম্পিউটার কিনেছে- সেই কম্পিউটারটা নিয়ে তার একটা সমস্যা হয়েছে তাই সে কম্পিউটারের কোম্পানিতে ফোন করল। সে হয়তো ভাবছে, তার ফোনের উত্তর দিচ্ছে আশপাশের কোনো একজন মানুষ- আসলে সেই ফোনটি হয়তো চলে এসেছে পৃথিবীর অন্য প্রান্তে কোনো একটি কল সেন্টারে। সেখানে যারা আছে তারা এই প্রশ্নের উত্তরটা খুব ভালো করে জানে কারণ তাদের কাছে আগে হয়তো আরো অনেক মানুষ এই প্রশ্নটি করেছে। তাই খুব সহজেই কল সেন্টার থেকে উত্তর দিয়ে সেই মানুষটিকে খুশি করে দিলো।</p>
+    <p>আমাদের দেশের অনেক তরুণ-তরুণী আজকাল অফিসে গিয়ে নির্ধারিত সময় পর্যন্ত কাজ করার চেয়ে তার নিজের ঘরে বসে স্বাধীনভাবে যখন ইচ্ছে কাজ করতে স্বাচ্ছন্দ্যবোধ করে। তাদের কাজের ক্ষেত্রটি তখন আর নিজের শহর কিংবা নিজের দেশের মাঝে আটকে থাকে না, তখন সেটা হয়ে যায় সারা পৃথিবী। তারা শুধু যে কাজ করে আনন্দ পায় তা নয়- অনেক টাকাও উপার্জন করতে পারে। এত কিছুর জন্য তার দরকার শুধু একটা কম্পিউটার আর ইন্টারনেটের সংযোগ। অবশ্যই তার সাথে আরো একটি জিনিস দরকার- সেটা হচ্ছে দক্ষতা।</p>
+    <p>কাজেই তোমরা বুঝতেই পারছ নতুন পৃথিবীতে একসাথে মিলে অনেকে কাজ করতে হলে তাদেরকে আর এক জায়গায় বসে কাজ করতে হয় না। যে বইটা তুমি পড়ছ- তুমি কি জান যারা এই বইটা লিখেছে, সাজিয়েছে; তারা কেউ কখনো একসাথে বসেনি- সবাই নিজের ঘরে বসে কাজ করেছে।</p>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>তোমাদের স্কুলে একটি ভার্চুয়াল ক্লাসরুম তৈরি করতে হলে কী কী করতে হবে সেটি লেখো।</p>
+    <textarea placeholder="তোমার পরিকল্পনা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson34">
+      <button class="chip" data-def="প্রিন্টারে ব্যবহৃত এক ধরনের গুঁড়ো কালি, যা কাগজে ছাপার কাজে লাগে।">টোনার</button>
+      <button class="chip" data-def="কাগজের ব্যালট পেপারের বদলে বোতাম চেপে ভোট দেওয়ার যন্ত্র, যা নিজে থেকেই ভোট গণনা করে।">ইলেকট্রনিক ভোটিং মেশিন</button>
+      <button class="chip" data-def="এমন অফিস যেখানে কর্মীরা সশরীরে না গিয়ে বাসা বা যেকোনো জায়গা থেকে কম্পিউটার-ইন্টারনেট দিয়ে কাজ করে।">ভার্চুয়াল অফিস</button>
+      <button class="chip" data-def="যেখান থেকে ফোনে গ্রাহকদের প্রশ্নের উত্তর দেওয়া হয় ও সেবা দেওয়া হয়, প্রায়ই দূরের কোনো শহর থেকে পরিচালিত হয়।">কল সেন্টার</button>
+      <button class="chip" data-def="এমন অফিস যেখানে কোনো কাগজ ব্যবহার হয় না, সব কাজ কম্পিউটারে হয়।">কাগজবিহীন অফিস</button>
+    </div>
+    <div class="chip-def" id="def-lesson34"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৩-৪ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ২০০৯ সালে সম্পূর্ণ কাগজবিহীন ভর্তি প্রক্রিয়া প্রথম কোন বিশ্ববিদ্যালয় শুরু করে?</p>
+      <div class="qoptions" data-hash="535533111">
+        <label class="qoption"><input type="radio" name="q5" value="0">ঢাকা বিশ্ববিদ্যালয়</label>
+        <label class="qoption"><input type="radio" name="q5" value="1">শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়</label>
+        <label class="qoption"><input type="radio" name="q5" value="2">রাজশাহী বিশ্ববিদ্যালয়</label>
+        <label class="qoption"><input type="radio" name="q5" value="3">জাতীয় বিশ্ববিদ্যালয়</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. "কাগজবিহীন অফিস" ধারণাটি প্রথম কোন সালে ম্যাগাজিনে প্রকাশিত হয়?</p>
+      <div class="qoptions" data-hash="2152810427">
+        <label class="qoption"><input type="radio" name="q6" value="0">১৯৭৫ সাল</label>
+        <label class="qoption"><input type="radio" name="q6" value="1">১৯৮৩ সাল</label>
+        <label class="qoption"><input type="radio" name="q6" value="2">১৯৯৪ সাল</label>
+        <label class="qoption"><input type="radio" name="q6" value="3">২০০৯ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. প্রথম ভার্চুয়াল অফিস কোন সালে শুরু হয়?</p>
+      <div class="qoptions" data-hash="2229895292">
+        <label class="qoption"><input type="radio" name="q7" value="0">১৯৭৫ সাল</label>
+        <label class="qoption"><input type="radio" name="q7" value="1">১৯৮৩ সাল</label>
+        <label class="qoption"><input type="radio" name="q7" value="2">১৯৯৪ সাল</label>
+        <label class="qoption"><input type="radio" name="q7" value="3">২০০০ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 5 ================= -->
+<section class="lesson" id="lesson5">
+  <h2><span class="num">পাঠ ৫</span> কর্মক্ষেত্রে তথ্য ও যোগাযোগ প্রযুক্তি</h2>
+
+  <div class="book-text">
+    <p>তোমরা নিশ্চয়ই জানো বাংলাদেশ এখন বিশাল বিশাল জাহাজ তৈরি করে পৃথিবীর বড় বড় দেশে রপ্তানি করে। আমাদের এত সুন্দর দেশটির ভেতর দিয়ে বিশাল বিশাল নদী গিয়েছে- এই দেশের মানুষ নদী-বিল-সমুদ্রে বড় হয়েছে- কাজেই তারা যে চমৎকার নৌকা আর জাহাজ বানাতে পারবে তাতে অবাক হবার কী আছে!</p>
+    <p>বড় বড় জাহাজ বানাতে হলে বিশাল বিশাল ধাতব টুকরোকে নির্দিষ্ট আকারে কেটে তারপর ওয়েল্ডিং করতে হয়। তোমরা নিশ্চয়ই পথে-ঘাটে দোকানে ওয়েল্ডিং করতে দেখেছ। সেখান থেকে যে তীব্র আলো বের হয় কেউ যদি সোজাসুজি সেদিকে তাকায় তাহলে তার চোখ পাকাপাকিভাবে ক্ষতিগ্রস্ত হয়ে যাবে। যারা ওয়েল্ডিং করে তাদের বিশেষ চশমা পরে কাজ করতে হয়। সেখানে প্রচণ্ড তাপের সৃষ্টি হয়, ধাতব টুকরো ছিটকে ছিটকে পড়ে। কাজটি দেখেই মনে হয় এটি বেশ বিপজ্জনক কাজ। এই বিপজ্জনক কাজটি যদি মানুষকে করতে না হতো, কোনো একটা রোবট করত- তাহলে কেমন হতো?</p>
+    <p>তোমরা শুনে খুশি হবে- এ ধরনের বিপজ্জনক কাজগুলো আসলেই আস্তে আস্তে মানুষ নিজে না করে রোবটদের দায়িত্ব দিয়ে দিচ্ছে। মানুষেরা কাজ করতে করতে ক্লান্ত হয়ে যায়- একঘেয়ে কাজ হলে কাজ করতে ইচ্ছেও করে না। রোবটরা ক্লান্ত হয় না। একঘেয়ে কাজটি নিয়ে তারা কখনো অভিযোগও করে না। তাই পৃথিবীর বড় বড় কলকারখানায় শ্রমিক হিসেবে আর মানুষ নেই। কাজ করে রোবটরা। মানুষেরা বড়জোর দেখে কাজটা ঠিক মতো হচ্ছে কি না।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>ওয়েল্ডিং (দুই টুকরো ধাতু জোড়া লাগানোর কাজ) খুবই বিপজ্জনক আর ক্লান্তিকর — চোখ ঝলসে যেতে পারে, গরম ছিটকে পড়ে। মানুষ এই কাজ করতে করতে ক্লান্ত হয়ে যায়, ভুল করে ফেলতে পারে। কিন্তু <b>রোবট</b> কখনো ক্লান্ত হয় না, অভিযোগও করে না — তাই বিপজ্জনক কাজগুলো এখন রোবটকে দিয়ে করানো হয়।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="9" rx="2"/><circle cx="9" cy="14.5" r="1.4"/><circle cx="15" cy="14.5" r="1.4"/><path d="M12 10V6M9 6h6M6 13H3M21 13h-3"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🚁 পাইলটবিহীন ড্রোন</div>
+      <div class="sc-question">এই যন্ত্রটা কি তুমি আগে দেখেছ/চেনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">ড্রোন হলো এমন একটা উড়ন্ত যন্ত্র যাতে কোনো পাইলট (চালক) থাকে না — এটা রিমোট কন্ট্রোল বা কম্পিউটারের মাধ্যমে আকাশে ওড়ে, ছবি তোলে ও ভিডিও করে। অনেকটা রিমোট-চালিত খেলনা হেলিকপ্টারের মতো, কিন্তু অনেক বেশি উন্নত।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <p>একঘেয়ে বিপজ্জনক কাজগুলো মানুষ থেকে রোবটেরা অনেক ভালোভাবে করতে পারে। কাজেই যত দিন যাচ্ছে ততই এই কাজগুলো মানুষের বদলে মেশিনেরা করছে- তথ্য প্রযুক্তি ব্যবহার করে।</p>
+    <p>আমাদের পথে-ঘাটে প্রতিদিন অনেক দুর্ঘটনা হয় আশা করা যায় আগামী কয়েক বছরের মধ্যে উচ্চ প্রযুক্তির কৃত্রিম বুদ্ধিমত্তা-নির্ভর গাড়ি আমাদের শহরের রাস্তায় চলবে এবং প্রযুক্তি-নির্ভর ট্রাফিক ব্যবস্থাপনায় তাতে দুর্ঘটনাও কমে আসবে। বিশাল বিশাল প্লেন যখন আকাশে উড়ে তখন পাইলটদের কিছু করতে হয় না- কম্পিউটারই সবকিছু করে। যুদ্ধবিমানে আজকাল পাইলট থাকেই না, পাইলটবিহীন ড্রোনগুলো যে প্রতিদিন ছবি তুলছে এবং ভিডিয়ো করছে তা আমরা সবাই জানি।</p>
+    <p>আমাদের কাজের ক্ষেত্রে তথ্য প্রযুক্তি কেমন করে ব্যবহার হয় তার তালিকা করতে গেলে সেটি শেষ হবে বলে মনে হয় না। দাপ্তরিক চিঠিপত্র যোগাযোগের কথা তো আগেই বলা হয়েছে-অফিসের মিটিংগুলোও আজকাল অন্যভাবে হয়। বিভিন্ন অফিসের বিভিন্ন মানুষ আলাদাভাবে বসে একসাথে কনফারেন্স করে। আমাদের দেশেই অনেক বিশ্ববিদ্যালয়ে ই-ক্লাসরুম তৈরি হচ্ছে, একজন শিক্ষক তার ক্লাসরুমে পড়াবেন, সারা দেশের অসংখ্য মানুষ তার কাছে পড়বে। অফিস ব্যবস্থাপনা তথ্য প্রযুক্তি ছাড়া কল্পনাই করা যায় না। আগে অফিসে বড় বড় ফাইল একরুম থেকে অন্য রুমে যেতে দিন পার হয়ে যেত- নতুন ইলেকট্রনিক ফাইল চোখের পলকে এক অফিস থেকে অন্য অফিস চলে যায়। অফিসের সবচেয়ে গুরুত্বপূর্ণ কাজগুলো হয় টাকাপয়সা বা একাউন্টিং সংক্রান্ত, তথ্য প্রযুক্তির কারণে সেই কাজগুলো এখন সহজ হয়েছে- বড় বড় লেজার খাতায় মাথা গুঁজে কিছু লিখতে হয় না, কম্পিউটার মুহূর্তের মধ্যে সবকিছু করে ফেলে।</p>
+    <p>মানুষের কাজের জায়গায় সব সময়ই কাউকে না কাউকে কিছু বলতে হয়, বোঝাতে হয়, আলোচনা করতে হয়। এসব কাজের জন্য এত চমৎকার ব্যবস্থা বের হয়েছে, এত সুন্দর করে সবকিছু করে ফেলা যায় যে মাঝে মাঝে মনে হয় আগে এই কাজগুলো কেমন করে করা হতো?</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশটায় তিনটা মূল উদাহরণ মনে রাখলেই হবে: <b>(১) ড্রাইভারবিহীন/স্বয়ংক্রিয় গাড়ি</b> — কম্পিউটার নিজেই গাড়ি চালায়, <b>(২) পাইলটবিহীন প্লেন/ড্রোন</b> — কম্পিউটার আকাশে ওড়ায়, <b>(৩) ই-ক্লাসরুম</b> — একজন শিক্ষক একসাথে সারা দেশের ছাত্রছাত্রীকে পড়াতে পারেন, ইন্টারনেটের মাধ্যমে।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>রোবট দিয়ে করাতে চাও এমন কতগুলো কাজের তালিকা তৈরি করো।</p>
+    <textarea placeholder="তোমার তালিকা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson5">
+      <button class="chip" data-def="মানুষের মতো কাজ করতে পারে এমন যন্ত্র, যা প্রোগ্রাম করে নির্দিষ্ট কাজ করানো যায়। ক্লান্ত হয় না, একঘেয়ে-বিপজ্জনক কাজে ব্যবহৃত হয়।">রোবট</button>
+      <button class="chip" data-def="উড়োজাহাজের মতো যন্ত্র, যাতে ভেতরে কোনো চালক (পাইলট) থাকে না — রিমোট বা কম্পিউটার দিয়ে চালানো হয়।">পাইলটবিহীন ড্রোন</button>
+      <button class="chip" data-def="ইন্টারনেটের মাধ্যমে চালানো ক্লাসরুম, যেখানে একজন শিক্ষক দূর থেকে অনেক শিক্ষার্থীকে পড়াতে পারেন।">ই-ক্লাসরুম</button>
+    </div>
+    <div class="chip-def" id="def-lesson5"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৫ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. বইয়ে বলা হয়েছে বিপজ্জনক ও একঘেয়ে কাজগুলো মানুষের বদলে কারা করছে?</p>
+      <div class="qoptions" data-hash="1213695392">
+        <label class="qoption"><input type="radio" name="q8" value="0">শিশুরা</label>
+        <label class="qoption"><input type="radio" name="q8" value="1">পশুরা</label>
+        <label class="qoption"><input type="radio" name="q8" value="2">রোবটেরা</label>
+        <label class="qoption"><input type="radio" name="q8" value="3">গ্রামের মানুষেরা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. যুদ্ধবিমানে আজকাল কী থাকে না বলে বইয়ে উল্লেখ করা হয়েছে?</p>
+      <div class="qoptions" data-hash="3160488101">
+        <label class="qoption"><input type="radio" name="q9" value="0">ইঞ্জিন</label>
+        <label class="qoption"><input type="radio" name="q9" value="1">পাইলট</label>
+        <label class="qoption"><input type="radio" name="q9" value="2">ক্যামেরা</label>
+        <label class="qoption"><input type="radio" name="q9" value="3">জ্বালানি</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ই-ক্লাসরুমের মূল সুবিধা কী?</p>
+      <div class="qoptions" data-hash="1257513118">
+        <label class="qoption"><input type="radio" name="q10" value="0">পরীক্ষা লাগে না</label>
+        <label class="qoption"><input type="radio" name="q10" value="1">একজন শিক্ষক সারা দেশের অনেক শিক্ষার্থীকে একসাথে পড়াতে পারেন</label>
+        <label class="qoption"><input type="radio" name="q10" value="2">বই লাগে না</label>
+        <label class="qoption"><input type="radio" name="q10" value="3">স্কুলে যেতে হয়</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 6-7 ================= -->
+<section class="lesson" id="lesson67">
+  <h2><span class="num">পাঠ ৬-৭</span> সমাজ জীবনে তথ্য ও যোগাযোগ প্রযুক্তি</h2>
+
+  <div class="book-text">
+    <h4>সামাজিক সম্পর্ক উন্নয়নে আইসিটি</h4>
+    <p>আমরা সবাই সমাজে থাকি। তুমি, তোমার বন্ধুরা হয়তো কোনো গ্রাম বা শহরে থাকো। তোমাদের মধ্যে কেউ কেউ হয়তো স্কুলের হোস্টেলে থাকে। বাবা, মা, দাদা, দাদি, আত্মীয়স্বজন, বন্ধুবান্ধব – সবাইকে নিয়ে আমাদের সমাজ। এখানে কেউ চাকরি করে, কেউ ব্যবসা করে, কেউ শিক্ষার্থী, কেউবা বাড়িতে গৃহস্থালীর কাজ করে। পারস্পরিক সম্পর্ক আর দেওয়া-নেওয়ার মধ্য দিয়ে একটি সমাজ এগিয়ে চলে। সমাজের নানা প্রয়োজনে আমরা নানান ধরনের হাতিয়ার ব্যবহার করি। এক সময় যোগাযোগ বলতে এক গ্রাম থেকে অন্য গ্রামে যেতে হতো খবর দিতে। পরে দেখা গেল ঢোল বাজিয়েও খবর দেওয়া যায়। মানুষ যখন লিখতে শিখল তখন সে চিঠি লিখে মনের ভাব আর খবর পাঠাতে শুরু করল। গড়ে উঠল ডাক বিভাগ, এক জায়গা থেকে আরেক জায়গায় চিঠি পৌঁছে দেওয়ার ব্যবস্থা। টেলিগ্রাফ আর টেলিফোনের আবিষ্কার এই বিষয়গুলোকে আরও সহজ করে ফেললো।</p>
+    <p>আর এখন তথ্য ও যোগাযোগ প্রযুক্তি (আইসিটি) সামাজিক চাহিদা পূরণের ব্যাপারগুলোকে নিয়ে এসেছে হাতের মুঠোয়। আইসিটির প্রচলিত হাতিয়ারগুলোর পাশাপাশি এখন ইন্টারনেটে সামাজিক যোগাযোগের অনেক জনপ্রিয় ওয়েবসাইট তৈরি হয়েছে যা এই সামাজিক কর্মকাণ্ড সহজভাবে করার সুযোগ করে দিচ্ছে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>যোগাযোগের ইতিহাসটা মনে রাখো এভাবে: <b>গ্রামে গিয়ে খবর দেওয়া → ঢোল বাজানো → চিঠি/ডাক বিভাগ → টেলিগ্রাফ ও টেলিফোন → এখন ইন্টারনেট ও সামাজিক যোগাযোগ মাধ্যম।</b> প্রতিটা ধাপে যোগাযোগ আরও দ্রুত ও সহজ হয়েছে।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <h4>ক. অনুষ্ঠানাদিতে আমন্ত্রণ</h4>
+    <p>এক সময় কেবল কাগজের আমন্ত্রণপত্র এবং টেলিফোনেই কোনো সামাজিক অনুষ্ঠানের জন্য দাওয়াত দেওয়া যেত। এখন এগুলোর পাশাপাশি ইমেইল বা মুঠোফোনের খুদেবার্তায় (এসএমএস) দাওয়াত দেওয়া যায়। ইমেইল বা খুদেবার্তার সুবিধা হলো- তা যার কাছে পাঠানো হচ্ছে ঠিক সে সময়েই তাকে ফোন ব্যবহার করতে হয় না, তার সুবিধামতো সময়ে সে দেখে নিতে পারে।</p>
+
+    <h4>খ. বিশেষ দিবসসমূহে শুভেচ্ছা বার্তা</h4>
+    <p>তুমি তোমার বন্ধুদের জন্মদিন, ঈদ বা পূজার সময় শুভেচ্ছা বার্তা পাঠাতে চাও। যেসব বন্ধু তোমার আশপাশে থাকে তাদের কাছে তুমি তোমার হাতে বানানো কার্ড দিতে পারো। কিন্তু যারা ভিন্ন দেশে বা ভিন্ন দূরত্বে থাকে? তাদের কাছেও কার্ড পাঠানো যায় ডাকযোগে তবে এখন সবাই পাঠায় ইকার্ড। ইকার্ড দুইভাবে পাঠানো যায়। একটি হলো তুমি নিজে কম্পিউটারে ইকার্ড তৈরি করে সেটি ইমেইলে পাঠাতে পারো। আবার ইন্টারনেটে অনেক ইকার্ডের সাইট আছে যেখান থেকে তোমার পছন্দের ইকার্ডটি প্রিয়জনের কাছে পাঠিয়ে দিতে পারো। এজন্য সাধারণত কোনো টাকাপয়সা খরচ হয় না। তোমার বন্ধু বা প্রিয়জন তাদের ইন্টারনেটের মাধ্যমে তোমার কার্ড পেয়ে যায়। আবার শুভেচ্ছা জানানোতে মুঠোফোনের খুদেবার্তা এখন অনেক জনপ্রিয়। এর মাধ্যমে খুব সহজে প্রিয়জনের কাছে শুভেচ্ছা, উদ্বেগ বা উৎকণ্ঠা পৌঁছে দেওয়া যায়। এখন বিভিন্ন এফএম রেডিওতে পছন্দের গান বাজিয়েও প্রিয় বন্ধুকে শুভেচ্ছা জানানোর রেওয়াজ চালু হয়েছে। এসএমএস-এর মাধ্যমে শ্রবণ প্রতিবন্ধীরাও ভাববিনিময় করতে পারে। একইভাবে কথাবলা সফটওয়্যার এর মাধ্যমে দৃষ্টিপ্রতিবন্ধীরাও কম্পিউটার বা মোবাইল ফোন ব্যবহার করতে পারে। এসবের মাধ্যমে সামাজিক বন্ধনগুলো দৃঢ় হয়।</p>
+
+    <h4>গ. স্মৃতি সংরক্ষণ ও বিনিময়</h4>
+    <p>অনেকদিন আগে থেকে জীবনের রঙিন ও গুরুত্বপূর্ণ ঘটনাবলির ছবি তুলে রাখা এবং তা সবার সঙ্গে বিনিময় (শেয়ার) করার একটি সংস্কৃতি রয়েছে। যাদের সামর্থ্য আছে তারা তাদের অনুষ্ঠানটি ভিডিয়ো ক্যামেরায় ধারণ করে রাখে। বর্তমানে এমন মোবাইল ফোন সহজলভ্য হয়েছে যেখানে ক্যামেরা এবং ভিডিও ক্যামেরা রয়েছে। যার ফলে জীবনের যে কোনো মুহূর্ত আগামী দিনের জন্য সংরক্ষণ করে রাখা সম্ভব হচ্ছে। এছাড়া এ ধরনের ডিজিটাল ছবি ইচ্ছে করলেই প্রিয়জনের কাছে পাঠিয়ে দেওয়া যায়। ইন্টারনেটে এখন বিভিন্ন সাইট রয়েছে যেখানে তুমি ছবি আপলোড করে তা অন্যদের জানাতে পারবে। এরকম সাইটগুলোর মধ্যে গুগল ফটোস (photos.google.com) এবং ইয়াহু ফ্লিকার এখন সবচেয়ে বেশি জনপ্রিয়। কেবল ছবি নয়, ইচ্ছে করলে তুমি তোমার তোলা ভিডিয়ো সারাবিশ্বের সামনে তুলে ধরতে পারো ভিডিয়ো শেয়ারিং সাইটের মাধ্যমে। এরকম সাইটগুলোর মধ্যে ইউটিউব (www.youtube.com) অধিক জনপ্রিয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশে তিনটা কাজের কথা বলা হয়েছে যা তুমি ইন্টারনেটে করতে পারো: <b>(ক) দাওয়াত দেওয়া</b> (এসএমএস/ইমেইলে), <b>(খ) শুভেচ্ছা জানানো</b> (ইকার্ড/এসএমএস দিয়ে), <b>(গ) ছবি-ভিডিও রাখা ও শেয়ার করা</b> (গুগল ফটোজ, ইউটিউবের মতো সাইটে)। মনে রাখার সহজ উপায়: "দাওয়াত, শুভেচ্ছা, স্মৃতি" — এই তিনটা!</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>তোমাদের ক্লাসের কোনো একটি অনুষ্ঠানের জন্যে এসএমএস ব্যবহার করে অতিথিদের আমন্ত্রণ জানাও।</p>
+    <textarea placeholder="তোমার এসএমএস-এর খসড়া এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson67a">
+      <button class="chip" data-def="মোবাইল ফোনে পাঠানো ছোট্ট লেখা বার্তা (এসএমএস)।">খুদে বার্তা</button>
+      <button class="chip" data-def="কম্পিউটারে তৈরি করা বা ইন্টারনেট থেকে পাঠানো ডিজিটাল শুভেচ্ছা কার্ড, যা কাগজের কার্ডের বদলে ব্যবহার হয়।">ইকার্ড</button>
+      <button class="chip" data-def="ইন্টারনেটে ভিডিও আপলোড করে সবার সাথে শেয়ার করার ওয়েবসাইট, যেমন ইউটিউব।">ভিডিয়ো শেয়ারিং সাইট</button>
+    </div>
+    <div class="chip-def" id="def-lesson67a"></div>
+  </div>
+
+  <div class="book-text">
+    <h4>সামাজিক যোগাযোগের সাইট</h4>
+    <p>তথ্য ও যোগাযোগ প্রযুক্তি আমাদের সামাজিক যোগাযোগকে দ্রুত, আকর্ষণীয়, এবং কার্যকরী করে তুলেছে। শুধু তাই নয়, এর বাইরেও নানানভাবে আমাদের সামাজিক ব্যাপারগুলো ইন্টারনেটে উঠে এসেছে। আগের পাঠে বলা হয়েছে তোমার বন্ধুকে কোনো কিছু জানাতে হলে খুদেবার্তা বা ইমেইল পাঠানোর কাজটি কিন্তু তোমাকে করতে হবে। কিন্তু যদি এমন হয় যে, তুমি যা কিছু করছো তাই তোমার বন্ধুরা জেনে যাচ্ছে, আলাদা করে তোমার কিছুই করতে হচ্ছে না তাহলে কেমন হয়? নিশ্চয়ই খুবই ভালো হয়। এই চিন্তা থেকে এখন ইন্টারনেটে গড়ে উঠেছে বেশকিছু সামাজিক যোগাযোগের সম্পূর্ণ সাইট। নিজের ভালোলাগা মন্দলাগা, অনুষ্ঠানাদি, চাকরিতে প্রমোশন, সন্তানাদির বিয়ে ইত্যাদি নানা বিষয়ের তথ্য, ছবি কিংবা ভিডিয়ো বিনিময় করা যায় এগুলোর যে কোনো একটি থেকে। বর্তমানে প্রায় শতাধিক এরকম ওয়েবসাইট রয়েছে। এগুলোর মধ্যে ফেসবুক (www.facebook.com), লিংকডইন (linkedin.com), এক্স (www.x.com), খুবই জনপ্রিয়। পৃথিবীর প্রায় সকল ভাষাভাষী লোক এই সাইটগুলো ব্যবহার করে।</p>
+    <p>এদের মধ্যে সবচেয়ে বেশি ব্যবহৃত হয় ফেসবুক। পৃথিবীর কোটি কোটি লোক এখন ফেসবুক ব্যবহারকারী। বাংলাদেশেও ফেসবুক ব্যবহারকারীর সংখ্যা বাড়ছে। ফেসবুক বা অনুরূপ সাইটগুলোতে প্রত্যেক ব্যবহারকারী তার পরিচিতিমূলক একটি বিশেষায়িত ওয়েবপেইজ চালু করতে পারেন। এটিকে বলা হয় ব্যবহারকারীর প্রোফাইল। ব্যবহারকারী তার নিজের সম্পর্কে বিভিন্ন তথ্য, তার ভালোলাগা, ভালো না লাগা ইত্যাদি বিষয়গুলো তার প্রোফাইলে প্রকাশ করে। এরপর একজন তার প্রোফাইল থেকে ফেসবুকে তার বন্ধুদের খুঁজে বের করে। এখানে বন্ধু বলতে আমরা প্রচলিতভাবে যেটা বোঝাই সেটা বোঝানো হচ্ছে না, ফেসবুক অনুযায়ী একজন মানুষের সঙ্গে অন্য যত মানুষের যোগাযোগ থাকবে তারা সবাই হচ্ছে তার 'বন্ধু'। যদি তোমার বন্ধুটিরও ফেসবুকে প্রোফাইল থাকে তাহলে তুমি তাকে খুঁজে নিয়ে বন্ধু হওয়ার জন্য অনুরোধ পাঠাতে পারো। যদি সে সম্মতি দেয় তাহলে তোমরা বন্ধু হয়ে যাবে। একইভাবে অন্য কেউ যদি তোমাকে বন্ধু হওয়ার অনুরোধ করে আর তা তুমি গ্রহণ করো তাহলে তুমিও তার বন্ধু হবে। তুমি আর তোমার বন্ধুরা মিলে হবে তোমার 'নেটওয়ার্ক' বা তোমার 'সামাজিক নেটওয়ার্ক' বা সোশ্যাল নেটওয়ার্ক (Social Network)।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>প্রোফাইল</b> মানে তোমার নিজের পরিচয়ের পাতা — নাম, ছবি, পছন্দ-অপছন্দ। ফেসবুকে "বন্ধু" মানে শুধু ঘনিষ্ঠ বন্ধু না — যার সাথে তুমি যোগাযোগ রাখো (অনুরোধ পাঠিয়ে-গ্রহণ করে) সে-ই তোমার ফেসবুক-বন্ধু। তোমার সব বন্ধু মিলে হয় তোমার <b>সামাজিক নেটওয়ার্ক</b>।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="2.5"/><circle cx="17" cy="8" r="2.5"/><circle cx="12" cy="17" r="2.5"/><path d="M8.8 9.6L10.5 15M15.2 9.6L13.5 15M9.3 8h5.4"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🌐 সামাজিক নেটওয়ার্ক / প্রোফাইল / স্ট্যাটাস</div>
+      <div class="sc-question">এই শব্দগুলো কি তুমি আগে শুনেছ (যেমন ফেসবুকে)?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">তুমি যদি কখনো তোমার পরিবারের কারো ফোনে ফেসবুক দেখে থাকো — সেখানে একটা "নাম ও ছবির পাতা" থাকে, সেটাই প্রোফাইল। কেউ যখন লেখে "আজ আমার মন ভালো নেই" — সেটাই স্ট্যাটাস। আর যাদের সাথে সেই মানুষটা যুক্ত (বন্ধু), সবাই মিলে তার সামাজিক নেটওয়ার্ক।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <p>এখন তোমার নেটওয়ার্ক আস্তে আস্তে বড় হতে থাকবে। তোমার প্রাইমারি স্কুলের যে বন্ধুটির সাথে তোমার দীর্ঘদিন দেখা হয় না, যে কিনা এখন হয়তো অস্ট্রেলিয়াতে থাকে, তাকেও তুমি এখানে খুঁজে পেতে পারো। তুমি যখনই তোমার প্রোফাইলে কোনো তথ্য প্রকাশ করবে সঙ্গে সঙ্গে তা তোমার বন্ধুদের পেজের একটি বিশেষ জায়গায় ভেসে উঠবে। তুমি তোমার মনের ভাব প্রকাশ করতে পারবে যা ফেসবুকে 'স্ট্যাটাস' নামে পরিচিত। এক্স-এ এটাকে বলা হয় পোস্ট।</p>
+    <p>তুমি যদি কোনো ছবি প্রকাশ করো, যদি কোনো ভিডিও সবাইকে দেখাতে চাও তাহলে তা তোমার প্রোফাইলে প্রকাশ করলেই তা তোমার নেটওয়ার্কের সবাই দেখতে পাবে। শুধু তাই নয়, তোমার বন্ধুদের সবাইকে ফেসবুক মনে করিয়ে দেবে তোমার জন্মদিন কবে! সবাই তখন তোমাকে শুভেচ্ছা জানাতে পারবে। কেবল তোমার ব্যক্তিগত সুখ-দুঃখ নয়। এখন এই সামাজিক যোগাযোগের সাইটগুলোর মাধ্যমে পণ্যের বিজ্ঞাপন, কাজের খবর এমনকি সামাজিক আন্দোলন সংগঠিত করার কাজও হচ্ছে।</p>
+    <p>বাংলাদেশে ২০২৪ সালের জুলাই-আগস্ট মাসে কোটা সংস্কার আন্দোলন ও গণঅভ্যুত্থানে সামাজিক যোগাযোগ মাধ্যম --- ফেসবুক, ইউটিউব, এক্স ও টেলিগ্রাম ইত্যাদি দেশব্যাপী আন্দোলনকারীদের মধ্যে যোগাযোগ ও জনমত গঠনে গুরুত্বপূর্ণ ভূমিকা পালন করে। প্রথাগত মিডিয়াগুলো যখন ফ্যাসিস্ট সরকার দ্বারা নিয়ন্ত্রিত হয়ে সঠিক সংবাদ প্রচারে ব্যর্থ হয়, তখন সামাজিক যোগাযোগ মাধ্যম হয়ে উঠেছিল নির্ভরযোগ্য সংবাদ পাওয়ার মাধ্যম। ১৬ জুলাই বেগম রোকেয়া বিশ্ববিদ্যালয়ের ছাত্র আবু সাঈদ পুলিশের গুলিতে নিহত হওয়ার ছবি ও ভিডিয়ো সামাজিক যোগাযোগ মাধ্যমে ছড়িয়ে পড়লে দেশব্যাপী ক্ষোভ তৈরি হয়। ফলে কোটা সংস্কার আন্দোলন সব স্কুল, কলেজ, মাদরাসা ও বিশ্ববিদ্যালয়ে ছড়িয়ে পড়ে। আওয়ামী লীগ সরকারের নৃশংস দমন-পীড়নের ছবি ও ভিডিয়ো সামাজিক যোগাযোগ মাধ্যমে ছড়িয়ে পড়লে সর্বস্তরের জনগণ রাস্তায় নেমে আসে। অবশেষে হাজারো শহীদের রক্তের বিনিময়ে ৫ আগস্ট পতন হয় শেখ হাসিনার। যাত্রা হয় এক নতুন বাংলাদেশের।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশটা বলছে সামাজিক যোগাযোগ মাধ্যম শুধু আনন্দ-বিনোদনের জন্য না — এটা <b>দেশের বড় বড় ঘটনায়ও</b> ভূমিকা রাখতে পারে। ২০২৪ সালের জুলাই-আগস্টে বাংলাদেশে যে ছাত্র আন্দোলন হয়েছিল, তাতে ফেসবুক-ইউটিউবের মতো মাধ্যমগুলো মানুষের কাছে সত্যি খবর পৌঁছাতে ও সবাইকে একসাথে জড়ো করতে সাহায্য করেছিল।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>ফেসবুকের মতো একটি সামাজিক নেটওয়ার্ক ব্যবহার করে নতুন কী করা যায় সেটি লেখো।</p>
+    <textarea placeholder="তোমার আইডিয়াগুলো এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson67b">
+      <button class="chip" data-def="সামাজিক যোগাযোগের সাইটে ব্যবহারকারীর নিজের পরিচিতিমূলক পাতা — নাম, ছবি, তথ্য থাকে এখানে।">প্রোফাইল</button>
+      <button class="chip" data-def="একজন ব্যবহারকারী ও তার সাথে যুক্ত সব বন্ধুদের সমষ্টি।">সামাজিক নেটওয়ার্ক</button>
+      <button class="chip" data-def="ফেসবুকে নিজের মনের ভাব প্রকাশ করার লেখা/পোস্ট, যা বন্ধুরা দেখতে পায়।">স্ট্যাটাস</button>
+    </div>
+    <div class="chip-def" id="def-lesson67b"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৬-৭ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ছবি সংরক্ষণ ও বিনিময়ের জন্য বইয়ে উল্লেখিত সবচেয়ে জনপ্রিয় দুটি সাইট কোনটি?</p>
+      <div class="qoptions" data-hash="2146147036">
+        <label class="qoption"><input type="radio" name="q11" value="0">ফেসবুক ও এক্স</label>
+        <label class="qoption"><input type="radio" name="q11" value="1">গুগল ফটোস ও ইয়াহু ফ্লিকার</label>
+        <label class="qoption"><input type="radio" name="q11" value="2">ইউটিউব ও লিংকডইন</label>
+        <label class="qoption"><input type="radio" name="q11" value="3">টেলিগ্রাম ও হোয়াটসঅ্যাপ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. ফেসবুকে মনের ভাব প্রকাশ করাকে কী বলা হয়?</p>
+      <div class="qoptions" data-hash="3114598168">
+        <label class="qoption"><input type="radio" name="q12" value="0">প্রোফাইল</label>
+        <label class="qoption"><input type="radio" name="q12" value="1">পোস্ট</label>
+        <label class="qoption"><input type="radio" name="q12" value="2">স্ট্যাটাস</label>
+        <label class="qoption"><input type="radio" name="q12" value="3">নেটওয়ার্ক</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ২০২৪ সালের জুলাই-আগস্ট আন্দোলনে কোন বিশ্ববিদ্যালয়ের ছাত্র আবু সাঈদ পুলিশের গুলিতে নিহত হন?</p>
+      <div class="qoptions" data-hash="3266691359">
+        <label class="qoption"><input type="radio" name="q13" value="0">ঢাকা বিশ্ববিদ্যালয়</label>
+        <label class="qoption"><input type="radio" name="q13" value="1">বেগম রোকেয়া বিশ্ববিদ্যালয়</label>
+        <label class="qoption"><input type="radio" name="q13" value="2">রাজশাহী বিশ্ববিদ্যালয়</label>
+        <label class="qoption"><input type="radio" name="q13" value="3">শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. শেখ হাসিনার পতন কত তারিখে হয়?</p>
+      <div class="qoptions" data-hash="493599505">
+        <label class="qoption"><input type="radio" name="q14" value="0">৫ আগস্ট ২০২৪</label>
+        <label class="qoption"><input type="radio" name="q14" value="1">১৬ জুলাই ২০২৪</label>
+        <label class="qoption"><input type="radio" name="q14" value="2">১ আগস্ট ২০২৪</label>
+        <label class="qoption"><input type="radio" name="q14" value="3">৫ জুলাই ২০২৪</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= FINAL QUIZ ================= -->
+<section class="lesson" id="finalquiz">
+  <h2><span class="num">📝</span> অধ্যায় ১ · সম্পূর্ণ পরীক্ষা</h2>
+  <p class="lesson-intro-note">পুরো অধ্যায় থেকে মিলিয়ে কয়েকটা প্রশ্ন — নিজেকে যাচাই করে দেখো কতটা মনে রাখতে পেরেছ।</p>
+  <div class="quiz">
+    <div class="qitem">
+      <p class="qtext">১. তথ্য ও যোগাযোগ প্রযুক্তির ইংরেজি সংক্ষিপ্ত রূপ কী?</p>
+      <div class="qoptions" data-hash="193458789">
+        <label class="qoption"><input type="radio" name="fq1" value="0">ITC</label>
+        <label class="qoption"><input type="radio" name="fq1" value="1">ICT</label>
+        <label class="qoption"><input type="radio" name="fq1" value="2">CIT</label>
+        <label class="qoption"><input type="radio" name="fq1" value="3">TIC</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. কোনটি ভার্চুয়াল অফিসের সুবিধা নয়?</p>
+      <div class="qoptions" data-hash="2188625124">
+        <label class="qoption"><input type="radio" name="fq2" value="0">বড় বিল্ডিং লাগে না</label>
+        <label class="qoption"><input type="radio" name="fq2" value="1">যানজটে বসে থাকতে হয় না</label>
+        <label class="qoption"><input type="radio" name="fq2" value="2">যেকোনো শহরে থেকে কাজ করা যায়</label>
+        <label class="qoption"><input type="radio" name="fq2" value="3">সশরীরে অফিসে উপস্থিত থাকা বাধ্যতামূলক</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. জিপিএস কোন ধরনের যন্ত্র থেকে সংকেত নেয়?</p>
+      <div class="qoptions" data-hash="1068527396">
+        <label class="qoption"><input type="radio" name="fq3" value="0">মোবাইল টাওয়ার</label>
+        <label class="qoption"><input type="radio" name="fq3" value="1">রাডার</label>
+        <label class="qoption"><input type="radio" name="fq3" value="2">উপগ্রহ (স্যাটেলাইট)</label>
+        <label class="qoption"><input type="radio" name="fq3" value="3">ওয়াইফাই রাউটার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. কাগজবিহীন অফিসের একটি সরাসরি সুবিধা কী?</p>
+      <div class="qoptions" data-hash="2963314756">
+        <label class="qoption"><input type="radio" name="fq4" value="0">কর্মীর সংখ্যা বাড়ে</label>
+        <label class="qoption"><input type="radio" name="fq4" value="1">গাছ ও পরিবেশ রক্ষা পায়</label>
+        <label class="qoption"><input type="radio" name="fq4" value="2">বেতন বেড়ে যায়</label>
+        <label class="qoption"><input type="radio" name="fq4" value="3">ইন্টারনেট লাগে না</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৫. রোবট মানুষের চেয়ে কোন ধরনের কাজে বেশি উপযোগী (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="2171650106">
+        <label class="qoption"><input type="radio" name="fq5" value="0">বিপজ্জনক ও একঘেয়ে কাজে</label>
+        <label class="qoption"><input type="radio" name="fq5" value="1">সৃজনশীল লেখালেখিতে</label>
+        <label class="qoption"><input type="radio" name="fq5" value="2">রান্নাবান্নায়</label>
+        <label class="qoption"><input type="radio" name="fq5" value="3">গান গাওয়ায়</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৬. ফেসবুকে "বন্ধু" শব্দটি বই অনুযায়ী কী বোঝায়?</p>
+      <div class="qoptions" data-hash="23079072">
+        <label class="qoption"><input type="radio" name="fq6" value="0">শুধু পরিবারের সদস্য</label>
+        <label class="qoption"><input type="radio" name="fq6" value="1">যার সাথে যোগাযোগ/সংযোগ আছে এমন যেকোনো মানুষ</label>
+        <label class="qoption"><input type="radio" name="fq6" value="2">শুধু স্কুলের সহপাঠী</label>
+        <label class="qoption"><input type="radio" name="fq6" value="3">শুধু প্রতিবেশী</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  সপ্তম শ্রেণি · তথ্য ও যোগাযোগ প্রযুক্তি — অধ্যায় ১ ইন্টারেক্টিভ সংস্করণ। মূল পাঠ্যবই: জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড, বাংলাদেশ।
+</footer>
+
+<script>
+// ---- self check reveal ----
+function toggleAnswer(btn, forceOpen){
+  const wrap = btn.closest('.sc-content');
+  const ans = wrap.querySelector('.sc-answer');
+  if(forceOpen){
+    ans.classList.add('show');
+  } else {
+    ans.classList.remove('show');
+  }
+}
+
+// ---- glossary chips ----
+document.querySelectorAll('.chips').forEach(function(group){
+  const targetId = 'def-' + group.getAttribute('data-glossary');
+  const defBox = document.getElementById(targetId);
+  group.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      const already = chip.classList.contains('active');
+      group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      if(already){
+        defBox.classList.remove('show');
+        defBox.innerHTML = '';
+        return;
+      }
+      chip.classList.add('active');
+      defBox.innerHTML = '<b>'+chip.textContent+'</b> — '+chip.getAttribute('data-def');
+      defBox.classList.add('show');
+    });
+  });
+});
+
+// ---- quiz logic (hash-verified + locks after answering) ----
+function strHash(s){
+  let h = 5381;
+  for(let i=0;i<s.length;i++){
+    h = ((h*33) + s.charCodeAt(i)) >>> 0;
+  }
+  return String(h);
+}
+document.querySelectorAll('.qoptions').forEach(function(optGroup){
+  const targetHash = optGroup.getAttribute('data-hash');
+  const feedback = optGroup.parentElement.querySelector('.qfeedback');
+  feedback.setAttribute('aria-live','polite');
+  const optionLabels = optGroup.querySelectorAll('.qoption');
+  optGroup.querySelectorAll('input[type=radio]').forEach(function(input){
+    input.addEventListener('change', function(){
+      optionLabels.forEach(l=>l.classList.remove('correct','wrong'));
+      let correctLabel = null, correctText = '';
+      optionLabels.forEach(function(lbl){
+        const txt = lbl.textContent.trim();
+        if(strHash(txt) === targetHash){ correctLabel = lbl; correctText = txt; }
+      });
+      const chosenLabel = input.closest('.qoption');
+      if(chosenLabel === correctLabel){
+        chosenLabel.classList.add('correct');
+        feedback.textContent = '✅ ঠিক আছে! খুব ভালো হয়েছে।';
+        feedback.className = 'qfeedback show ok';
+      } else {
+        chosenLabel.classList.add('wrong');
+        if(correctLabel) correctLabel.classList.add('correct');
+        feedback.textContent = '❌ এটা ঠিক না। সঠিক উত্তর: ' + correctText + ' — উপরের বইয়ের অংশটা আরেকবার পড়ে নাও।';
+        feedback.className = 'qfeedback show no';
+      }
+      // lock this question so guessing repeatedly isn't possible
+      optGroup.querySelectorAll('input[type=radio]').forEach(i=>i.disabled=true);
+      updateProgress();
+    });
+  });
+});
+
+// ---- active nav highlight + progress ----
+const navLinks = document.querySelectorAll('#lessonNav a');
+const sections = document.querySelectorAll('main section');
+function onScroll(){
+  let current = sections[0].id;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120) current = sec.id;
+  });
+  navLinks.forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+function updateProgress(){
+  const totalQ = document.querySelectorAll('.qoptions').length;
+  const answered = document.querySelectorAll('.qoptions input[type=radio]:checked').length;
+  const pct = totalQ ? Math.round((answered/totalQ)*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'তোমার অগ্রগতি: '+pct+'% (কুইজ উত্তর দেওয়ার ভিত্তিতে)';
+}
+updateProgress();
+function collectWork(){
+  const lines = [];
+  lines.push('তোমার কাজ ও উত্তর');
+  lines.push('========================================');
+  lines.push('');
+  let anyWork = false;
+  document.querySelectorAll('textarea').forEach(function(ta){
+    if(ta.value.trim()){
+      anyWork = true;
+      let promptEl = ta.previousElementSibling;
+      let promptText = (promptEl ? promptEl.textContent.trim() : '').slice(0,200);
+      lines.push('▸ ' + (promptText || 'তোমার লেখা'));
+      lines.push(ta.value.trim());
+      lines.push('');
+    }
+  });
+  if(!anyWork){ lines.push('(তুমি এখনো কোনো দলগত কাজ বা প্রশ্নের উত্তর লেখোনি)'); lines.push(''); }
+  lines.push('========================================');
+  lines.push('কুইজের ফলাফল');
+  let total = 0, correct = 0;
+  document.querySelectorAll('.qitem').forEach(function(qi){
+    const fb = qi.querySelector('.qfeedback');
+    const qtext = qi.querySelector('.qtext');
+    if(fb && fb.classList.contains('show')){
+      total++;
+      const ok = fb.classList.contains('ok');
+      if(ok) correct++;
+      lines.push((ok ? '✓ ' : '✗ ') + (qtext ? qtext.textContent.trim() : ('প্রশ্ন ' + total)));
+    }
+  });
+  lines.push('');
+  lines.push('মোট উত্তর দেওয়া হয়েছে: ' + total + ' টি, সঠিক হয়েছে: ' + correct + ' টি');
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'আমার-কাজ-ও-ফলাফল.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+const dwBtn = document.getElementById('downloadWorkBtn');
+if(dwBtn){ dwBtn.addEventListener('click', collectWork); }
+
+</script>
+
+</body>
+</html>

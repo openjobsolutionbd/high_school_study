@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অধ্যায় ৫ — শিক্ষায় ইন্টারনেটের ব্যবহার</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --slate:#1E3A34;
+  --slate-2:#28483F;
+  --paper:#FBF7EC;
+  --paper-2:#F2EAD3;
+  --ink:#22281f;
+  --indigo:#2F5D9E;
+  --indigo-dark:#1F3F6B;
+  --mustard:#E3A93B;
+  --good:#3E8E5A;
+  --bad:#B2483A;
+  --stitch:#C9B98A;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+}
+h1,h2,h3,.display{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--slate);
+  font-weight:700;
+}
+::selection{background:var(--mustard);color:var(--slate);}
+
+.stitch{
+  height:14px;
+  margin:0 auto;
+  max-width:1100px;
+  background-image:repeating-linear-gradient(
+    115deg,
+    var(--stitch) 0 8px,
+    transparent 8px 16px
+  );
+  opacity:.65;
+}
+.stitch.vertical-space{margin:36px auto;}
+
+header.topbar{
+  background:
+    radial-gradient(circle at 8px 8px, rgba(227,169,59,.14) 1.4px, transparent 1.4px),
+    linear-gradient(155deg, var(--slate-2) 0%, var(--slate) 62%, #142822 100%);
+  background-size: 26px 26px, cover;
+  color:var(--paper);
+  padding:38px 24px 46px;
+  position:relative;
+  overflow:hidden;
+}
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  margin:0 auto;
+}
+.header-illustration{
+  position:absolute;
+  right:-10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:220px;
+  height:220px;
+  opacity:.16;
+  z-index:1;
+  pointer-events:none;
+}
+.badge-patch{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paper);
+  color:var(--slate);
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:700;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:13px;
+  border:2px dashed var(--mustard);
+  transform:rotate(-2deg);
+  margin-bottom:16px;
+  box-shadow:0 3px 0 rgba(0,0,0,.18);
+}
+header.topbar .kicker{
+  font-size:13.5px;
+  letter-spacing:.08em;
+  color:var(--mustard);
+  font-weight:700;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+header.topbar .kicker::before,
+header.topbar .kicker::after{
+  content:"";
+  height:1px;
+  width:22px;
+  background:var(--mustard);
+  opacity:.6;
+}
+header.topbar .eyebrow{
+  display:block;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  color:#a9c9bc;
+  margin-bottom:2px;
+  letter-spacing:.02em;
+}
+header.topbar h1{
+  color:var(--paper);
+  font-size:clamp(28px,4.4vw,42px);
+  line-height:1.28;
+  margin:0 0 12px;
+  max-width:640px;
+}
+header.topbar h1 .hl{
+  color:var(--mustard);
+}
+header.topbar p.sub{
+  margin:0;
+  color:#cfe3da;
+  font-size:15.5px;
+  max-width:560px;
+  position:relative;
+  padding-right:18px;
+}
+header.topbar p.sub::before{
+  content:"";
+  position:absolute;
+  right:0;top:4px;bottom:4px;
+  width:3px;
+  background:var(--mustard);
+  border-radius:3px;
+  opacity:.7;
+}
+
+.header-edge{
+  height:20px;
+  width:100%;
+  background:var(--paper);
+  clip-path:polygon(
+    0% 100%,0% 35%,4.3% 100%,8.6% 35%,12.9% 100%,17.2% 35%,21.5% 100%,25.8% 35%,
+    30.1% 100%,34.4% 35%,38.7% 100%,43% 35%,47.3% 100%,51.6% 35%,55.9% 100%,60.2% 35%,
+    64.5% 100%,68.8% 35%,73.1% 100%,77.4% 35%,81.7% 100%,86% 35%,90.3% 100%,94.6% 35%,100% 100%,100% 100%
+  );
+  margin-top:-1px;
+}
+
+nav.lesson-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--slate-2);
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:11px 16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  margin-top:-1px;
+}
+nav.lesson-nav a{
+  flex:0 0 auto;
+  color:#e8f1ec;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  white-space:nowrap;
+  transition:.2s;
+}
+nav.lesson-nav a:hover,nav.lesson-nav a.active{
+  background:var(--mustard);
+  color:var(--slate);
+  border-color:var(--mustard);
+}
+
+main{max-width:900px;margin:0 auto;padding:28px 18px 80px;}
+
+.objectives{
+  background:var(--paper-2);
+  border:2px dashed var(--stitch);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:26px 0;
+}
+.objectives h2{margin-top:0;font-size:20px;}
+.objectives ol{margin:0;padding-right:0;padding-left:20px;}
+.objectives li{margin-bottom:6px;}
+
+section.lesson{margin:56px 0;scroll-margin-top:70px;}
+section.lesson>h2{
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+section.lesson>h2 .num{
+  background:var(--indigo);
+  color:#fff;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:15px;
+  padding:5px 12px;
+  border-radius:999px;
+}
+.lesson-intro-note{
+  color:#5b6b60;
+  font-size:14.5px;
+  margin-bottom:22px;
+}
+
+.book-text{
+  background:#fff;
+  border-right:6px solid var(--indigo);
+  padding:20px 22px;
+  border-radius:8px;
+  margin:18px 0;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:16.5px;
+  line-height:1.95;
+  color:#2b3129;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.book-text .book-label{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--indigo);
+  letter-spacing:.04em;
+  display:block;
+  margin-bottom:8px;
+}
+.book-text p{margin:0 0 14px;}
+.book-text p:last-child{margin-bottom:0;}
+.book-text h4{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--indigo-dark);
+  margin:0 0 8px;
+  font-size:17px;
+}
+
+.story-card{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-right:6px solid var(--mustard);
+  padding:18px 20px;
+  border-radius:8px;
+  margin:16px 0;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:16px;
+  line-height:1.9;
+  color:#2b3129;
+}
+.story-card .story-tag{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--mustard-dark, #a97a1c);
+  display:block;
+  margin-bottom:6px;
+}
+
+details.simple-box{
+  background:#FFF8E7;
+  border:2px solid var(--mustard);
+  border-radius:var(--radius);
+  margin:14px 0 26px;
+  overflow:hidden;
+}
+details.simple-box summary{
+  cursor:pointer;
+  list-style:none;
+  padding:12px 18px;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  color:#7a5a12;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  user-select:none;
+}
+details.simple-box summary::-webkit-details-marker{display:none;}
+details.simple-box summary::before{
+  content:"▶";
+  font-size:11px;
+  transition:transform .2s;
+}
+details.simple-box[open] summary::before{transform:rotate(90deg);}
+details.simple-box .simple-body{
+  padding:2px 20px 18px;
+  font-size:16px;
+  color:#3b3223;
+}
+details.simple-box .simple-body p{margin:8px 0;}
+details.simple-box .simple-body b{color:var(--indigo-dark);}
+
+.selfcheck{
+  background:var(--paper-2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin:20px 0;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.selfcheck .icon-box{
+  flex:0 0 auto;
+  width:74px;height:74px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--indigo);
+}
+.selfcheck .icon-box svg{width:38px;height:38px;stroke:var(--indigo);}
+.selfcheck .sc-content{flex:1;min-width:200px;}
+.selfcheck .sc-content .name{font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;font-weight:700;color:var(--slate);font-size:17px;margin-bottom:4px;}
+.selfcheck .sc-question{font-size:14.5px;color:#5b6b60;margin-bottom:8px;}
+.selfcheck .sc-btns{display:flex;gap:8px;}
+.sc-btn{
+  border:2px solid var(--indigo);
+  background:#fff;
+  color:var(--indigo);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:13.5px;
+  cursor:pointer;
+}
+.sc-btn:hover{background:var(--indigo);color:#fff;}
+.sc-answer{
+  display:none;
+  margin-top:10px;
+  padding:12px 14px;
+  background:#fff;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--mustard);
+}
+.sc-answer.show{display:block;}
+
+.glossary-wrap{
+  margin:22px 0 30px;
+  background:#EEF3EE;
+  border-radius:var(--radius);
+  padding:18px 20px;
+}
+.glossary-wrap h4{
+  margin:0 0 12px;
+  font-size:15px;
+  color:var(--slate);
+  display:flex;align-items:center;gap:6px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  background:#fff;
+  border:1.5px solid var(--indigo);
+  color:var(--indigo-dark);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+.chip:hover{background:var(--indigo);color:#fff;}
+.chip.active{background:var(--indigo);color:#fff;}
+.chip-def{
+  display:none;
+  margin-top:12px;
+  background:#fff;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--indigo);
+}
+.chip-def.show{display:block;}
+.chip-def b{color:var(--indigo-dark);}
+
+.groupwork{
+  background:var(--slate);
+  color:#eaf1ec;
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:26px 0;
+}
+.groupwork .gw-label{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--mustard);
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.groupwork p{margin:0 0 12px;font-size:15.5px;}
+.groupwork textarea{
+  width:100%;
+  min-height:80px;
+  border-radius:8px;
+  border:none;
+  padding:10px 12px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:14.5px;
+  resize:vertical;
+}
+.groupwork .hint{font-size:12.5px;color:#a9c2b6;margin-top:6px;}
+
+.quiz{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-radius:var(--radius);
+  padding:22px 22px 8px;
+  margin:34px 0;
+}
+.quiz>h3{margin-top:0;font-size:19px;display:flex;align-items:center;gap:8px;}
+.qitem{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed #ddd;}
+.qitem:last-of-type{border-bottom:none;}
+.qitem p.qtext{font-weight:600;color:var(--slate);margin:0 0 10px;font-size:16px;}
+.qoptions{display:flex;flex-direction:column;gap:8px;}
+.qoption{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;
+  border:1.5px solid #e2ddc9;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.15s;
+}
+.qoption:hover{background:#FAF6EA;}
+.qoption.correct{background:#e5f4ea;border-color:var(--good);}
+.qoption.wrong{background:#fbe9e6;border-color:var(--bad);}
+.qoption input{accent-color:var(--indigo);}
+.qfeedback{
+  margin-top:10px;font-size:14.5px;padding:8px 12px;border-radius:6px;display:none;
+}
+.qfeedback.show{display:block;}
+.qfeedback.ok{background:#e5f4ea;color:#255c39;}
+.qfeedback.no{background:#fbe9e6;color:#7a2e21;}
+
+.progress-wrap{max-width:900px;margin:0 auto;padding:0 18px;}
+.progress-bar{
+  height:6px;background:#e2ddc9;border-radius:99px;overflow:hidden;margin-top:14px;
+}
+.progress-fill{height:100%;width:0%;background:var(--mustard);transition:width .4s;}
+.progress-label{font-size:12.5px;color:#5b6b60;margin-top:6px;}
+
+.site-card{
+  background:#fff;
+  border:1.5px solid var(--paper-2);
+  border-radius:10px;
+  padding:14px 16px;
+  margin:12px 0;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.site-card .site-num{
+  flex:0 0 auto;
+  width:30px;height:30px;
+  background:var(--indigo);
+  color:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;font-weight:700;font-size:14px;
+}
+.site-card .site-body b{color:var(--indigo-dark);}
+.site-card .site-body .url{font-family:monospace;color:var(--good);font-size:13.5px;}
+
+.celebrate-box{
+  background:linear-gradient(135deg,var(--slate) 0%,var(--slate-2) 100%);
+  color:#eaf1ec;
+  border-radius:var(--radius);
+  padding:26px 24px;
+  margin:40px 0;
+  text-align:center;
+}
+.celebrate-box h3{color:var(--mustard);font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;margin:0 0 10px;font-size:22px;}
+.celebrate-box p{margin:0;font-size:15.5px;}
+
+footer{
+  text-align:center;padding:40px 20px 60px;color:#7d8a7f;font-size:13.5px;
+}
+footer a{color:var(--indigo);}
+
+@media(max-width:640px){
+  section.lesson>h2{font-size:22px;}
+}
+
+.download-btn{
+  margin-top:14px;
+  background:var(--indigo);
+  color:#fff;
+  border:none;
+  padding:9px 18px;
+  border-radius:999px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+}
+.download-btn:hover{background:var(--indigo-dark);}
+.download-btn:focus-visible,
+.chip:focus-visible,
+.sc-btn:focus-visible,
+.qoption:focus-within,
+nav.lesson-nav a:focus-visible,
+summary:focus-visible{
+  outline:3px solid var(--mustard);
+  outline-offset:2px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <svg class="header-illustration" viewBox="0 0 200 200" fill="none" stroke="#FBF7EC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="100" cy="100" r="55"/>
+    <path d="M45 100h110M100 45c20 15 20 95 0 110M100 45c-20 15-20 95 0 110" stroke-dasharray="3 5"/>
+    <circle cx="165" cy="55" r="4"/>
+    <circle cx="175" cy="70" r="2.5"/>
+    <circle cx="150" cy="150" r="3"/>
+    <circle cx="30" cy="140" r="2.5"/>
+  </svg>
+  <div class="header-inner">
+    <div class="badge-patch">🌐 সপ্তম শ্রেণি</div>
+    <div class="kicker">ইন্টারেক্টিভ সংস্করণ · শেষ অধ্যায়</div>
+    <h1><span class="eyebrow">অধ্যায় ৫</span>শিক্ষায় <span class="hl">ইন্টারনেটের ব্যবহার</span></h1>
+    <p class="sub">হারানো বই খুঁজে পাওয়া থেকে বিশ্ববিখ্যাত বিশ্ববিদ্যালয়ের কোর্স করা — ইন্টারনেট কীভাবে শেখাকে বদলে দিয়েছে, সেই গল্প।</p>
+  </div>
+</header>
+<div class="header-edge"></div>
+
+<nav class="lesson-nav" id="lessonNav">
+  <a href="#cover">শুরুর কথা</a>
+  <a href="#lessonA">পাঠ ৫৫ · ৬টি ঘটনা</a>
+  <a href="#lessonB">পাঠ ৫৬ · ভবিষ্যতের শিক্ষা</a>
+  <a href="#lessonC">পাঠ ৫৭-৭০ · তথ্য অনুসন্ধান</a>
+  <a href="#finalquiz">অধ্যায় পরীক্ষা</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">তোমার অগ্রগতি: ০%</div>
+  <button id="downloadWorkBtn" class="download-btn" type="button">📥 তোমার লেখা ও ফলাফল ডাউনলোড করো</button>
+</div>
+
+<main>
+
+<section id="cover">
+  <div class="objectives">
+    <h2>📘 এই অধ্যায় শেষে আমরা যা যা পারব</h2>
+    <ol>
+      <li>শিক্ষাক্ষেত্রে ইন্টারনেটের গুরুত্ব বিশ্লেষণ করতে পারব;</li>
+      <li>শিক্ষাক্ষেত্রে ইন্টারনেট ব্যবহার করতে পারব;</li>
+      <li>ওয়েব ব্রাউজার ব্যবহার করে শিক্ষা সংশ্লিষ্ট (পাঠ্য বিষয়ের) তথ্য অনুসন্ধান করতে পারব।</li>
+    </ol>
+  </div>
+  <details class="simple-box" open>
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই শেষ অধ্যায়ে আমরা দেখব ইন্টারনেট কীভাবে লেখাপড়ার প্রতিটা ধাপে সাহায্য করে — হারানো বই খুঁজে পাওয়া, প্রশ্নের উত্তর জানা, পরীক্ষা দেওয়া, এমনকি বিশ্ববিখ্যাত বিশ্ববিদ্যালয়ের ক্লাস নিজের ঘরে বসে করা। শেষে শিখব কীভাবে সঠিকভাবে ইন্টারনেটে তথ্য খুঁজে বের করতে হয়।</p>
+    </div>
+  </details>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON A - 6 STORIES ================= -->
+<section class="lesson" id="lessonA">
+  <h2><span class="num">পাঠ ৫৫</span> শিক্ষায় ইন্টারনেট — ৬টি সত্যি ঘটনা</h2>
+  <p class="lesson-intro-note">নিচে বইয়ের ৬টি ঘটনা তুলে ধরা হলো, প্রতিটাই দেখায় ইন্টারনেট কীভাবে ভিন্ন ভিন্নভাবে লেখাপড়ায় সাহায্য করে।</p>
+
+  <div class="story-card">
+    <span class="story-tag">ঘটনা ১ · সারা</span>
+    সারা তার বাংলা বইটি হারিয়ে ফেলেছে- বইটি মোটেও হারানোর ইচ্ছে তার ছিল না- কিন্তু সেটি সত্যি হারিয়ে গেছে। স্কুল লাইব্রেরি থেকে তার প্রিয় গল্পের বইগুলো আনার সময় হাতে অনেকগুলো বই হয়ে গিয়েছিল। তখন কোনো এক ফাঁকে বাংলা বইটা হাত থেকে পড়ে গিয়েছে, সে টেরও পায়নি। বাসায় এসে তার ভারি মন খারাপ- সুন্দর বাংলা বইটি তার খুব প্রিয় বই ছিল। শুধু তাই নয় কয়েকদিন পর পরীক্ষা, সে বই ছাড়া কেমন করে পড়বে?<br><br>
+    এই বিপদ থেকে তাকে রক্ষা করলেন তার বাবা- তিনি জানেন NCTB (National Curriculum and Textbook Board)-এর ওয়েবসাইটে সব পাঠ্যপুস্তক রেখে দেয়া আছে, যে কেউ সেখান থেকে বই ডাউনলোড করে নিতে পারে। শুধু তাই নয়, প্রিন্টারে প্রিন্ট করে সেটাকে বাঁধিয়ে নিলে সেটা পুরোপুরি সত্যিকারের পাঠ্যপুস্তকের মতো হয়ে যায়। তাই কয়েক ঘণ্টার মধ্যে সারা তার প্রিয় বাংলা বইটি পেয়ে গেল।
+  </div>
+
+  <div class="story-card">
+    <span class="story-tag">ঘটনা ২ · আকাশ</span>
+    আকাশ তার বিজ্ঞান বইয়ে পড়েছে প্লুটো নাকি আর গ্রহ নয়, শুনে সে বেশ অবাক হলো। সেই ছোটবেলা থেকে সে শুনে এসেছে প্লুটো সৌরজগতের একটা গ্রহ- হঠাৎ করে সেটাকে গ্রহের তালিকা থেকে কেন সরিয়ে দেয়া হলো কে জানে? সে তার বাসায় বড় ভাইকে জিজ্ঞেস করল, কেউ ঠিক করে বলতে পারল না। সে অনেককে জিজ্ঞেস করেও ঠিক উত্তরটি জানতে পারল না- ঠিক তখন তার ইন্টারনেটের কথা মনে পড়ল। সে ইন্টারনেটে প্লুটো গ্রহ নিয়ে একটু খোঁজাখুঁজি করতেই উত্তরটি জেনে গেল- ভাগ্যিস তার ইন্টারনেটের কথা মনে পড়েছিল।
+  </div>
+
+  <div class="story-card">
+    <span class="story-tag">ঘটনা ৩ · সুনাইরা</span>
+    সুনাইরা কম্পিউটার প্রোগ্রামিং করছে, কিন্তু হঠাৎ সে একটা জায়গায় আটকে গিয়েছে, একটা বিশেষ ফাংশন সে কিছুতেই ঠিক করে ব্যবহার করতে পারছে না। তাকে একটা বড় হোমওয়ার্ক জমা দিতে হবে- এই বিশেষ ফাংশনটি কেমন করে ব্যবহার করা হয়, না জানলে সে তার হোমওয়ার্কটি জমা দিতে পারবে না। ইন্টারনেটে সে এটা সম্পর্কে অনেক খুঁজেছে কিন্তু কোনো লাভ হয়নি।<br><br>
+    সুনাইরা হতাশ হলো না, কম্পিউটার ল্যাংগুয়েজ ফোরামে সে এই প্রশ্নটা করে রাখল। এক ঘণ্টার ভেতরে সে আবিষ্কার করল পাঁচজন প্রশ্নটার উত্তর দিয়ে রেখেছে- একজনের উত্তরটা হুবহু তার প্রশ্নের উত্তর। সুনাইরা আনন্দ দেখে কে- এবারে নতুন উৎসাহ নিয়ে তার কাজ শুরু করে দেয়।
+  </div>
+
+  <div class="story-card">
+    <span class="story-tag">ঘটনা ৪ · রতন</span>
+    রতন ইংরেজি পরীক্ষা দেবে- সে বেশ অনেকদিন থেকে ইংরেজি পড়ে আসছে কিন্তু ঠিক বুঝতে পারছে না তার পড়াশোনা যথেষ্ট হয়েছে নাকি আরো দরকার। বন্ধু বলল, "তুই অনলাইনে একবার পরীক্ষা দিয়ে দেখিস না কেন কেমন শিখেছিস!"<br><br>
+    রতন ইন্টারনেটে ঢুকে অনলাইন পরীক্ষার একটা ওয়েবসাইটে ঢুকে দেখল সত্যি সেখানে পরীক্ষা দেবার ব্যবস্থা আছে- খুব উৎসাহ নিয়ে পরীক্ষা দিয়ে সে আবিষ্কার করল তার প্রস্তুতি বেশ ভালো। অনলাইন পরীক্ষায় বাড়তি সুবিধাটাও সে আবিষ্কার করল- যে প্রশ্নগুলোর ভুল উত্তর দিয়েছে সেগুলোর শুদ্ধ উত্তর কী হবে সেটাও সে জেনে নিল।
+  </div>
+
+  <div class="story-card">
+    <span class="story-tag">ঘটনা ৫ · আয়েশা</span>
+    আয়েশা ইউনিভার্সিটিতে ফাইবার অপটিক্স পড়ায়। তার যেহেতু বয়স কম তাই তার অভিজ্ঞতাও কম। একদিন ইন্টারনেটে একটা খুব বড় বিশ্ববিদ্যালয়ের ওয়েবসাইটে খোঁজাখুঁজি করতে করতে সে আবিষ্কার করল তার বিষয় ফাইবার অপটিক্সের পুরো কোর্সের লেকচার নোট সেখানে রয়েছে- একজন অনেক বড় প্রফেসর কোর্সটি সেই বিশ্ববিদ্যালয়ের ছাত্রছাত্রীদের পড়িয়েছেন।<br><br>
+    আয়েশা সাথে সাথে কোর্সগুলো ডাউনলোড করে তার নিজের লেকচারটা নতুন করে সাজিয়ে নিল, পরদিন সে ক্লাস নিতে গেল অনেক বেশি আত্মবিশ্বাস নিয়ে।
+  </div>
+
+  <div class="story-card">
+    <span class="story-tag">ঘটনা ৬ · রাজীব</span>
+    রাজীব পদার্থবিজ্ঞান নিয়ে পাশ করেছে কিন্তু তার খুব দুঃখ তার বিশ্ববিদ্যালয়ে এস্ট্রোফিজিক্সের উপর কোনো কোর্স ছিল না- তার খুব শখ এই বিষয়টা পড়ার। হঠাৎ করে খবর পেল খুব বড় একটা বিশ্ববিদ্যালয়ের একজন বড় প্রফেসর এস্ট্রোফিজিক্সের উপর অনলাইনে একটা কোর্স দিচ্ছেন। তার ছাত্র হয়ে সে অনলাইনে পুরো কোর্সটি নিতে পারবে- হোমওয়ার্ক জমা দিতে পারবে, এমনকি পরীক্ষাও দিতে পারবে।<br><br>
+    রাজীবের আনন্দ দেখে কে? সাথে সাথেই সে কোর্সটিতে রেজিস্ট্রেশন করে মনের আনন্দে এস্ট্রোফিজিক্স পড়তে শুরু করে।
+  </div>
+
+  <div class="book-text">
+    <p>উপরের ৬টি ঘটনার প্রত্যেকটি সত্যি, শিক্ষায় সত্যি ইন্টারনেটের ব্যবহার করা যায় কি না সেটা নিয়ে কারো মনে এখনো সন্দেহ আছে?</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>৬টা ঘটনা, ৬ রকম দরকার — কিন্তু সবার সমাধান একটাই: <b>ইন্টারনেট।</b> হারানো বই (সারা), না জানা তথ্য (আকাশ), প্রোগ্রামিং সমস্যা (সুনাইরা), পরীক্ষার প্রস্তুতি যাচাই (রতন), শেখানোর নতুন আইডিয়া (আয়েশা), আর নতুন বিষয় শেখার সুযোগ (রাজীব) — সব কটাতেই ইন্টারনেট সাহায্য করেছে। এটাই দেখায় শিক্ষায় ইন্টারনেট কতটা বহুমুখী ভূমিকা রাখতে পারে।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🪐 প্লুটো ও গ্রহের সংজ্ঞা</div>
+      <div class="sc-question">প্লুটো কেন আর গ্রহ নয়, এই তথ্যটা কি আগে জেনেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, জানি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">জানি না</button>
+      </div>
+      <div class="sc-answer">২০০৬ সালে বিজ্ঞানীরা "গ্রহ" কাকে বলা হবে তার নতুন সংজ্ঞা ঠিক করেন। প্লুটো সেই নতুন সংজ্ঞা পুরোপুরি পূরণ করে না (এর কক্ষপথের আশেপাশে অন্য বস্তু আছে), তাই তাকে "বামন গ্রহ" (Dwarf Planet) নামের নতুন একটা শ্রেণিতে ফেলা হয়েছে। এটা ঠিক যেমন আকাশের গল্পে বলা হয়েছে, তেমনি ইন্টারনেটে খুঁজলেই বিস্তারিত জানা যায়।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>বাংলাদেশের সকল শিক্ষার্থীর যদি একটি করে ল্যাপটপ থাকত তখন শিক্ষার ব্যাপারে আর কী কী করা যেত সেটি নিয়ে সবাই মিলে একটি রচনা লেখো।</p>
+    <textarea placeholder="তোমার রচনার খসড়া এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonA">
+      <button class="chip" data-def="মহাকাশ ও নক্ষত্রদের নিয়ে বিজ্ঞানের একটি শাখা, যেখানে গ্রহ-নক্ষত্র-ছায়াপথ নিয়ে গবেষণা করা হয়।">এস্ট্রোফিজিক্স</button>
+      <button class="chip" data-def="আলোর সংকেত ব্যবহার করে তথ্য পাঠানোর জন্য ব্যবহৃত কাচের সরু তার, দ্রুতগতির ইন্টারনেট সংযোগে ব্যবহৃত হয়।">ফাইবার অপটিক্স</button>
+      <button class="chip" data-def="সৌরজগতের একটি বরফাচ্ছাদিত বস্তু, যাকে ২০০৬ সালের আগে গ্রহ বলা হতো, এখন বামন গ্রহ হিসেবে গণ্য করা হয়।">প্লুটো</button>
+    </div>
+    <div class="chip-def" id="def-lessonA"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৫৫ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. সারা তার হারানো বাংলা বই কোথা থেকে ডাউনলোড করল?</p>
+      <div class="qoptions" data-hash="1194726541">
+        <label class="qoption"><input type="radio" name="q1" value="0">ফেসবুক থেকে</label>
+        <label class="qoption"><input type="radio" name="q1" value="1">NCTB-এর ওয়েবসাইট থেকে</label>
+        <label class="qoption"><input type="radio" name="q1" value="2">ইউটিউব থেকে</label>
+        <label class="qoption"><input type="radio" name="q1" value="3">উইকিপিডিয়া থেকে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. আকাশ ইন্টারনেটে কোন বিষয়ে খোঁজ করেছিল?</p>
+      <div class="qoptions" data-hash="985998648">
+        <label class="qoption"><input type="radio" name="q2" value="0">পৃথিবীর বয়স</label>
+        <label class="qoption"><input type="radio" name="q2" value="1">প্লুটো এখনো গ্রহ কি না</label>
+        <label class="qoption"><input type="radio" name="q2" value="2">চাঁদের দূরত্ব</label>
+        <label class="qoption"><input type="radio" name="q2" value="3">সূর্যের তাপমাত্রা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. সুনাইরা তার প্রোগ্রামিং সমস্যার সমাধান কোথায় পেল?</p>
+      <div class="qoptions" data-hash="956776289">
+        <label class="qoption"><input type="radio" name="q3" value="0">বইয়ে</label>
+        <label class="qoption"><input type="radio" name="q3" value="1">কম্পিউটার ল্যাংগুয়েজ ফোরামে</label>
+        <label class="qoption"><input type="radio" name="q3" value="2">শিক্ষকের কাছ থেকে সরাসরি</label>
+        <label class="qoption"><input type="radio" name="q3" value="3">টিভিতে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. আয়েশা কোন বিষয়ে বিশ্ববিদ্যালয়ে পড়ান?</p>
+      <div class="qoptions" data-hash="3269957846">
+        <label class="qoption"><input type="radio" name="q4" value="0">এস্ট্রোফিজিক্স</label>
+        <label class="qoption"><input type="radio" name="q4" value="1">ফাইবার অপটিক্স</label>
+        <label class="qoption"><input type="radio" name="q4" value="2">জীববিজ্ঞান</label>
+        <label class="qoption"><input type="radio" name="q4" value="3">ইতিহাস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON B ================= -->
+<section class="lesson" id="lessonB">
+  <h2><span class="num">পাঠ ৫৬</span> শিক্ষায় ইন্টারনেট — ভবিষ্যতের দিকে</h2>
+
+  <div class="book-text">
+    <p>তোমরা যারা আগের পাঠটি মন দিয়ে পড়েছ তারা নিশ্চয়ই বুঝতে পেরেছ শিক্ষায় যেসব বিষয় সবচেয়ে সাহায্য করতে পারে তার মধ্যে একটা গুরুত্বপূর্ণ বিষয় হচ্ছে ইন্টারনেট। ইন্টারনেট শুধু যে সরাসরি শিক্ষার ব্যাপারে সাহায্য করে তা নয়- স্কুল-কলেজ-বিশ্ববিদ্যালয়ের মতো শিক্ষা প্রতিষ্ঠানগুলো যেন ঠিকমতো কাজ করতে পারে সেখানেও পরোক্ষভাবে শিক্ষার কাজে সাহায্য করে।</p>
+    <p>যেমন তোমরা সবাই জানো, পরীক্ষার ফলাফলগুলো আজকাল তোমরা ইন্টারনেট ব্যবহার করে মুহূর্তের মধ্যে জানতে পার। কিছুদিন আগেও যেটি ছিল অনেক কঠিন। গ্রামে বা প্রত্যন্ত এলাকায় যারা ছিল, পরীক্ষার ফলাফল জানার জন্য তাদের অনেক পথ পাড়ি দিয়ে শহরে আসতে হতো। আজকাল মোবাইল টেলিফোনের একটি মেসেজ বা ইন্টারনেটে এক ক্লিকেই পরীক্ষার ফলাফল জেনে নেওয়া যায়।</p>
+    <p>পরীক্ষার ফলাফল জানার ব্যাপারে ইন্টারনেট যেরকম অনেক বড় ভূমিকা রাখে- স্কুল-কলেজ-বিশ্ববিদ্যালয়ে ভর্তির ব্যাপারেও ইন্টারনেট অনেক ভূমিকা রাখতে পারে। আমাদের দেশের জাতীয় বিশ্ববিদ্যালয়ে কয়েক লক্ষ শিক্ষার্থী ভর্তি পরীক্ষা দেয়- তোমরা কি জানো এই পরীক্ষার্থীরা সবাই ভর্তির জন্য ইন্টারনেট ব্যবহার করে?</p>
+    <p>একটা শিক্ষা প্রতিষ্ঠানে ভর্তি হওয়ার আগে সবাই সেই প্রতিষ্ঠান সম্পর্কে একটু তথ্য জানতে চায়। আগে সেই তথ্য জানার জন্য একজন মানুষকে অনেক দূর থেকে সেখানে আসতে হতো- এখন ইন্টারনেট ব্যবহার করে পৃথিবীর যেকোনো প্রান্তের যেকোনো শিক্ষা প্রতিষ্ঠানের তথ্য একজন ঘরে বসে জেনে নিতে পারে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই অংশে দুটো মূল উদাহরণ: <b>(১) পরীক্ষার ফলাফল</b> — আগে শহরে গিয়ে জানতে হতো, এখন মোবাইলে এক ক্লিকে জানা যায়। <b>(২) ভর্তি প্রক্রিয়া</b> — লক্ষ লক্ষ ছাত্রছাত্রী ঘরে বসেই ইন্টারনেট দিয়ে ভর্তি পরীক্ষার রেজিস্ট্রেশন করে ফেলে, আগে যেটার জন্য অনেক ঝক্কি পোহাতে হতো।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>প্রযুক্তির কারণে ইতোমধ্যে আমরা অনেক ধরনের সুযোগ-সুবিধা ব্যবহার করছি- কিছুদিনের ভিতরে আমাদের দেশেই আমরা আরও নানা ধরনের নতুন নতুন সুযোগ পেতে যাচ্ছি। আমাদের বিশ্ববিদ্যালয়গুলোতে ভার্চুয়াল ক্লাসরুম তৈরি হতে যাচ্ছে যেটি সারা দেশের সব বিশ্ববিদ্যালয়ের সাথে যুক্ত হবে। একটি বিশ্ববিদ্যালয়ে একজন শিক্ষক যখন পড়াবেন তখন সেটি শুধু তার ক্লাসরুমে আসা অল্প কয়জন ছাত্রছাত্রী তার সামনে বসে সেটি শুনবে না- ভার্চুয়াল ক্লাসরুমে বসে হয়তো সারা দেশের অনেক ছাত্রছাত্রী সেটা শুনবে।</p>
+    <p>মেডিকেল কলেজের ছাত্রছাত্রীরা অনেক দূর থেকে হয়তো একটা জটিল অপারেশন নিজের চোখে দেখতে পারবে। দূর পাহাড়ের উপর বসানো একটা টেলিস্কোপের ভেতর দিয়ে একজন শিক্ষার্থী সৌরজগতের কোনো গ্রহ বা দূর গ্যালাক্সির কোনো নক্ষত্রকে পর্যবেক্ষণ করতে পারবে। অনেক আধুনিক একটা ল্যাবরেটরির কোনো একটা এক্সপেরিমেন্ট একটা ছাত্র তার ঘরে বসে করে ফেলতে পারবে। স্কুল লাইব্রেরিতে যে বইটি নেই মুহূর্তের মধ্যে সেই বইটিও একজন শিক্ষার্থী পড়ার জন্য নিয়ে আসতে পারবে।</p>
+    <p>সবকিছু দেখে-শুনে মনে হয় যখন ইন্টারনেট ছিল না তখন মানুষ কেমন করে লেখাপড়া করত?</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>ভার্চুয়াল ক্লাসরুম</b> মানে হলো — একজন শিক্ষকের ক্লাস শুধু সামনে বসা কয়েকজন ছাত্র না, ইন্টারনেটের মাধ্যমে সারা দেশের হাজার হাজার ছাত্রছাত্রী একসাথে শুনতে পারবে। ভবিষ্যতে হয়তো তুমি ঘরে বসেই দূরের একটা <b>টেলিস্কোপ</b> দিয়ে আকাশের নক্ষত্র দেখতে পারবে, বা দূরের কোনো ল্যাবের এক্সপেরিমেন্ট নিজে করে ফেলতে পারবে — ইন্টারনেট এই দূরত্বগুলো মুছে দিচ্ছে।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="14" width="6" height="6"/><path d="M7 14V8l5-5 5 5v6"/><circle cx="12" cy="8" r="2"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🔭 টেলিস্কোপ</div>
+      <div class="sc-question">এই যন্ত্রটা কি তুমি আগে দেখেছ বা চেনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">টেলিস্কোপ হলো দূরবীক্ষণ যন্ত্র — এটা দিয়ে অনেক দূরের জিনিস, যেমন চাঁদ, তারা, গ্রহ কাছ থেকে দেখার মতো স্পষ্ট করে দেখা যায়। বড় বড় টেলিস্কোপ সাধারণত পাহাড়ের উপর বসানো থাকে, যেখানে আকাশ পরিষ্কার দেখা যায়। ইন্টারনেটের মাধ্যমে এখন দূরের টেলিস্কোপের ছবিও ঘরে বসে দেখা সম্ভব।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>২০৫০ সালের পরে শিক্ষার ব্যাপারে তথ্য প্রযুক্তি কী ভূমিকা রাখতে পারে সেটি কল্পনা করে একটি দেয়াল পত্রিকা বের করো।</p>
+    <textarea placeholder="তোমার কল্পনার বর্ণনা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonB">
+      <button class="chip" data-def="ইন্টারনেটের মাধ্যমে পরিচালিত ক্লাসরুম, যেখানে দূরের অনেক শিক্ষার্থী একসাথে ক্লাস করতে পারে।">ভার্চুয়াল ক্লাসরুম</button>
+      <button class="chip" data-def="দূরের বস্তু (যেমন চাঁদ-তারা-গ্রহ) কাছ থেকে দেখার জন্য ব্যবহৃত যন্ত্র।">টেলিস্কোপ</button>
+      <button class="chip" data-def="লক্ষ লক্ষ নক্ষত্র নিয়ে গঠিত বিশাল মহাজাগতিক ব্যবস্থা, যেমন আমাদের ছায়াপথ।">গ্যালাক্সি</button>
+    </div>
+    <div class="chip-def" id="def-lessonB"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৫৬ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ভার্চুয়াল ক্লাসরুমের সবচেয়ে বড় সুবিধা কী (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="4022223844">
+        <label class="qoption"><input type="radio" name="q5" value="0">বই লাগে না</label>
+        <label class="qoption"><input type="radio" name="q5" value="1">একজন শিক্ষক সারা দেশের অনেক ছাত্রছাত্রীকে একসাথে পড়াতে পারেন</label>
+        <label class="qoption"><input type="radio" name="q5" value="2">পরীক্ষা লাগে না</label>
+        <label class="qoption"><input type="radio" name="q5" value="3">স্কুলে যেতে হয় না</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. দূর পাহাড়ের উপর বসানো কোন যন্ত্রের মাধ্যমে শিক্ষার্থী নক্ষত্র পর্যবেক্ষণ করতে পারবে (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="1720201099">
+        <label class="qoption"><input type="radio" name="q6" value="0">মাইক্রোস্কোপ</label>
+        <label class="qoption"><input type="radio" name="q6" value="1">টেলিস্কোপ</label>
+        <label class="qoption"><input type="radio" name="q6" value="2">ওয়েবক্যাম</label>
+        <label class="qoption"><input type="radio" name="q6" value="3">স্ক্যানার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON C ================= -->
+<section class="lesson" id="lessonC">
+  <h2><span class="num">পাঠ ৫৭-৭০</span> ওয়েব ব্রাউজার দিয়ে শিক্ষা সংশ্লিষ্ট তথ্য অনুসন্ধান</h2>
+
+  <div class="book-text">
+    <p>ইন্টারনেট তথ্যের এক বিশাল ভাণ্ডার। দুনিয়ার এমন কোনো বিষয় নেই যা সম্পর্কে ইন্টারনেটে কোনো তথ্য নেই। শিক্ষা, ক্রীড়া, সংস্কৃতি, ধর্ম প্রায় সব বিষয়েই ইন্টারনেটে ছড়িয়ে-ছিটিয়ে রয়েছে নানান তথ্য।</p>
+    <p>ইন্টারনেটে এ সকল তথ্য সাধারণত কয়েকভাবে থাকতে পারে। একটি হলো লিখিত তথ্য। কোনোটি হয় সরাসরি তথ্য, যেমন- নিউটনের গতির সূত্রাবলি। আবার ইন্টারনেটে ইদানীং অনেক বিষয়বস্তু ভিডিও আকারে পাওয়া যায়। একজন ব্যক্তি কোনো একটি বিষয় ব্যাখ্যা করেন, সেটি ক্যামেরায় ধারণ করা হয় এবং তারপর সেটি ইউটিউবে (www.youtube.com)-এর মতো কোনো ভিডিও শেয়ারিং সাইটে আপলোড করা হয়। আবার অনেক সাইট রয়েছে শিক্ষা সংক্রান্ত বিভিন্ন বিষয়ের কার্টুন বা অ্যানিমেশন চিত্র।</p>
+    <p>বর্তমানে ইন্টারনেটে অনেক কোর্সও চালু হয়েছে। এ সকল সাইটে কোনো সুনির্দিষ্ট কোর্সে নিবন্ধন করে ক্লাস করা যায় এবং কোর্স শেষে পরীক্ষা দেওয়া যায়। ইংরেজি ভাষাতে চালু এরকম অনেক সাইট রয়েছে। এর মধ্যে কয়েকটি হলো- www.coursera.org, www.edx.org, alison.com ইত্যাদি। বিশ্বখ্যাত বিশ্ববিদ্যালয় আমেরিকার ম্যাসাচুসেটস ইনস্টিটিউট অব টেকনোলজি (এমআইটি) তাদের ওয়েবসাইটে বিভিন্ন কোর্স অফার করে থাকে। ocw.mit.edu এই সাইটে গিয়ে পৃথিবীর যেকোনো দেশ থেকে কোর্স রেজিস্ট্রেশন করে সম্পন্ন করা যায়।</p>
+    <p>কেবল ইংরেজিতে নয়, বাংলা ভাষাতেও এখন ইন্টারনেট শিক্ষা কার্যক্রম বিকশিত হচ্ছে। বাংলাদেশ সরকারের পক্ষ থেকে স্কুল পর্যায়ের সব পাঠ্যপুস্তক এখন ই-বুক আকারে পাওয়া যায়। www.nctb.gov.bd সাইট থেকে তুমি তোমার বই-এর ই-বুক সংস্করণ নামিয়ে নিতে পারো।</p>
+    <p>বাংলা ভাষাতেও এখন শিক্ষা সংক্রান্ত বিভিন্ন কোর্স চালু হয়েছে। এরকম একটি সাইট হলো http://shikkhok.com এখানে গণিত, জীববিজ্ঞান, কম্পিউটার ও তথ্য প্রযুক্তি ইত্যাদি বিষয়ে বিভিন্ন কোর্স করার সুযোগ আছে।</p>
+    <p>অন্যান্য যেকোনো বিষয়ের মতো ইন্টারনেটে শিক্ষা সংক্রান্ত যেকোনো তথ্য জানার সহজ উপায় হলো কোনো একটি সার্চ ইঞ্জিনে এ সম্পর্কিত তথ্য খোঁজা। তথ্য খোঁজার জন্য সঠিকভাবে অনুসন্ধানটি লিখতে হয়। সব সার্চ ইঞ্জিনেই সঠিকভাবে লিখতে পারলে যেকোনো তথ্য সম্পর্কে অসংখ্য তথ্যের লিংক পাওয়া যায়। এজন্য ইন্টারনেট থেকে তথ্য বের করার কাজে সার্চ ইঞ্জিন ব্যবহারে দক্ষ হতে হয়। এই দক্ষতা অর্জন সহজ হয় যদি তুমি নিয়মিত তা ব্যবহার করো।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>ইন্টারনেটে তথ্য তিন রকমভাবে থাকতে পারে: <b>লেখা</b> (যেমন উইকিপিডিয়ার আর্টিকেল), <b>ভিডিও</b> (যেমন ইউটিউবে কেউ ব্যাখ্যা করছে), আর <b>কার্টুন/অ্যানিমেশন</b> (ছোটদের জন্য সহজ করে বোঝানো)। আর যেকোনো তথ্য খুঁজতে সবচেয়ে সহজ উপায় হলো <b>সার্চ ইঞ্জিনে সঠিকভাবে প্রশ্ন লেখা</b> — যত ভালোভাবে লিখবে, তত ভালো ফলাফল পাবে। এই দক্ষতা অনুশীলন করলেই বাড়ে।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <span class="book-label">সেরা কিছু শিক্ষামূলক ওয়েবসাইট (বই থেকে)</span>
+  </div>
+
+  <div class="site-card">
+    <div class="site-num">১</div>
+    <div class="site-body"><b>www.nctb.gov.bd</b> — জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ডের ওয়েবসাইটে রয়েছে তোমাদের বিভিন্ন শ্রেণির সকল পাঠ্যপুস্তকের ই-বুক সংস্করণ। ই-বুক হলো মুদ্রিত বইয়ের ডিজিটাল সংস্করণ — স্ক্রিনে পড়া যায়, পাতা উল্টানো যায়।</div>
+  </div>
+  <div class="site-card">
+    <div class="site-num">২</div>
+    <div class="site-body"><b>www.moedu.gov.bd</b> — বাংলাদেশ সরকারের শিক্ষা মন্ত্রণালয়ের ওয়েবসাইট। শিক্ষানীতি, সৃজনশীল পরীক্ষা পদ্ধতি, পাবলিক পরীক্ষার তারিখ ও ফলাফল সংক্রান্ত তথ্য এখানে পাওয়া যায়।</div>
+  </div>
+  <div class="site-card">
+    <div class="site-num">৩</div>
+    <div class="site-body"><b>উইকিপিডিয়া (www.wikipedia.org)</b> — ইন্টারনেটের সবচেয়ে বড় মুক্ত বিশ্বকোষ। ইংরেজি ভাষায় প্রায় ৭০ লক্ষ নিবন্ধ, বাংলায় প্রায় ১ লক্ষ ৬০ হাজারের বেশি নিবন্ধ আছে।</div>
+  </div>
+  <div class="site-card">
+    <div class="site-num">৪</div>
+    <div class="site-body"><b>www.khanacademy.org</b> — বাংলাদেশি বংশোদ্ভূত শিক্ষাবিদ সালমান খান ২০০৬ সালে প্রতিষ্ঠা করেন। প্রায় ১০ হাজার ছোট ভিডিওতে গণিত, ইতিহাস, পদার্থবিজ্ঞান, জীববিজ্ঞান ইত্যাদি ব্যাখ্যা করা আছে — ২১৩ কোটিরও বেশিবার দেখা হয়েছে।</div>
+  </div>
+  <div class="site-card">
+    <div class="site-num">৫</div>
+    <div class="site-body"><b>bn.khanacademy.org</b> — খান একাডেমির বাংলা অনুবাদ সংস্করণ (জীববিজ্ঞান, রসায়ন, পদার্থবিজ্ঞান, জৈবরসায়ন)। গণিতের বাংলা ভিডিও পাওয়া যায় www.youtube.com/user/KhanAcademyBangla -তে।</div>
+  </div>
+  <div class="site-card">
+    <div class="site-num">৬</div>
+    <div class="site-body"><b>বিবিসি জানালা (bbcjanala.ghoorilearning.com)</b> — ইংরেজি ভাষা শেখার একটি জনপ্রিয় সাইট, বিনামূল্যে রেজিস্ট্রেশন করে কোর্স করা যায়, শেষে সার্টিফিকেট প্রিন্ট করা যায়।</div>
+  </div>
+
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই ৬টা সাইট মনে রাখার সহজ উপায় — প্রতিটার একটা আলাদা কাজ: <b>NCTB</b> = বইয়ের জন্য, <b>শিক্ষা মন্ত্রণালয়</b> = নীতি ও পরীক্ষার তারিখের জন্য, <b>উইকিপিডিয়া</b> = যেকোনো বিষয়ে তথ্যের জন্য, <b>খান একাডেমি</b> = ভিডিওতে বিষয় বোঝার জন্য, <b>বিবিসি জানালা</b> = ইংরেজি শেখার জন্য।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6.5"/><path d="M15 15l5.5 5.5"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🔍 সার্চ ইঞ্জিন</div>
+      <div class="sc-question">তুমি কি নিজে কখনো গুগল বা অন্য সার্চ ইঞ্জিনে কিছু খুঁজেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, খুঁজেছি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">না, করিনি</button>
+      </div>
+      <div class="sc-answer">সার্চ ইঞ্জিন (যেমন Google) হলো এমন একটা ওয়েবসাইট, যেখানে তুমি কোনো প্রশ্ন বা শব্দ লিখলে সেটা ইন্টারনেটের কোটি কোটি পাতা থেকে সবচেয়ে প্রাসঙ্গিক ফলাফলগুলো খুঁজে এনে দেখায়। যেমন বইয়ে দেখানো হয়েছে, "নিউটনের দ্বিতীয় সূত্র" লিখলে প্রায় দেড় কোটি ফলাফল পাওয়া যায়!</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>এবার গুগল বা ইয়াহু বা তোমার প্রিয় কোনো সার্চ ইঞ্জিনে নিচের শব্দাবলি দিয়ে সার্চ করে সেটির ফলাফলগুলো দেখো:</p>
+    <p>১. বাংলাদেশের শিক্ষা ব্যবস্থা<br>২. Origin of Matter<br>৩. William Shakespeare<br>৪. কাজী নজরুল ইসলাম<br>৫. পদার্থের তিন অবস্থা</p>
+    <textarea placeholder="প্রতিটা বিষয়ে কী পেলে, সংক্ষেপে এখানে লিখে রাখতে পারো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonC">
+      <button class="chip" data-def="ইন্টারনেটে তথ্য খোঁজার ওয়েবসাইট, যেমন Google — শব্দ লিখলে প্রাসঙ্গিক ওয়েবসাইট/ভিডিওর তালিকা দেখায়।">সার্চ ইঞ্জিন</button>
+      <button class="chip" data-def="মুদ্রিত বইয়ের ডিজিটাল সংস্করণ, কম্পিউটার/ফোনে পড়া যায়।">ই-বুক</button>
+      <button class="chip" data-def="সবার জন্য উন্মুক্ত করে দেওয়া বিশ্ববিদ্যালয় কোর্সের উপকরণ, যেমন MIT-এর OCW।">ওপেন কোর্সওয়্যার</button>
+      <button class="chip" data-def="সবাই মিলে স্বেচ্ছাশ্রমে তৈরি করা মুক্ত অনলাইন বিশ্বকোষ, যেমন উইকিপিডিয়া।">মুক্ত বিশ্বকোষ</button>
+    </div>
+    <div class="chip-def" id="def-lessonC"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ই-বুক কী?</p>
+      <div class="qoptions" data-hash="2751421952">
+        <label class="qoption"><input type="radio" name="q7" value="0">হাতে লেখা বই</label>
+        <label class="qoption"><input type="radio" name="q7" value="1">মুদ্রিত বইয়ের ডিজিটাল সংস্করণ</label>
+        <label class="qoption"><input type="radio" name="q7" value="2">ছবির বই</label>
+        <label class="qoption"><input type="radio" name="q7" value="3">অডিও বই</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. খান একাডেমি কে প্রতিষ্ঠা করেন?</p>
+      <div class="qoptions" data-hash="1841909213">
+        <label class="qoption"><input type="radio" name="q8" value="0">মেহদী হাসান খান</label>
+        <label class="qoption"><input type="radio" name="q8" value="1">সালমান খান</label>
+        <label class="qoption"><input type="radio" name="q8" value="2">মুনীর চৌধুরী</label>
+        <label class="qoption"><input type="radio" name="q8" value="3">বিল গেটস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. খান একাডেমি কত সালে প্রতিষ্ঠিত হয়?</p>
+      <div class="qoptions" data-hash="2810508781">
+        <label class="qoption"><input type="radio" name="q9" value="0">২০০০ সাল</label>
+        <label class="qoption"><input type="radio" name="q9" value="1">২০০৬ সাল</label>
+        <label class="qoption"><input type="radio" name="q9" value="2">২০০৭ সাল</label>
+        <label class="qoption"><input type="radio" name="q9" value="3">২০১৮ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. এমআইটি-র উন্মুক্ত কোর্স সাইটের ঠিকানা কী?</p>
+      <div class="qoptions" data-hash="2888228306">
+        <label class="qoption"><input type="radio" name="q10" value="0">www.mit.edu</label>
+        <label class="qoption"><input type="radio" name="q10" value="1">ocw.mit.edu</label>
+        <label class="qoption"><input type="radio" name="q10" value="2">mit.coursera.org</label>
+        <label class="qoption"><input type="radio" name="q10" value="3">edu.mit.com</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৫. ইংরেজি ভাষার উইকিপিডিয়াতে প্রায় কত নিবন্ধ আছে (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="842724163">
+        <label class="qoption"><input type="radio" name="q11" value="0">৭০ হাজার</label>
+        <label class="qoption"><input type="radio" name="q11" value="1">৭ লক্ষ</label>
+        <label class="qoption"><input type="radio" name="q11" value="2">৭০ লক্ষ</label>
+        <label class="qoption"><input type="radio" name="q11" value="3">৭ কোটি</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= FINAL QUIZ ================= -->
+<section class="lesson" id="finalquiz">
+  <h2><span class="num">📝</span> অধ্যায় ৫ · সম্পূর্ণ পরীক্ষা</h2>
+  <p class="lesson-intro-note">পুরো অধ্যায় থেকে মিলিয়ে কয়েকটা প্রশ্ন — নিজেকে যাচাই করে দেখো কতটা মনে রাখতে পেরেছ।</p>
+  <div class="quiz">
+    <div class="qitem">
+      <p class="qtext">১. NCTB-এর ওয়েবসাইট থেকে কী পাওয়া যায়?</p>
+      <div class="qoptions" data-hash="3189559046">
+        <label class="qoption"><input type="radio" name="fq1" value="0">পরীক্ষার প্রশ্নপত্র</label>
+        <label class="qoption"><input type="radio" name="fq1" value="1">পাঠ্যপুস্তকের ই-বুক সংস্করণ</label>
+        <label class="qoption"><input type="radio" name="fq1" value="2">ভর্তির ফলাফল</label>
+        <label class="qoption"><input type="radio" name="fq1" value="3">চাকরির খবর</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. খান একাডেমির প্রতিষ্ঠাতা সালমান খান কোন দেশীয় বংশোদ্ভূত?</p>
+      <div class="qoptions" data-hash="1973616291">
+        <label class="qoption"><input type="radio" name="fq2" value="0">বাংলাদেশি</label>
+        <label class="qoption"><input type="radio" name="fq2" value="1">ভারতীয়</label>
+        <label class="qoption"><input type="radio" name="fq2" value="2">পাকিস্তানি</label>
+        <label class="qoption"><input type="radio" name="fq2" value="3">আমেরিকান</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. বিবিসি জানালা কী শেখার জনপ্রিয় সাইট?</p>
+      <div class="qoptions" data-hash="3550902656">
+        <label class="qoption"><input type="radio" name="fq3" value="0">গণিত</label>
+        <label class="qoption"><input type="radio" name="fq3" value="1">ইংরেজি ভাষা</label>
+        <label class="qoption"><input type="radio" name="fq3" value="2">কম্পিউটার প্রোগ্রামিং</label>
+        <label class="qoption"><input type="radio" name="fq3" value="3">বাংলা ভাষা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. সঠিকভাবে সার্চ ইঞ্জিন ব্যবহার করতে কী দরকার (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="2293897301">
+        <label class="qoption"><input type="radio" name="fq4" value="0">দ্রুত ইন্টারনেট সংযোগ</label>
+        <label class="qoption"><input type="radio" name="fq4" value="1">সঠিকভাবে অনুসন্ধান লেখার দক্ষতা</label>
+        <label class="qoption"><input type="radio" name="fq4" value="2">দামি কম্পিউটার</label>
+        <label class="qoption"><input type="radio" name="fq4" value="3">অনেক বন্ধু</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৫. গণিতের বাংলা খান একাডেমি ভিডিও কোথায় পাওয়া যায়?</p>
+      <div class="qoptions" data-hash="3451340407">
+        <label class="qoption"><input type="radio" name="fq5" value="0">nctb.gov.bd</label>
+        <label class="qoption"><input type="radio" name="fq5" value="1">shikkhok.com</label>
+        <label class="qoption"><input type="radio" name="fq5" value="2">youtube.com/user/KhanAcademyBangla</label>
+        <label class="qoption"><input type="radio" name="fq5" value="3">moedu.gov.bd</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৬. ভার্চুয়াল ক্লাসরুম তৈরি হলে ভবিষ্যতে কী সম্ভব হবে (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="2984755111">
+        <label class="qoption"><input type="radio" name="fq6" value="0">স্কুল-কলেজ পুরোপুরি বন্ধ হয়ে যাবে</label>
+        <label class="qoption"><input type="radio" name="fq6" value="1">একজন শিক্ষক সারা দেশের ছাত্রছাত্রীকে একসাথে পড়াতে পারবেন</label>
+        <label class="qoption"><input type="radio" name="fq6" value="2">পরীক্ষা লাগবে না</label>
+        <label class="qoption"><input type="radio" name="fq6" value="3">বই ছাপানো বন্ধ হয়ে যাবে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="celebrate-box">
+  <h3>🎉 অভিনন্দন!</h3>
+  <p>তুমি সপ্তম শ্রেণির তথ্য ও যোগাযোগ প্রযুক্তি বইয়ের পাঁচটি অধ্যায়ই শেষ করে ফেললে — প্রাত্যহিক জীবনে প্রযুক্তি থেকে শুরু করে আজকের শিক্ষায় ইন্টারনেটের ব্যবহার পর্যন্ত। এবার নিয়মিত অনুশীলন করে এই জ্ঞানকে আরও পাকাপোক্ত করে নাও!</p>
+</div>
+
+</main>
+
+<footer>
+  সপ্তম শ্রেণি · তথ্য ও যোগাযোগ প্রযুক্তি — অধ্যায় ৫ ইন্টারেক্টিভ সংস্করণ (শেষ অধ্যায়)। মূল পাঠ্যবই: জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড, বাংলাদেশ।
+</footer>
+
+<script>
+function toggleAnswer(btn, forceOpen){
+  const wrap = btn.closest('.sc-content');
+  const ans = wrap.querySelector('.sc-answer');
+  if(forceOpen){
+    ans.classList.add('show');
+  } else {
+    ans.classList.remove('show');
+  }
+}
+
+document.querySelectorAll('.chips').forEach(function(group){
+  const targetId = 'def-' + group.getAttribute('data-glossary');
+  const defBox = document.getElementById(targetId);
+  group.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      const already = chip.classList.contains('active');
+      group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      if(already){
+        defBox.classList.remove('show');
+        defBox.innerHTML = '';
+        return;
+      }
+      chip.classList.add('active');
+      defBox.innerHTML = '<b>'+chip.textContent+'</b> — '+chip.getAttribute('data-def');
+      defBox.classList.add('show');
+    });
+  });
+});
+
+// ---- quiz logic (hash-verified + locks after answering) ----
+function strHash(s){
+  let h = 5381;
+  for(let i=0;i<s.length;i++){
+    h = ((h*33) + s.charCodeAt(i)) >>> 0;
+  }
+  return String(h);
+}
+document.querySelectorAll('.qoptions').forEach(function(optGroup){
+  const targetHash = optGroup.getAttribute('data-hash');
+  const feedback = optGroup.parentElement.querySelector('.qfeedback');
+  feedback.setAttribute('aria-live','polite');
+  const optionLabels = optGroup.querySelectorAll('.qoption');
+  optGroup.querySelectorAll('input[type=radio]').forEach(function(input){
+    input.addEventListener('change', function(){
+      optionLabels.forEach(l=>l.classList.remove('correct','wrong'));
+      let correctLabel = null, correctText = '';
+      optionLabels.forEach(function(lbl){
+        const txt = lbl.textContent.trim();
+        if(strHash(txt) === targetHash){ correctLabel = lbl; correctText = txt; }
+      });
+      const chosenLabel = input.closest('.qoption');
+      if(chosenLabel === correctLabel){
+        chosenLabel.classList.add('correct');
+        feedback.textContent = '✅ ঠিক আছে! খুব ভালো হয়েছে।';
+        feedback.className = 'qfeedback show ok';
+      } else {
+        chosenLabel.classList.add('wrong');
+        if(correctLabel) correctLabel.classList.add('correct');
+        feedback.textContent = '❌ এটা ঠিক না। সঠিক উত্তর: ' + correctText + ' — উপরের বইয়ের অংশটা আরেকবার পড়ে নাও।';
+        feedback.className = 'qfeedback show no';
+      }
+      // lock this question so guessing repeatedly isn't possible
+      optGroup.querySelectorAll('input[type=radio]').forEach(i=>i.disabled=true);
+      updateProgress();
+    });
+  });
+});
+
+const navLinks = document.querySelectorAll('#lessonNav a');
+const sections = document.querySelectorAll('main section');
+function onScroll(){
+  let current = sections[0].id;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120) current = sec.id;
+  });
+  navLinks.forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+function updateProgress(){
+  const totalQ = document.querySelectorAll('.qoptions').length;
+  const answered = document.querySelectorAll('.qoptions input[type=radio]:checked').length;
+  const pct = totalQ ? Math.round((answered/totalQ)*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'তোমার অগ্রগতি: '+pct+'% (কুইজ উত্তর দেওয়ার ভিত্তিতে)';
+}
+updateProgress();
+function collectWork(){
+  const lines = [];
+  lines.push('তোমার কাজ ও উত্তর');
+  lines.push('========================================');
+  lines.push('');
+  let anyWork = false;
+  document.querySelectorAll('textarea').forEach(function(ta){
+    if(ta.value.trim()){
+      anyWork = true;
+      let promptEl = ta.previousElementSibling;
+      let promptText = (promptEl ? promptEl.textContent.trim() : '').slice(0,200);
+      lines.push('▸ ' + (promptText || 'তোমার লেখা'));
+      lines.push(ta.value.trim());
+      lines.push('');
+    }
+  });
+  if(!anyWork){ lines.push('(তুমি এখনো কোনো দলগত কাজ বা প্রশ্নের উত্তর লেখোনি)'); lines.push(''); }
+  lines.push('========================================');
+  lines.push('কুইজের ফলাফল');
+  let total = 0, correct = 0;
+  document.querySelectorAll('.qitem').forEach(function(qi){
+    const fb = qi.querySelector('.qfeedback');
+    const qtext = qi.querySelector('.qtext');
+    if(fb && fb.classList.contains('show')){
+      total++;
+      const ok = fb.classList.contains('ok');
+      if(ok) correct++;
+      lines.push((ok ? '✓ ' : '✗ ') + (qtext ? qtext.textContent.trim() : ('প্রশ্ন ' + total)));
+    }
+  });
+  lines.push('');
+  lines.push('মোট উত্তর দেওয়া হয়েছে: ' + total + ' টি, সঠিক হয়েছে: ' + correct + ' টি');
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'আমার-কাজ-ও-ফলাফল.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+const dwBtn = document.getElementById('downloadWorkBtn');
+if(dwBtn){ dwBtn.addEventListener('click', collectWork); }
+
+</script>
+
+</body>
+</html>

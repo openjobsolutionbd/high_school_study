@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>স্প্রেডশিটের ব্যবহার — তথ্য ও যোগাযোগ প্রযুক্তি | অষ্টম শ্রেণি</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #1a3a5c;
+    --accent: #e8511a;
+    --green:  #2d7a4f;
+    --bg:     #f0f4f8;
+    --card:   #ffffff;
+    --text:   #1e2430;
+    --muted:  #5a6476;
+    --border: #d8e2ee;
+    --yellow: #fff7e6;
+    --yellow-border: #f5c842;
+  }
+
+  body {
+    font-family: 'Hind Siliguri', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--navy);
+    color: #fff;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  }
+  .topbar-brand {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 1.05rem;
+    letter-spacing: .02em;
+    color: #fff;
+    text-decoration: none;
+  }
+  .topbar-sub {
+    font-size: .8rem;
+    color: #a8c0d8;
+  }
+  .chapter-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: .25rem .7rem;
+    border-radius: 20px;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .sidebar-title {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted);
+    padding: 0 1.25rem .75rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: .5rem;
+  }
+  .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .55rem 1.25rem;
+    font-size: .88rem;
+    color: var(--muted);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all .15s;
+    line-height: 1.4;
+  }
+  .sidebar-nav a:hover {
+    color: var(--navy);
+    background: var(--bg);
+    border-left-color: var(--accent);
+  }
+  .sidebar-nav a.active {
+    color: var(--navy);
+    font-weight: 600;
+    border-left-color: var(--accent);
+    background: #eef3f9;
+  }
+  .sidebar-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--navy);
+    font-size: .7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .sidebar-nav a.active .sidebar-num {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    padding: 2.5rem 3rem;
+    max-width: 860px;
+  }
+
+  /* ── CHAPTER HERO ── */
+  .chapter-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #2a5580 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 2.5rem 2.5rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter-hero::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+  }
+  .chapter-hero::after {
+    content: '';
+    position: absolute;
+    right: 40px; top: 60px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.04);
+  }
+  .hero-label {
+    font-size: .78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: #a8d4f5;
+    margin-bottom: .5rem;
+  }
+  .hero-title {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 1.9rem;
+    line-height: 1.35;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .hero-divider {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── LEARNING OBJECTIVES ── */
+  .objectives {
+    background: #eef6ff;
+    border-left: 4px solid var(--navy);
+    border-radius: 0 12px 12px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .objectives-title {
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: .75rem;
+    font-size: .95rem;
+  }
+  .objectives ul {
+    list-style: none;
+    padding: 0;
+  }
+  .objectives ul li {
+    padding: .3rem 0 .3rem 1.5rem;
+    position: relative;
+    font-size: .92rem;
+    color: #2c4a6e;
+  }
+  .objectives ul li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: .65rem;
+    top: .55rem;
+  }
+
+  /* ── LESSON SECTIONS ── */
+  .lesson {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 2rem 2.25rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+
+  /* ── HEADINGS ── */
+  .main h1 {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 1.6rem;
+    color: var(--navy);
+    margin: 2rem 0 1rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .main h1::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .main h2 {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 1.25rem;
+    color: var(--navy);
+    margin: 1.75rem 0 .75rem;
+    padding-left: .75rem;
+    border-left: 3px solid var(--accent);
+  }
+  .main h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2c4a6e;
+    margin: 1.25rem 0 .5rem;
+  }
+
+  /* ── PARAGRAPH & LIST ── */
+  .main p {
+    margin-bottom: 1rem;
+    text-align: justify;
+  }
+  .main ul, .main ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .main li {
+    margin-bottom: .4rem;
+  }
+
+  /* ── TABLE ── */
+  .main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: .9rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  }
+  .main th {
+    background: var(--navy);
+    color: #fff;
+    padding: .65rem 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  .main td {
+    padding: .6rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .main tr:nth-child(even) td {
+    background: var(--bg);
+  }
+
+  /* ── BLOCKQUOTE (দলগত কাজ) ── */
+  .main blockquote {
+    background: #e8f5ee;
+    border-left: 4px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    color: #1a4a2e;
+    font-size: .92rem;
+  }
+  .main blockquote p { margin: 0; }
+  .main blockquote strong { color: var(--green); }
+
+  /* ── নতুন শিখলাম ── */
+  .main p:has(strong:first-child) {
+    background: var(--yellow);
+    border: 1px solid var(--yellow-border);
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    font-size: .9rem;
+  }
+
+  /* ── QUESTION SECTION ── */
+  .question-section {
+    background: #fafbfd;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--navy);
+    border-radius: 0 0 12px 12px;
+    padding: 1.75rem 2rem;
+    margin-top: 2rem;
+  }
+  .question-section h2 {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin: 0 0 1.25rem;
+    text-align: center;
+    border: none;
+    padding: 0;
+  }
+
+  /* ── HR ── */
+  .main hr {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 2rem 0;
+  }
+
+  /* ── CODE / INLINE ── */
+  .main code {
+    background: #eef1f6;
+    padding: .1em .35em;
+    border-radius: 4px;
+    font-size: .88em;
+    color: #c0392b;
+  }
+
+  /* ── STRONG/EM ── */
+  .main strong { font-weight: 700; color: #1a2a3a; }
+  .main em { font-style: italic; color: var(--muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main { padding: 1.5rem 1.25rem; }
+    .hero-title { font-size: 1.4rem; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .topbar, .sidebar { display: none; }
+    .main { padding: 0; max-width: 100%; }
+    .lesson { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div>
+    <div class="topbar-brand">তথ্য ও যোগাযোগ প্রযুক্তি</div>
+    <div class="topbar-sub">অষ্টম শ্রেণি · জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড, বাংলাদেশ</div>
+  </div>
+  <span class="chapter-badge">চতুর্থ অধ্যায়</span>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">সকল অধ্যায়</div>
+    <nav class="sidebar-nav">
+      <a href="chapter-01-importance-of-ict.html" class="">
+        <span class="sidebar-num">১</span>তথ্য ও যোগাযোগ প্রযুক্তির গুরুত্ব
+      </a>
+      <a href="chapter-02-computer-network.html" class="">
+        <span class="sidebar-num">২</span>কম্পিউটার নেটওয়ার্ক
+      </a>
+      <a href="chapter-03-safe-ethical-use.html" class="">
+        <span class="sidebar-num">৩</span>নিরাপদ ও নৈতিক ব্যবহার
+      </a>
+      <a href="chapter-04-spreadsheet.html" class="active">
+        <span class="sidebar-num">৪</span>স্প্রেডশিটের ব্যবহার
+      </a>
+      <a href="chapter-05-internet-in-daily-life.html" class="">
+        <span class="sidebar-num">৫</span>শিক্ষা ও দৈনন্দিন জীবনে ইন্টারনেট
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="chapter-hero">
+      <div class="hero-label">চতুর্থ অধ্যায়</div>
+      <h1 class="hero-title">স্প্রেডশিটের ব্যবহার</h1>
+      <div class="hero-divider"></div>
+    </div>
+
+    <div class="objectives"><div class="objectives-title">এ অধ্যায় শেষে আমরা —</div><ul><li>তথ্য ও যোগাযোগ প্রযুক্তি এবং স্প্রেডশিটের মধ্যে সম্পর্ক ব্যাখ্যা করতে পারব;</li><li>স্প্রেডশিট সফটওয়্যার ব্যবহারের ক্ষেত্র চিহ্নিত করতে পারব;</li><li>স্প্রেডশিট সফটওয়্যার ব্যবহারের উদ্দেশ্য ব্যাখ্যা করতে পারব;</li><li>স্প্রেডশিট সফটওয়্যার ব্যবহারের কৌশল বর্ণনা করতে পারব।</li></ul></div>
+<hr />
+<h2>পাঠ ২২: স্প্রেডশিট</h2>
+<p>মানবজাতির আদিকাল থেকেই মানুষকে বিভিন্ন বিষয়ের হিসাব রাখতে হতো। কখনো পাথরে কখনো গাছের বাকলে বিভিন্ন প্রকার চিহ্ন দিয়ে মানুষ হিসাব রাখার চেষ্টা করত। এ চেষ্টা থেকেই মানুষ আবিষ্কার করে অ্যাবাকাস। এখন থেকে ৫০ বছর আগে মানুষের কাছে কাগজ-কলমই ছিল হিসাব করা ও সংরক্ষণের প্রধান উপায়। প্রযুক্তিগত বিকাশে ক্যালকুলেটরের আবিষ্কার মানুষকে হিসাবের ক্ষেত্রে কিছুটা স্বস্তি দেয়। তবুও জটিল ও দীর্ঘ হিসাবের সমস্যা থেকেই যায়। এ সকল সমস্যা নিরসন হয় কম্পিউটার আবিষ্কারের পর।</p>
+<h3>স্প্রেডশিটের ধারণা (Concept of Spreadsheet)</h3>
+<p>স্প্রেডশিটের আভিধানিক অর্থ হলো ছড়ানো বড়ো মাপের কাগজ। ব্যবসায় প্রতিষ্ঠানের আর্থিক হিসাব সংরক্ষণের জন্য এ ধরনের কাগজ ব্যবহার করা হয়। এ কাগজে ছক করে (রো ও কলাম) একটি ব্যবসায় প্রতিষ্ঠানের পূর্ণাঙ্গ আর্থিক চিত্র তুলে ধরা যায়। বর্তমানে কাগজের স্প্রেডশিটের স্থান দখল করেছে সফটওয়্যার নির্ভর স্প্রেডশিট প্রোগ্রাম। এর ফলে নানা কাজে স্প্রেডশিটের ব্যবহার জনপ্রিয় হয়ে উঠেছে।</p>
+<p>সত্তর দশকের শেষের দিকে আপল কোম্পানি সর্বপ্রথম ভিসিক্যালক (VisiCalc) স্প্রেডশিট সফটওয়্যার উদ্ভাবন করে। পরবর্তীকালে মাইক্রোসফট এক্সেল (Microsoft Excel), ওপেন অফিস ক্যালক (Open office Calc), কেস্প্রেড (Kspread) নামের স্প্রেডশিট সফটওয়্যার উদ্ভাবিত হয়। বর্তমানে বহুল ব্যবহৃত ও জনপ্রিয় স্প্রেডশিট সফটওয়্যার হলো মাইক্রোসফট কোম্পানির এক্সেল (Excel)।</p>
+<h3>স্প্রেডশিট প্রোগ্রাম কী?</h3>
+<p>স্প্রেডশিট হলো এক ধরনের অ্যাপ্লিকেশন কম্পিউটার প্রোগ্রাম। এটিকে কখনো কখনো ওয়ার্কবুকও বলা হয়। একটি রেজিস্টার খাতায় যেমন অনেকগুলো পৃষ্ঠা থাকে, তেমনি একটি ওয়ার্কবুকে অনেকগুলো ওয়ার্কশিট থাকে। একেকটা ওয়ার্কশিটে বহুসংখ্যক সারি (Row) ও কলাম (Column) থাকে। এটি দেখতে নিচের চিত্রের মতো—</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A,B,C...দিয়ে কলাম এবং 1,2,3... দিয়ে রো নির্দেশ করা হয়। ছোটো ছোটো ঘরগুলিকে বলে সেল (Cell)।</p>
+<h3>তথ্য ও যোগাযোগ প্রযুক্তি এবং স্প্রেডশিট</h3>
+<p>বর্তমান যুগ হলো তথ্য ও যোগাযোগ প্রযুক্তির যুগ। এ যুগে তথ্য প্রক্রিয়াকরণ একটি গুরুত্বপূর্ণ কাজ। বিভিন্ন প্রকার ব্যবসায়িক কাজে এবং যেকোনো গবেষণায় প্রাপ্ত উপাত্তকে বোধগম্যভাবে উপস্থাপনের জন্য উপাত্তগুলোকে বিশ্লেষণ করতে হয়। স্প্রেডশিট প্রোগ্রামের সাহায্যে এ ধরনের বিশ্লেষণের প্রাথমিক কাজগুলো সহজে সম্পাদন করা যায়।</p>
+<p>স্প্রেডশিট প্রোগ্রামে একটা ওয়ার্কশিটে সব ধরনের উপাত্ত প্রবেশ করানো যায়। ফলে যেকোনো ধরনের, যেকোনো সংখ্যক উপাত্ত অল্প সময়ে সম্পাদনা করা, হিসাব করা, বিশ্লেষণ করা এবং প্রতিবেদন তৈরি করার কাজ স্প্রেডশিট প্রোগ্রামের মাধ্যমে করা যায়।</p>
+<h3>স্প্রেডশিট সফটওয়্যার ব্যবহারের উদ্দেশ্য</h3>
+<p><strong>ঘটনা ১:</strong> নতুন কুঁড়ি উচ্চ বিদ্যালয়ের বিভিন্ন পরীক্ষার ফলাফল প্রস্তুত করার জন্য একটি বড়ো রেজিস্টার খাতা ব্যবহার করা হতো। শিক্ষকগণ বিভিন্ন বিষয়ে প্রাপ্ত নম্বর সে রেজিস্টারে লিপিবদ্ধ করতেন। এরপর সবগুলো বিষয়ের বিষয়ভিত্তিক গ্রেড পয়েন্ট বের করে জিপিএ নির্ণয় করা হতো। কিন্তু এ প্রক্রিয়ায় তাদের অনেক ভুল হতো এবং পরে তা আবার সংশোধন করতে হতো। ফলাফলের পুরো প্রক্রিয়াটি সম্পন্ন করতে তাদের কয়েক দিন সময় লেগে যেত।</p>
+<p><strong>ঘটনা ২:</strong> এসআর এন্টারপ্রাইজ একটি রড-সিমেন্টের ব্যবসা প্রতিষ্ঠান। প্রতিদিন তাদের অনেক লেনদেন হয়। এর কিছু নগদ এবং কিছু বাকিতে লেনদেন। ক্যাশ বইয়ে এ হিসাব রাখতে ক্যাশিয়ারকে অনেক হিমশিম খেতে হয়।</p>
+<p><strong>ঘটনা ৩:</strong> মি. সুমন সবসময় আয়ের সাথে সংগতি রেখে সংসার চালানোর চেষ্টা করেন। এজন্য তিনি একটা ডায়েরিতে আয়-ব্যয়ের হিসেব রাখার চেষ্টা করেন। মাঝে মধ্যে তিনি হিসাবে গরমিল করে ফেলেন।</p>
+<p>উপর্যুক্ত ঘটনাগুলোতে ব্যক্তি বা প্রতিষ্ঠানগুলো যে সমস্যার মুখোমুখি হয়েছে তা স্প্রেডশিট সফটওয়্যার ব্যবহার করে সহজে সমাধান করা যায়। স্প্রেডশিট সফটওয়্যার ব্যবহার করে বিপুল পরিমাণ উপাত্ত নিয়ে কাজ করা যায়। স্প্রেডশিট সফটওয়্যারের ব্যবহারের মাধ্যমে হিসাবের কাজ দ্রুত ও নির্ভুলভাবে করা যায়। এ সফটওয়্যারে সূত্র ব্যবহারের সুযোগ থাকায় হিসাবের কাজ স্বয়ংক্রিয়ভাবে সম্পন্ন হয়। একই সূত্র বারবার প্রয়োগ করা যায় বলে প্রক্রিয়াকরণের সময় কম লাগে। উপাত্তের চিত্ররূপ দেওয়াও এ সফটওয়্যারে খুব সহজ। স্প্রেডশিট সফটওয়্যারের মাধ্যমে ডাক যোগাযোগের ঠিকানা ও ই-মেইল ঠিকানার ব্যবস্থাপনা ও সংরক্ষণ সহজে করা যায়।</p>
+<hr />
+<h2>পাঠ ২৩ থেকে ৪৩: স্প্রেডশিট সফটওয়্যার ব্যবহারের কৌশল</h2>
+<p>তোমরা পূর্ববর্তী শ্রেণিতে ওয়ার্ড প্রসেসিং সফটওয়্যার খোলার কৌশল শিখেছ। স্প্রেডশিট সফটওয়্যার খোলার কৌশলও একই রকম। কম্পিউটার খোলা অবস্থায় স্টার্ট বাটন ক্লিক করে All Programs-এ যেতে হবে। এরপর সংশ্লিষ্ট স্প্রেডশিট প্রোগ্রামের আইকনে ক্লিক করতে হবে।</p>
+<p>নিচে চিত্রের সাহায্যে মাইক্রোসফটের স্প্রেডশিট সফটওয়্যার এক্সেল খোলার পদ্ধতি দেখানো হলো:</p>
+<p>এ ছাড়া কম্পিউটারের ডেস্কটপে স্প্রেডশিট প্রোগ্রামের আইকনে ডাবল ক্লিক করে স্প্রেডশিট প্রোগ্রাম খোলা যায়।</p>
+<h3>মাইক্রোসফট এক্সেল উইন্ডো</h3>
+<p>মাইক্রোসফট এক্সেল প্রোগ্রাম খোলা অবস্থায় নিচের চিত্রের মতো দেখা যায়।</p>
+<h3>টাইটেল বার</h3>
+<p>এক্সেল উইন্ডোর একেবারে উপরে ওয়ার্কবুকের শিরোনাম লেখা থাকে। এটিকে টাইটেল বার বলা হয়।</p>
+<p><strong>Book1 - Microsoft Excel</strong></p>
+<h3>অফিস/ফাইল বাটন</h3>
+<p>এক্সেল উইন্ডোর উপরের বাম দিকে বাটনটি বা বাটনটিতে ক্লিক করে নতুন এক্সেল ওয়ার্কবুক খোলা, আগের ওয়ার্কবুক খোলা, ওয়ার্কবুক সংরক্ষণ করাসহ আরও অনেক কাজ করা যায়।</p>
+<h3>কুইক অ্যাকসেস টুলবার</h3>
+<p>অফিস/ফাইল বাটনের পাশেই কুইক অ্যাকসেস টুলবারের অবস্থান। সচরাচর যে বাটনগুলো বেশি ব্যবহৃত হয়, সেগুলো এখানে থাকে।</p>
+<h3>রিবন</h3>
+<p>মাইক্রোসফট এক্সেলে বিভিন্ন কমান্ডকে গুচ্ছাকারে সাজানো হয়েছে। এগুলোকে একত্রে রিবন বলা হয়। প্রত্যেকটা মেনুর আওতায় আইকনের মাধ্যমে কমান্ডগুলো সাজানো।</p>
+<p>রিবনে মূলত নিম্নলিখিত মেনু ট্যাব থাকে:</p>
+<ul>
+<li><strong>Home</strong> — ফন্ট, অ্যালাইনমেন্ট, নম্বর ফরম্যাট, সেল ও এডিটিং সংক্রান্ত কমান্ড</li>
+<li><strong>Insert</strong> — চার্ট, টেবিল, ছবি ইত্যাদি সন্নিবেশ করার কমান্ড</li>
+<li><strong>Page Layout</strong> — পৃষ্ঠার বিন্যাস সংক্রান্ত কমান্ড</li>
+<li><strong>Formulas</strong> — সূত্র সন্নিবেশ ও ব্যবস্থাপনার কমান্ড</li>
+<li><strong>Data</strong> — উপাত্ত ব্যবস্থাপনার কমান্ড</li>
+<li><strong>Review</strong> — পর্যালোচনা সংক্রান্ত কমান্ড</li>
+<li><strong>View</strong> — দেখার ধরন পরিবর্তনের কমান্ড</li>
+</ul>
+<h3>সেল অবস্থান ও সেলের বিষয়বস্তু দেখানোর বার বা ফরমুলা বার</h3>
+<p>রিবনের ঠিক নিচেই এর অবস্থান। এখানে সেলের অবস্থান বা সেল রেফারেন্স প্রদর্শন করা হয়। পাশাপাশি সেলের বিষয়বস্তু বা কন্টেন্ট দেখানো হয়।</p>
+<h3>স্ট্যাটাস বার</h3>
+<p>ওয়ার্কশিটের নিচের দিকে স্ট্যাটাস বারের অবস্থান। বিভিন্ন কাজের সময় তাৎক্ষণিক অবস্থা এ বারে দেখানো হয়। এছাড়া স্ট্যাটাস বারের ডান দিকে ভিন্ন ভিন্ন পদ্ধতিতে ওয়ার্কশিট দেখার অপশন রয়েছে।</p>
+<h3>শিট ট্যাব</h3>
+<p>একটা ওয়ার্কবুকে যতগুলো ওয়ার্কশিট থাকে শিট ট্যাবে সেগুলো দেখানো হয়। বিভিন্ন শিটের মধ্যে আসা যাওয়া করার জন্য শিট ট্যাব ব্যবহার করা যায়।</p>
+<h3>নতুন ওয়ার্কশিট খোলার পদ্ধতি</h3>
+<p>এক্সেল খোলা অবস্থায় নতুন ওয়ার্কশিট খোলার পদ্ধতি নিচের ছবিতে দেখানো হলো:</p>
+<ol>
+<li>অফিস বাটন ক্লিক করতে হবে।</li>
+<li>নিউ বাটন ক্লিক করতে হবে।</li>
+</ol>
+<p>কী-বোর্ডের মাধ্যমেও Ctrl+N চেপে নতুন ওয়ার্কশিট খোলা যায়।</p>
+<h3>স্প্রেডশিট সফটওয়্যার ব্যবহারের কৌশল</h3>
+<p>আমরা আগেই জেনেছি, স্প্রেডশিটে ওয়ার্কশিটের গ্রিড কলাম ও সারি আকারে থাকে। প্রতিটি কলামের শিরোনাম একটি ইংরেজি বর্ণ দিয়ে এবং প্রতিটি সারি সংখ্যা দিয়ে চিহ্নিত করা থাকে। এর দ্বারা গ্রিডের প্রতিটি সেলের ঠিকানা বা রেফারেন্স সুনির্দিষ্ট থাকে। যেমন E10 দিয়ে E কলাম এবং 10 নম্বর রো-এর ছেদবিন্দুতে অবস্থানকারী সেলকে নির্দেশ করা হয়।</p>
+<p>চলো এখন আমরা স্প্রেডশিট সফটওয়্যারে ডাটা এন্ট্রি করি।</p>
+<p>যেকোনো একটি সেলে কারসর রেখে কী-বোর্ড চেপে তোমার ইচ্ছামতো অক্ষর বা সংখ্যা টাইপ কর। শুরু হয়ে গেল তোমার স্প্রেডশিটের ব্যবহার। কী-বোর্ডের আরেও কী ব্যবহার করে আমরা কারসরকে ওয়ার্কশিটের যেকোনো সেলে নিতে পারি। এছাড়া ট্যাব বা এন্টার কী চেপে কার্সরকে বিভিন্ন সেলে নেওয়া যায়। মাউস ক্লিকের মাধ্যমেও কার্সরকে বিভিন্ন সেলে নেওয়া যায়।</p>
+<p><strong>কাজ:</strong> খোকন সপ্তম শ্রেণির চূড়ান্ত পরীক্ষায় বাংলা প্রথম পত্রে ৭০, বাংলা দ্বিতীয় পত্রে ৪০, ইংরেজি প্রথম পত্রে ৭০, ইংরেজি দ্বিতীয় পত্রে ৩০ এবং তথ্য ও যোগাযোগ প্রযুক্তি বিষয়ে ৪৫ নম্বর পেয়েছে। স্প্রেডশিট সফটওয়্যার ব্যবহার করে এ তথ্যগুলো টাইপ কর।</p>
+<hr />
+<h2>স্প্রেডশিট প্রোগ্রামে গাণিতিক কাজ</h2>
+<p>স্প্রেডশিটের সাহায্যে অনেক ধরনের গাণিতিক কাজ করা যায়। এ পাঠে আমরা এক্সেল প্রোগ্রাম ব্যবহার করে কীভাবে যোগ-বিয়োগ করা যায় তা শিখব।</p>
+<h3>যোগ করা</h3>
+<p>এক্সেলে দুইভাবে যোগ করা যায়: স্বয়ংক্রিয়ভাবে এবং ম্যানুয়ালি। উভয় ক্ষেত্রেই ফলাফলের সেলে সূত্র প্রয়োগ করতে হয়। স্বয়ংক্রিয়ভাবে যোগ করতে ফলাফল সেলে কারসর নিয়ে AutoSum ক্লিক করতে হয়। ম্যানুয়ালি যোগ করতে হলে ফলাফল সেলে = চিহ্ন দিয়ে সূত্র লিখতে হয়। অর্থাৎ A1 ও B1 সেলের সংখ্যার যোগ করার সূত্র হবে =A1+B1। নিচের চিত্রে এটি দেখানো হলো:</p>
+<p>এছাড়াও ফাংশন দিয়ে যোগ করা যায়। ফাংশন ব্যবহার করে যোগের ক্ষেত্রে সেল রেঞ্জ লেখার নিয়ম হলো = Sum(A1:D1)। এখানে সেল রেঞ্জ দিয়ে কোন সেল থেকে কোন সেল পর্যন্ত যোগ করা হবে তা বুঝানো হয়েছে। এর অর্থ হলো A1, B1, C1 ও D1 এর ডাটাগুলোর যোগফল বের করা হবে।</p>
+<h3>বিয়োগ করা</h3>
+<p>এক্সেলের ওয়ার্কশিটে বিয়োগ করার পদ্ধতিও যোগ করার পদ্ধতির মতো — তবে স্বয়ংক্রিয় বিয়োগ করার কোনো ব্যবস্থা নেই। ফলাফল সেলে সূত্র বসিয়ে বিয়োগের কাজ করতে হয়। অর্থাৎ A1 থেকে B1 সেলের সংখ্যা বিয়োগ করার সূত্র =A1-B1 লিখতে হবে। চিত্রে বিয়োগ করার পদ্ধতি দেখানো হলো:</p>
+<h3>বার ডায়াগ্রাম অঙ্কন</h3>
+<p>বার ডায়াগ্রাম অঙ্কনের জন্য নিচের প্রক্রিয়া অনুসরণ করতে হয়:</p>
+<ol>
+<li>ওয়ার্কশিটে উপাত্ত প্রবেশ করানো।</li>
+<li>যে তথ্যের ভিত্তিতে চার্ট বানাতে হবে, সেটুকু Select করা।</li>
+<li>রিবনে ইনসার্ট ক্লিক করে চার্ট অপশনের কলাম ক্লিক করতে হবে।</li>
+</ol>
+<p>উদাহরণস্বরূপ নিচের তথ্যগুলো ব্যবহার করে বার ডায়াগ্রাম তৈরি করা হয়েছে:</p>
+<table>
+<thead>
+<tr>
+<th>নাম</th>
+<th>ICT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rita</td>
+<td>45</td>
+</tr>
+<tr>
+<td>Nancy</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Faruk</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Shuvo</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<p>পরবর্তী শ্রেণিতে তোমরা এ বিষয়ে আরো জানতে পারবে।</p>
+<p><em>সফটওয়্যারের সংস্করণ ভিন্নতার কারণে টাইটেল ও মেনু বারের ভিন্নতা পরিলক্ষিত হতে পারে।</em></p>
+<hr />
+<div class="question-section"><h2>নমুনা প্রশ্ন</h2>
+<ol>
+<li>প্রথম স্প্রেডশিট সফটওয়্যার কোনটি?</li>
+<li>ক. মাইক্রোসফট এক্সেল</li>
+<li>খ. ভিসিক্যালক</li>
+<li>গ. ওপেন অফিস ক্যালক</li>
+<li>
+<p>ঘ. কেস্প্রেড</p>
+</li>
+<li>
+<p>ওয়ার্কবুক ব্যবহার করা যায় না—</p>
+</li>
+<li>ক. বিদ্যালয়ের ফলাফল প্রস্তুতিতে</li>
+<li>খ. ব্যবসার হিসাব-নিকাশ করতে</li>
+<li>গ. ডাক্তারি পরীক্ষা করতে</li>
+<li>
+<p>ঘ. ক্রিকেট খেলার রান হিসেব করতে</p>
+</li>
+<li>
+<p>মাইক্রোসফট এক্সেলের কমান্ডগুলো কোন গুচ্ছে সাজানো থাকে?</p>
+</li>
+<li>ক. কুইক টুলবার</li>
+<li>খ. মেনুবার</li>
+<li>গ. রিবন</li>
+<li>
+<p>ঘ. স্ট্যাটাস বার</p>
+</li>
+<li>
+<p>তথ্য ও যোগাযোগ প্রযুক্তিতে স্প্রেডশিটের আবির্ভাব —</p>
+</li>
+<li>i. হিসাব-নিকাশ সহজ করে দিয়েছে</li>
+<li>ii. কর্মী ব্যবস্থাপনার ক্ষেত্রে নতুন সুযোগ তৈরি করেছে</li>
+<li>iii. অনেক কাজ ঘরে বসেই করা সম্ভব করেছে</li>
+</ol>
+<p>নিচের কোনটি সঠিক?<br />
+   - ক. i.<br />
+   - খ. i ও ii<br />
+   - গ. ii ও iii.<br />
+   - ঘ. i, ii ও iii.</p>
+<p><strong>নিচের তথ্যগুলো পড়ে ৫ ও ৬ নম্বর প্রশ্নের উত্তর দাও:</strong></p>
+<p><strong>প্রাথমিক সমাপনী পরীক্ষার ফলাফল</strong></p>
+<p>জিরাব প্রাথমিক বিদ্যালয়ে জিপিএ ৫ পেয়েছে ১০জন<br />
+দিরাই প্রাথমিক বিদ্যালয়ে জিপিএ ৫ পেয়েছে ১৫জন<br />
+নলাম প্রাথমিক বিদ্যালয়ে জিপিএ ৫ পেয়েছে ৫জন<br />
+পলাশ প্রাথমিক বিদ্যালয়ে জিপিএ ৫ পেয়েছে ১৮জন</p>
+<ol>
+<li>বিদ্যালয়গুলোর তুলনামূলক ফলাফল প্রস্তুত করতে এক্সেলের কোন অপশনটি ব্যবহার সুবিধাজনক?</li>
+<li>ক. টেবিল</li>
+<li>খ. চার্ট</li>
+<li>গ. ফর্মুলা</li>
+<li>
+<p>ঘ. ফিল্টার</p>
+</li>
+<li>
+<p>মাইক্রোসফট এক্সেল ব্যবহার করে বিদ্যালয়গুলোর—</p>
+</li>
+<li>i. মোট জিপিএ ৫ প্রাপ্ত শিক্ষার্থীর সংখ্যা পাওয়া যাবে</li>
+<li>ii. জিপিএ ৫ প্রাপ্ত শিক্ষার্থীর শতকরা হার পাওয়া যাবে</li>
+<li>iii. বিদ্যালয়গুলোর মোট শিক্ষার্থীর সংখ্যা পাওয়া যাবে</li>
+</ol>
+<p>নিচের কোনটি সঠিক?<br />
+   - ক. i.<br />
+   - খ. i ও ii<br />
+   - গ. ii ও iii.<br />
+   - ঘ. i, ii ও iii.</p>
+<p><strong>সংক্ষিপ্ত উত্তর প্রশ্ন</strong><br />
+১. স্প্রেডশিটের ব্যবহার ব্যাখ্যা করো।<br />
+২. আইসিটির ক্ষেত্রে স্প্রেডশিট কীভাবে সহায়তা করে?<br />
+৩. স্প্রেডশিটে যোগ-বিয়োগ করা সুবিধাজনক কেন?<br />
+৪. পরীক্ষার ফলাফল প্রস্তুত ও সংরক্ষণে স্প্রেডশিট ব্যবহারের সুবিধা কী?</p></div>
+  </main>
+</div>
+
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>

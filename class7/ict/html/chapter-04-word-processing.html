@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অধ্যায় ৪ — ওয়ার্ড প্রসেসিং</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --slate:#1E3A34;
+  --slate-2:#28483F;
+  --paper:#FBF7EC;
+  --paper-2:#F2EAD3;
+  --ink:#22281f;
+  --indigo:#2F5D9E;
+  --indigo-dark:#1F3F6B;
+  --mustard:#E3A93B;
+  --good:#3E8E5A;
+  --bad:#B2483A;
+  --stitch:#C9B98A;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+}
+h1,h2,h3,.display{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--slate);
+  font-weight:700;
+}
+::selection{background:var(--mustard);color:var(--slate);}
+
+.stitch{
+  height:14px;
+  margin:0 auto;
+  max-width:1100px;
+  background-image:repeating-linear-gradient(
+    115deg,
+    var(--stitch) 0 8px,
+    transparent 8px 16px
+  );
+  opacity:.65;
+}
+.stitch.vertical-space{margin:36px auto;}
+
+header.topbar{
+  background:
+    radial-gradient(circle at 8px 8px, rgba(227,169,59,.14) 1.4px, transparent 1.4px),
+    linear-gradient(155deg, var(--slate-2) 0%, var(--slate) 62%, #142822 100%);
+  background-size: 26px 26px, cover;
+  color:var(--paper);
+  padding:38px 24px 46px;
+  position:relative;
+  overflow:hidden;
+}
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  margin:0 auto;
+}
+.header-illustration{
+  position:absolute;
+  right:-10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:220px;
+  height:220px;
+  opacity:.16;
+  z-index:1;
+  pointer-events:none;
+}
+.badge-patch{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paper);
+  color:var(--slate);
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:700;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:13px;
+  border:2px dashed var(--mustard);
+  transform:rotate(-2deg);
+  margin-bottom:16px;
+  box-shadow:0 3px 0 rgba(0,0,0,.18);
+}
+header.topbar .kicker{
+  font-size:13.5px;
+  letter-spacing:.08em;
+  color:var(--mustard);
+  font-weight:700;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+header.topbar .kicker::before,
+header.topbar .kicker::after{
+  content:"";
+  height:1px;
+  width:22px;
+  background:var(--mustard);
+  opacity:.6;
+}
+header.topbar .eyebrow{
+  display:block;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  color:#a9c9bc;
+  margin-bottom:2px;
+  letter-spacing:.02em;
+}
+header.topbar h1{
+  color:var(--paper);
+  font-size:clamp(28px,4.4vw,42px);
+  line-height:1.28;
+  margin:0 0 12px;
+  max-width:640px;
+}
+header.topbar h1 .hl{
+  color:var(--mustard);
+}
+header.topbar p.sub{
+  margin:0;
+  color:#cfe3da;
+  font-size:15.5px;
+  max-width:560px;
+  position:relative;
+  padding-right:18px;
+}
+header.topbar p.sub::before{
+  content:"";
+  position:absolute;
+  right:0;top:4px;bottom:4px;
+  width:3px;
+  background:var(--mustard);
+  border-radius:3px;
+  opacity:.7;
+}
+
+.header-edge{
+  height:20px;
+  width:100%;
+  background:var(--paper);
+  clip-path:polygon(
+    0% 100%,0% 35%,4.3% 100%,8.6% 35%,12.9% 100%,17.2% 35%,21.5% 100%,25.8% 35%,
+    30.1% 100%,34.4% 35%,38.7% 100%,43% 35%,47.3% 100%,51.6% 35%,55.9% 100%,60.2% 35%,
+    64.5% 100%,68.8% 35%,73.1% 100%,77.4% 35%,81.7% 100%,86% 35%,90.3% 100%,94.6% 35%,100% 100%,100% 100%
+  );
+  margin-top:-1px;
+}
+
+nav.lesson-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--slate-2);
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:11px 16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  margin-top:-1px;
+}
+nav.lesson-nav a{
+  flex:0 0 auto;
+  color:#e8f1ec;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  white-space:nowrap;
+  transition:.2s;
+}
+nav.lesson-nav a:hover,nav.lesson-nav a.active{
+  background:var(--mustard);
+  color:var(--slate);
+  border-color:var(--mustard);
+}
+
+main{max-width:900px;margin:0 auto;padding:28px 18px 80px;}
+
+.objectives{
+  background:var(--paper-2);
+  border:2px dashed var(--stitch);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:26px 0;
+}
+.objectives h2{margin-top:0;font-size:20px;}
+.objectives ol{margin:0;padding-right:0;padding-left:20px;}
+.objectives li{margin-bottom:6px;}
+
+section.lesson{margin:56px 0;scroll-margin-top:70px;}
+section.lesson>h2{
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+section.lesson>h2 .num{
+  background:var(--indigo);
+  color:#fff;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:15px;
+  padding:5px 12px;
+  border-radius:999px;
+}
+.lesson-intro-note{
+  color:#5b6b60;
+  font-size:14.5px;
+  margin-bottom:22px;
+}
+
+.book-text{
+  background:#fff;
+  border-right:6px solid var(--indigo);
+  padding:20px 22px;
+  border-radius:8px;
+  margin:18px 0;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:16.5px;
+  line-height:1.95;
+  color:#2b3129;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.book-text .book-label{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--indigo);
+  letter-spacing:.04em;
+  display:block;
+  margin-bottom:8px;
+}
+.book-text p{margin:0 0 14px;}
+.book-text p:last-child{margin-bottom:0;}
+.book-text h4{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--indigo-dark);
+  margin:0 0 8px;
+  font-size:17px;
+}
+.book-text table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;font-size:15px;}
+.book-text table td,.book-text table th{border:1px solid #ddd;padding:7px 10px;text-align:center;}
+.book-text table th{background:var(--paper-2);}
+
+details.simple-box{
+  background:#FFF8E7;
+  border:2px solid var(--mustard);
+  border-radius:var(--radius);
+  margin:14px 0 26px;
+  overflow:hidden;
+}
+details.simple-box summary{
+  cursor:pointer;
+  list-style:none;
+  padding:12px 18px;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  color:#7a5a12;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  user-select:none;
+}
+details.simple-box summary::-webkit-details-marker{display:none;}
+details.simple-box summary::before{
+  content:"▶";
+  font-size:11px;
+  transition:transform .2s;
+}
+details.simple-box[open] summary::before{transform:rotate(90deg);}
+details.simple-box .simple-body{
+  padding:2px 20px 18px;
+  font-size:16px;
+  color:#3b3223;
+}
+details.simple-box .simple-body p{margin:8px 0;}
+details.simple-box .simple-body b{color:var(--indigo-dark);}
+details.simple-box .simple-body kbd{
+  background:#fff;border:1px solid #d8cfa8;border-radius:5px;padding:1px 7px;font-family:monospace;font-size:14px;box-shadow:0 2px 0 #d8cfa8;
+}
+
+.selfcheck{
+  background:var(--paper-2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin:20px 0;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.selfcheck .icon-box{
+  flex:0 0 auto;
+  width:74px;height:74px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--indigo);
+}
+.selfcheck .icon-box svg{width:38px;height:38px;stroke:var(--indigo);}
+.selfcheck .sc-content{flex:1;min-width:200px;}
+.selfcheck .sc-content .name{font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;font-weight:700;color:var(--slate);font-size:17px;margin-bottom:4px;}
+.selfcheck .sc-question{font-size:14.5px;color:#5b6b60;margin-bottom:8px;}
+.selfcheck .sc-btns{display:flex;gap:8px;}
+.sc-btn{
+  border:2px solid var(--indigo);
+  background:#fff;
+  color:var(--indigo);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:13.5px;
+  cursor:pointer;
+}
+.sc-btn:hover{background:var(--indigo);color:#fff;}
+.sc-answer{
+  display:none;
+  margin-top:10px;
+  padding:12px 14px;
+  background:#fff;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--mustard);
+}
+.sc-answer.show{display:block;}
+
+.glossary-wrap{
+  margin:22px 0 30px;
+  background:#EEF3EE;
+  border-radius:var(--radius);
+  padding:18px 20px;
+}
+.glossary-wrap h4{
+  margin:0 0 12px;
+  font-size:15px;
+  color:var(--slate);
+  display:flex;align-items:center;gap:6px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  background:#fff;
+  border:1.5px solid var(--indigo);
+  color:var(--indigo-dark);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+.chip:hover{background:var(--indigo);color:#fff;}
+.chip.active{background:var(--indigo);color:#fff;}
+.chip-def{
+  display:none;
+  margin-top:12px;
+  background:#fff;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--indigo);
+}
+.chip-def.show{display:block;}
+.chip-def b{color:var(--indigo-dark);}
+
+.groupwork{
+  background:var(--slate);
+  color:#eaf1ec;
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:26px 0;
+}
+.groupwork .gw-label{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--mustard);
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.groupwork p{margin:0 0 12px;font-size:15.5px;}
+.groupwork textarea{
+  width:100%;
+  min-height:80px;
+  border-radius:8px;
+  border:none;
+  padding:10px 12px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:14.5px;
+  resize:vertical;
+}
+.groupwork .hint{font-size:12.5px;color:#a9c2b6;margin-top:6px;}
+
+.quiz{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-radius:var(--radius);
+  padding:22px 22px 8px;
+  margin:34px 0;
+}
+.quiz>h3{margin-top:0;font-size:19px;display:flex;align-items:center;gap:8px;}
+.qitem{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed #ddd;}
+.qitem:last-of-type{border-bottom:none;}
+.qitem p.qtext{font-weight:600;color:var(--slate);margin:0 0 10px;font-size:16px;}
+.qoptions{display:flex;flex-direction:column;gap:8px;}
+.qoption{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;
+  border:1.5px solid #e2ddc9;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.15s;
+}
+.qoption:hover{background:#FAF6EA;}
+.qoption.correct{background:#e5f4ea;border-color:var(--good);}
+.qoption.wrong{background:#fbe9e6;border-color:var(--bad);}
+.qoption input{accent-color:var(--indigo);}
+.qfeedback{
+  margin-top:10px;font-size:14.5px;padding:8px 12px;border-radius:6px;display:none;
+}
+.qfeedback.show{display:block;}
+.qfeedback.ok{background:#e5f4ea;color:#255c39;}
+.qfeedback.no{background:#fbe9e6;color:#7a2e21;}
+
+.progress-wrap{max-width:900px;margin:0 auto;padding:0 18px;}
+.progress-bar{
+  height:6px;background:#e2ddc9;border-radius:99px;overflow:hidden;margin-top:14px;
+}
+.progress-fill{height:100%;width:0%;background:var(--mustard);transition:width .4s;}
+.progress-label{font-size:12.5px;color:#5b6b60;margin-top:6px;}
+
+.shortcut-card{
+  background:var(--slate);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:26px 0;
+  color:#eaf1ec;
+}
+.shortcut-card h4{color:var(--mustard);font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;margin-top:0;font-size:16px;}
+.shortcut-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;}
+@media(max-width:560px){.shortcut-grid{grid-template-columns:1fr;}}
+.shortcut-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.15);font-size:14.5px;}
+.shortcut-row kbd{
+  background:#0f231e;color:#F2EAD3;border:1px solid #3a5a4f;border-radius:5px;padding:3px 9px;font-family:monospace;font-size:13px;
+}
+
+.essay-box{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin:16px 0;
+}
+.essay-box p.qtext{font-weight:600;color:var(--slate);margin:0 0 10px;}
+.essay-box textarea{width:100%;min-height:70px;border-radius:8px;border:1.5px solid #e2ddc9;padding:10px 12px;font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;font-size:14.5px;resize:vertical;}
+
+footer{
+  text-align:center;padding:40px 20px 60px;color:#7d8a7f;font-size:13.5px;
+}
+footer a{color:var(--indigo);}
+
+@media(max-width:640px){
+  section.lesson>h2{font-size:22px;}
+}
+
+.download-btn{
+  margin-top:14px;
+  background:var(--indigo);
+  color:#fff;
+  border:none;
+  padding:9px 18px;
+  border-radius:999px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+}
+.download-btn:hover{background:var(--indigo-dark);}
+.download-btn:focus-visible,
+.chip:focus-visible,
+.sc-btn:focus-visible,
+.qoption:focus-within,
+nav.lesson-nav a:focus-visible,
+summary:focus-visible{
+  outline:3px solid var(--mustard);
+  outline-offset:2px;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <svg class="header-illustration" viewBox="0 0 200 200" fill="none" stroke="#FBF7EC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="25" y="70" width="150" height="55" rx="6"/>
+    <path d="M40 85h10M55 85h10M70 85h10M85 85h10M100 85h10M115 85h10M130 85h10M145 85h10M40 100h10M55 100h10M70 100h30M105 100h10M120 100h10M135 100h10M150 100h10"/>
+    <path d="M100 30v30" stroke-dasharray="3 5"/>
+    <circle cx="100" cy="22" r="7"/>
+  </svg>
+  <div class="header-inner">
+    <div class="badge-patch">⌨️ সপ্তম শ্রেণি</div>
+    <div class="kicker">ইন্টারেক্টিভ সংস্করণ</div>
+    <h1><span class="eyebrow">অধ্যায় ৪</span><span class="hl">ওয়ার্ড প্রসেসিং</span></h1>
+    <p class="sub">বাংলা কী-বোর্ড, ডকুমেন্ট সম্পাদনা, ফরম্যাটিং আর মুদ্রণ — কম্পিউটারে বাংলায় লেখালিখির সব কৌশল হাতে-কলমে শেখো।</p>
+  </div>
+</header>
+<div class="header-edge"></div>
+
+<nav class="lesson-nav" id="lessonNav">
+  <a href="#cover">শুরুর কথা</a>
+  <a href="#lessonA">বাংলা কী-বোর্ড</a>
+  <a href="#lessonB">অভ্র ও লেখা শুরু</a>
+  <a href="#lessonC">ডকুমেন্ট সম্পাদনা</a>
+  <a href="#lessonD">ফরম্যাটিং</a>
+  <a href="#lessonE">মুদ্রণ ও ব্যবস্থাপনা</a>
+  <a href="#samplequestions">নমুনা প্রশ্ন</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">তোমার অগ্রগতি: ০%</div>
+  <button id="downloadWorkBtn" class="download-btn" type="button">📥 তোমার লেখা ও ফলাফল ডাউনলোড করো</button>
+</div>
+
+<main>
+
+<section id="cover">
+  <div class="objectives">
+    <h2>📘 এই অধ্যায় শেষে আমরা যা যা পারব</h2>
+    <ol>
+      <li>সঠিক পরিভাষা ব্যবহার করে ওয়ার্ড প্রসেসর ব্যবহারের কৌশল ব্যাখ্যা করতে পারব;</li>
+      <li>বাংলা কী-বোর্ড ব্যবহারের কৌশল ব্যাখ্যা করতে পারব;</li>
+      <li>ডকুমেন্ট ব্যবস্থাপনা ব্যাখ্যা করতে পারব;</li>
+      <li>ওয়ার্ডে বাংলা ডকুমেন্ট তৈরি করতে পারব;</li>
+      <li>সুষ্ঠুভাবে ডকুমেন্ট ব্যবস্থাপনা করতে পারব।</li>
+    </ol>
+  </div>
+  <details class="simple-box" open>
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এতদিন হয়তো তুমি কম্পিউটারে ইংরেজিতে লিখেছ। এই অধ্যায়ে শিখব কীভাবে একই কম্পিউটারে <b>বাংলায়</b> লেখা যায় — কোন কী চাপলে কোন অক্ষর হয়, ভুল হলে কীভাবে ঠিক করা যায়, লেখাকে সুন্দর করে সাজানো যায় (বোল্ড, সাইজ বদল), আর শেষে কীভাবে সেটা প্রিন্ট ও সংরক্ষণ করা যায়।</p>
+    </div>
+  </details>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= SECTION A ================= -->
+<section class="lesson" id="lessonA">
+  <h2><span class="num">পাঠ ২৭+</span> বাংলা কী-বোর্ডের ইতিহাস ও লে-আউট</h2>
+
+  <div class="book-text">
+    <p>তোমরা ইতোমধ্যেই জেনেছ, আমরা এখন লেখালিখি, ছবি আঁকাসহ অনেক কাজই করতে পারি কম্পিউটার ব্যবহার করে। ওয়ার্ড প্রসেসিং ব্যবহার করে তোমরা এর মধ্যেই ইংরেজিতে ডকুমেন্ট টাইপ করতে শিখেছ। এখন এ শ্রেণিতে আমরা শিখব ওয়ার্ড প্রসেসিং ব্যবহার করে বাংলা ডকুমেন্ট তৈরি করার কলাকৌশল।</p>
+    <h4>বাংলা কী-বোর্ড</h4>
+    <p>ওয়ার্ড প্রসেসর দিয়ে কোনো কিছু লিখতে গেলে প্রথমেই আমাদের প্রয়োজন একটি কী-বোর্ডের। কী-বোর্ড হলো ওয়ার্ড প্রসেসরের প্রধান ইনপুট ডিভাইস। ওয়ার্ড প্রসেসিংয়ে বাংলায় লেখালিখি করতে হলে আমাদের বাংলা কী-বোর্ড সম্পর্কে ধারণা নিতে হবে। ইংরেজি কী-বোর্ডের উপর ভিত্তি করে ঢাকা বিশ্ববিদ্যালয়ের বাংলা বিভাগের অধ্যাপক শহিদ বুদ্ধিজীবী মুনীর চৌধুরী ১৯৬৫ সালে সর্বপ্রথম বাংলা টাইপ রাইটারের জন্য একটি বিজ্ঞানসম্মত কী-বোর্ড লে-আউট তৈরি করেন।</p>
+    <p>পরবর্তী সময়ে এই কী-বোর্ড লে-আউটই কম্পিউটারের জন্য করা হয়। কিন্তু প্রয়োজন হয় এমন একটি সফটওয়্যারের যা কম্পিউটারে বাংলা লিখতে সহায়তা করবে। এ পর্যায়ে ১৯৮৫ সালে কিছু বাংলা ফন্টসহ শহীদ লিপি সফটওয়্যারটি প্রবর্তিত হয়। কিন্তু এটি তেমন একটা জনপ্রিয়তা অর্জন করতে পারেনি। আশির দশকের মাঝামাঝি থেকে শুরু করে নব্বই দশকের শেষের দিক পর্যন্ত অনেকগুলো বাংলা লেখার সফটওয়্যার বাজারে আসে। যার মধ্যে বিজয়, প্রশিকা শব্দ, প্রবর্তনা, লেখনী প্রভৃতি প্রথম সারিতে ছিল। সফটওয়্যার উন্নয়নের কারণে এবং বিভিন্ন সফটওয়্যারের সাথে সঙ্গতিপূর্ণ হওয়ায় বিজয় সফটওয়্যারটি ব্যাপক জনপ্রিয়তা লাভ করে। এ সময় বিভিন্ন কী-বোর্ড লে-আউট প্রচলিত হলেও বিজয় কী-বোর্ড লে-আউট সবচেয়ে এগিয়ে থাকে।</p>
+    <p>ওয়ার্ড প্রসেসরে বিজয় কী-বোর্ড সচল করতে Ctrl+Alt+B একসাথে চাপতে হবে। বিজয় কী-বোর্ডে যেকোনো দুটি অক্ষরকে যুক্ত করতে হলে প্রথম অক্ষরটি চেপে ইংরেজি জি (g) চাপতে হবে। তারপর দ্বিতীয় অক্ষরটি চাপতে হবে।</p>
+    <table>
+      <tr><th>বর্ণ</th><th>কী</th><th>বর্ণ</th><th>কী</th></tr>
+      <tr><td>ক্ষ</td><td>jgN</td><td>ষ্ণ</td><td>NgB</td></tr>
+      <tr><td>ঞ্জ</td><td>Igy</td><td>জ্ঞ</td><td>ugI</td></tr>
+      <tr><td>ঞ্ছ</td><td>Igu</td><td>ঙ্গ</td><td>IgY</td></tr>
+      <tr><td>ঞ্চ</td><td>qgo</td><td></td><td></td></tr>
+    </table>
+    <p>যদিও বাংলাদেশ কম্পিউটার কাউন্সিল (BCC) ন্যাশনাল কী-বোর্ড নামে একটা বাংলা কী-বোর্ড লে-আউট অনুমোদন করেছে কিন্তু তার ব্যবহার এখনো শুরু হয়নি। পৃথিবীর অন্য সকল ভাষার মতো বাংলাও ইউনিকোড ব্যবহার করে লেখা যায়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>বাংলা কী-বোর্ডের একটা ইতিহাস আছে, যেভাবে মনে রাখা সহজ: <b>১৯৬৫</b> — মুনীর চৌধুরী প্রথম বাংলা কী-বোর্ড লে-আউট বানালেন (টাইপরাইটারের জন্য) → <b>১৯৮৫</b> — শহীদ লিপি সফটওয়্যার এলো (তেমন চলেনি) → আশি-নব্বইয়ের দশকে অনেক সফটওয়্যার এলো, তার মধ্যে <b>বিজয়</b> সবচেয়ে জনপ্রিয় হলো। বিজয়ে দুটো অক্ষর যুক্ত করতে মাঝে ইংরেজি <kbd>g</kbd> চাপতে হয় — এটাই একটু কৌশলের ব্যাপার।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M6 9h1M9 9h1M12 9h1M15 9h1M18 9h1M6 12h1M9 12h4M15 12h1M18 12h1M8 15h8"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">⌨️ বিজয় কী-বোর্ড লে-আউট</div>
+      <div class="sc-question">তুমি কি আগে বিজয় কী-বোর্ডে বাংলা টাইপ করেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, করেছি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">করিনি</button>
+      </div>
+      <div class="sc-answer">বিজয় কী-বোর্ডে প্রতিটা কী চাপলে একটা নির্দিষ্ট বাংলা অক্ষর ওঠে — অনেকটা ইংরেজি কী-বোর্ডের মতোই, শুধু অক্ষরগুলো ভিন্ন জায়গায় বসানো। প্রথমবার একটু কঠিন লাগলেও বারবার অনুশীলন করলে আঙুল নিজে থেকেই মনে রাখে কোন কী কোথায়।</div>
+    </div>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonA">
+      <button class="chip" data-def="কী-বোর্ডে কোন কী কোথায় বসানো আছে তার নকশা/বিন্যাস।">কী-বোর্ড লে-আউট</button>
+    </div>
+    <div class="chip-def" id="def-lessonA"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. বাংলা টাইপরাইটারের জন্য প্রথম বিজ্ঞানসম্মত কী-বোর্ড লে-আউট কে তৈরি করেন?</p>
+      <div class="qoptions" data-hash="911969802">
+        <label class="qoption"><input type="radio" name="q1" value="0">মুনীর চৌধুরী</label>
+        <label class="qoption"><input type="radio" name="q1" value="1">মেহদী হাসান খান</label>
+        <label class="qoption"><input type="radio" name="q1" value="2">শহীদ লিপি</label>
+        <label class="qoption"><input type="radio" name="q1" value="3">রফিক আজাদ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. মুনীর চৌধুরী কত সালে বাংলা কী-বোর্ড লে-আউট তৈরি করেন?</p>
+      <div class="qoptions" data-hash="2113675034">
+        <label class="qoption"><input type="radio" name="q2" value="0">১৯৬৫ সাল</label>
+        <label class="qoption"><input type="radio" name="q2" value="1">১৯৮৫ সাল</label>
+        <label class="qoption"><input type="radio" name="q2" value="2">২০০০ সাল</label>
+        <label class="qoption"><input type="radio" name="q2" value="3">২০০৭ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ওয়ার্ড প্রসেসরে বিজয় কী-বোর্ড সচল করতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="618312947">
+        <label class="qoption"><input type="radio" name="q3" value="0">Ctrl+Alt+B</label>
+        <label class="qoption"><input type="radio" name="q3" value="1">F12</label>
+        <label class="qoption"><input type="radio" name="q3" value="2">Ctrl+Shift+B</label>
+        <label class="qoption"><input type="radio" name="q3" value="3">Alt+B</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= SECTION B ================= -->
+<section class="lesson" id="lessonB">
+  <h2><span class="num">পাঠ ২৭+</span> অভ্র সফটওয়্যার ও বাংলা লেখা শুরু</h2>
+
+  <div class="book-text">
+    <p>এদিকে ২০০০ সালের পর থেকে বাড়তে থাকে ইন্টারনেট ব্যবহারকারীর সংখ্যা। প্রয়োজনীয়তা দেখা দেয় বাংলায় ওয়েব পেইজ তৈরি করার। ইন্টারনেটের জনপ্রিয়তার কারণে প্রয়োজন হয় এমন একটি সফটওয়্যারের যা ইন্টারনেটের বিভিন্ন মাধ্যমে বাংলা লেখার সুবিধা এনে দিবে। ২০০৭ সালে মেহদী হাসান খান কর্তৃক বিনামূল্যের ইউনিকোড সফটওয়্যার অভ্র প্রবর্তিত হয়। এটির উচ্চারণভিত্তিক (ফোনেটিক) বাংলা টাইপিং ব্যবস্থা। এটিকে তরুণ সমাজের কাছে বেশ জনপ্রিয় করে তোলে। তাঁর এই আবিষ্কারের জন্য তিনি ২০২৫ সালে বিজ্ঞান ও প্রযুক্তিতে একুশে পদক পান।</p>
+    <p>উচ্চারণভিত্তিক (ফোনেটিক) বাংলা টাইপিং ব্যবস্থায় যদি 'ami banglay gan gai' টাইপ করা হয় তবে লেখা হবে 'আমি বাংলায় গান গাই'। ফলে কম্পিউটার বা স্মার্টফোনে বাংলায় লেখালিখিতে যাদের ভয় ছিল তারা সহজেই এখন বাংলায় লিখতে পারে। এখনকার সময়ে স্মার্টফোন, ল্যাপটপ ও মাইক্রোফোন সংযুক্ত কম্পিউটারে মুখে উচ্চারিত শব্দ ও বাক্যকে লেখায় পরিণত করার সুবিধা চালু হয়েছে। তাই বাংলাসহ অন্য যেকোনো ভাষায় লেখালিখি করা এখন অনেক সহজ।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>অভ্র সফটওয়্যারের সবচেয়ে চমৎকার ব্যাপার — তোমাকে বিজয়ের মতো নতুন কী-বোর্ড মুখস্থ করতে হয় না! ইংরেজি বানানেই যেভাবে শব্দটা উচ্চারণ হয় সেভাবে লিখলেই বাংলা অক্ষর ফুটে ওঠে। যেমন <kbd>ami</kbd> লিখলে <b>আমি</b> হয়ে যায়। এজন্যই এটা এত জনপ্রিয়, বিশেষ করে যারা বাংলা কী-বোর্ড শেখেননি তাদের জন্য।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🗣️ ফোনেটিক (উচ্চারণভিত্তিক) টাইপিং</div>
+      <div class="sc-question">তুমি কি আগে ইংরেজি বানান লিখে বাংলা টাইপ করেছ (যেমন ফোনে)?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, করেছি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">করিনি</button>
+      </div>
+      <div class="sc-answer">মোবাইল ফোনে অনেকে বাংলা লেখার সময় "ami tomake valobashi" এভাবে ইংরেজি অক্ষরে লিখে, আর ফোন নিজে থেকেই সেটাকে "আমি তোমাকে ভালোবাসি" বানিয়ে দেয় — এটাই ফোনেটিক টাইপিং, যা অভ্র সফটওয়্যার প্রথম কম্পিউটারে জনপ্রিয় করেছিল।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <p>ওয়ার্ড প্রসেসিং প্রোগ্রাম কীভাবে চালু করতে হয় মনে আছে? প্রথমে আমাদেরকে যেকোনো একটি ওয়ার্ড প্রসেসিং প্রোগ্রাম চালু করতে হবে। এরপর বাংলায় টাইপ করার জন্য ওয়ার্ড প্রসেসরকে প্রস্তুত করতে হবে। বাংলায় লেখালিখি করার জন্য প্রথমে আমাদের ওয়ার্ড প্রসেসরের বিজয় সফটওয়্যারে Ctrl+Alt+b একসাথে চাপতে হবে এবং অভ্র সফটওয়্যারে F12 কী চাপতে হবে। পরবর্তী কাজ হলো ফন্ট নির্বাচন করা। বিজয় সফটওয়্যারে SutonnyMJ এবং অভ্র সফটওয়্যারে NikoshBAN বা যেকোনো ইউনিকোড ফন্ট নির্বাচন করতে হবে। এবার আমাদের কম্পিউটারের ওয়ার্ড প্রসেসর বাংলা লেখালিখি করার জন্য প্রস্তুত। কী-বোর্ডের বিভিন্ন কী চেপে দেখো কোথায় কোন অক্ষর আছে। অক্ষরগুলোর অবস্থান জানতে তোমরা কী-বোর্ড লে-আউট এর ছবির সাহায্য নিতে পারো।</p>
+    <p>এবার লেখালিখি শুরু করার পালা। কী-বোর্ডের বিভিন্ন কী চেপে দেখো কোন অক্ষরটি কোথায় আছে। ধীরে ধীরে তোমরা সহজেই বুঝতে পারবে অক্ষরগুলোর অবস্থান।</p>
+    <p>যেকোনো ডকুমেন্ট নিয়ে কাজ করার সময় তা যেন হারিয়ে না যায় সেজন্য কী করতে হবে মনে আছে তো? ডকুমেন্টটিকে একটি নাম দিয়ে সংরক্ষণ বা সেইভ করতে হবে।</p>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>অক্ষরগুলোর অবস্থান সম্পর্কে একটু ধারণা হলে চলো আমরা নিচের কাজটি করি: আমাদের সকলের প্রিয় জাতীয় সংগীতের প্রথম লাইনটি টাইপ করো।</p>
+    <p style="font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;font-size:16px;color:#eaf1ec;">আমার সোনার বাংলা<br>আমি তোমায় ভালবাসি</p>
+    <textarea placeholder="তোমার ওয়ার্ড প্রসেসরে টাইপ করে দেখো, এখানে অনুশীলনের জন্য লিখতে পারো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonB">
+      <button class="chip" data-def="২০০৭ সালে মেহদী হাসান খান তৈরি করা বিনামূল্যের ইউনিকোড বাংলা টাইপিং সফটওয়্যার, ফোনেটিক পদ্ধতিতে কাজ করে।">অভ্র</button>
+      <button class="chip" data-def="উচ্চারণ অনুযায়ী ইংরেজি অক্ষরে লিখলে তা স্বয়ংক্রিয়ভাবে বাংলা অক্ষরে পরিণত হওয়ার পদ্ধতি।">ফোনেটিক (উচ্চারণভিত্তিক)</button>
+      <button class="chip" data-def="পৃথিবীর সব ভাষার অক্ষর প্রকাশ করতে সক্ষম একটি সার্বজনীন কোড ব্যবস্থা।">ইউনিকোড</button>
+    </div>
+    <div class="chip-def" id="def-lessonB"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. অভ্র সফটওয়্যারটি কে তৈরি করেন?</p>
+      <div class="qoptions" data-hash="4021018538">
+        <label class="qoption"><input type="radio" name="q4" value="0">মুনীর চৌধুরী</label>
+        <label class="qoption"><input type="radio" name="q4" value="1">মেহদী হাসান খান</label>
+        <label class="qoption"><input type="radio" name="q4" value="2">বিজয় আহমেদ</label>
+        <label class="qoption"><input type="radio" name="q4" value="3">রফিকুল ইসলাম</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. অভ্র কত সালে প্রবর্তিত হয়?</p>
+      <div class="qoptions" data-hash="2811694702">
+        <label class="qoption"><input type="radio" name="q5" value="0">১৯৮৫ সাল</label>
+        <label class="qoption"><input type="radio" name="q5" value="1">২০০০ সাল</label>
+        <label class="qoption"><input type="radio" name="q5" value="2">২০০৭ সাল</label>
+        <label class="qoption"><input type="radio" name="q5" value="3">২০১৮ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. অভ্র সফটওয়্যার সচল করতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="193454894">
+        <label class="qoption"><input type="radio" name="q6" value="0">Ctrl+Alt+B</label>
+        <label class="qoption"><input type="radio" name="q6" value="1">F12</label>
+        <label class="qoption"><input type="radio" name="q6" value="2">Ctrl+F12</label>
+        <label class="qoption"><input type="radio" name="q6" value="3">Alt+F12</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. ফোনেটিক পদ্ধতিতে 'ami banglay gan gai' টাইপ করলে কী লেখা হবে?</p>
+      <div class="qoptions" data-hash="3975254648">
+        <label class="qoption"><input type="radio" name="q7" value="0">আমি বাংলায় গান গাই</label>
+        <label class="qoption"><input type="radio" name="q7" value="1">Ami banglay gan gai (অপরিবর্তিত)</label>
+        <label class="qoption"><input type="radio" name="q7" value="2">এলোমেলো অক্ষর</label>
+        <label class="qoption"><input type="radio" name="q7" value="3">কিছুই লেখা হবে না</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= SECTION C ================= -->
+<section class="lesson" id="lessonC">
+  <h2><span class="num">পাঠ ২৭+</span> ডকুমেন্ট সম্পাদনা</h2>
+
+  <div class="book-text">
+    <p>আশা করি তোমরা সবাই এখন বাংলায় লেখালিখি করতে পারছো। ভুল-ভ্রান্তি থাকছে? থাকতেই পারে। কীভাবে আমরা ভুল-ভ্রান্তিগুলো দূর করব? যে প্রক্রিয়া অনুসরণ করে একটি ডকুমেন্টের ভুল-ভ্রান্তিগুলো ঠিক করা হয় সে কাজটিকে বলা হয় সম্পাদনা (Editing)। সম্পাদনায় সাধারণত যে কাজগুলো করা হয় সেগুলো নিচে সংক্ষেপে বর্ণনা করা হলো:</p>
+    <p><b>নির্বাচন করা (Select):</b> সম্পাদনার বিভিন্ন কাজে অনেক সময়ই ডকুমেন্টের কোনো অক্ষর, শব্দ, বাক্য বা কোনো অংশকে নির্বাচিত করতে হয়। নির্বাচন করার জন্য কার্সরকে নির্ধারিত জায়গার শুরুতে নিতে হবে। এরপর শিফট কী চেপে ধরে ডান অ্যারো (Shift+→) কী চেপে নির্ধারিত কোনো অক্ষর, শব্দ, বাক্য বা কোনো অংশকে নির্বাচিত করতে হয়।</p>
+    <p><b>কাট (Cut):</b> অনেক সময় ডকুমেন্টের কোনো অক্ষর, শব্দ, বাক্য বা কোনো অংশকে এক জায়গা থেকে অন্য জায়গায় সরাতে হয়। এজন্য প্রথমে ঐ অক্ষর, শব্দ, বাক্য বা অংশকে নির্বাচন করে কাটার জন্য কী-বোর্ডের Ctrl এবং x কী (Ctrl+x) একসাথে চাপতে হয়।</p>
+    <p><b>কপি (Copy):</b> অনেক সময় ডকুমেন্টের কোনো অক্ষর, শব্দ, বাক্য বা কোনো অংশের অনুলিপি বা কপি করে এক জায়গা থেকে অন্য জায়গায় নিতে হয়। এজন্য প্রথমে ঐ অক্ষর, শব্দ, বাক্য বা অংশকে নির্বাচন করে কী-বোর্ডের Ctrl এবং c কী (Ctrl+c) একসাথে চাপতে হয়।</p>
+    <p><b>পেস্ট (Paste):</b> পেস্ট শব্দের আক্ষরিক অর্থ হলো আঠা লাগানো। কাট ও কপি করার পরের কাজ হলো নির্বাচিত অক্ষর, শব্দ, বাক্য বা অংশকে নির্ধারিত স্থানে পেস্ট করা। এজন্য কাট বা কপি কমান্ড ব্যবহার করার পর কার্সরকে নির্ধারিত স্থানে নিয়ে কী-বোর্ডের Ctrl এবং v কী (Ctrl+v) একসাথে চাপতে হবে।</p>
+    <p><b>ডিলিট (Delete) বা মুছে ফেলা:</b> ডকুমেন্টের কোনো অক্ষর, শব্দ, বাক্য বা কোনো অংশকে মুছে ফেলতে হলে কী-বোর্ডের Delete বা Del কী ব্যবহার করা হয়। যা মুছে ফেলতে চাই প্রথমে তা নির্বাচন করতে হবে। তারপর Delete বা Del বা Backspace কী চাপলে নির্বাচিত অংশ মুছে যাবে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই চারটা কাজ (কাট, কপি, পেস্ট, ডিলিট) খাতা-কলমের সাথে তুলনা করলে সহজে মনে থাকবে: <b>কপি</b> মানে যেন ফটোকপি করলে (মূল জায়গায়ও থাকল, নতুন জায়গায়ও এলো)। <b>কাট</b> মানে যেন কাঁচি দিয়ে কেটে নিলে (মূল জায়গা থেকে সরে গেল)। <b>পেস্ট</b> মানে যেখানে "আঠা দিয়ে লাগালে" — কাট/কপি করা জিনিস নতুন জায়গায় বসানো। <b>ডিলিট</b> মানে রাবার দিয়ে মুছে ফেলা।</p>
+      <p>মনে রাখার শর্টকাট: <kbd>Ctrl+X</kbd> (কাট), <kbd>Ctrl+C</kbd> (কপি), <kbd>Ctrl+V</kbd> (পেস্ট) — লক্ষ করো X, C, V কী-বোর্ডে পাশাপাশি আছে, তাই মনে রাখা সহজ!</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <p>কী-বোর্ডের সাহায্যে ডকুমেন্টের বিভিন্ন জায়গায় কার্সরকে সরাতে হলে নিচের সংক্ষিপ্ত উপায় অনুসরণ করা যেতে পারে:</p>
+    <table>
+      <tr><th>যা করতে চাই</th><th>যে কী চাপতে হবে</th></tr>
+      <tr><td>লাইনের শুরুতে কার্সর নিতে</td><td>Home</td></tr>
+      <tr><td>লাইনের শেষে কার্সর নিতে</td><td>End</td></tr>
+      <tr><td>ডকুমেন্টের শুরুতে কার্সর নিতে</td><td>Ctrl+Home</td></tr>
+      <tr><td>ডকুমেন্টের শেষে কার্সর নিতে</td><td>Ctrl+End</td></tr>
+    </table>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonC">
+      <button class="chip" data-def="ডকুমেন্টের ভুল-ভ্রান্তি ঠিক করার প্রক্রিয়া।">সম্পাদনা (Editing)</button>
+      <button class="chip" data-def="ডকুমেন্টের কোনো অংশকে অন্য জায়গায় সরানোর কমান্ড (Ctrl+X)।">কাট</button>
+      <button class="chip" data-def="ডকুমেন্টের কোনো অংশের অনুলিপি নেওয়ার কমান্ড (Ctrl+C)।">কপি</button>
+      <button class="chip" data-def="কাট/কপি করা অংশকে নতুন জায়গায় বসানোর কমান্ড (Ctrl+V)।">পেস্ট</button>
+    </div>
+    <div class="chip-def" id="def-lessonC"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. কোনো অংশ কপি করতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="2895910344">
+        <label class="qoption"><input type="radio" name="q8" value="0">Ctrl+X</label>
+        <label class="qoption"><input type="radio" name="q8" value="1">Ctrl+C</label>
+        <label class="qoption"><input type="radio" name="q8" value="2">Ctrl+V</label>
+        <label class="qoption"><input type="radio" name="q8" value="3">Ctrl+Z</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. কপি বা কাট করা অংশ পেস্ট করতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="2895910363">
+        <label class="qoption"><input type="radio" name="q9" value="0">Ctrl+C</label>
+        <label class="qoption"><input type="radio" name="q9" value="1">Ctrl+X</label>
+        <label class="qoption"><input type="radio" name="q9" value="2">Ctrl+V</label>
+        <label class="qoption"><input type="radio" name="q9" value="3">Ctrl+P</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ডকুমেন্টের শুরুতে কার্সর নিতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="3272754510">
+        <label class="qoption"><input type="radio" name="q10" value="0">Home</label>
+        <label class="qoption"><input type="radio" name="q10" value="1">Ctrl+Home</label>
+        <label class="qoption"><input type="radio" name="q10" value="2">End</label>
+        <label class="qoption"><input type="radio" name="q10" value="3">Ctrl+End</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= SECTION D ================= -->
+<section class="lesson" id="lessonD">
+  <h2><span class="num">পাঠ ২৭+</span> ডকুমেন্ট ফরম্যাট করা</h2>
+
+  <div class="book-text">
+    <p>ডকুমেন্ট তৈরি করা হলো, সম্পাদনা করা হলো। এখন ডকুমেন্টকে একটু সাজাতে হবে। যাতে করে ডকুমেন্টটি দেখতে সুন্দর হয়। এ কাজটাকে বলে ডকুমেন্ট ফরম্যাটিং।</p>
+    <p><b>অক্ষর বা লেখার আকার ছোট বা বড় করা:</b> ডকুমেন্টের যে অংশের অক্ষর বা লেখার আকার পরিবর্তন করতে হবে প্রথমে তা নির্বাচন করতে হবে। তারপর যেকোনো ওয়ার্ড প্রসেসরে টুলবার বা রিবনে ফন্টের নামের পাশে যে সংখ্যাটি থাকে তা পরিবর্তন করতে হবে। আকার বড় করতে হলে সংখ্যাটি বাড়াতে হবে এবং ছোট করতে হলে সংখ্যাটি কমাতে হবে।</p>
+    <table>
+      <tr><th>যা করতে চাই</th><th>যে কী ব্যবহার করতে হবে</th></tr>
+      <tr><td>লেখার আকার ১ পয়েন্ট বড় করতে</td><td>Ctrl + ]</td></tr>
+      <tr><td>লেখার আকার ১ পয়েন্ট ছোট করতে</td><td>Ctrl + [</td></tr>
+    </table>
+    <p><b>অক্ষর বা লেখা বোল্ড, ইটালিক বা আন্ডারলাইন করা:</b> ডকুমেন্টের যে অংশ পরিবর্তন করতে হবে প্রথমে তা নির্বাচন করতে হবে। তারপর টুলবার বা রিবনে B, I, U আইকনে মাউস ক্লিক করতে হবে।</p>
+    <table>
+      <tr><th>যা করতে চাই</th><th>যে কী ব্যবহার করতে হবে</th></tr>
+      <tr><td>লেখা বোল্ড করতে</td><td>Ctrl + b</td></tr>
+      <tr><td>লেখা ইটালিক করতে</td><td>Ctrl + i</td></tr>
+      <tr><td>লেখা আন্ডারলাইন করতে</td><td>Ctrl + u</td></tr>
+    </table>
+    <p><b>ডকুমেন্টের এলাইনমেন্ট:</b> কোনো ডকুমেন্টের প্যারাগ্রাফ মার্জিনের কোনদিকে মিশে থাকবে তা এলাইনমেন্টের দ্বারা নির্ধারণ করা হয়। সাধারণত প্যারাগ্রাফের এলাইনমেন্ট বামদিকে থাকে। প্যারাগ্রাফের এলাইনমেন্ট চার ধরনের হতে পারে- বামদিক থেকে, ডানদিক থেকে, মাঝ বরাবর অথবা সবদিকে সমান (জাস্টিফাইড)।</p>
+    <table>
+      <tr><th>যা করতে চাই</th><th>যে কী ব্যবহার করতে হবে</th></tr>
+      <tr><td>বামদিকে এলাইন</td><td>Ctrl + l</td></tr>
+      <tr><td>ডানদিকে এলাইন</td><td>Ctrl + r</td></tr>
+      <tr><td>মাঝখানে এলাইন</td><td>Ctrl + c</td></tr>
+      <tr><td>জাস্টিফাইড এলাইন</td><td>Ctrl + j</td></tr>
+    </table>
+    <p>এছাড়া ফরম্যাটিংয়ের আরও অনেক কাজ আছে। যেমন- লাইনের ব্যবধান নির্ধারণ (লাইন স্পেস), টেবিল করা, বুলেট ও নম্বার, লেখার রং পরিবর্তন ইত্যাদি। ওয়ার্ড প্রসেসিং সফটওয়্যার ব্যবহার করতে করতে তোমরা এ বিষয়গুলো আয়ত্ত করতে পারবে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>ফরম্যাটিং মানে হলো লেখাকে "সাজগোজ" করানো — যেমন তুমি কোনো অনুষ্ঠানে যাওয়ার আগে সুন্দর জামা পরো। <b>বোল্ড</b> মানে মোটা করে লেখা (গুরুত্বপূর্ণ কিছু বোঝাতে), <b>ইটালিক</b> মানে হেলানো লেখা, <b>আন্ডারলাইন</b> মানে নিচে দাগ। <b>এলাইনমেন্ট</b> বলে দেয় লেখাটা পাতার বামে/ডানে/মাঝখানে না দুই পাশেই সমান থাকবে কি না — যেমন সংবাদপত্রের কলামে লেখা দুই পাশেই সমান থাকে (জাস্টিফাইড)।</p>
+    </div>
+  </details>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonD">
+      <button class="chip" data-def="ডকুমেন্টকে সুন্দরভাবে সাজানোর প্রক্রিয়া - ফন্ট সাইজ, বোল্ড, এলাইনমেন্ট ইত্যাদি।">ডকুমেন্ট ফরম্যাটিং</button>
+      <button class="chip" data-def="কী-বোর্ডের একাধিক কী একসাথে চেপে দ্রুত কোনো কাজ করার পদ্ধতি।">কী-বোর্ড শর্টকাট</button>
+    </div>
+    <div class="chip-def" id="def-lessonD"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. লেখা বোল্ড করতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="2895910343">
+        <label class="qoption"><input type="radio" name="q11" value="0">Ctrl+B</label>
+        <label class="qoption"><input type="radio" name="q11" value="1">Ctrl+I</label>
+        <label class="qoption"><input type="radio" name="q11" value="2">Ctrl+U</label>
+        <label class="qoption"><input type="radio" name="q11" value="3">Ctrl+J</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. প্যারাগ্রাফ মাঝ বরাবর এলাইন করতে বই অনুযায়ী কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="2895910376">
+        <label class="qoption"><input type="radio" name="q12" value="0">Ctrl+l</label>
+        <label class="qoption"><input type="radio" name="q12" value="1">Ctrl+r</label>
+        <label class="qoption"><input type="radio" name="q12" value="2">Ctrl+c</label>
+        <label class="qoption"><input type="radio" name="q12" value="3">Ctrl+j</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. জাস্টিফাইড এলাইন করতে কোন কী চাপতে হয়?</p>
+      <div class="qoptions" data-hash="2895910383">
+        <label class="qoption"><input type="radio" name="q13" value="0">Ctrl+l</label>
+        <label class="qoption"><input type="radio" name="q13" value="1">Ctrl+r</label>
+        <label class="qoption"><input type="radio" name="q13" value="2">Ctrl+c</label>
+        <label class="qoption"><input type="radio" name="q13" value="3">Ctrl+j</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= SECTION E ================= -->
+<section class="lesson" id="lessonE">
+  <h2><span class="num">পাঠ ২৭+</span> মুদ্রণ ও ডকুমেন্ট ব্যবস্থাপনা</h2>
+
+  <div class="book-text">
+    <h4>মুদ্রণ</h4>
+    <p>কী মজা! আমরা এখন ওয়ার্ড প্রসেসর ব্যবহার করে বাংলায় ডকুমেন্ট তৈরি করতে পারি। কেমন হয় যদি এটা আমরা কাগজে ছাপাতে পারি! চল শিখে নেয়া যাক কীভাবে কোনো ডকুমেন্ট ছাপানো যায় বা মুদ্রণ করা যায়।</p>
+    <p>মুদ্রণের জন্য প্রয়োজন:</p>
+    <p>• কম্পিউটারের সাথে যথাযথভাবে সংযুক্ত একটি প্রিন্টার<br>• প্রিন্টারের জন্য দরকারি সফটওয়্যার<br>• উপযুক্ত সাইজের কাগজ</p>
+    <p>সব ঠিক আছে? তাহলে শিক্ষকের অনুমতি নিয়ে (Print) আইকনে মাউস ক্লিক কর (এ কাজটি কী-বোর্ডের সাহায্যে Ctrl+p চেপে করতে পারো)। এরপর ↵ (এন্টার) কী চাপলে শুরু হবে মুদ্রণের কাজ।</p>
+    <h4>ডকুমেন্ট ব্যবস্থাপনা</h4>
+    <p>ওয়ার্ড প্রসেসরে বাংলায় ডকুমেন্ট তৈরি করা কত সহজ, তাই না? এর পরের কাজ কী? ডকুমেন্টটি এমনভাবে সংরক্ষণের ব্যবস্থা করা যাতে এটি হারিয়ে না যায় এবং ভবিষ্যতে প্রয়োজনের সময় সহজে খুঁজে পাওয়া যায়। এ কাজটিকে সহজভাবে ডকুমেন্ট ব্যবস্থাপনা বলে।</p>
+    <p>সাধারণভাবে যেকোনো ডকুমেন্ট সংরক্ষণ করলে সেটি মাই ডকুমেন্ট ফোল্ডারে সংরক্ষিত (Save) হয়। কিন্তু সেখানে অনেক ফাইলের মাঝে তোমার করা ডকুমেন্টটি মিশে থাকবে। প্রয়োজনের সময় ডকুমেন্টটি পাওয়া কঠিন হয়ে যাবে। এজন্য যে কাজগুলো করতে হবে তা নিচে বর্ণনা করা হলো:</p>
+    <p>ক. মাই ডকুমেন্ট ফোল্ডার খুলে তার মধ্যে একটি নতুন ফোল্ডার খুলতে হবে।<br>
+    খ. প্রাথমিকভাবে ফোল্ডারটির নাম নিউ ফোল্ডার লেখা থাকবে। এটিকে নিজের মতো করে নামকরণ করতে হবে। নিজের নাম অথবা তারিখ অনুযায়ী ফোল্ডারের নামকরণ করতে পারো।<br>
+    গ. তোমার তৈরি করা ডকুমেন্টটি সংরক্ষণের জন্য কম্পিউটারকে নির্দেশ দিলে যে ডায়ালগ বক্স আসবে সেখানে তোমার ফোল্ডারটি মাউসের ডাবল ক্লিক করার মাধ্যমে খুলে তারপর সংরক্ষণ করো।<br>
+    ঘ. ডকুমেন্ট সংরক্ষণের সময় কাজের ধরন অনুযায়ী ডকুমেন্টের নামকরণ করো। এতে ডকুমেন্টটি সহজেই খুঁজে বের করতে পারবে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>ভাবো তোমার একটা আলমারি আছে (মাই ডকুমেন্ট ফোল্ডার), যেখানে সবার জামাকাপড় একসাথে রাখা। যদি তুমি নিজের জন্য একটা আলাদা ড্রয়ার (নতুন ফোল্ডার) বানিয়ে সেখানে নিজের জিনিস গোছানো নাম দিয়ে রাখো — তাহলে খুঁজে পেতে অনেক সহজ হয়। ডকুমেন্ট ব্যবস্থাপনাও ঠিক এরকম — ফোল্ডার বানিয়ে, ভালো নাম দিয়ে ফাইল রাখলে পরে সহজে খুঁজে পাওয়া যায়।</p>
+    </div>
+  </details>
+
+  <div class="shortcut-card">
+    <h4>⌨️ পুরো অধ্যায়ের শর্টকাট রেফারেন্স কার্ড</h4>
+    <div class="shortcut-grid">
+      <div class="shortcut-row"><span>বিজয় বাংলা চালু</span><kbd>Ctrl+Alt+B</kbd></div>
+      <div class="shortcut-row"><span>অভ্র বাংলা চালু</span><kbd>F12</kbd></div>
+      <div class="shortcut-row"><span>নির্বাচন (Select)</span><kbd>Shift+→</kbd></div>
+      <div class="shortcut-row"><span>কাট</span><kbd>Ctrl+X</kbd></div>
+      <div class="shortcut-row"><span>কপি</span><kbd>Ctrl+C</kbd></div>
+      <div class="shortcut-row"><span>পেস্ট</span><kbd>Ctrl+V</kbd></div>
+      <div class="shortcut-row"><span>লাইনের শুরুতে</span><kbd>Home</kbd></div>
+      <div class="shortcut-row"><span>লাইনের শেষে</span><kbd>End</kbd></div>
+      <div class="shortcut-row"><span>ডকুমেন্টের শুরুতে</span><kbd>Ctrl+Home</kbd></div>
+      <div class="shortcut-row"><span>ডকুমেন্টের শেষে</span><kbd>Ctrl+End</kbd></div>
+      <div class="shortcut-row"><span>লেখা বড়</span><kbd>Ctrl+]</kbd></div>
+      <div class="shortcut-row"><span>লেখা ছোট</span><kbd>Ctrl+[</kbd></div>
+      <div class="shortcut-row"><span>বোল্ড</span><kbd>Ctrl+B</kbd></div>
+      <div class="shortcut-row"><span>ইটালিক</span><kbd>Ctrl+I</kbd></div>
+      <div class="shortcut-row"><span>আন্ডারলাইন</span><kbd>Ctrl+U</kbd></div>
+      <div class="shortcut-row"><span>বাম এলাইন</span><kbd>Ctrl+L</kbd></div>
+      <div class="shortcut-row"><span>ডান এলাইন</span><kbd>Ctrl+R</kbd></div>
+      <div class="shortcut-row"><span>মাঝ এলাইন</span><kbd>Ctrl+C</kbd></div>
+      <div class="shortcut-row"><span>জাস্টিফাইড</span><kbd>Ctrl+J</kbd></div>
+      <div class="shortcut-row"><span>প্রিন্ট</span><kbd>Ctrl+P</kbd></div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>ডকুমেন্ট ব্যবস্থাপনার প্রয়োজনীয়তা সম্পর্কে একটি প্রতিবেদন প্রস্তুত করে শ্রেণিতে উপস্থাপন করো।</p>
+    <textarea placeholder="তোমার প্রতিবেদনের খসড়া এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lessonE">
+      <button class="chip" data-def="ডকুমেন্টকে সংরক্ষণ এমনভাবে করা যাতে হারিয়ে না যায় ও পরে সহজে খুঁজে পাওয়া যায়।">ডকুমেন্ট ব্যবস্থাপনা</button>
+      <button class="chip" data-def="ডকুমেন্টকে কাগজে ছাপানোর প্রক্রিয়া।">প্রিন্টিং বা মুদ্রণ</button>
+    </div>
+    <div class="chip-def" id="def-lessonE"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. প্রিন্ট করার জন্য কী-বোর্ড শর্টকাট কোনটি?</p>
+      <div class="qoptions" data-hash="2895910357">
+        <label class="qoption"><input type="radio" name="q14" value="0">Ctrl+P</label>
+        <label class="qoption"><input type="radio" name="q14" value="1">Ctrl+S</label>
+        <label class="qoption"><input type="radio" name="q14" value="2">Ctrl+O</label>
+        <label class="qoption"><input type="radio" name="q14" value="3">Ctrl+N</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. ডকুমেন্ট সাধারণত সংরক্ষিত হলে কোন ফোল্ডারে জমা হয়?</p>
+      <div class="qoptions" data-hash="3143684956">
+        <label class="qoption"><input type="radio" name="q15" value="0">মাই ডকুমেন্ট ফোল্ডার</label>
+        <label class="qoption"><input type="radio" name="q15" value="1">ডেস্কটপ</label>
+        <label class="qoption"><input type="radio" name="q15" value="2">রিসাইকেল বিন</label>
+        <label class="qoption"><input type="radio" name="q15" value="3">প্রোগ্রাম ফাইলস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. মুদ্রণের জন্য বই অনুযায়ী কী কী প্রয়োজন?</p>
+      <div class="qoptions" data-hash="2243280837">
+        <label class="qoption"><input type="radio" name="q16" value="0">শুধু প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q16" value="1">প্রিন্টার, সফটওয়্যার ও উপযুক্ত কাগজ</label>
+        <label class="qoption"><input type="radio" name="q16" value="2">শুধু কাগজ</label>
+        <label class="qoption"><input type="radio" name="q16" value="3">শুধু ইন্টারনেট সংযোগ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= SAMPLE QUESTIONS (from book) ================= -->
+<section class="lesson" id="samplequestions">
+  <h2><span class="num">📝</span> নমুনা প্রশ্ন (বই থেকে)</h2>
+  <p class="lesson-intro-note">এই প্রশ্নগুলো বই থেকে হুবহু নেওয়া — পরীক্ষায় ঠিক এভাবেই আসতে পারে।</p>
+
+  <div class="quiz">
+    <h3>বহুনির্বাচনী প্রশ্ন</h3>
+    <div class="qitem">
+      <p class="qtext">১. কম্পিউটারে লেখালিখির কাজ করার সফটওয়্যার কোনটি?</p>
+      <div class="qoptions" data-hash="3170895597">
+        <label class="qoption"><input type="radio" name="sq1" value="0">ক. গ্রাফিক্স সফটওয়্যার</label>
+        <label class="qoption"><input type="radio" name="sq1" value="1">খ. সিস্টেম সফটওয়্যার</label>
+        <label class="qoption"><input type="radio" name="sq1" value="2">গ. ওয়ার্ড প্রসেসিং সফটওয়্যার</label>
+        <label class="qoption"><input type="radio" name="sq1" value="3">ঘ. স্প্রেডশিট সফটওয়্যার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. উচ্চারণভিত্তিক বাংলা সফটওয়্যার কোনটি?</p>
+      <div class="qoptions" data-hash="4150895482">
+        <label class="qoption"><input type="radio" name="sq2" value="0">ক. বিজয়</label>
+        <label class="qoption"><input type="radio" name="sq2" value="1">খ. প্রবর্তন</label>
+        <label class="qoption"><input type="radio" name="sq2" value="2">গ. লেখনী</label>
+        <label class="qoption"><input type="radio" name="sq2" value="3">ঘ. অভ্র</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. 'এন্টার' (Enter) কোন কাজে ব্যবহার করা হয়?</p>
+      <div class="qoptions" data-hash="2033159589">
+        <label class="qoption"><input type="radio" name="sq3" value="0">ক. নির্বাচিত অংশ মুছে ফেলতে</label>
+        <label class="qoption"><input type="radio" name="sq3" value="1">খ. কার্সরকে এক লাইন নিচে নামাতে</label>
+        <label class="qoption"><input type="radio" name="sq3" value="2">গ. কার্সরের বামদিকের অক্ষর মুছতে</label>
+        <label class="qoption"><input type="radio" name="sq3" value="3">ঘ. মেনু বা ডায়ালগ বক্স বাতিল করতে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. কোনো কিছু কপি করতে কোথায় ক্লিক করতে হবে?</p>
+      <div class="qoptions" data-hash="4289240332">
+        <label class="qoption"><input type="radio" name="sq4" value="0">ক. 📋 ক্লিপবোর্ড আইকন</label>
+        <label class="qoption"><input type="radio" name="sq4" value="1">খ. 📄📄 কপি (দুই পাতার) আইকন</label>
+        <label class="qoption"><input type="radio" name="sq4" value="2">গ. ✂️ কাঁচি (কাট) আইকন</label>
+        <label class="qoption"><input type="radio" name="sq4" value="3">ঘ. 🖌️ ফরম্যাট পেইন্টার আইকন</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <span class="book-label">নিচের অনুচ্ছেদটি পড়ে ৫ ও ৬ নম্বর প্রশ্নের উত্তর দাও</span>
+    <p>রানুর জন্ম আমেরিকায়। সে বাংলায় কথা বলতে পারলেও লিখতে পারে না। সে ঠিক করেছে ঈদে দাদুকে বাংলায় লিখে চমৎকার একটি কার্ড পাঠিয়ে চমকে দেবে।</p>
+  </div>
+
+  <div class="quiz">
+    <div class="qitem">
+      <p class="qtext">৫. রানু কার্ড বানাতে কোন সফটওয়্যারটি ব্যবহার করবে?</p>
+      <div class="qoptions" data-hash="4150895482">
+        <label class="qoption"><input type="radio" name="sq5" value="0">ক. বিজয়</label>
+        <label class="qoption"><input type="radio" name="sq5" value="1">খ. লেখনী</label>
+        <label class="qoption"><input type="radio" name="sq5" value="2">গ. প্রশিকা</label>
+        <label class="qoption"><input type="radio" name="sq5" value="3">ঘ. অভ্র</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৬. রানু কার্ডটি সুন্দর ও সহজে তৈরি করতে —<br>i. কিছু শব্দ কপি করতে পারে<br>ii. ছবি সংযুক্ত করতে পারে<br>iii. এডিটিং করে বানান শুদ্ধ করতে পারে<br>কোনটি সঠিক?</p>
+      <div class="qoptions" data-hash="1141893248">
+        <label class="qoption"><input type="radio" name="sq6" value="0">ক. i ও ii</label>
+        <label class="qoption"><input type="radio" name="sq6" value="1">খ. i ও iii</label>
+        <label class="qoption"><input type="radio" name="sq6" value="2">গ. ii ও iii</label>
+        <label class="qoption"><input type="radio" name="sq6" value="3">ঘ. i, ii ও iii</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+
+  <div class="essay-box">
+    <h3 style="margin-top:0;font-size:18px;color:var(--slate);font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;">✏️ সংক্ষিপ্ত উত্তর প্রশ্ন (বই থেকে)</h3>
+    <p class="qtext">১. কী-বোর্ডকে ওয়ার্ড প্রসেসরের প্রধান ইনপুট ডিভাইস বলা হয় কেন?</p>
+    <textarea placeholder="তোমার উত্তর এখানে লেখো..."></textarea>
+  </div>
+  <div class="essay-box">
+    <p class="qtext">২. অভ্র কী? তরুণ সমাজের কাছে অভ্রর জনপ্রিয়তার কারণ কী?</p>
+    <textarea placeholder="তোমার উত্তর এখানে লেখো..."></textarea>
+  </div>
+  <div class="essay-box">
+    <p class="qtext">৩. ওয়ার্ড প্রসেসরে কখন কপি (Copy) করার প্রয়োজন হয়? কপি (Copy) করার প্রক্রিয়া উল্লেখ করো।</p>
+    <textarea placeholder="তোমার উত্তর এখানে লেখো..."></textarea>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  সপ্তম শ্রেণি · তথ্য ও যোগাযোগ প্রযুক্তি — অধ্যায় ৪ ইন্টারেক্টিভ সংস্করণ। মূল পাঠ্যবই: জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড, বাংলাদেশ।
+</footer>
+
+<script>
+function toggleAnswer(btn, forceOpen){
+  const wrap = btn.closest('.sc-content');
+  const ans = wrap.querySelector('.sc-answer');
+  if(forceOpen){
+    ans.classList.add('show');
+  } else {
+    ans.classList.remove('show');
+  }
+}
+
+document.querySelectorAll('.chips').forEach(function(group){
+  const targetId = 'def-' + group.getAttribute('data-glossary');
+  const defBox = document.getElementById(targetId);
+  group.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      const already = chip.classList.contains('active');
+      group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      if(already){
+        defBox.classList.remove('show');
+        defBox.innerHTML = '';
+        return;
+      }
+      chip.classList.add('active');
+      defBox.innerHTML = '<b>'+chip.textContent+'</b> — '+chip.getAttribute('data-def');
+      defBox.classList.add('show');
+    });
+  });
+});
+
+// ---- quiz logic (hash-verified + locks after answering) ----
+function strHash(s){
+  let h = 5381;
+  for(let i=0;i<s.length;i++){
+    h = ((h*33) + s.charCodeAt(i)) >>> 0;
+  }
+  return String(h);
+}
+document.querySelectorAll('.qoptions').forEach(function(optGroup){
+  const targetHash = optGroup.getAttribute('data-hash');
+  const feedback = optGroup.parentElement.querySelector('.qfeedback');
+  feedback.setAttribute('aria-live','polite');
+  const optionLabels = optGroup.querySelectorAll('.qoption');
+  optGroup.querySelectorAll('input[type=radio]').forEach(function(input){
+    input.addEventListener('change', function(){
+      optionLabels.forEach(l=>l.classList.remove('correct','wrong'));
+      let correctLabel = null, correctText = '';
+      optionLabels.forEach(function(lbl){
+        const txt = lbl.textContent.trim();
+        if(strHash(txt) === targetHash){ correctLabel = lbl; correctText = txt; }
+      });
+      const chosenLabel = input.closest('.qoption');
+      if(chosenLabel === correctLabel){
+        chosenLabel.classList.add('correct');
+        feedback.textContent = '✅ ঠিক আছে! খুব ভালো হয়েছে।';
+        feedback.className = 'qfeedback show ok';
+      } else {
+        chosenLabel.classList.add('wrong');
+        if(correctLabel) correctLabel.classList.add('correct');
+        feedback.textContent = '❌ এটা ঠিক না। সঠিক উত্তর: ' + correctText + ' — উপরের বইয়ের অংশটা আরেকবার পড়ে নাও।';
+        feedback.className = 'qfeedback show no';
+      }
+      // lock this question so guessing repeatedly isn't possible
+      optGroup.querySelectorAll('input[type=radio]').forEach(i=>i.disabled=true);
+      updateProgress();
+    });
+  });
+});
+
+const navLinks = document.querySelectorAll('#lessonNav a');
+const sections = document.querySelectorAll('main section');
+function onScroll(){
+  let current = sections[0].id;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120) current = sec.id;
+  });
+  navLinks.forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+function updateProgress(){
+  const totalQ = document.querySelectorAll('.qoptions').length;
+  const answered = document.querySelectorAll('.qoptions input[type=radio]:checked').length;
+  const pct = totalQ ? Math.round((answered/totalQ)*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'তোমার অগ্রগতি: '+pct+'% (কুইজ উত্তর দেওয়ার ভিত্তিতে)';
+}
+updateProgress();
+function collectWork(){
+  const lines = [];
+  lines.push('তোমার কাজ ও উত্তর');
+  lines.push('========================================');
+  lines.push('');
+  let anyWork = false;
+  document.querySelectorAll('textarea').forEach(function(ta){
+    if(ta.value.trim()){
+      anyWork = true;
+      let promptEl = ta.previousElementSibling;
+      let promptText = (promptEl ? promptEl.textContent.trim() : '').slice(0,200);
+      lines.push('▸ ' + (promptText || 'তোমার লেখা'));
+      lines.push(ta.value.trim());
+      lines.push('');
+    }
+  });
+  if(!anyWork){ lines.push('(তুমি এখনো কোনো দলগত কাজ বা প্রশ্নের উত্তর লেখোনি)'); lines.push(''); }
+  lines.push('========================================');
+  lines.push('কুইজের ফলাফল');
+  let total = 0, correct = 0;
+  document.querySelectorAll('.qitem').forEach(function(qi){
+    const fb = qi.querySelector('.qfeedback');
+    const qtext = qi.querySelector('.qtext');
+    if(fb && fb.classList.contains('show')){
+      total++;
+      const ok = fb.classList.contains('ok');
+      if(ok) correct++;
+      lines.push((ok ? '✓ ' : '✗ ') + (qtext ? qtext.textContent.trim() : ('প্রশ্ন ' + total)));
+    }
+  });
+  lines.push('');
+  lines.push('মোট উত্তর দেওয়া হয়েছে: ' + total + ' টি, সঠিক হয়েছে: ' + correct + ' টি');
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'আমার-কাজ-ও-ফলাফল.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+const dwBtn = document.getElementById('downloadWorkBtn');
+if(dwBtn){ dwBtn.addEventListener('click', collectWork); }
+
+</script>
+
+</body>
+</html>

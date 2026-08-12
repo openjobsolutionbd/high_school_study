@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অধ্যায় ২ — কম্পিউটার-সংশ্লিষ্ট যন্ত্রপাতি</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --slate:#1E3A34;
+  --slate-2:#28483F;
+  --paper:#FBF7EC;
+  --paper-2:#F2EAD3;
+  --ink:#22281f;
+  --indigo:#2F5D9E;
+  --indigo-dark:#1F3F6B;
+  --mustard:#E3A93B;
+  --good:#3E8E5A;
+  --bad:#B2483A;
+  --stitch:#C9B98A;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+}
+h1,h2,h3,.display{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--slate);
+  font-weight:700;
+}
+::selection{background:var(--mustard);color:var(--slate);}
+
+.stitch{
+  height:14px;
+  margin:0 auto;
+  max-width:1100px;
+  background-image:repeating-linear-gradient(
+    115deg,
+    var(--stitch) 0 8px,
+    transparent 8px 16px
+  );
+  opacity:.65;
+}
+.stitch.vertical-space{margin:36px auto;}
+
+/* header */
+header.topbar{
+  background:
+    radial-gradient(circle at 8px 8px, rgba(227,169,59,.14) 1.4px, transparent 1.4px),
+    linear-gradient(155deg, var(--slate-2) 0%, var(--slate) 62%, #142822 100%);
+  background-size: 26px 26px, cover;
+  color:var(--paper);
+  padding:38px 24px 46px;
+  position:relative;
+  overflow:hidden;
+}
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  margin:0 auto;
+}
+.header-illustration{
+  position:absolute;
+  right:-10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:220px;
+  height:220px;
+  opacity:.16;
+  z-index:1;
+  pointer-events:none;
+}
+.badge-patch{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paper);
+  color:var(--slate);
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:700;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:13px;
+  border:2px dashed var(--mustard);
+  transform:rotate(-2deg);
+  margin-bottom:16px;
+  box-shadow:0 3px 0 rgba(0,0,0,.18);
+}
+header.topbar .kicker{
+  font-size:13.5px;
+  letter-spacing:.08em;
+  color:var(--mustard);
+  font-weight:700;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+header.topbar .kicker::before,
+header.topbar .kicker::after{
+  content:"";
+  height:1px;
+  width:22px;
+  background:var(--mustard);
+  opacity:.6;
+}
+header.topbar .eyebrow{
+  display:block;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  color:#a9c9bc;
+  margin-bottom:2px;
+  letter-spacing:.02em;
+}
+header.topbar h1{
+  color:var(--paper);
+  font-size:clamp(28px,4.4vw,42px);
+  line-height:1.28;
+  margin:0 0 12px;
+  max-width:640px;
+}
+header.topbar h1 .hl{
+  color:var(--mustard);
+}
+header.topbar p.sub{
+  margin:0;
+  color:#cfe3da;
+  font-size:15.5px;
+  max-width:560px;
+  position:relative;
+  padding-right:18px;
+}
+header.topbar p.sub::before{
+  content:"";
+  position:absolute;
+  right:0;top:4px;bottom:4px;
+  width:3px;
+  background:var(--mustard);
+  border-radius:3px;
+  opacity:.7;
+}
+
+.header-edge{
+  height:20px;
+  width:100%;
+  background:var(--paper);
+  clip-path:polygon(
+    0% 100%,0% 35%,4.3% 100%,8.6% 35%,12.9% 100%,17.2% 35%,21.5% 100%,25.8% 35%,
+    30.1% 100%,34.4% 35%,38.7% 100%,43% 35%,47.3% 100%,51.6% 35%,55.9% 100%,60.2% 35%,
+    64.5% 100%,68.8% 35%,73.1% 100%,77.4% 35%,81.7% 100%,86% 35%,90.3% 100%,94.6% 35%,100% 100%,100% 100%
+  );
+  margin-top:-1px;
+}
+
+/* sticky lesson nav */
+nav.lesson-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:var(--slate-2);
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:11px 16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  margin-top:-1px;
+}
+nav.lesson-nav a{
+  flex:0 0 auto;
+  color:#e8f1ec;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  white-space:nowrap;
+  transition:.2s;
+}
+nav.lesson-nav a:hover,nav.lesson-nav a.active{
+  background:var(--mustard);
+  color:var(--slate);
+  border-color:var(--mustard);
+}
+
+main{max-width:900px;margin:0 auto;padding:28px 18px 80px;}
+
+.objectives{
+  background:var(--paper-2);
+  border:2px dashed var(--stitch);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:26px 0;
+}
+.objectives h2{margin-top:0;font-size:20px;}
+.objectives ol{margin:0;padding-right:0;padding-left:20px;}
+.objectives li{margin-bottom:6px;}
+
+section.lesson{margin:56px 0;scroll-margin-top:70px;}
+section.lesson>h2{
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:4px;
+}
+section.lesson>h2 .num{
+  background:var(--indigo);
+  color:#fff;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:15px;
+  padding:5px 12px;
+  border-radius:999px;
+}
+.lesson-intro-note{
+  color:#5b6b60;
+  font-size:14.5px;
+  margin-bottom:22px;
+}
+
+.book-text{
+  background:#fff;
+  border-right:6px solid var(--indigo);
+  padding:20px 22px;
+  border-radius:8px;
+  margin:18px 0;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:16.5px;
+  line-height:1.95;
+  color:#2b3129;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.book-text .book-label{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--indigo);
+  letter-spacing:.04em;
+  display:block;
+  margin-bottom:8px;
+}
+.book-text p{margin:0 0 14px;}
+.book-text p:last-child{margin-bottom:0;}
+.book-text h4{
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--indigo-dark);
+  margin:0 0 8px;
+  font-size:17px;
+}
+.book-text ol,.book-text ul{margin:0 0 14px;padding-right:0;}
+.book-text table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;font-size:15px;}
+.book-text table td,.book-text table th{border:1px solid #ddd;padding:6px 10px;text-align:center;}
+.book-text table th{background:var(--paper-2);}
+
+details.simple-box{
+  background:#FFF8E7;
+  border:2px solid var(--mustard);
+  border-radius:var(--radius);
+  margin:14px 0 26px;
+  overflow:hidden;
+}
+details.simple-box summary{
+  cursor:pointer;
+  list-style:none;
+  padding:12px 18px;
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  color:#7a5a12;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  user-select:none;
+}
+details.simple-box summary::-webkit-details-marker{display:none;}
+details.simple-box summary::before{
+  content:"▶";
+  font-size:11px;
+  transition:transform .2s;
+}
+details.simple-box[open] summary::before{transform:rotate(90deg);}
+details.simple-box .simple-body{
+  padding:2px 20px 18px;
+  font-size:16px;
+  color:#3b3223;
+}
+details.simple-box .simple-body p{margin:8px 0;}
+details.simple-box .simple-body b{color:var(--indigo-dark);}
+
+.selfcheck{
+  background:var(--paper-2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin:20px 0;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.selfcheck .icon-box{
+  flex:0 0 auto;
+  width:74px;height:74px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:3px solid var(--indigo);
+}
+.selfcheck .icon-box svg{width:38px;height:38px;stroke:var(--indigo);}
+.selfcheck .sc-content{flex:1;min-width:200px;}
+.selfcheck .sc-content .name{font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;font-weight:700;color:var(--slate);font-size:17px;margin-bottom:4px;}
+.selfcheck .sc-question{font-size:14.5px;color:#5b6b60;margin-bottom:8px;}
+.selfcheck .sc-btns{display:flex;gap:8px;}
+.sc-btn{
+  border:2px solid var(--indigo);
+  background:#fff;
+  color:var(--indigo);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:13.5px;
+  cursor:pointer;
+}
+.sc-btn:hover{background:var(--indigo);color:#fff;}
+.sc-answer{
+  display:none;
+  margin-top:10px;
+  padding:12px 14px;
+  background:#fff;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--mustard);
+}
+.sc-answer.show{display:block;}
+
+.glossary-wrap{
+  margin:22px 0 30px;
+  background:#EEF3EE;
+  border-radius:var(--radius);
+  padding:18px 20px;
+}
+.glossary-wrap h4{
+  margin:0 0 12px;
+  font-size:15px;
+  color:var(--slate);
+  display:flex;align-items:center;gap:6px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  background:#fff;
+  border:1.5px solid var(--indigo);
+  color:var(--indigo-dark);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+.chip:hover{background:var(--indigo);color:#fff;}
+.chip.active{background:var(--indigo);color:#fff;}
+.chip-def{
+  display:none;
+  margin-top:12px;
+  background:#fff;
+  padding:12px 14px;
+  border-radius:8px;
+  font-size:15px;
+  border-right:4px solid var(--indigo);
+}
+.chip-def.show{display:block;}
+.chip-def b{color:var(--indigo-dark);}
+
+.groupwork{
+  background:var(--slate);
+  color:#eaf1ec;
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:26px 0;
+}
+.groupwork .gw-label{
+  font-family:'Baloo Da 2','Noto Sans Bengali','Nirmala UI',sans-serif;
+  color:var(--mustard);
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.groupwork p{margin:0 0 12px;font-size:15.5px;}
+.groupwork textarea{
+  width:100%;
+  min-height:80px;
+  border-radius:8px;
+  border:none;
+  padding:10px 12px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-size:14.5px;
+  resize:vertical;
+}
+.groupwork .hint{font-size:12.5px;color:#a9c2b6;margin-top:6px;}
+
+.quiz{
+  background:#fff;
+  border:2px solid var(--paper-2);
+  border-radius:var(--radius);
+  padding:22px 22px 8px;
+  margin:34px 0;
+}
+.quiz>h3{margin-top:0;font-size:19px;display:flex;align-items:center;gap:8px;}
+.qitem{margin-bottom:22px;padding-bottom:18px;border-bottom:1px dashed #ddd;}
+.qitem:last-of-type{border-bottom:none;}
+.qitem p.qtext{font-weight:600;color:var(--slate);margin:0 0 10px;font-size:16px;}
+.qoptions{display:flex;flex-direction:column;gap:8px;}
+.qoption{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;
+  border:1.5px solid #e2ddc9;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  transition:.15s;
+}
+.qoption:hover{background:#FAF6EA;}
+.qoption.correct{background:#e5f4ea;border-color:var(--good);}
+.qoption.wrong{background:#fbe9e6;border-color:var(--bad);}
+.qoption input{accent-color:var(--indigo);}
+.qfeedback{
+  margin-top:10px;font-size:14.5px;padding:8px 12px;border-radius:6px;display:none;
+}
+.qfeedback.show{display:block;}
+.qfeedback.ok{background:#e5f4ea;color:#255c39;}
+.qfeedback.no{background:#fbe9e6;color:#7a2e21;}
+
+.progress-wrap{max-width:900px;margin:0 auto;padding:0 18px;}
+.progress-bar{
+  height:6px;background:#e2ddc9;border-radius:99px;overflow:hidden;margin-top:14px;
+}
+.progress-fill{height:100%;width:0%;background:var(--mustard);transition:width .4s;}
+.progress-label{font-size:12.5px;color:#5b6b60;margin-top:6px;}
+
+footer{
+  text-align:center;padding:40px 20px 60px;color:#7d8a7f;font-size:13.5px;
+}
+footer a{color:var(--indigo);}
+
+@media(max-width:640px){
+  section.lesson>h2{font-size:22px;}
+}
+
+.download-btn{
+  margin-top:14px;
+  background:var(--indigo);
+  color:#fff;
+  border:none;
+  padding:9px 18px;
+  border-radius:999px;
+  font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+}
+.download-btn:hover{background:var(--indigo-dark);}
+.download-btn:focus-visible,
+.chip:focus-visible,
+.sc-btn:focus-visible,
+.qoption:focus-within,
+nav.lesson-nav a:focus-visible,
+summary:focus-visible{
+  outline:3px solid var(--mustard);
+  outline-offset:2px;
+}
+
+.mobo-diagram{background:#fff;border-radius:14px;padding:20px;margin:20px 0;border:2px solid var(--paper-2);}
+.mobo-diagram svg{width:100%;height:auto;display:block;max-width:420px;margin:0 auto;}
+.mobo-part{fill:#dCE8E2;stroke:var(--indigo);stroke-width:1.5;cursor:pointer;transition:.2s;}
+.mobo-part:hover{fill:#c3dcd2;}
+.mobo-part.active{fill:var(--mustard);stroke:var(--slate);stroke-width:2.5;}
+.mobo-num-circle{fill:var(--indigo);pointer-events:none;}
+.mobo-num-circle.active{fill:var(--slate);}
+.mobo-num-text{fill:#fff;font-family:'Baloo Da 2',sans-serif;font-size:13px;font-weight:700;pointer-events:none;}
+.mobo-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;justify-content:center;}
+.mobo-btn{background:#fff;border:2px solid var(--indigo);color:var(--indigo-dark);border-radius:999px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-family:'Baloo Da 2',sans-serif;font-weight:700;cursor:pointer;font-size:14px;}
+.mobo-btn.active{background:var(--mustard);border-color:var(--mustard);color:var(--slate);}
+.mobo-desc{margin-top:14px;background:var(--paper-2);border-radius:8px;padding:14px 16px;font-size:15px;min-height:26px;}
+.mobo-desc b{color:var(--indigo-dark);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <svg class="header-illustration" viewBox="0 0 200 200" fill="none" stroke="#FBF7EC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="30" y="40" width="140" height="90" rx="6"/>
+    <path d="M30 60 h140 M60 40 v90 M100 40 v90 M140 40 v90 M30 90 h140" stroke-dasharray="3 5"/>
+    <circle cx="70" cy="70" r="4"/>
+    <circle cx="110" cy="110" r="4"/>
+    <circle cx="150" cy="70" r="4"/>
+    <path d="M70 150 h60" stroke-linecap="round"/>
+    <path d="M85 130 v20 M115 130 v20"/>
+  </svg>
+  <div class="header-inner">
+    <div class="badge-patch">🔧 সপ্তম শ্রেণি</div>
+    <div class="kicker">ইন্টারেক্টিভ সংস্করণ</div>
+    <h1><span class="eyebrow">অধ্যায় ২</span>কম্পিউটার-সংশ্লিষ্ট <span class="hl">যন্ত্রপাতি</span></h1>
+    <p class="sub">কী-বোর্ড থেকে প্রসেসর, র‍্যাম থেকে প্রিন্টার — কম্পিউটারের ভেতরে-বাইরের সব যন্ত্র চিনে নাও ছবি, সহজ ব্যাখ্যা আর প্রশ্নোত্তরের মাধ্যমে।</p>
+  </div>
+</header>
+<div class="header-edge"></div>
+
+<nav class="lesson-nav" id="lessonNav">
+  <a href="#cover">শুরুর কথা</a>
+  <a href="#lesson8">পাঠ ৮ · ইনপুট (১)</a>
+  <a href="#lesson9">পাঠ ৯ · ইনপুট (২)</a>
+  <a href="#lesson10">পাঠ ১০ · র‍্যাম-রম</a>
+  <a href="#lesson11">পাঠ ১১ · স্টোরেজ</a>
+  <a href="#lesson1213">পাঠ ১২-১৩ · মাদারবোর্ড</a>
+  <a href="#lesson14">পাঠ ১৪ · প্রসেসর</a>
+  <a href="#lesson15">পাঠ ১৫ · সাউন্ড-গ্রাফিক্স</a>
+  <a href="#lesson1617">পাঠ ১৬-১৭ · মনিটর-প্রিন্টার</a>
+  <a href="#lesson18">পাঠ ১৮ · স্পিকার</a>
+  <a href="#finalquiz">অধ্যায় পরীক্ষা</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">তোমার অগ্রগতি: ০%</div>
+  <button id="downloadWorkBtn" class="download-btn" type="button">📥 তোমার লেখা ও ফলাফল ডাউনলোড করো</button>
+</div>
+
+<main>
+
+<section id="cover">
+  <div class="objectives">
+    <h2>📘 এই অধ্যায় শেষে আমরা যা যা পারব</h2>
+    <ol>
+      <li>কম্পিউটারের বিভিন্ন যন্ত্রাংশের কার্যাবলি বর্ণনা করতে পারব;</li>
+      <li>কম্পিউটারের বিভিন্ন যন্ত্রাংশের পারস্পরিক সম্পর্ক ব্যাখ্যা করতে পারব;</li>
+      <li>কম্পিউটারের চিত্র এঁকে এর বিভিন্ন যন্ত্রপাতি চিহ্নিত করতে পারব।</li>
+    </ol>
+  </div>
+  <details class="simple-box" open>
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>কম্পিউটার একা কিছু করতে পারে না — একে সাহায্য করে অনেকগুলো ছোট ছোট যন্ত্র। কিছু যন্ত্র <b>তথ্য ভেতরে ঢোকায়</b> (ইনপুট, যেমন কী-বোর্ড), কিছু যন্ত্র <b>তথ্য জমিয়ে রাখে</b> (স্টোরেজ/মেমোরি, যেমন হার্ডডিস্ক), আর কিছু যন্ত্র <b>ফলাফল আমাদের দেখায়/শোনায়</b> (আউটপুট, যেমন মনিটর-স্পিকার)। এই অধ্যায়ে আমরা এই যন্ত্রগুলোর সাথে একে একে পরিচিত হব।</p>
+    </div>
+  </details>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 8 ================= -->
+<section class="lesson" id="lesson8">
+  <h2><span class="num">পাঠ ৮</span> ইনপুট ডিভাইস</h2>
+
+  <div class="book-text">
+    <p>ষষ্ঠ শ্রেণিতে তোমরা আইসিটি'র বিভিন্ন যন্ত্রপাতি সম্পর্কে জেনেছ। এ পাঠে আইসিটি যন্ত্রপাতি সম্পর্কে তোমরা আরও বিস্তারিত জানতে পারবে। সময়ের সাথে এ যন্ত্রপাতিগুলো ক্রমেই আরও আধুনিক হয়ে উঠছে। বিষয়টা এখন এমন দাঁড়িয়েছে যে, আজকের সবচেয়ে আধুনিক যন্ত্রটিই আগামীকাল পুরোনো হয়ে যাচ্ছে। তাছাড়া নতুন নতুন আবিষ্কার তো আছেই। টেলিভিশনের রিমোট কন্ট্রোল যন্ত্রটির কথাই ধরো, এখন এমন টেলিভিশন পাওয়া যায় যেটা মুখের কথাতেই চলে। কথা বলেই এমন ইনপুট দেওয়া সম্ভব।</p>
+    <p>প্রযুক্তি খুব দ্রুত বদলে যাচ্ছে। তোমরা যারা এখন সপ্তম শ্রেণিতে পড়ছো তারা একটু উপরের শ্রেণিতে যেতে যেতেই এই যন্ত্রপাতির অনেকগুলোই জাদুঘরের সামগ্রীতে পরিণত হবে। তবুও বর্তমানে প্রচলিত যন্ত্রপাতি সম্পর্কে আমাদের জানতে হবে। কারণ যন্ত্রপাতি পাল্টে গেলেও ইনপুট, স্টোরেজ, প্রসেসিং এবং আউটপুটের ধারণাটা কিছু পাল্টে যাচ্ছে না।</p>
+    <h4>কী-বোর্ড (Keyboard)</h4>
+    <p>কম্পিউটারে ইনপুট দেওয়ার প্রধান (বহুল ব্যবহৃত) যন্ত্র হলো কী-বোর্ড। তথ্য ও যোগাযোগ প্রযুক্তির অধিকাংশ যন্ত্রে সাধারণত কী-বোর্ডের মাধ্যমে ইনপুট দেওয়া হয়। এ সকল যন্ত্রকে দিয়ে কোনো কাজ করাতে চাইলে যন্ত্রগুলোকে কিছু নির্দেশনা দিতে হয়। আমরা যখন কী-বোর্ডের বোতাম চেপে যন্ত্রগুলোকে এ নির্দেশনাগুলো দেই তখন যন্ত্রগুলো আমাদের চাওয়া অনুযায়ী কাজটি করে দেয়।</p>
+    <p>আজকের দিনের আধুনিক কম্পিউটার কী-বোর্ডের ধারণা এসেছে টাইপরাইটার নামের এক ধরনের যন্ত্র থেকে। সাধারণত কী-বোর্ডে বর্ণ, সংখ্যা বা বিশেষ কিছু চিহ্ন সারিবদ্ধভাবে বিন্যস্ত থাকে। কম্পিউটারের কী-বোর্ড টাইপ রাইটারের কী-বোর্ডের মতো হলেও বিশেষ কাজের জন্য কিছু অতিরিক্ত কী থাকে। কী-বোর্ড সাধারণত ইংরেজি ভাষায় হলেও অন্যান্য ভাষার কী-বোর্ড পাওয়া যায়। সম্প্রতি বাংলাদেশ সরকার সকল মোবাইল ফোনের কী-বোর্ডে বাংলা লেআউট যুক্ত করার এক নির্দেশনা জারি করেছে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>কী-বোর্ড আসলে কম্পিউটারের "মুখ" — তুমি যা বলতে চাও (লিখতে চাও) তা কী-বোর্ড দিয়ে কম্পিউটারকে জানাও। মজার তথ্য: কম্পিউটারের কী-বোর্ডের ধারণা এসেছে পুরোনো <b>টাইপরাইটার</b> যন্ত্র থেকে, যা দিয়ে আগে কাগজে সরাসরি টাইপ করা হতো।</p>
+    </div>
+  </details>
+
+  <div class="book-text">
+    <h4>মাউস (Mouse)</h4>
+    <p>তোমরা এর মধ্যে নিশ্চয়ই মাউস নামের একটি যন্ত্র ব্যবহার করেছ। এটি একটি জনপ্রিয় ইনপুট ডিভাইস। একে অনেকে পয়েন্টিং ডিভাইসও বলে থাকে। যারা প্রথম এটি তৈরি করেছে তাদের ধারণা ছিল এটি দেখতে ইঁদুরের মতো, তাই এর নাম দেয়া হয়েছে মাউস।</p>
+    <p>মাউসে সাধারণত দুটি বাটন ও একটি স্ক্রল চক্র (হুইল) থাকে। কম্পিউটারে ইনপুট দিতে এ বাটনগুলো বিভিন্নভাবে ব্যবহৃত হয়। বর্তমান পৃথিবীতে অনেক ধরনের মাউস প্রচলিত আছে। সাধারণ ব্যবহারকারীগণ স্ট্যান্ডার্ড মাউস ব্যবহার করে।</p>
+    <p>কম্পিউটারের মনিটরের পর্দায় মাউসের অবস্থান দেখানো হয় তিরের ফলার মতো একটি পয়েন্টারের মাধ্যমে। মাউসটি নড়াচড়া করা হলে পয়েন্টারটি অবস্থান পরিবর্তন করে। মাউসের বাটন ক্লিক করে কম্পিউটারকে বিভিন্ন নির্দেশ প্রদান করা হয়। চিত্রভিত্তিক অপারেটিং সিস্টেমে মাউসের বহুল ব্যবহার লক্ষ করা যায়। সাধারণত নির্দিষ্ট প্রোগ্রামের চিহ্নের (আইকনের) উপর মাউসের বামদিকের বাটন একবার ক্লিক করলে প্রোগ্রামটি নির্বাচিত (সিলেক্ট) হয় এবং পরপর দুবার ক্লিক করলে প্রোগ্রামটি চালু হয়। ল্যাপটপ কম্পিউটারের টাচপ্যাড দিয়ে মাউসের কাজ সম্পাদন করা যায়।</p>
+    <h4>মাইক্রোফোন (Microphone)</h4>
+    <p>এটিও একটি ইনপুট যন্ত্র। আমাদের কথা, গান বা যে কোনো ধরনের শব্দ এর মাধ্যমে কম্পিউটারে প্রবেশ করানো যায়। বিশেষ করে ইন্টারনেটভিত্তিক যোগাযোগে কথা বলার ক্ষেত্রে এর জনপ্রিয়তা লক্ষ করা যায়। টেলিফোনে ব্যবহার করা হয় বলে এ যন্ত্রটির আবিষ্কার বেশ আগেই হয়েছে। তবে এখন এটাকে নিয়মিতভাবে কম্পিউটারে ইনপুট হিসেবে ব্যবহার করা হয়। কথা বলা ছাড়াও ভয়েস রিকগনিশনের ক্ষেত্রে মাইক্রোফোন ব্যবহার করা হয়ে থাকে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>মাউস দিয়ে তুমি স্ক্রিনের কোনো জায়গা <b>"দেখিয়ে"</b> দাও (পয়েন্ট করো), আর কী-বোর্ড দিয়ে <b>"লেখো"</b>। মাইক্রোফোন দিয়ে তুমি <b>"বলো"</b> — যেমন ফোনে কথা বলার সময়, বা "ভয়েস রিকগনিশন" মানে কম্পিউটার তোমার কথা শুনে বুঝে ফেলা (যেমন গুগলে মুখে বলে সার্চ করা)।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>১. এখানে উল্লেখ করা হয়নি এমন কতগুলো ডিভাইস যেগুলোর কী-বোর্ড আছে সেগুলোর নাম লিখে উপস্থাপন করো।<br>২. প্রত্যেক দলের উপস্থাপনা থেকে একটি অভিন্ন তালিকা তৈরি করো।</p>
+    <textarea placeholder="তোমার তালিকা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson8">
+      <button class="chip" data-def="মাউসের উপরে থাকা ছোট্ট চাকতি, ঘুরিয়ে স্ক্রিন উপরে-নিচে সরানো (স্ক্রল করা) যায়।">স্ক্রল চক্র (হুইল)</button>
+      <button class="chip" data-def="কোনো প্রোগ্রাম বা ফাইল বোঝানোর জন্য স্ক্রিনে থাকা ছোট্ট ছবি/চিহ্ন।">আইকন</button>
+      <button class="chip" data-def="কম্পিউটার বা ফোন মানুষের কথা শুনে তা বুঝতে বা লিখে ফেলতে পারার প্রযুক্তি।">ভয়েস রিকগনিশন</button>
+      <button class="chip" data-def="কথা, গান বা শব্দ কম্পিউটারে ইনপুট হিসেবে প্রবেশ করানোর যন্ত্র।">মাইক্রোফোন</button>
+    </div>
+    <div class="chip-def" id="def-lesson8"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৮ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. কম্পিউটারে ইনপুট দেওয়ার প্রধান ও বহুল ব্যবহৃত যন্ত্র কোনটি?</p>
+      <div class="qoptions" data-hash="4090942556">
+        <label class="qoption"><input type="radio" name="q1" value="0">মাউস</label>
+        <label class="qoption"><input type="radio" name="q1" value="1">কী-বোর্ড</label>
+        <label class="qoption"><input type="radio" name="q1" value="2">স্ক্যানার</label>
+        <label class="qoption"><input type="radio" name="q1" value="3">স্পিকার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. মাউসে সাধারণত কয়টি বাটন ও একটি স্ক্রল চক্র থাকে?</p>
+      <div class="qoptions" data-hash="2178041002">
+        <label class="qoption"><input type="radio" name="q2" value="0">একটি</label>
+        <label class="qoption"><input type="radio" name="q2" value="1">দুটি</label>
+        <label class="qoption"><input type="radio" name="q2" value="2">তিনটি</label>
+        <label class="qoption"><input type="radio" name="q2" value="3">চারটি</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. মাইক্রোফোন কোন ধরনের ডিভাইস?</p>
+      <div class="qoptions" data-hash="2530813768">
+        <label class="qoption"><input type="radio" name="q3" value="0">আউটপুট ডিভাইস</label>
+        <label class="qoption"><input type="radio" name="q3" value="1">ইনপুট ডিভাইস</label>
+        <label class="qoption"><input type="radio" name="q3" value="2">স্টোরেজ ডিভাইস</label>
+        <label class="qoption"><input type="radio" name="q3" value="3">প্রসেসিং ডিভাইস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 9 ================= -->
+<section class="lesson" id="lesson9">
+  <h2><span class="num">পাঠ ৯</span> ইনপুট ডিভাইস</h2>
+
+  <div class="book-text">
+    <h4>ডিজিটাল ক্যামেরা (Digital Camera)</h4>
+    <p>আমাদের খুবই পরিচিত একটি যন্ত্র হচ্ছে ক্যামেরা। এ সময়ে খুব জনপ্রিয় হলো ডিজিটাল ক্যামেরা। ডিজিটাল ক্যামেরার প্রচলন অনেক আগে থেকে শুরু হলেও কম্পিউটারের ইনপুট যন্ত্র হিসেবে এর ব্যবহার শুরু হয়েছে অনেক পরে। প্রথম দিকে গবেষণার কাজে বিশেষ করে মহাকাশ গবেষণায় ডিজিটাল ক্যামেরা কম্পিউটারের ইনপুট যন্ত্র হিসেবে ব্যবহার শুরু হয়। বর্তমানে প্রায় সকল প্রকার ডিজিটাল ক্যামেরাই কম্পিউটারের ইনপুট যন্ত্র হিসেবে ব্যবহার করা যায়। ডিজিটাল ক্যামেরাটিকে ইউএসবি পোর্টের মাধ্যমে কম্পিউটারের সাথে যুক্ত করে ডিজিটাল ছবি কম্পিউটারে প্রবেশ করানো হয়।</p>
+    <h4>ওয়েবক্যাম (Web Cam)</h4>
+    <p>ওয়েবক্যাম বা ওয়েব ক্যামেরা ডিজিটাল ক্যামেরারই একটি বিশেষ রূপ। এটি হার্ডওয়্যার হিসেবে কম্পিউটারের সাথে যুক্ত থাকে। সাধারণত ল্যাপটপ কম্পিউটারে ওয়েব ক্যামেরা সংযুক্ত থাকে। ওয়েব ক্যামেরার মাধ্যমে স্থির চিত্র বা ভিডিও চিত্র কম্পিউটারে ইনপুট হিসেবে প্রবেশ করানো যায়। ওয়েব ক্যামেরা ব্যবহার করে নেটওয়ার্কের মাধ্যমে কম্পিউটার ব্যবহারকারীরা নিজেদের মধ্যে সরাসরি ছবি বা ভিডিও আদান প্রদান করতে পারে। সামাজিক ওয়েব সাইটগুলোতে পারস্পরিক আলাপচারিতায় ওয়েবক্যাম ব্যবহৃত হয়। ভিডিয়ো কনফারেন্স বা ভিডিয়ো ফোনে ওয়েবক্যামের ব্যবহার সর্বাধিক। ওয়ার্ল্ড ওয়াইড ওয়েবে এ ক্যামেরার ব্যাপক ব্যবহারের কারণেই এর নাম হয়েছে ওয়েবক্যাম।</p>
+    <p>ওয়েবক্যাম বর্তমানে নিরাপত্তা সংশ্লিষ্ট বিভিন্ন কাজেও ব্যবহার করা হচ্ছে। রাষ্ট্রীয় গুরুত্বপূর্ণ স্থাপনা থেকে শুরু করে বিভিন্ন সরকারি-বেসরকারি প্রতিষ্ঠান, বাসা-বাড়িতে নিরাপত্তার প্রয়োজনে এ ক্যামেরা ব্যবহার করা হয়। এ ক্যামেরার সাথে সরাসরি কম্পিউটারের সংযোগ থাকে। ফলে এ ক্যামেরা সার্বক্ষণিক ভিডিয়ো চিত্র কম্পিউটারে প্রেরণ করে এবং তা কম্পিউটারে সংরক্ষণ করে রাখা হয়। পরবর্তীকালে সে ভিডিয়ো চিত্র দেখে অপরাধী শনাক্ত করা সম্ভব হয়। আমাদের দেশেও অপরাধ দমনে এ পদ্ধতি ব্যবহার করা হচ্ছে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>ওয়েবক্যাম হলো ল্যাপটপ বা কম্পিউটারের সাথে লাগানো ছোট্ট ক্যামেরা — ভিডিও কলের সময় (যেমন ইমো বা মেসেঞ্জারে) তোমাকে যেভাবে দেখা যায়, সেটাই ওয়েবক্যামের কাজ। দোকানে-বাসায় চোর ধরতে যে ক্যামেরা লাগানো থাকে (CC ক্যামেরা), সেটাও একই ধরনের প্রযুক্তি — সার্বক্ষণিক ভিডিও রেকর্ড করে রাখে।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">📷 ওয়েবক্যাম</div>
+      <div class="sc-question">এই যন্ত্রটা কি তুমি আগে দেখেছ/চেনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">ল্যাপটপের স্ক্রিনের উপরে একটা ছোট্ট গোল ছিদ্র দেখেছ কখনো? ওটাই ওয়েবক্যাম। এটা দিয়ে তোমার ছবি বা ভিডিও তোলা যায় এবং তা সরাসরি ইন্টারনেটের মাধ্যমে অন্য কারো কাছে পাঠানো যায় — যেমন ভিডিও কলের সময়।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <h4>স্ক্যানার (Scanner)</h4>
+    <p>এক সময় ফটোকপি মেশিনের সাহায্যে আমরা বিভিন্ন ডকুমেন্টের প্রতিলিপি (কপি) করতাম। কিন্তু এ প্রতিলিপি যতবার দরকার ততবারই মেশিন ব্যবহার করতে হতো। তথ্যটি সংরক্ষিত থাকত না। এ সমস্যাটির সমাধান যে যন্ত্রটি করে দিয়েছে তার নাম স্ক্যানার। যেকোনো প্রকার ছবি, মুদ্রিত বা হাতে লেখা কোনো ডকুমেন্ট অথবা কোনো বস্তুর ডিজিটাল প্রতিলিপি তৈরি করার যন্ত্রের নাম স্ক্যানার। এ ডিজিটাল প্রতিলিপি বিভিন্ন প্রকারের তথ্য ফাইল আকারে কম্পিউটারে সংরক্ষণ করা যায়।</p>
+    <h4>ওএমআর (OMR)</h4>
+    <p>ওএমআর-এর পূর্ণরূপ হচ্ছে অপটিক্যাল মার্ক রিডার (Optical Mark Reader) এটিও একটি ইনপুট ডিভাইস। আলোর প্রতিফলন বিচার করে এটি বিভিন্ন ধরনের তথ্য বুঝতে পারে। ওএমআর এর কাজের ধরন অনেকটা স্ক্যানারের মতো। বিশেষভাবে তৈরি করা কিছু দাগ বা চিহ্ন ওএমআর পড়তে পারে।</p>
+    <p>বর্তমানে এটি অনেকের কাছে খুব পরিচিত। বিশেষ করে বহুনির্বাচনী প্রশ্নের উত্তরপত্র যাচাইয়ে এটির ব্যাপক ব্যবহার রয়েছে। সঠিক উত্তরের বৃত্তির অবস্থান কম্পিউটারকে আগে থেকেই জানিয়ে রাখা হয়। শিক্ষার্থীরা সঠিক বৃত্ত ভরাট করলে নম্বর পেয়ে যায়। অন্যথায় নম্বর পাওয়া যায় না। সঠিক বৃত্তিসহ একের অধিক বৃত্ত ভরাট করলেও নম্বর পাওয়া যায় না। এর মাধ্যমে কম সময়ে অনেক উত্তরপত্র মূল্যায়ন করা যায়। এছাড়া মূল্যায়নে ভুল বা পক্ষপাতিত্ব হওয়ার কোনো সম্ভাবনাই নেই। তাই এটি অত্যন্ত জনপ্রিয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>স্ক্যানার</b> মানে হলো কাগজে থাকা ছবি বা লেখাকে হুবহু কম্পিউটারে ঢুকিয়ে ফেলা — যেন ফটোকপি করলাম, কিন্তু কাগজের বদলে কম্পিউটারে সেভ হলো, যতবার খুশি প্রিন্ট করা যাবে।</p>
+      <p><b>OMR</b> তুমি হয়তো নিজেই ব্যবহার করেছ — MCQ পরীক্ষায় যে গোল বৃত্ত ভরাট করো (পেন্সিল দিয়ে), সেই উত্তরপত্র একটা বিশেষ মেশিনে ঢুকিয়ে দিলে মেশিনটাই বলে দেয় কে কত পেয়েছে — এটাই OMR-এর কাজ।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1.3"/><circle cx="9" cy="13.5" r="1.3"/><path d="M13 9h5M13 13.5h5"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">⭕ ওএমআর (OMR) শিট</div>
+      <div class="sc-question">MCQ পরীক্ষায় বৃত্ত ভরাট করা উত্তরপত্র কি চেনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">যেই বিশেষ কাগজে তুমি পরীক্ষায় গোল বৃত্ত ভরাট করো (ক, খ, গ, ঘ) — সেই কাগজটাকেই একটা যন্ত্রে ঢোকানো হয়। যন্ত্রটা আলো ফেলে বুঝে ফেলে কোথায় কালি আছে, আর সেই অনুযায়ী নম্বর দিয়ে দেয় — মানুষকে হাতে গুনতে হয় না।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>এখানে উল্লেখ করা হয়নি এমন কতগুলো ডিভাইস যেগুলোর ক্যামেরা আছে সেগুলোর নাম লিখে উপস্থাপন করো।</p>
+    <textarea placeholder="তোমার তালিকা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson9">
+      <button class="chip" data-def="ছবি তোলে ও তা সাথে সাথে কম্পিউটার/মেমোরিতে ডিজিটাল আকারে সংরক্ষণ করে এমন ক্যামেরা।">ডিজিটাল ক্যামেরা</button>
+      <button class="chip" data-def="কম্পিউটার/ল্যাপটপের সাথে যুক্ত ছোট্ট ক্যামেরা, ভিডিও কল বা নিরাপত্তার কাজে ব্যবহৃত হয়।">ওয়েবক্যাম</button>
+      <button class="chip" data-def="ইন্টারনেটের মাধ্যমে দুই বা ততোধিক জায়গার মানুষ একসাথে ভিডিওতে দেখে-শুনে কথা বলার ব্যবস্থা।">ভিডিও কনফারেন্স</button>
+      <button class="chip" data-def="ছবি বা লেখা কাগজ থেকে কম্পিউটারে ডিজিটাল রূপে নিয়ে আসার যন্ত্র।">স্ক্যানার</button>
+      <button class="chip" data-def="মূল জিনিসের হুবহু কম্পিউটার-সংরক্ষিত কপি।">ডিজিটাল প্রতিলিপি</button>
+      <button class="chip" data-def="Optical Mark Reader — আলোর প্রতিফলন দেখে বৃত্ত ভরাট করা উত্তরপত্র স্বয়ংক্রিয়ভাবে যাচাই করার যন্ত্র।">OMR</button>
+    </div>
+    <div class="chip-def" id="def-lesson9"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ৯ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ডিজিটাল প্রতিলিপি তৈরির যন্ত্রের নাম কী?</p>
+      <div class="qoptions" data-hash="3084830159">
+        <label class="qoption"><input type="radio" name="q4" value="0">প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q4" value="1">স্ক্যানার</label>
+        <label class="qoption"><input type="radio" name="q4" value="2">ওয়েবক্যাম</label>
+        <label class="qoption"><input type="radio" name="q4" value="3">মাউস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. OMR-এর পূর্ণরূপ কী?</p>
+      <div class="qoptions" data-hash="1499545103">
+        <label class="qoption"><input type="radio" name="q5" value="0">Optical Mark Reader</label>
+        <label class="qoption"><input type="radio" name="q5" value="1">Online Mark Recorder</label>
+        <label class="qoption"><input type="radio" name="q5" value="2">Optical Media Reader</label>
+        <label class="qoption"><input type="radio" name="q5" value="3">Output Mark Reader</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. বহুনির্বাচনী প্রশ্নের উত্তরপত্র যাচাইয়ে কোন যন্ত্র ব্যবহৃত হয়?</p>
+      <div class="qoptions" data-hash="193465651">
+        <label class="qoption"><input type="radio" name="q6" value="0">স্ক্যানার</label>
+        <label class="qoption"><input type="radio" name="q6" value="1">OMR</label>
+        <label class="qoption"><input type="radio" name="q6" value="2">ওয়েবক্যাম</label>
+        <label class="qoption"><input type="radio" name="q6" value="3">ডিজিটাল ক্যামেরা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 10 ================= -->
+<section class="lesson" id="lesson10">
+  <h2><span class="num">পাঠ ১০</span> মেমোরি ও স্টোরেজ ডিভাইস</h2>
+
+  <div class="book-text">
+    <p>ষষ্ঠ শ্রেণিতে মেমোরি ও স্টোরেজ ডিভাইস সম্পর্কে আমরা অনেক কিছু জেনেছি। এখন এগুলো সম্পর্কে একটু বিস্তারিত জানব। আজকাল কম্পিউটার বা মোবাইল ফোন ছাড়াও প্রায় সকল প্রকার প্রযুক্তি পণ্যেই মেমোরি ও স্টোরেজ ডিভাইস ব্যবহৃত হচ্ছে। আধুনিক প্রযুক্তিনির্ভর সকল পণ্যই মাইক্রোপ্রসেসর দ্বারা পরিচালিত হয়। এ মাইক্রোপ্রসেসরকে চালনা করার জন্য কিছু নির্দেশনা দিতে হয়। এ নির্দেশনাগুলো জমা রাখার জন্য মেমোরি বা স্টোরেজ ডিভাইসের প্রয়োজন হয়।</p>
+    <p>কম্পিউটার, স্মার্টফোন, গেম কনসোল বা এ ধরনের যাবতীয় যন্ত্রপাতির কাজ করার ক্ষেত্রে মেমোরি (Memory) অত্যন্ত গুরুত্বপূর্ণ। মেমোরি দুই প্রকার। প্রধান বা প্রাথমিক মেমোরি এবং সহায়ক বা সেকেন্ডারি মেমোরি। কেন্দ্রীয় প্রক্রিয়াকরণ ইউনিট বা সিপিইউ (CPU) যখন তথ্য প্রক্রিয়াকরণের কাজ করে তখন প্রয়োজনীয় তথ্যগুলো বা সফটওয়্যার প্রধান মেমোরিতে অবস্থান করে। প্রধান মেমোরির গতি অত্যন্ত বেশি হওয়ায় এটি সিপিইউর সাথে তাল মিলিয়ে দ্রুত কাজ করতে সক্ষম হয়।</p>
+    <p>সাধারণত প্রধান বা প্রাথমিক মেমোরি দুই ধরনের-একটি হচ্ছে র‍্যাম RAM (Random Access Memory) এবং অন্যটি রম ROM (Read Only Memory)। প্রধান মেমোরির ক্ষমতা দুইভাবে প্রকাশ করা হয়। একটি হচ্ছে গতি যা হার্টজ (Hz) এবং অন্যটি হলো ধারণ ক্ষমতা যা বাইট (Byte) দ্বারা প্রকাশ করা হয়। এক বাইট সমান ৮ বিট, ১০২৪ বাইট যেহেতু ১০০০-এর খুব কাছাকাছি সেজন্য একে এক কিলোবাইট বলা হয়।</p>
+    <table>
+      <tr><td>৮ বিট</td><td>=</td><td>১ বাইট</td></tr>
+      <tr><td>১০২৪ বাইট</td><td>=</td><td>১ কিলোবাইট</td></tr>
+      <tr><td>(১০২৪×১০২৪) বাইট</td><td>=</td><td>১ মেগাবাইট</td></tr>
+      <tr><td>(১০২৪×১০২৪×১০২৪) বাইট</td><td>=</td><td>১ গিগাবাইট</td></tr>
+      <tr><td>(১০২৪×১০২৪×১০২৪×১০২৪) বাইট</td><td>=</td><td>১ টেরাবাইট</td></tr>
+    </table>
+    <h4>র‍্যাম (RAM)</h4>
+    <p>আইসিটি পণ্য তথা কম্পিউটার বা স্মার্টফোনের মাদারবোর্ডের সাথে র‍্যাম সংযুক্ত থাকে। প্রসেসর প্রাথমিকভাবে র‍্যামে প্রয়োজনীয় তথ্য জমা করে। প্রসেসর র‍্যাম থেকে তথ্য নিয়ে তথ্য প্রক্রিয়াজাত করে। প্রসেসর র‍্যামের যে কোনো জায়গা থেকে সরাসরি তথ্য সংগ্রহ করে বলে একে Random Access Memory বা সংক্ষেপে RAM বলা হয়। এখনকার দিনে প্রসেসরের ক্ষমতা যেমন বেড়েছে তেমনি সফটওয়্যারগুলো অনেক কার্যকর এবং জটিল হয়েছে তাই এগুলোকে মেমোরির অনেক বড় অংশ ব্যবহার করতে হয়। সেজন্য এখনকার কম্পিউটারগুলোর জন্য কমপক্ষে ৮ গিগাবাইট বা তার চেয়ে বেশি মেমোরি দরকার হয়। প্রসেসরের গতির সাথে পাল্লা দিয়ে র‍্যামের গতিও এখন অনেক বেশি।</p>
+    <p>এখানে একটি বিষয় তোমাদের জানা থাকা একান্ত প্রয়োজন- র‍্যামে তথ্য থাকা না থাকা বিদ্যুৎ প্রবাহের উপর নির্ভরশীল। বিদ্যুৎ প্রবাহ বন্ধ করে দিলে এর সমস্ত তথ্য মুছে যায়। অর্থাৎ কম্পিউটার চালু করলেই র‍্যাম প্রয়োজনীয় তথ্য সংরক্ষণ করতে থাকে। আবার কম্পিউটার বন্ধ করলে র‍্যাম তথ্য শূন্য হয়ে যায়।</p>
+    <h4>রম (ROM)</h4>
+    <p>ROM বা Read Only Memory মাদারবোর্ডের সাথে সংযুক্ত থাকে। আইসিটি যন্ত্রপাতি বা কম্পিউটারের হার্ডওয়্যার সচল রাখার জন্য কিছু নির্দেশনা প্রয়োজন হয়। এ নির্দেশনাগুলো ছাড়া কম্পিউটার চালু করা যায় না। তাই রম এ নির্দেশনাগুলো স্থায়ীভাবে সংরক্ষিত থাকে। বিদ্যুৎ থাকার উপর এই মেমোরি নির্ভর করে না। ব্যবহারকারীও বিশেষ ব্যবস্থা ছাড়া এটি মুছে ফেলতে পারে না। এ মেমোরি শুধু পাঠ করা যায় বলে একে ROM বা Read Only Memory বলে। যেহেতু বিশেষ ব্যবস্থা ছাড়া এর তথ্য সংযোজন বা বিয়োজন করা যায় না তাই একে স্থায়ী মেমোরি বলে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>এই পার্থক্যটা সবচেয়ে গুরুত্বপূর্ণ, মনে রাখো: <b>RAM</b> হলো তোমার পেন্সিলে খাতায় লেখা হিসাব — কম্পিউটার বন্ধ হলে (মুছে ফেললে) সব হারিয়ে যায়। <b>ROM</b> হলো ছাপা বইয়ের লেখার মতো — স্থায়ী, সহজে মোছা যায় না, কম্পিউটার বন্ধ থাকলেও থেকে যায়। RAM কাজের সময় দরকার হয়, ROM কম্পিউটার চালু হতে সাহায্য করে।</p>
+      <p>মনে রাখার সহজ কৌশল: RAM-এ 'A' মানে "Active" (চলমান, পাল্টায়) — ROM-এ যেহেতু "শুধু পড়া যায়" (Read Only), তাই এটা স্থায়ী।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ (বিতর্ক)</div>
+    <p>র‍্যাম ও রম নামে দুটো দল গঠন করে কম্পিউটারের ক্ষেত্রে কোনটি গুরুত্বপূর্ণ এ বিষয়ে বিতর্ক করো।</p>
+    <textarea placeholder="তোমার দলের যুক্তিগুলো এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson10">
+      <button class="chip" data-def="কম্পিউটার বা যেকোনো আধুনিক যন্ত্রের প্রধান নিয়ন্ত্রক ছোট্ট চিপ, যা সব নির্দেশনা পালন করে।">মাইক্রোপ্রসেসর</button>
+      <button class="chip" data-def="তথ্যের সবচেয়ে ছোট একক, শুধু ০ অথবা ১ হতে পারে।">বিট</button>
+      <button class="chip" data-def="৮টি বিট মিলে তৈরি হয় একটি বাইট — তথ্যের আকার মাপার একক।">বাইট</button>
+    </div>
+    <div class="chip-def" id="def-lesson10"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১০ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. ৮ বিট সমান কত বাইট?</p>
+      <div class="qoptions" data-hash="685758108">
+        <label class="qoption"><input type="radio" name="q7" value="0">০.৫ বাইট</label>
+        <label class="qoption"><input type="radio" name="q7" value="1">১ বাইট</label>
+        <label class="qoption"><input type="radio" name="q7" value="2">২ বাইট</label>
+        <label class="qoption"><input type="radio" name="q7" value="3">৮ বাইট</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. RAM-এ তথ্য থাকা না থাকা কীসের উপর নির্ভর করে?</p>
+      <div class="qoptions" data-hash="2838359659">
+        <label class="qoption"><input type="radio" name="q8" value="0">ইন্টারনেট সংযোগ</label>
+        <label class="qoption"><input type="radio" name="q8" value="1">বিদ্যুৎ প্রবাহ</label>
+        <label class="qoption"><input type="radio" name="q8" value="2">প্রসেসরের গতি</label>
+        <label class="qoption"><input type="radio" name="q8" value="3">মনিটরের আকার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. কম্পিউটারের হার্ডওয়্যার সচল রাখার স্থায়ী নির্দেশনা কোথায় সংরক্ষিত থাকে?</p>
+      <div class="qoptions" data-hash="5944227">
+        <label class="qoption"><input type="radio" name="q9" value="0">র‍্যাম</label>
+        <label class="qoption"><input type="radio" name="q9" value="1">রম</label>
+        <label class="qoption"><input type="radio" name="q9" value="2">হার্ডডিস্ক</label>
+        <label class="qoption"><input type="radio" name="q9" value="3">ক্যাশ মেমোরি</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 11 ================= -->
+<section class="lesson" id="lesson11">
+  <h2><span class="num">পাঠ ১১</span> স্টোরেজ ডিভাইস</h2>
+
+  <div class="book-text">
+    <h4>হার্ডডিস্ক (Hard Disk)</h4>
+    <p>তোমরা যারা কম্পিউটার ব্যবহার করেছ তারা নিশ্চয়ই হার্ডডিস্কের কথাও জেনে গেছ। এটি আসলে তথ্য সংরক্ষণের প্রধান যন্ত্র। IBM কোম্পানি ১৯৫৬ সালে মেইনফ্রেম ও মিনি কম্পিউটারে ডাটা সংরক্ষণের জন্য প্রথম হার্ডডিস্কের ব্যবহার করে। আইসিটি যন্ত্রগুলোর অন্যতম বৈশিষ্ট্য হলো এদের তথ্য সংরক্ষণের ক্ষমতা। আজকের কম্পিউটারগুলোতে সাধারণত ৫০০ গিগাবাইট থেকে ৪ টেরাবাইট তথ্য ধারণক্ষমতার হার্ডডিস্ক লাগানো থাকে। এমনকি আমাদের ব্যবহৃত স্মার্টফোনের তথ্য ধারণ ক্ষমতাও গিগাবাইটে নির্ধারণ করা হয়ে থাকে। কিন্তু তোমরা শুনলে অবাক হবে ১৯৮০ সালে ১ গিগাবাইট তথ্য ধারণ ক্ষমতাসম্পন্ন হার্ডডিস্কের আকার ছিল একটি বড় রেফ্রিজারেটর বা ফ্রিজের সমান। আর এর দামও ছিল অনেক! প্রতি মেগাবাইটের জন্য পনেরো হাজার ডলার বা আঠারো লাখ টাকা খরচ করতে হতো। মনে হচ্ছে গালগল্প। কিন্তু এটাই বাস্তব! এখনকার হার্ডডিস্কগুলো প্রায় হাতের মুঠোয় এঁটে যায়।</p>
+    <p>সাধারণত হার্ডডিস্কে কতগুলো চাকতি থাকে যাদের প্লাটার বলা হয়। প্লাটারগুলো অ্যালুমিনিয়াম এলয় বা কাচ বা সিরামিকের চাকতির উপর পাতলা চুম্বকীয় পদার্থের আস্তরণ দিয়ে তৈরি হয়। এই চুম্বকীয় পদার্থের উপরই তথ্য সংরক্ষিত থাকে। হার্ডডিস্ক চালু হলে এই প্লাটারগুলো ঘুরতে থাকে। ঘূর্ণায়মান চাকতিগুলোর সংস্পর্শে হার্ডডিস্কের লেখা/পড়া (Write/Read) হেডটি এলে সে প্লাটারে তথ্য সংরক্ষণ অথবা তথ্য পড়ে আমাদের প্রদর্শন করে।</p>
+    <p>তথ্য ধারণক্ষমতার কারণে হার্ডডিস্ক অত্যন্ত জনপ্রিয়। এটি দুই ধরনের হয়ে থাকে। একটি কম্পিউটারের সাথে স্থায়ীভাবে সংযুক্ত অবস্থায় থাকে। অন্যটি আলাদাভাবে থাকে। একে এক্সটার্নাল হার্ডডিস্ক বলে। এটি USB পোর্টের মাধ্যমে যেকোনো কম্পিউটার বা ল্যাপটপের সাথে সংযোগ দিয়ে কাজ করা যায়। ফলে বিপুল পরিমাণ তথ্য এক স্থান থেকে অন্যত্র নিতে এখন আর সম্পূর্ণ কম্পিউটারটি না নিয়ে শুধু এক্সটার্নাল হার্ডডিস্কটি নিয়ে গেলেই হয়।</p>
+    <h4>সলিড স্টেট ড্রাইভ (SSD)</h4>
+    <p>তোমাদের মধ্যে যারা অতি সম্প্রতি কম্পিউটার কিনেছ অথবা সাম্প্রতিককালের কোনো কম্পিউটার ব্যবহার করেছ তারা সলিড স্টেট ড্রাইভ বা এসএসডি সম্পর্কে জেনে থাকবে। এসএসডি হলো এক ধরনের স্টোরেজ ডিভাইস যা কম্পিউটার এবং ল্যাপটপে ব্যবহৃত হয়। এটি প্রচলিত হার্ড ডিস্ক ড্রাইভ (HDD) থেকে ভিন্ন, এটিতে কোনো চলমান অংশ থাকে না, ফলে এটি আরো দ্রুত এবং আরও অধিক টেকসই হয়। এটি ডেটা সংরক্ষণ করতে ফ্ল্যাশ মেমোরি ব্যবহার করে, যা ফাইল এবং অ্যাপ্লিকেশনে দ্রুত অ্যাক্সেসের সুযোগ দেয়। উল্লেখ্য ফ্ল্যাশ মেমোরি হলো একটি ইলেকট্রনিক নন-ভোলাটাইল স্টোরেজ যাতে ডেটা বৈদ্যুতিকভাবে মুছে ফেলা এবং পুনরায় প্রোগ্রাম করা বা ডেটা সংরক্ষণ করা যায়।</p>
+    <p>সাধারণত এসএসডি ব্যবহার করে কম্পিউটার চালু করার সময় কমিয়ে এবং সফটওয়্যার লোড করার গতি বাড়িয়ে সিস্টেমের কর্মক্ষমতা উন্নত করা হয়। এসএসডিতে কোনো স্পিনিং ডিস্ক নেই, তাই এটি কোনো শব্দ উৎপন্ন করে না এবং হার্ডডিস্ক এর চেয়ে কম তাপ উৎপন্ন করে। এটি বাহ্যিক ক্ষতি যেমন শক এবং ড্রপ হিসেবে আরো বেশি প্রতিরোধী। বিভিন্ন আকারের ও ক্ষমতার এসএসডি বাজারে পাওয়া যায়। সামগ্রিকভাবে, এসএসডিকে গতি, নির্ভরযোগ্যতা এবং দক্ষতার জন্য পছন্দ করা হয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>হার্ডডিস্ক</b> ভেতরে ঘোরা চাকতির (যেমন সিডি) মতো, তাই এটা একটু ধীর ও নড়াচড়ায় ক্ষতি হতে পারে। <b>SSD</b>-তে কোনো ঘোরা অংশ নেই — অনেকটা পেনড্রাইভের মতোই কাজ করে, তাই দ্রুত, নিঃশব্দ, আর ফেলে দিলেও তেমন ক্ষতি হয় না। এজন্য নতুন ল্যাপটপে এখন SSD-ই বেশি ব্যবহার হয়।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M12 18v3"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">💽 হার্ডডিস্ক</div>
+      <div class="sc-question">কম্পিউটার খোলা অবস্থায় হার্ডডিস্ক কখনো দেখেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, দেখেছি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">দেখিনি</button>
+      </div>
+      <div class="sc-answer">হার্ডডিস্ক দেখতে একটা চ্যাপ্টা ধাতব বাক্সের মতো (প্রায় একটা মোটা বইয়ের সমান), ভেতরে গোল চাকতি (প্লাটার) ঘোরে। কম্পিউটারের বাক্স খুললে এটা সাধারণত একটা নির্দিষ্ট খোপে স্ক্রু দিয়ে আটকানো থাকে। বাইরে বহনযোগ্য যে "এক্সটার্নাল হার্ডডিস্ক" পাওয়া যায় সেটা ছোট, হাতের তালুর সমান।</div>
+    </div>
+  </div>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="10" rx="2"/><path d="M8 17v2M16 17v2M8 7V5M16 7V5"/><circle cx="12" cy="12" r="2"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">💾 সলিড স্টেট ড্রাইভ (SSD)</div>
+      <div class="sc-question">এই যন্ত্রটার নাম কি আগে শুনেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">SSD দেখতে অনেকটা একটা চিকন ধাতব বোর্ড বা মোটা কার্ডের মতো, ল্যাপটপের ভেতরে লাগানো থাকে। এতে কোনো ঘোরা চাকতি নেই — ভেতরে শুধু ছোট ছোট চিপ, যেখানে তথ্য বৈদ্যুতিকভাবে জমা থাকে। অনেকটা তোমার পেনড্রাইভের বড় ভাইয়ের মতো, কিন্তু অনেক দ্রুতগতির।</div>
+    </div>
+  </div>
+
+  <div class="book-text">
+    <h4>ফ্ল্যাশ ড্রাইভ ও মেমোরি কার্ড (Flash Drive &amp; Memory Card)</h4>
+    <p>যারা কম্পিউটার ব্যবহার করে তাদের কম্পিউটারের অনেক তথ্য এক কম্পিউটার থেকে অন্য কম্পিউটারে নিতে হয়। সেটা সবচেয়ে সহজে করা যায় নেটওয়ার্কিং ব্যবহার করে। যেখানে নেটওয়ার্ক নেই সেখানে তথ্য নিতে হলে কোনো এক ধরনের স্টোরেজ ডিভাইস ব্যবহার করতে হয়। যে স্টোরেজ ডিভাইসটি সবচেয়ে সহজে বহন করা যায় সেটার নাম পেনড্রাইভ কিংবা ফ্ল্যাশ ড্রাইভ। নাম শুনেই বুঝতে পারছো এটা পেন বা কলমের মতো ছোটো এবং পকেটে করে নেয়া যায়।</p>
+    <p>২০০০ সালের দিকে যখন এগুলো বাজারে আসে তখন ৩২ মেগাবাইট তথ্য ধারণ করতে পারতো। এখন ১ টেরাবাইটের পেনড্রাইভ সহজেই পাওয়া যায়। মূল্যও আগের তুলনায় এখন হাতের নাগালে। এটি সিডি-ডিভিডির তুলনায় টেকসই বেশি দিন। তাই ব্যবহারকারীদের কাছে এর জনপ্রিয়তা বেড়েই চলেছে। বিভিন্ন ধরনের সুন্দর ডিজাইনের পেনড্রাইভ বাজারে পাওয়া যায়।</p>
+    <p>ফ্ল্যাশ ড্রাইভ বা পেনড্রাইভ ছাড়াও বর্তমানে তথ্য সংরক্ষণের জন্য এক ধরনের মাইক্রোচিপ সংযুক্ত কার্ড ব্যবহার করা হয়। এগুলোর নাম মেমোরি কার্ড। মেমোরি কার্ডেও অনেক তথ্য সংরক্ষণ করা যায়। তবে এটি সরাসরি সংযোগ দেওয়া যায় না। এর জন্য নির্ধারিত স্লট প্রয়োজন হয় অথবা কার্ড রিডার ব্যবহার করতে হয়। মেমোরি কার্ড নানা আকৃতি ও বিভিন্ন ক্ষমতার হতে পারে। তোমাদের অত্যন্ত প্রিয় এমপিথ্রি (mp3) বা এমপিফোর (mp4) প্লেয়ার এবং গেমস খেলার যন্ত্রগুলো ছাড়াও সকল ধরনের ডিজিটাল ক্যামেরা, মোবাইল ফোন বা স্মার্টফোনে এগুলোর ব্যাপক ব্যবহার লক্ষ করা যায়।</p>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>তথ্য সংরক্ষণের জন্য সিডি, ডিভিডি, পেনড্রাইভ অথবা মেমোরি কার্ডের মধ্যে কোনটিকে বেশি উপযোগী মনে করো? যুক্তিসহ বর্ণনা করো।</p>
+    <textarea placeholder="তোমার যুক্তি এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson11">
+      <button class="chip" data-def="১০২৪ মেগাবাইট সমান ১ গিগাবাইট — তথ্যের পরিমাণ মাপার একক।">গিগাবাইট</button>
+      <button class="chip" data-def="১০২৪ গিগাবাইট সমান ১ টেরাবাইট — খুব বড় পরিমাণ তথ্য মাপার একক।">টেরাবাইট</button>
+      <button class="chip" data-def="হার্ডডিস্কের চাকতি (প্লাটার) তৈরিতে ব্যবহৃত হালকা ধাতব মিশ্রণ।">অ্যালুমিনিয়াম এলয়</button>
+      <button class="chip" data-def="মাটির তৈরি শক্ত পদার্থ, কখনো কখনো হার্ডডিস্কের প্লাটার তৈরিতে ব্যবহৃত হয়।">সিরামিক</button>
+      <button class="chip" data-def="একধরনের শক্ত প্লাস্টিক পদার্থ, বিভিন্ন ডিভাইসের বডি তৈরিতে ব্যবহৃত হয়।">পলিকার্বনেট</button>
+      <button class="chip" data-def="সরু ও তীব্র আলোর রশ্মি, লেজার প্রিন্টার ও অন্যান্য যন্ত্রে ব্যবহৃত হয়।">লেজার রশ্মি</button>
+    </div>
+    <div class="chip-def" id="def-lesson11"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১১ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. প্রথম হার্ডডিস্ক কোন সালে ব্যবহার শুরু হয়?</p>
+      <div class="qoptions" data-hash="2075725562">
+        <label class="qoption"><input type="radio" name="q10" value="0">১৯৫৬ সাল</label>
+        <label class="qoption"><input type="radio" name="q10" value="1">১৯৮০ সাল</label>
+        <label class="qoption"><input type="radio" name="q10" value="2">১৯৯৪ সাল</label>
+        <label class="qoption"><input type="radio" name="q10" value="3">২০০০ সাল</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. SSD-এর পূর্ণরূপ কী?</p>
+      <div class="qoptions" data-hash="2670859227">
+        <label class="qoption"><input type="radio" name="q11" value="0">Solid State Drive</label>
+        <label class="qoption"><input type="radio" name="q11" value="1">Super Storage Device</label>
+        <label class="qoption"><input type="radio" name="q11" value="2">Standard Storage Drive</label>
+        <label class="qoption"><input type="radio" name="q11" value="3">Solid Storage Disk</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. পেনড্রাইভ প্রথম বাজারে এলে কত মেগাবাইট তথ্য ধারণ করতে পারত?</p>
+      <div class="qoptions" data-hash="3283369264">
+        <label class="qoption"><input type="radio" name="q12" value="0">৩২ মেগাবাইট</label>
+        <label class="qoption"><input type="radio" name="q12" value="1">১২৮ মেগাবাইট</label>
+        <label class="qoption"><input type="radio" name="q12" value="2">৫১২ মেগাবাইট</label>
+        <label class="qoption"><input type="radio" name="q12" value="3">১ গিগাবাইট</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 12-13 ================= -->
+<section class="lesson" id="lesson1213">
+  <h2><span class="num">পাঠ ১২-১৩</span> মাদারবোর্ড ও পাওয়ার সাপ্লাই</h2>
+
+  <div class="book-text">
+    <p>মাদারবোর্ড তোমাদের অত্যন্ত পরিচিত শব্দ। ইতোমধ্যে মাদারবোর্ডের ছবিও দেখে ফেলেছ। তবু মাদারবোর্ড সম্পর্কে আরো জানা প্রয়োজন। যেকোনো ইলেকট্রনিক যন্ত্র তোমরা যদি খুলে দেখ তাহলে একটা বোর্ড সবার নজরে পড়বে। এ বোর্ডটি আসলে একটি প্রিন্টেড সার্কিট বোর্ড। এ বোর্ডে প্রায় সকল প্রয়োজনীয় যন্ত্রাংশ সংযোগ দেওয়া থাকে। এ বোর্ড যন্ত্রাংশগুলোর মধ্যে আন্তঃযোগাযোগ ছাড়াও বিদ্যুৎ প্রবাহ বজায় রাখে। এ ধরনের বোর্ড আবিষ্কার হওয়ার পূর্বে তার দিয়ে যন্ত্রাংশগুলোকে সংযোগ দেওয়া প্রয়োজন হতো। সে এক দেখবার মতো বিষয় ছিল!</p>
+    <p>কম্পিউটারের এই মাদারবোর্ড-মেইনবোর্ড, সিস্টেম বোর্ড আবার স্টিভ জবসের অ্যাপেল কম্পিউটারের ক্ষেত্রে লজিক বোর্ড নামেও পরিচিত। যে নামেই ডাকা হোক না কেন, এটা হচ্ছে কম্পিউটারের প্রসেসরের সাথে অন্যান্য ইনপুট, মেমোরি, আউটপুট বা স্টোরেজ ডিভাইসসহ সকল যন্ত্রপাতির সংযোগ রক্ষার বোর্ড।</p>
+    <p>এক সময় মাদারবোর্ডে প্রসেসর বা সিপিইউ সকেট ছাড়াও ভিডিও কার্ড, সাউন্ড কার্ড, র‍্যাম ইত্যাদি লাগানোর স্লট বা সকেট অবশ্যই দেখা যেত। তবে ইদানীং মাদারবোর্ডে র‍্যাম ছাড়া অন্যান্য কার্ড (Built in) স্থায়ীভাবে সংযোজিত অবস্থায় থাকে। এতে করে কম্পিউটারের নির্মাণ ব্যয় অনেক কমে গেছে। তাছাড়া প্রসেসরের ক্ষমতা বৃদ্ধির কারণে অনেক যন্ত্রাংশের কাজ প্রসেসর নিজেই করে থাকে।</p>
+    <p>মাদারবোর্ডের অত্যাবশ্যকীয় অংশ হচ্ছে সহায়ক চিপসেট (Chipset) যা সিপিইউ-এর সাথে অন্যান্য যন্ত্রপাতির কার্যক্রম সমন্বয় করে। মাদারবোর্ডের কাজ করার ক্ষমতা ও বৈশিষ্ট্য এ চিপসেটের উপরই নির্ভর করে। অর্থাৎ মাদারবোর্ডটি কোন ধরনের প্রসেসর ব্যবহার উপযোগী তা এ চিপসেটের ভিত্তিতে নির্ধারণ করা হয়।</p>
+    <p>একটি আধুনিক মাদারবোর্ডে অন্যান্য যন্ত্রাংশের সাথে সাধারণত যা যা থাকে সেগুলো হলো: ১. মাইক্রোপ্রসেসর বা সিপিইউ সকেট ২. র‍্যাম স্লট ৩. চিপসেট ৪. রম ৫. ক্লক জেনারেটর ৬. এক্সপানশন স্লট এবং ৭. পাওয়ার সংযোগ স্লট। এছাড়াও বর্তমানে মাদারবোর্ডের সাথে ইউএসবি (USB) পোর্ট, নেটওয়ার্কিং কার্ড ও পোর্ট ইত্যাদিও সংযোজিত অবস্থায় থাকে।</p>
+  </div>
+
+  <div class="mobo-diagram">
+    <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="মাদারবোর্ডের অংশগুলোর নকশা">
+      <rect x="10" y="10" width="380" height="240" rx="8" fill="#F2EAD3" stroke="#C9B98A" stroke-width="2"/>
+      <rect class="mobo-part" data-part="1" x="160" y="30" width="70" height="70" rx="4"/>
+      <circle class="mobo-num-circle" data-part="1" cx="195" cy="65" r="13"/>
+      <text class="mobo-num-text" data-part="1" x="195" y="70" text-anchor="middle">১</text>
+      <rect class="mobo-part" data-part="2" x="250" y="30" width="14" height="130" rx="2"/>
+      <rect class="mobo-part" data-part="2" x="270" y="30" width="14" height="130" rx="2"/>
+      <rect class="mobo-part" data-part="2" x="290" y="30" width="14" height="130" rx="2"/>
+      <rect class="mobo-part" data-part="2" x="310" y="30" width="14" height="130" rx="2"/>
+      <circle class="mobo-num-circle" data-part="2" cx="287" cy="178" r="13"/>
+      <text class="mobo-num-text" data-part="2" x="287" y="183" text-anchor="middle">২</text>
+      <rect class="mobo-part" data-part="3" x="170" y="115" width="45" height="35" rx="4"/>
+      <circle class="mobo-num-circle" data-part="3" cx="192" cy="132" r="13"/>
+      <text class="mobo-num-text" data-part="3" x="192" y="137" text-anchor="middle">৩</text>
+      <rect class="mobo-part" data-part="4" x="30" y="30" width="40" height="25" rx="3"/>
+      <circle class="mobo-num-circle" data-part="4" cx="50" cy="70" r="13"/>
+      <text class="mobo-num-text" data-part="4" x="50" y="75" text-anchor="middle">৪</text>
+      <rect class="mobo-part" data-part="5" x="85" y="30" width="30" height="25" rx="3"/>
+      <circle class="mobo-num-circle" data-part="5" cx="100" cy="95" r="13"/>
+      <text class="mobo-num-text" data-part="5" x="100" y="100" text-anchor="middle">৫</text>
+      <rect class="mobo-part" data-part="6" x="30" y="205" width="180" height="12" rx="2"/>
+      <rect class="mobo-part" data-part="6" x="30" y="222" width="180" height="12" rx="2"/>
+      <circle class="mobo-num-circle" data-part="6" cx="120" cy="245" r="13"/>
+      <text class="mobo-num-text" data-part="6" x="120" y="250" text-anchor="middle">৬</text>
+      <rect class="mobo-part" data-part="7" x="345" y="180" width="30" height="55" rx="4"/>
+      <circle class="mobo-num-circle" data-part="7" cx="360" cy="245" r="13"/>
+      <text class="mobo-num-text" data-part="7" x="360" y="250" text-anchor="middle">৭</text>
+    </svg>
+    <div class="mobo-buttons">
+      <button class="mobo-btn" type="button" data-part="1">১</button>
+      <button class="mobo-btn" type="button" data-part="2">২</button>
+      <button class="mobo-btn" type="button" data-part="3">৩</button>
+      <button class="mobo-btn" type="button" data-part="4">৪</button>
+      <button class="mobo-btn" type="button" data-part="5">৫</button>
+      <button class="mobo-btn" type="button" data-part="6">৬</button>
+      <button class="mobo-btn" type="button" data-part="7">৭</button>
+    </div>
+    <div class="mobo-desc" id="moboDesc">সংখ্যায় ক্লিক করো বা ছবির অংশে ক্লিক করে মাদারবোর্ডের প্রতিটা অংশ চিনে নাও।</div>
+  </div>
+
+  <div class="book-text">
+
+    <h4>পাওয়ার সাপ্লাই (Power supply)</h4>
+    <p>তোমরা জান যে কম্পিউটার একটি ইলেকট্রনিক যন্ত্র, তাই কম্পিউটারকে কর্মক্ষম করার জন্য বিদ্যুৎ শক্তি সরবরাহ করতে হয়। কম্পিউটারের মাদারবোর্ড, হার্ডডিস্ক ও অন্যান্য যন্ত্রাংশ কার্যকর করার জন্য বিভিন্ন মাত্রার বিদ্যুৎশক্তির যোগান যে যন্ত্রাংশ থেকে পাওয়া যায় তাকে পাওয়ার সাপ্লাই ইউনিট বলে। কম্পিউটারের এই পাওয়ার সাপ্লাই ইউনিট বিদ্যুৎ লাইনের এসি (AC) বিদ্যুৎকে ডিসি (DC) বিদ্যুতে রূপান্তরিত করে। ডেস্কটপ কম্পিউটারের বিভিন্ন অংশের জন্য +৩ ভোল্ট থেকে +১২ ভোল্ট পর্যন্ত বিভিন্ন মাত্রার ডাইরেক্ট কারেন্ট বা ডিসি বিদ্যুৎ প্রয়োজন। এ জন্যই পাওয়ার সাপ্লাই ইউনিটে বিভিন্ন মাত্রার বিদ্যুৎ সংযোগ দেওয়ার জন্য বিভিন্ন ধরনের কানেক্টর থাকে। ডেস্কটপ কম্পিউটারের জন্য বাজারে ২০০ ওয়াট থেকে ৮০০ ওয়াট পর্যন্ত বিভিন্ন ধরনের পাওয়ার সাপ্লাই ইউনিট পাওয়া যায়। পাওয়ার সাপ্লাই ইউনিটের গুণগত মান ভালো না হলে কম্পিউটারের যন্ত্রাংশের ক্ষতি হতে পারে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>মাদারবোর্ড</b> হলো কম্পিউটারের "মূল রাস্তা" — প্রসেসর, র‍্যাম, হার্ডডিস্ক, সব যন্ত্রাংশ এর সাথে যুক্ত থাকে, একে অপরের সাথে যোগাযোগ করার জন্য। এটা অনেকটা গ্রামের মূল রাস্তার মতো, যেখান থেকে প্রতিটা বাড়ি বা দোকানে (যন্ত্রাংশে) যাওয়া যায়।</p>
+      <p><b>পাওয়ার সাপ্লাই</b> হলো কম্পিউটারের "খাবার সরবরাহকারী" — এটা বাসার বিদ্যুৎ (AC) নিয়ে কম্পিউটারের উপযোগী বিদ্যুতে (DC) রূপান্তর করে দেয়, ঠিক যেমন খাবার হজম করার আগে ছোট ছোট টুকরো করতে হয়।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v4M11 3v4M15 3v4M7 17v4M11 17v4M15 17v4M3 7h4M3 11h4M3 15h4M17 7h4M17 11h4M17 15h4"/><rect x="9" y="9" width="6" height="6"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🖥️ মাদারবোর্ড</div>
+      <div class="sc-question">কম্পিউটারের ভেতরের এই বোর্ডটা কি আগে দেখেছ?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">কম্পিউটারের বাক্স (কেসিং) খুললে ভেতরে একটা সবুজ বা কালো বড় বোর্ড দেখা যায়, যাতে অনেকগুলো তার-সংযোগ ও ছোট ছোট চিপ লাগানো থাকে — এটাই মাদারবোর্ড। এর সাথেই প্রসেসর, র‍্যাম, হার্ডডিস্ক সব যুক্ত থাকে।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>একটি পুরোনো নষ্ট কম্পিউটার খুলে মাদারবোর্ডটি লক্ষ করো এবং এঁকে এর বিভিন্ন অংশগুলো চিহ্নিত করো।</p>
+    <textarea placeholder="তোমার পর্যবেক্ষণ এখানে লিখে রাখতে পারো..."></textarea>
+    <div class="hint">*কমপক্ষে একটি শ্রেণি কার্যক্রম এই কাজের জন্য বরাদ্দ করতে হবে — শিক্ষকের সহায়তায় করবে।</div>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson1213">
+      <button class="chip" data-def="যেকোনো ইলেকট্রনিক যন্ত্রের ভেতরের সেই বোর্ড, যাতে সব যন্ত্রাংশ সংযুক্ত থাকে ও বিদ্যুৎ-তথ্য চলাচল করে।">প্রিন্টেড সার্কিট বোর্ড</button>
+      <button class="chip" data-def="আগে থেকেই মাদারবোর্ডের সাথে স্থায়ীভাবে লাগানো, আলাদা করে লাগাতে হয় না।">Built in</button>
+      <button class="chip" data-def="মাদারবোর্ডের একটি জরুরি অংশ, যা প্রসেসরের সাথে অন্য যন্ত্রাংশের কাজ সমন্বয় করে।">Chipset</button>
+      <button class="chip" data-def="মাদারবোর্ডের যে জায়গায় র‍্যাম লাগানো হয়।">র‍্যাম স্লট</button>
+      <button class="chip" data-def="কম্পিউটারের বিভিন্ন যন্ত্রাংশের কাজের গতি (টাইমিং) নিয়ন্ত্রণ করে এমন যন্ত্রাংশ।">ক্লক জেনারেটর</button>
+      <button class="chip" data-def="মাদারবোর্ডে অতিরিক্ত কার্ড (যেমন গ্রাফিক্স কার্ড) লাগানোর জন্য থাকা খালি জায়গা।">এক্সপানশন স্লট</button>
+      <button class="chip" data-def="কম্পিউটারকে ইন্টারনেট বা অন্য কম্পিউটারের সাথে যুক্ত করার কার্ড।">নেটওয়ার্কিং কার্ড</button>
+      <button class="chip" data-def="বাসার সাধারণ বিদ্যুৎ (AC) কে কম্পিউটারের উপযোগী বিদ্যুতে (DC) পরিণত করে সরবরাহ করে।">পাওয়ার সাপ্লাই</button>
+    </div>
+    <div class="chip-def" id="def-lesson1213"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১২-১৩ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. মাদারবোর্ডের যে অংশ CPU-এর সাথে অন্য যন্ত্রপাতির কাজ সমন্বয় করে তার নাম কী?</p>
+      <div class="qoptions" data-hash="593179974">
+        <label class="qoption"><input type="radio" name="q13" value="0">র‍্যাম স্লট</label>
+        <label class="qoption"><input type="radio" name="q13" value="1">চিপসেট</label>
+        <label class="qoption"><input type="radio" name="q13" value="2">ক্লক জেনারেটর</label>
+        <label class="qoption"><input type="radio" name="q13" value="3">এক্সপানশন স্লট</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. পাওয়ার সাপ্লাই ইউনিট AC বিদ্যুৎকে কীসে রূপান্তর করে?</p>
+      <div class="qoptions" data-hash="1101392808">
+        <label class="qoption"><input type="radio" name="q14" value="0">DC বিদ্যুৎ</label>
+        <label class="qoption"><input type="radio" name="q14" value="1">তাপ শক্তি</label>
+        <label class="qoption"><input type="radio" name="q14" value="2">চৌম্বক শক্তি</label>
+        <label class="qoption"><input type="radio" name="q14" value="3">আলোক শক্তি</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ডেস্কটপ কম্পিউটারের পাওয়ার সাপ্লাই সাধারণত কত ওয়াটের মধ্যে বাজারে পাওয়া যায়?</p>
+      <div class="qoptions" data-hash="914739515">
+        <label class="qoption"><input type="radio" name="q15" value="0">২০-৮০ ওয়াট</label>
+        <label class="qoption"><input type="radio" name="q15" value="1">২০০-৮০০ ওয়াট</label>
+        <label class="qoption"><input type="radio" name="q15" value="2">২০০০-৮০০০ ওয়াট</label>
+        <label class="qoption"><input type="radio" name="q15" value="3">২-৮ ওয়াট</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 14 ================= -->
+<section class="lesson" id="lesson14">
+  <h2><span class="num">পাঠ ১৪</span> প্রসেসর ও মেশিন ভাষা</h2>
+
+  <div class="book-text">
+    <p>পৃথিবীর নানা জাতি-গোষ্ঠীর মানুষ যে বিভিন্ন ভাষায় কথা বলে- আদেশ-নির্দেশ দেয় তার সবই কম্পিউটার ঠিক ঠিক পালন করে। কিন্তু কীভাবে সবার ভাষা কিংবা নির্দেশ কম্পিউটার বুঝে ফেলে?- এই প্রশ্নটির উত্তর জানার জন্য নিশ্চয়ই তোমাদের মন আঁকুপাঁকু করছে। এর সহজ উত্তর হচ্ছে কম্পিউটার তথা প্রসেসর আসলে কারও ভাষাই শুধু বোঝে না। সে তার নিজের ভাষাই শুধু বোঝে। কম্পিউটারের ভাষায় কেবল দুটো অক্ষর '০' এবং '১'। '০' মানে হচ্ছে ০ থেকে ২ ভোল্ট বিদ্যুৎ আর '১' মানে হচ্ছে ৩ থেকে ৫ ভোল্ট বিদ্যুৎ। এ ভাষার নাম মেশিন ভাষা (Machine Language)। ধরো, তুমি বাংলা ও ইংরেজি ভাষায় কথা বলতে পারো কিন্তু বাংলা ও ইংরেজি না জানা ফরাসি ভদ্রলোকের সাথে কথা বলতে চাও- এক্ষেত্রে একজন দোভাষীর সাহায্য নিয়ে কথা বলতে হবে। তেমনি প্রসেসরকে আমাদের ভাষা বোঝাতে অনুবাদক প্রোগ্রাম বা সফটওয়্যারের প্রয়োজন হয়।</p>
+    <p>আমাদের তথা পৃথিবীর তাবৎ ভাষার প্রতিটি অক্ষর ও প্রতীকের জন্য মেশিন ভাষার নির্দিষ্ট কোড রয়েছে। অনুবাদক প্রোগ্রাম আমাদের ভাষাকে প্রসেসর বা মেশিনের বোধগম্য কোডে রূপান্তর করে। নানা ধরনের কোড রয়েছে। উদাহরণস্বরূপ ASCII (American Standard Code for Information Interchange) কোডের কথা উল্লেখ করা যায়। ASCII কোড ৮ বিটের কোড। এ কোড অনুযায়ী</p>
+    <table>
+      <tr><td>A</td><td>=</td><td>০১০০০০০১</td></tr>
+      <tr><td>B</td><td>=</td><td>০১০০০০১০</td></tr>
+      <tr><td>?</td><td>=</td><td>০০১১১১১১</td></tr>
+      <tr><td>,</td><td>=</td><td>০০১০১১০০</td></tr>
+    </table>
+    <p>ইত্যাদি। বর্তমানে সর্বাপেক্ষা জনপ্রিয় কোড হলো Unicode। তোমরা যখন প্রোগ্রামার হবে তখন অনেক ভাষার সাথে মেশিনের ভাষাও তোমাদের জানা হয়ে যাবে।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>কম্পিউটার আসলে বাংলা-ইংরেজি কোনো ভাষাই বোঝে না — সে শুধু বোঝে বিদ্যুৎ আছে (১) বা নেই (০)। আমরা যা লিখি (A, B, বাংলা অক্ষর) — কম্পিউটারের ভেতরে সেটা এই ০ আর ১-এর সারি হয়ে যায়। এই ০-১-এর ভাষাকেই বলে <b>মেশিন ভাষা</b>। আমরা কী-বোর্ডে "A" চাপলে, একটা বিশেষ প্রোগ্রাম সেটাকে <b>০১০০০০০১</b>-এ বদলে দেয়, কম্পিউটার সেটা বুঝে কাজ করে।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>প্রসেসরের ভাষা ও মানুষের ভাষার মধ্যে পার্থক্য নির্দেশ করো।</p>
+    <textarea placeholder="তোমার উত্তর এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson14">
+      <button class="chip" data-def="Integrated Circuit — অনেকগুলো ইলেকট্রনিক উপাদান একসাথে ছোট্ট একটা চিপে বসানো থাকে।">IC</button>
+      <button class="chip" data-def="বিদ্যুৎ প্রবাহ নিয়ন্ত্রণ করে এমন ছোট্ট ইলেকট্রনিক যন্ত্রাংশ, প্রসেসরের মূল উপাদান।">Transistor</button>
+      <button class="chip" data-def="ছোট্ট সিলিকনের টুকরোর উপর তৈরি ইলেকট্রনিক সার্কিট, যেমন প্রসেসর একটা চিপ।">Chip</button>
+      <button class="chip" data-def="প্রসেসরের যে অংশ গাণিতিক হিসাব ও তুলনার কাজ করে।">Arithmetic and Logic Unit</button>
+      <button class="chip" data-def="প্রসেসরের যে অংশ অন্যান্য অংশের কাজ পরিচালনা ও নিয়ন্ত্রণ করে।">Control Unit</button>
+      <button class="chip" data-def="প্রসেসরের ভেতরে থাকা অতি দ্রুতগতির ছোট্ট সাময়িক মেমোরি।">Register Memory</button>
+      <button class="chip" data-def="American Standard Code for Information Interchange — অক্ষরকে ৮ বিটের কোডে রূপান্তরের একটি পদ্ধতি।">ASCII কোড</button>
+      <button class="chip" data-def="বর্তমানে সবচেয়ে জনপ্রিয় কোড, যা পৃথিবীর প্রায় সব ভাষার অক্ষর প্রকাশ করতে পারে (বাংলাসহ)।">Unicode</button>
+    </div>
+    <div class="chip-def" id="def-lesson14"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১৪ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. কম্পিউটারের নিজস্ব ভাষার নাম কী?</p>
+      <div class="qoptions" data-hash="1356288087">
+        <label class="qoption"><input type="radio" name="q16" value="0">প্রোগ্রামিং ভাষা</label>
+        <label class="qoption"><input type="radio" name="q16" value="1">মেশিন ভাষা</label>
+        <label class="qoption"><input type="radio" name="q16" value="2">ফরাসি ভাষা</label>
+        <label class="qoption"><input type="radio" name="q16" value="3">সাংকেতিক ভাষা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. মেশিন ভাষায় কয়টি অক্ষর ব্যবহৃত হয়?</p>
+      <div class="qoptions" data-hash="2280721573">
+        <label class="qoption"><input type="radio" name="q17" value="0">দুটি (০ এবং ১)</label>
+        <label class="qoption"><input type="radio" name="q17" value="1">দশটি</label>
+        <label class="qoption"><input type="radio" name="q17" value="2">ছাব্বিশটি</label>
+        <label class="qoption"><input type="radio" name="q17" value="3">একশটি</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ASCII কোড কত বিটের কোড?</p>
+      <div class="qoptions" data-hash="3152694557">
+        <label class="qoption"><input type="radio" name="q18" value="0">৪ বিট</label>
+        <label class="qoption"><input type="radio" name="q18" value="1">৮ বিট</label>
+        <label class="qoption"><input type="radio" name="q18" value="2">১৬ বিট</label>
+        <label class="qoption"><input type="radio" name="q18" value="3">৩২ বিট</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 15 ================= -->
+<section class="lesson" id="lesson15">
+  <h2><span class="num">পাঠ ১৫</span> ইনপুট ও আউটপুট ডিভাইস</h2>
+
+  <div class="book-text">
+    <h4>সাউন্ড কার্ড (Sound Card)</h4>
+    <p>আজকের দিনের আইসিটি যন্ত্রগুলোতে যে যন্ত্রটি অবশ্যই থাকে তা হলো সাউন্ড কার্ড। এটি একই সাথে ইনপুট ও আউটপুট ডিভাইস হিসেবে কাজ করে। এটি সাধারণত সফটওয়্যার দিয়ে নিয়ন্ত্রিত হয়।</p>
+    <p>বেশিরভাগ সাউন্ড কার্ড ডিজিটাল উপাত্তকে এনালগ শব্দে রূপান্তর করে। আউটপুট সিগন্যালগুলোকে একটি অ্যামপ্লিফায়ারের সাথে যুক্ত করে হেডফোন বা স্পিকারের সাহায্যে শব্দ শোনা যায়। প্রায় সব সাউন্ড কার্ডেই ইনপুট দেওয়ার কানেক্টার এবং আউটপুট দেওয়ার কানেক্টার থাকে। বাইরে থেকে মাইক্রোফোন বা অন্য কোনো ইনপুট দেওয়ার যন্ত্রে ইনপুট দিলে সাউন্ড কার্ড তা প্রসেসরে পাঠায় এবং প্রসেসর সেই ইনপুটকে প্রক্রিয়া করে আবার সাউন্ড কার্ডে পাঠায়, সেখান থেকে আউটপুট অংশের মাধ্যমে হেডফোন বা স্পিকারে আমরা শব্দ শুনতে পাই।</p>
+    <p>ইদানীং বেশিরভাগ সাউন্ড কার্ডই মাদারবোর্ডে সংযুক্ত (Built in) অবস্থায় থাকে। আলাদা করে সাউন্ড কার্ড লাগাতে হয় না। সাউন্ড কার্ডের মাধ্যমেই মাল্টিমিডিয়া পূর্ণতা পায়। গান শোনা, চলচ্চিত্র উপভোগ করা ছাড়াও সব গেমস আমরা শব্দসহ উপভোগ করি সাউন্ড কার্ডের কারনেই। তবে প্রফেশনাল কাজে ব্যবহৃত সাউন্ড কার্ড সাধারণত আলাদা করে মাদারবোর্ডে লাগাতে হয়।</p>
+    <h4>গ্রাফিক্স কার্ড (Graphics Card)</h4>
+    <p>তোমরা যখন কম্পিউটার বা স্মার্টফোন ব্যবহার করো তখন পর্দায় ছবি দেখেই নানা নির্দেশনা দিয়ে থাকো। এখন প্রশ্ন হলো এ ছবি পর্দায় দেখা যায় কীভাবে? আসলে কাজটি করে থাকে গ্রাফিক্স কার্ড। এটিকে অনেক সময় ভিডিও কার্ড, ডিসপ্লে কার্ড বা গ্রাফিক্স এডাপ্টার নামে ডাকা হয়।</p>
+    <p>মাদারবোর্ডে এই কার্ড লাগানোর জন্য আলাদা স্লট বা সকেট থাকে। বর্তমানে বেশিরভাগ মাদারবোর্ডেই এ কার্ড সংযুক্ত অবস্থায় থাকে। আর অত্যাধুনিক প্রসেসরগুলোতে এ ভিডিও বা ডিসপ্লে চিপ সংযুক্ত থাকে বা অন্য কথায় প্রসেসরগুলো কোনো কার্ড ছাড়াই আমাদের ছবি প্রদর্শন করতে পারে।</p>
+    <p>সব গ্রাফিক্স কার্ডই আমাদের দ্বিমাত্রিক (2D) ছবি দেখাতে পারে। তবে বর্তমানে ত্রিমাত্রিক (3D) ছবি দেখাতে সক্ষম গ্রাফিক্স কার্ডও পাওয়া যায়। অবশ্য ত্রিমাত্রিক ছবি দেখতে হলে আমাদের ত্রিমাত্রিক ছবি দেখাতে সক্ষম মনিটর প্রয়োজন হবে। গ্রাফিক্স কার্ডের এ উন্নতির ফলে আজকের দিনে আমরা একেবারে জীবন্ত ও বাস্তব ছবি দেখতে পারছি।</p>
+    <p>সাউন্ড কার্ডের মতো গ্রাফিক্স কার্ডেও ইনপুট ও আউটপুট কানেক্টার থাকে। এছাড়াও গ্রাফিক্স কার্ডে গেমস খেলার জন্য আলাদা পোর্ট থাকে। ফলে সহজেই গেমস খেলার জন্য জয়স্টিকস বা অন্যান্য যন্ত্র সংযোগ দেওয়া সম্ভব হয়।</p>
+    <h4>টাচ স্ক্রিন (Touch screen)</h4>
+    <p>তোমরা নিশ্চয়ই স্মার্ট ফোন বা টাচ ফোন ব্যবহার করতে দেখেছ। এই ধরনের ফোনে আঙুল স্পর্শ করে বিভিন্ন নির্দেশ দেওয়া হয় এবং ফলাফলও স্ক্রিনেই দেখা যায়। টাচস্ক্রিন হলো এমন এক ধরনের ডিসপ্লে যা ব্যবহারকারীর কাছ থেকে টাচ বা আঙুলের স্পর্শ ইনপুট সনাক্ত করতে পারে এবং মনিটরের মতো স্ক্রিনে ফলাফলও প্রদর্শন করতে পারে। এটি একটি ইনপুট ডিভাইস (টাচ বা স্পর্শ প্যানেল) এবং একটি আউটপুট ডিভাইস (ভিজ্যুয়াল ডিসপ্লে) উভয়ই নিয়ে গঠিত। অর্থাৎ এটি ইনপুট-আউটপুট ডিভাইস। টাচস্ক্রিন সাধারণত স্মার্টফোন, ট্যাবলেট, ল্যাপটপ এবং অন্যান্য ইলেকট্রনিক ডিভাইসে পাওয়া যায়। বিভিন্ন ধরনের শিল্প-কারখানায় অটোমেশন কাজে টাচস্ক্রিনের ব্যবহার দেখা যায়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>সাউন্ড কার্ড</b> — তুমি যে গান শোনো বা কারো সাথে ভিডিও কলে কথা বলো, সেই শব্দটা কম্পিউটারের ভেতরে-বাইরে আনা-নেওয়ার কাজ করে এই কার্ড।</p>
+      <p><b>গ্রাফিক্স কার্ড</b> — স্ক্রিনে যে ছবি-ভিডিও-গেম দেখো, সেটা তৈরি করে দেয় এই কার্ড। যত ভালো গ্রাফিক্স কার্ড, তত সুন্দর ও জীবন্ত ছবি দেখা যায় (যেমন গেমসে)।</p>
+      <p><b>টাচস্ক্রিন</b> তুমি নিজেই রোজ ব্যবহার করো — স্মার্টফোনের স্ক্রিনে আঙুল দিয়ে স্পর্শ করলেই কাজ হয়ে যায়, এটাই টাচস্ক্রিন।</p>
+    </div>
+  </details>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>সাউন্ড কার্ড ও গ্রাফিক্স কার্ড ছাড়া আর কী ধরনের আউটপুট কার্ড হলে তোমাদের জন্য সুবিধা হয়? দলে আলোচনা করে উপস্থাপন করো।</p>
+    <textarea placeholder="তোমার আইডিয়াগুলো এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson15">
+      <button class="chip" data-def="সাধারণ শব্দ, যা তরঙ্গ আকারে অবিচ্ছিন্নভাবে বাড়ে-কমে (ডিজিটালের বিপরীত)।">এনালগ</button>
+      <button class="chip" data-def="দুর্বল শব্দ সংকেতকে জোরালো করে তোলার যন্ত্র।">অ্যামপ্লিফায়ার</button>
+      <button class="chip" data-def="একটি যন্ত্রকে অন্য যন্ত্র বা বিদ্যুতের সাথে মানানসই করে যুক্ত করার সংযোগ যন্ত্র। গ্রাফিক্স কার্ডকেও এডাপ্টার বলা হয়।">এডাপ্টার</button>
+      <button class="chip" data-def="২ মাত্রার ছবি — শুধু দৈর্ঘ্য ও প্রস্থ থাকে, গভীরতা থাকে না (সমতল ছবি)।">দ্বিমাত্রিক</button>
+      <button class="chip" data-def="৩ মাত্রার ছবি — দৈর্ঘ্য, প্রস্থ ও গভীরতা থাকে, দেখতে বাস্তবের মতো লাগে।">ত্রিমাত্রিক</button>
+    </div>
+    <div class="chip-def" id="def-lesson15"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১৫ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. সাউন্ড কার্ড ডিজিটাল উপাত্তকে কীসে রূপান্তর করে?</p>
+      <div class="qoptions" data-hash="171217496">
+        <label class="qoption"><input type="radio" name="q19" value="0">এনালগ শব্দ</label>
+        <label class="qoption"><input type="radio" name="q19" value="1">বাইনারি কোড</label>
+        <label class="qoption"><input type="radio" name="q19" value="2">আলো</label>
+        <label class="qoption"><input type="radio" name="q19" value="3">তাপ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. গ্রাফিক্স কার্ডকে আর কী নামে ডাকা হয়?</p>
+      <div class="qoptions" data-hash="3852565941">
+        <label class="qoption"><input type="radio" name="q20" value="0">সাউন্ড কার্ড</label>
+        <label class="qoption"><input type="radio" name="q20" value="1">ভিডিও কার্ড</label>
+        <label class="qoption"><input type="radio" name="q20" value="2">নেটওয়ার্ক কার্ড</label>
+        <label class="qoption"><input type="radio" name="q20" value="3">মেমোরি কার্ড</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. টাচস্ক্রিন একই সাথে কোন দুই ধরনের ডিভাইস?</p>
+      <div class="qoptions" data-hash="3421365737">
+        <label class="qoption"><input type="radio" name="q21" value="0">ইনপুট ও স্টোরেজ</label>
+        <label class="qoption"><input type="radio" name="q21" value="1">ইনপুট ও আউটপুট</label>
+        <label class="qoption"><input type="radio" name="q21" value="2">আউটপুট ও স্টোরেজ</label>
+        <label class="qoption"><input type="radio" name="q21" value="3">প্রসেসিং ও স্টোরেজ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 16-17 ================= -->
+<section class="lesson" id="lesson1617">
+  <h2><span class="num">পাঠ ১৬-১৭</span> আউটপুট ডিভাইস</h2>
+
+  <div class="book-text">
+    <h4>মনিটর (Monitor)</h4>
+    <p>মনিটর মূলত একটি আউটপুট ডিভাইস। এখন এমন মনিটরও পাওয়া যায় যা একইসাথে ইনপুট ডিভাইস হিসেবেও কাজ করতে পারে। তোমরা নিশ্চয়ই বুঝে গেছ এখানে টাচস্ক্রিন মনিটরের কথা বলা হচ্ছে। আজকাল টাচস্ক্রিনসহ স্মার্টফোন, ট্যাবলেট কম্পিউটার, ল্যাপটপ কিংবা সাধারণ মনিটর সবখানেই পাওয়া যায়। তোমাদের অনেকেই হয়তো এর মধ্যে এসব ব্যবহারও করে ফেলেছ।</p>
+    <p>আমাদের বাসার টেলিভিশনের সাথে মনিটরের তেমন পার্থক্য নেই। নানা আকৃতির মনিটর পাওয়া যায়। মনিটরের কর্ণের দৈর্ঘ্যকে মনিটরের সাইজ হিসেবে ধরা হয়। আগে সিআরটি বা ক্যাথোড রে টিউব (Cathod Ray Tube) মনিটর সবাই ব্যবহার করত। এখন পাতলা এলসিডি (লিকুইড ক্রিস্টাল ডিসপ্লে) বা এলইডি (লাইট ইমিটিং ডায়োড) পর্দার মনিটর ব্যবহৃত হয়। এগুলো হালকা পাতলা। দেখতে আকর্ষণীয় এবং বিদ্যুৎ খরচ সিআরটি মনিটরের তুলনায় অনেক কম।</p>
+    <h4>প্রিন্টার (Printer)</h4>
+    <p>মনিটরের পর যে আউটপুট যন্ত্রটি আমাদের বেশি প্রয়োজন হয় তা হচ্ছে প্রিন্টার। কম্পিউটারে প্রসেসিং করার পর এর আউটপুট কাগজে ছাপানোর জন্য আমাদের প্রিন্টার ব্যবহার করতে হয়। ডিজিটাল ক্যামেরায় তোলা ছবিও আমরা প্রিন্টারে প্রিন্ট করে থাকি। সাধারণত তিন ধরনের প্রিন্টার পাওয়া যায়।</p>
+    <p><b>ক. ডট ম্যাট্রিক্স প্রিন্টার:</b> এটি প্রথম দিকের প্রিন্টার। ছাপার ব্যয় অনেক কম সেজন্য এ প্রিন্টারটি এখনো অত্যন্ত জনপ্রিয়। তবে এটি দিয়ে নিখুঁত ছাপার কাজ করা যায় না। তাছাড়া এটির ছাপার গতি অনেক ধীর।</p>
+    <p><b>খ. ইঙ্কজেট প্রিন্টার:</b> স্বল্পদামি প্রিন্টার হিসেবে এটি বহুল ব্যবহৃত। সাধারণত ব্যক্তিগত কাজে ইঙ্কজেট প্রিন্টার বেশি ব্যবহার করা হয়। এটিতে তরল কালি ব্যবহৃত হয়। এটি দিয়ে নিখুঁত ছাপার কাজ করা যায়। বিশেষ করে ছবি প্রিন্ট করার কাজে ইঙ্কজেট প্রিন্টারের ব্যবহার অধিক। তবে এর ছাপার ব্যয় তুলনামূলক বেশি।</p>
+    <p><b>গ. লেজার প্রিন্টার:</b> নাম দেখে নিশ্চয়ই বুঝে ফেলেছ এর সাথে লেজারের সম্পর্ক রয়েছে। এ ধরনের প্রিন্টারে লেজার রশ্মির সাহায্যে কাগজে লেখা ছাপা হয়। লেজার প্রিন্টারের ছাপার গতি ও মান অত্যন্ত উন্নত ও নিখুঁত। সাধারণ ছাপা এবং ছবি প্রিন্ট উভয় ধরনের কাজেই এটি অত্যন্ত জনপ্রিয়। এক সময় ব্যয়বহুল থাকলেও প্রযুক্তির উন্নয়নের কারণে এটি এখন অনেক ব্যয়-সাশ্রয়ী।</p>
+    <p>এছাড়াও প্লটারও একটি ছাপার যন্ত্র। আর্কিটেকচারাল নকশা, মানচিত্র বা গ্রাফের নিখুঁত ও অনেক বড় কাগজে প্রিন্ট করার ক্ষেত্রে এটি ব্যবহৃত হয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p>তিনটা প্রিন্টার মনে রাখার সহজ উপায় — <b>ডট ম্যাট্রিক্স</b>: সস্তা কিন্তু মোটা/অস্পষ্ট লেখা (দোকানের রশিদে দেখা যায়), <b>ইঙ্কজেট</b>: তরল কালি, ছবি প্রিন্টে ভালো কিন্তু কালি খরচ বেশি, <b>লেজার</b>: সবচেয়ে দ্রুত ও পরিষ্কার, অফিসে বেশি ব্যবহৃত হয়।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 8V4h10v4M7 16v4h10v-4"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">🖨️ ডট ম্যাট্রিক্স প্রিন্টার</div>
+      <div class="sc-question">দোকানের রশিদ/বিলে খসখসে অক্ষরের প্রিন্ট দেখেছ কখনো?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, দেখেছি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">দেখিনি</button>
+      </div>
+      <div class="sc-answer">দোকানে কেনাকাটার পর যে সরু, একটু খসখসে-দেখতে রশিদ দেওয়া হয়, সাধারণত ছোট ছোট বিন্দু দিয়ে অক্ষর তৈরি হয় — সেটাই ডট ম্যাট্রিক্স প্রিন্টারের ছাপ। এটা টাইপরাইটারের মতো শব্দ করে কাজ করে, দামে সস্তা বলে এখনো অনেক দোকানে ব্যবহৃত হয়।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>তোমাদের বিদ্যালয়ে ব্যবহারের জন্য কোন ধরনের প্রিন্টার উপযুক্ত, দলে আলোচনা করে যুক্তিসহ উপস্থাপন করো।</p>
+    <textarea placeholder="তোমার যুক্তি এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson1617">
+      <button class="chip" data-def="Cathode Ray Tube — পুরোনো ধরনের ভারী, মোটা মনিটর/টিভি।">সিআরটি বা ক্যাথোড রে টিউব</button>
+      <button class="chip" data-def="Liquid Crystal Display — পাতলা, হালকা মনিটরের পর্দা, বিদ্যুৎ কম খরচ করে।">এলসিডি</button>
+      <button class="chip" data-def="Light Emitting Diode — আরও উন্নত পাতলা পর্দা, বিদ্যুৎ সাশ্রয়ী।">এলইডি</button>
+      <button class="chip" data-def="বাড়ি, দালান বা অবকাঠামোর নকশা, যা প্লটার দিয়ে বড় কাগজে ছাপানো হয়।">আর্কিটেকচারাল নকশা</button>
+    </div>
+    <div class="chip-def" id="def-lesson1617"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১৬-১৭ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. মনিটরের সাইজ কীভাবে মাপা হয়?</p>
+      <div class="qoptions" data-hash="3678796871">
+        <label class="qoption"><input type="radio" name="q22" value="0">প্রস্থ দিয়ে</label>
+        <label class="qoption"><input type="radio" name="q22" value="1">উচ্চতা দিয়ে</label>
+        <label class="qoption"><input type="radio" name="q22" value="2">কর্ণের দৈর্ঘ্য দিয়ে</label>
+        <label class="qoption"><input type="radio" name="q22" value="3">ওজন দিয়ে</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. কোন প্রিন্টার লেজার রশ্মির সাহায্যে ছাপে?</p>
+      <div class="qoptions" data-hash="1684896176">
+        <label class="qoption"><input type="radio" name="q23" value="0">ডট ম্যাট্রিক্স প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q23" value="1">ইঙ্কজেট প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q23" value="2">লেজার প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q23" value="3">প্লটার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. ছবি প্রিন্ট করার কাজে কোন প্রিন্টার বেশি ব্যবহৃত হয়?</p>
+      <div class="qoptions" data-hash="165149681">
+        <label class="qoption"><input type="radio" name="q24" value="0">ডট ম্যাট্রিক্স প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q24" value="1">ইঙ্কজেট প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q24" value="2">লেজার প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="q24" value="3">প্লটার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= LESSON 18 ================= -->
+<section class="lesson" id="lesson18">
+  <h2><span class="num">পাঠ ১৮</span> আউটপুট ডিভাইস</h2>
+
+  <div class="book-text">
+    <h4>স্পিকার</h4>
+    <p>তোমরা সবাই নিশ্চয়ই গান শুনতে অনেক পছন্দ কর। গান শোনার যন্ত্রগুলোর সাথে যা অবশ্যই সংযুক্ত থাকে তাই হলো স্পিকার। স্পিকার আমাদের সব ধরনের শব্দ শোনাতে পারে। এটি একটি আউটপুট ডিভাইস। মাল্টিমিডিয়া কম্পিউটারের অত্যাবশ্যকীয় যন্ত্র হলো স্পিকার। স্পিকার কম্পিউটারের ভিতরে স্থাপিত অবস্থায় থাকতে পারে আবার বাইরে লাগানো যায়। ভালো মানের শব্দ পেতে হলে আমাদের ভালো স্পিকার ব্যবহার করতে হয়। সাউন্ড কার্ড বা রিসিভার থেকে সৃষ্ট বৈদ্যুতিক তরঙ্গকে শ্রবণযোগ্য শব্দতরঙ্গে রূপান্তরিত করা স্পিকারের কাজ।</p>
+    <h4>হেডফোন</h4>
+    <p>হেডফোন হলো কানের কাছাকাছি নিয়ে শব্দ শোনার যন্ত্র। একে অনেকে এয়ারফোন বা হেডসেট নামেও ডেকে থাকে। এটিও আউটপুট ডিভাইস। সাধারণত মোবাইল ফোন, সিডি/ডিভিডি প্লেয়ার, এমপিথ্রি/এমপিফোর প্লেয়ার, ল্যাপটপ বা পার্সোনাল কম্পিউটারের সাথে ব্যবহার করা হয়। একাকী ব্যবহার করা হয় বলে এতে অন্যের বিরক্ত হওয়ার সম্ভাবনা নেই। তবে হেডফোনের বহুল ব্যবহার বিশেষ করে উচ্চশব্দে বাজানো থেকে বিরত থাকা উচিত। অন্যথায় আমাদের শ্রবণ ইন্দ্রিয়ের মারাত্মক ক্ষতি হতে পারে।</p>
+    <p>বর্তমানে তারবিহীন হেডফোন অনেকেই ব্যবহার করে। এগুলো ব্লুটুথ বা ওয়াইফাই প্রযুক্তি ব্যবহার করে আমাদের শব্দ শোনায়।</p>
+    <h4>মাল্টিমিডিয়া প্রজেক্টর</h4>
+    <p>মাল্টিমিডিয়া প্রজেক্টর হলো একটি ইলেকট্রো অপটিক্যাল যন্ত্র। এর সাহায্যে কম্পিউটার বা অন্য কোনো ভিডিয়ো উৎস থেকে নেওয়া ডেটা ইমেজে রূপান্তর করা যায়। এ ইমেজ লেন্স পদ্ধতির মাধ্যমে বহুগুণে বিবর্ধিত করে দূরবর্তী দেয়ালে বা স্ক্রিনে ফেলে উজ্জ্বল ইমেজ তৈরি করে মাল্টিমিডিয়া প্রজেক্টর। আধুনিক প্রজেক্টরগুলো ত্রিমাত্রিক ইমেজও তৈরি করতে সক্ষম।</p>
+    <p>মাল্টিমিডিয়া প্রজেক্টর সাধারণত প্রেজেন্টেশনের কাজে ব্যবহার করা হয়। এগুলো স্লাইড প্রজেক্টর এবং ওভারহেড প্রজেক্টরের আধুনিক রূপ। এটি ডিজিটাল ইমেজকে যেকোনো সমতলে যেমন- দেয়াল বা ডেস্কের উপর বড় করে ফেলতে সক্ষম। বিশাল সভাকক্ষ ব্যবহারের জন্য এর ঔজ্জ্বল্য এক হাজার থেকে চার হাজার লুমেন্সের (Lumence) হতে হয়। এটি ল্যাম্পের ক্ষমতার উপর নির্ভর করে।</p>
+    <p>এলসিডি প্রজেক্টরগুলোর ল্যাম্প সাধারণত চার হাজার ঘণ্টা ব্যবহারের পর পরিবর্তন করতে হয়। আরেক ধরনের প্রজেক্টর রয়েছে যা এলইডি প্রযুক্তি ব্যবহার করে। এগুলোর ল্যাম্প বিশ হাজার ঘণ্টা কাজ করতে পারে। তবে সেগুলোর মূল্য তুলনামূলকভাবে অনেক বেশি। কম্পিউটার বা অন্য কোনো উৎস যেমন- টেলিভিশন, সিডি/ডিভিডি প্লেয়ার ইত্যাদি থেকে ইমেজ নিয়ে তা এলসিডিতে সরবরাহ করে। এরপর ইমেজটি একটি লেন্সের মাধ্যমে সমতল পৃষ্ঠের ওপর ফেলা হয়। এজন্য বড় কোনো আসবাবের প্রয়োজন পড়ে না। এলসিডি বা এলইডি প্রজেক্টর আকারে ছোট বলে খুব সহজেই বহনযোগ্য। বর্তমানে পকেট প্রজেক্টর পাওয়া যায় যা কম্পিউটার, ট্যাব বা মোবাইল ফোন থেকে ব্যবহারের সুবিধা দেয়।</p>
+  </div>
+  <details class="simple-box">
+    <summary>সহজ কথায় বুঝি 👇</summary>
+    <div class="simple-body">
+      <p><b>স্পিকার</b> ও <b>হেডফোন</b> দুটোই শব্দ শোনার যন্ত্র — পার্থক্য হলো স্পিকার সবাই একসাথে শুনতে পায়, হেডফোন শুধু তুমি একা। মনে রাখো: হেডফোনে জোরে গান শোনা কানের জন্য ক্ষতিকর।</p>
+      <p><b>মাল্টিমিডিয়া প্রজেক্টর</b> — স্কুলের ক্লাসরুমে বা কোনো অনুষ্ঠানে দেয়ালে বড় করে ছবি/ভিডিও দেখানো হয়, সেটাই প্রজেক্টরের কাজ। কম্পিউটারের ছোট্ট স্ক্রিনের ছবিকে অনেক বড় করে দেয়ালে ফেলে দেয়।</p>
+    </div>
+  </details>
+
+  <div class="selfcheck">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="10" height="12" rx="2"/><path d="M13 9 L21 5 V19 L13 15"/></svg>
+    </div>
+    <div class="sc-content">
+      <div class="name">📽️ মাল্টিমিডিয়া প্রজেক্টর</div>
+      <div class="sc-question">এই যন্ত্রটা কি তুমি আগে দেখেছ (স্কুলে বা কোথাও)?</div>
+      <div class="sc-btns">
+        <button class="sc-btn" onclick="toggleAnswer(this)">হ্যাঁ, চিনি</button>
+        <button class="sc-btn" onclick="toggleAnswer(this,true)">চিনি না</button>
+      </div>
+      <div class="sc-answer">এটা একটা বাক্সের মতো যন্ত্র, যেখান থেকে তীব্র আলো বের হয়ে দেয়ালে বা সাদা পর্দায় বড় করে ছবি/ভিডিও দেখায়। স্কুলের অনুষ্ঠানে বা বড় মিটিংয়ে যখন দেয়ালে বড় করে স্লাইড বা ভিডিও দেখানো হয়, তখন এই যন্ত্রটাই ব্যবহার করা হয়।</div>
+    </div>
+  </div>
+
+  <div class="groupwork">
+    <div class="gw-label">✍️ দলগত কাজ</div>
+    <p>যে ডিভাইসগুলো আলোচনা করা হলো এর বাইরে তোমাদের অভিজ্ঞতার আলোকে ইনপুট ও আউটপুট ডিভাইসের একটি তালিকা তৈরি করে উপস্থাপন করো।</p>
+    <textarea placeholder="তোমার তালিকা এখানে লেখো..."></textarea>
+  </div>
+
+  <div class="glossary-wrap">
+    <h4>📚 নতুন শিখলাম — শব্দ চিনে নাও (ক্লিক করো)</h4>
+    <div class="chips" data-glossary="lesson18">
+      <button class="chip" data-def="বাতাসের কম্পনের মাধ্যমে চলাচল করা শব্দ, যা আমরা কানে শুনতে পাই।">শব্দতরঙ্গ</button>
+      <button class="chip" data-def="তার ছাড়া অল্প দূরত্বে ডিভাইসের মধ্যে সংযোগ করার প্রযুক্তি, যেমন তারবিহীন হেডফোনে ব্যবহৃত হয়।">ব্লুটুথ</button>
+      <button class="chip" data-def="তার ছাড়া ইন্টারনেট সংযোগ দেওয়ার প্রযুক্তি।">ওয়াইফাই</button>
+      <button class="chip" data-def="প্রজেক্টরের আলোর উজ্জ্বলতা মাপার একক।">লুমেন্স</button>
+      <button class="chip" data-def="Liquid Crystal Display — পাতলা পর্দা তৈরির একটি প্রযুক্তি, মনিটর ও প্রজেক্টরে ব্যবহৃত হয়।">এলসিডি</button>
+      <button class="chip" data-def="Light Emitting Diode — আলো উৎপন্নকারী একটি আধুনিক প্রযুক্তি, বিদ্যুৎ সাশ্রয়ী ও দীর্ঘস্থায়ী।">এলইডি</button>
+    </div>
+    <div class="chip-def" id="def-lesson18"></div>
+  </div>
+
+  <div class="quiz">
+    <h3>✅ পাঠ ১৮ · নিজেকে যাচাই করো</h3>
+    <div class="qitem">
+      <p class="qtext">১. স্পিকারের কাজ কী?</p>
+      <div class="qoptions" data-hash="233386964">
+        <label class="qoption"><input type="radio" name="q25" value="0">শব্দকে বিদ্যুতে রূপান্তর করা</label>
+        <label class="qoption"><input type="radio" name="q25" value="1">বৈদ্যুতিক তরঙ্গকে শব্দতরঙ্গে রূপান্তর করা</label>
+        <label class="qoption"><input type="radio" name="q25" value="2">ছবি দেখানো</label>
+        <label class="qoption"><input type="radio" name="q25" value="3">তথ্য সংরক্ষণ করা</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. তারবিহীন হেডফোন কোন প্রযুক্তি ব্যবহার করে?</p>
+      <div class="qoptions" data-hash="212007891">
+        <label class="qoption"><input type="radio" name="q26" value="0">ব্লুটুথ বা ওয়াইফাই</label>
+        <label class="qoption"><input type="radio" name="q26" value="1">ইউএসবি</label>
+        <label class="qoption"><input type="radio" name="q26" value="2">ইনফ্রারেড</label>
+        <label class="qoption"><input type="radio" name="q26" value="3">জিপিএস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. মাল্টিমিডিয়া প্রজেক্টরের উজ্জ্বলতা কীসে মাপা হয়?</p>
+      <div class="qoptions" data-hash="3409053914">
+        <label class="qoption"><input type="radio" name="q27" value="0">ওয়াট</label>
+        <label class="qoption"><input type="radio" name="q27" value="1">ভোল্ট</label>
+        <label class="qoption"><input type="radio" name="q27" value="2">লুমেন্স</label>
+        <label class="qoption"><input type="radio" name="q27" value="3">হার্টজ</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stitch vertical-space"></div>
+
+<!-- ================= FINAL QUIZ ================= -->
+<section class="lesson" id="finalquiz">
+  <h2><span class="num">📝</span> অধ্যায় ২ · সম্পূর্ণ পরীক্ষা</h2>
+  <p class="lesson-intro-note">পুরো অধ্যায় থেকে মিলিয়ে কয়েকটা প্রশ্ন — নিজেকে যাচাই করে দেখো কতটা মনে রাখতে পেরেছ।</p>
+  <div class="quiz">
+    <div class="qitem">
+      <p class="qtext">১. RAM-এর পূর্ণরূপ কী?</p>
+      <div class="qoptions" data-hash="3788465">
+        <label class="qoption"><input type="radio" name="fq1" value="0">Random Access Memory</label>
+        <label class="qoption"><input type="radio" name="fq1" value="1">Read Access Memory</label>
+        <label class="qoption"><input type="radio" name="fq1" value="2">Random Active Memory</label>
+        <label class="qoption"><input type="radio" name="fq1" value="3">Read Active Memory</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">২. নিচের কোনটি স্টোরেজ ডিভাইস নয়?</p>
+      <div class="qoptions" data-hash="2178324498">
+        <label class="qoption"><input type="radio" name="fq2" value="0">হার্ডডিস্ক</label>
+        <label class="qoption"><input type="radio" name="fq2" value="1">এসএসডি</label>
+        <label class="qoption"><input type="radio" name="fq2" value="2">পেনড্রাইভ</label>
+        <label class="qoption"><input type="radio" name="fq2" value="3">মাউস</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৩. প্রথম হার্ডডিস্ক তৈরি করে কোন কোম্পানি?</p>
+      <div class="qoptions" data-hash="193458749">
+        <label class="qoption"><input type="radio" name="fq3" value="0">IBM</label>
+        <label class="qoption"><input type="radio" name="fq3" value="1">Intel</label>
+        <label class="qoption"><input type="radio" name="fq3" value="2">Apple</label>
+        <label class="qoption"><input type="radio" name="fq3" value="3">Microsoft</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৪. নিচের কোনটি আউটপুট ডিভাইস?</p>
+      <div class="qoptions" data-hash="1448488749">
+        <label class="qoption"><input type="radio" name="fq4" value="0">কী-বোর্ড</label>
+        <label class="qoption"><input type="radio" name="fq4" value="1">মাউস</label>
+        <label class="qoption"><input type="radio" name="fq4" value="2">প্রিন্টার</label>
+        <label class="qoption"><input type="radio" name="fq4" value="3">স্ক্যানার</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৫. মাদারবোর্ডের আরেক নাম কী (বই অনুযায়ী)?</p>
+      <div class="qoptions" data-hash="357181438">
+        <label class="qoption"><input type="radio" name="fq5" value="0">পাওয়ারবোর্ড</label>
+        <label class="qoption"><input type="radio" name="fq5" value="1">মেইনবোর্ড</label>
+        <label class="qoption"><input type="radio" name="fq5" value="2">সাউন্ডবোর্ড</label>
+        <label class="qoption"><input type="radio" name="fq5" value="3">চিপবোর্ড</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+    <div class="qitem">
+      <p class="qtext">৬. কম্পিউটার সরাসরি কোন ভাষা বোঝে?</p>
+      <div class="qoptions" data-hash="1597693736">
+        <label class="qoption"><input type="radio" name="fq6" value="0">বাংলা</label>
+        <label class="qoption"><input type="radio" name="fq6" value="1">ইংরেজি</label>
+        <label class="qoption"><input type="radio" name="fq6" value="2">মেশিন ভাষা (০ ও ১)</label>
+        <label class="qoption"><input type="radio" name="fq6" value="3">উর্দু</label>
+      </div>
+      <div class="qfeedback"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  সপ্তম শ্রেণি · তথ্য ও যোগাযোগ প্রযুক্তি — অধ্যায় ২ ইন্টারেক্টিভ সংস্করণ। মূল পাঠ্যবই: জাতীয় শিক্ষাক্রম ও পাঠ্যপুস্তক বোর্ড, বাংলাদেশ।
+</footer>
+
+<script>
+function toggleAnswer(btn, forceOpen){
+  const wrap = btn.closest('.sc-content');
+  const ans = wrap.querySelector('.sc-answer');
+  if(forceOpen){
+    ans.classList.add('show');
+  } else {
+    ans.classList.remove('show');
+  }
+}
+
+document.querySelectorAll('.chips').forEach(function(group){
+  const targetId = 'def-' + group.getAttribute('data-glossary');
+  const defBox = document.getElementById(targetId);
+  group.querySelectorAll('.chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      const already = chip.classList.contains('active');
+      group.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      if(already){
+        defBox.classList.remove('show');
+        defBox.innerHTML = '';
+        return;
+      }
+      chip.classList.add('active');
+      defBox.innerHTML = '<b>'+chip.textContent+'</b> — '+chip.getAttribute('data-def');
+      defBox.classList.add('show');
+    });
+  });
+});
+
+// ---- quiz logic (hash-verified + locks after answering) ----
+function strHash(s){
+  let h = 5381;
+  for(let i=0;i<s.length;i++){
+    h = ((h*33) + s.charCodeAt(i)) >>> 0;
+  }
+  return String(h);
+}
+document.querySelectorAll('.qoptions').forEach(function(optGroup){
+  const targetHash = optGroup.getAttribute('data-hash');
+  const feedback = optGroup.parentElement.querySelector('.qfeedback');
+  feedback.setAttribute('aria-live','polite');
+  const optionLabels = optGroup.querySelectorAll('.qoption');
+  optGroup.querySelectorAll('input[type=radio]').forEach(function(input){
+    input.addEventListener('change', function(){
+      optionLabels.forEach(l=>l.classList.remove('correct','wrong'));
+      let correctLabel = null, correctText = '';
+      optionLabels.forEach(function(lbl){
+        const txt = lbl.textContent.trim();
+        if(strHash(txt) === targetHash){ correctLabel = lbl; correctText = txt; }
+      });
+      const chosenLabel = input.closest('.qoption');
+      if(chosenLabel === correctLabel){
+        chosenLabel.classList.add('correct');
+        feedback.textContent = '✅ ঠিক আছে! খুব ভালো হয়েছে।';
+        feedback.className = 'qfeedback show ok';
+      } else {
+        chosenLabel.classList.add('wrong');
+        if(correctLabel) correctLabel.classList.add('correct');
+        feedback.textContent = '❌ এটা ঠিক না। সঠিক উত্তর: ' + correctText + ' — উপরের বইয়ের অংশটা আরেকবার পড়ে নাও।';
+        feedback.className = 'qfeedback show no';
+      }
+      // lock this question so guessing repeatedly isn't possible
+      optGroup.querySelectorAll('input[type=radio]').forEach(i=>i.disabled=true);
+      updateProgress();
+    });
+  });
+});
+
+const navLinks = document.querySelectorAll('#lessonNav a');
+const sections = document.querySelectorAll('main section');
+function onScroll(){
+  let current = sections[0].id;
+  sections.forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120) current = sec.id;
+  });
+  navLinks.forEach(a=>{
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+function updateProgress(){
+  const totalQ = document.querySelectorAll('.qoptions').length;
+  const answered = document.querySelectorAll('.qoptions input[type=radio]:checked').length;
+  const pct = totalQ ? Math.round((answered/totalQ)*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'তোমার অগ্রগতি: '+pct+'% (কুইজ উত্তর দেওয়ার ভিত্তিতে)';
+}
+updateProgress();
+function collectWork(){
+  const lines = [];
+  lines.push('তোমার কাজ ও উত্তর');
+  lines.push('========================================');
+  lines.push('');
+  let anyWork = false;
+  document.querySelectorAll('textarea').forEach(function(ta){
+    if(ta.value.trim()){
+      anyWork = true;
+      let promptEl = ta.previousElementSibling;
+      let promptText = (promptEl ? promptEl.textContent.trim() : '').slice(0,200);
+      lines.push('▸ ' + (promptText || 'তোমার লেখা'));
+      lines.push(ta.value.trim());
+      lines.push('');
+    }
+  });
+  if(!anyWork){ lines.push('(তুমি এখনো কোনো দলগত কাজ বা প্রশ্নের উত্তর লেখোনি)'); lines.push(''); }
+  lines.push('========================================');
+  lines.push('কুইজের ফলাফল');
+  let total = 0, correct = 0;
+  document.querySelectorAll('.qitem').forEach(function(qi){
+    const fb = qi.querySelector('.qfeedback');
+    const qtext = qi.querySelector('.qtext');
+    if(fb && fb.classList.contains('show')){
+      total++;
+      const ok = fb.classList.contains('ok');
+      if(ok) correct++;
+      lines.push((ok ? '✓ ' : '✗ ') + (qtext ? qtext.textContent.trim() : ('প্রশ্ন ' + total)));
+    }
+  });
+  lines.push('');
+  lines.push('মোট উত্তর দেওয়া হয়েছে: ' + total + ' টি, সঠিক হয়েছে: ' + correct + ' টি');
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'আমার-কাজ-ও-ফলাফল.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+const dwBtn = document.getElementById('downloadWorkBtn');
+if(dwBtn){ dwBtn.addEventListener('click', collectWork); }
+
+(function(){
+  const moboData = {
+    '1':'মাইক্রোপ্রসেসর বা সিপিইউ সকেট — এখানে প্রসেসর (কম্পিউটারের মস্তিষ্ক) বসানো হয়।',
+    '2':'র‍্যাম স্লট — এখানে র‍্যাম লাগানো হয়, যা কাজ চলাকালীন তথ্য অস্থায়ীভাবে জমা রাখে।',
+    '3':'চিপসেট — প্রসেসরের সাথে অন্যান্য যন্ত্রাংশের কাজ সমন্বয় করে, মাদারবোর্ডের ক্ষমতা এর উপরই নির্ভর করে।',
+    '4':'রম — কম্পিউটার চালু করার জন্য প্রয়োজনীয় স্থায়ী নির্দেশনা সংরক্ষণ করে।',
+    '5':'ক্লক জেনারেটর — কম্পিউটারের বিভিন্ন যন্ত্রাংশের কাজের গতি (টাইমিং) নিয়ন্ত্রণ করে।',
+    '6':'এক্সপানশন স্লট — গ্রাফিক্স কার্ড বা অন্য অতিরিক্ত কার্ড লাগানোর জায়গা।',
+    '7':'পাওয়ার সংযোগ স্লট — পাওয়ার সাপ্লাই থেকে বিদ্যুৎ সংযোগ এখানে দেওয়া হয়।'
+  };
+  const desc = document.getElementById('moboDesc');
+  if(!desc) return;
+  function activate(part){
+    document.querySelectorAll('.mobo-diagram [data-part]').forEach(function(el){
+      el.classList.toggle('active', el.getAttribute('data-part') === part);
+    });
+    document.querySelectorAll('.mobo-btn').forEach(function(el){
+      el.classList.toggle('active', el.getAttribute('data-part') === part);
+    });
+    desc.innerHTML = '<b>' + part + '.</b> ' + moboData[part];
+  }
+  document.querySelectorAll('.mobo-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ activate(btn.getAttribute('data-part')); });
+  });
+  document.querySelectorAll('.mobo-diagram .mobo-part').forEach(function(el){
+    el.addEventListener('click', function(){ activate(el.getAttribute('data-part')); });
+  });
+})();
+
+</script>
+
+</body>
+</html>
