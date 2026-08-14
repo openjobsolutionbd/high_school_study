@@ -1,4 +1,4 @@
-# page-map.md — grammar-reference/english-grammar
+# page-map.md — english-grammar
 
 ## ⚠️ গুরুত্বপূর্ণ নোট — এই সাবজেক্টের সোর্স প্রকৃতি ভিন্ন
 
@@ -20,14 +20,13 @@
 ## ফোল্ডার স্ট্রাকচার
 
 ```
-grammar-reference/
-└── english-grammar/
-    ├── html/topic-01-number-and-plural.html
-    ├── markdown/topic-01-number-and-plural.md   (<!-- page:N --> মার্কার সহ)
-    └── page-map.md   (এই ফাইল)
+english-grammar/
+├── html/topic-01-number-and-plural.html
+├── markdown/topic-01-number-and-plural.md   (<!-- page:N --> মার্কার সহ)
+└── page-map.md   (এই ফাইল)
 ```
 
 ## ভবিষ্যতে নতুন টপিক যোগ করলে
 
 1. যদি স্ক্যান করা পাতার zip পাওয়া যায় → স্ট্যান্ডার্ড `class{N}/{subject}/` প্যাটার্ন অনুসরণ করা (project-brief-v2.md অনুযায়ী, `images/` ফোল্ডারসহ)।
-2. যদি শুধু ট্রান্সক্রাইব করা টেক্সট/markdown পাওয়া যায় (এই কেসের মতো) → এই `grammar-reference/` প্যাটার্নে `topic-XX-slug.md`/`.html` যোগ করা, `<!-- page:N -->` মার্কার বজায় রেখে, `page-map.md` আপডেট করে কভারেজ টেবিলে নতুন সারি যোগ করা।
+2. যদি শুধু ট্রান্সক্রাইব করা টেক্সট/markdown পাওয়া যায় (এই কেসের মতো) → এই `english-grammar/` (বা প্রয়োজনে নতুন top-level সাবজেক্ট ফোল্ডার) প্যাটার্নে `topic-XX-slug.md`/`.html` যোগ করা, `<!-- page:N -->` মার্কার বজায় রেখে, `page-map.md` আপডেট করে কভারেজ টেবিলে নতুন সারি যোগ করা।
