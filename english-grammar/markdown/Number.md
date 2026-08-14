@@ -1,24 +1,3 @@
-# Number ও Plural
-
-<!-- page:13 -->
-
-**Applied Grammar**
-
-16. A herd of cows is seen in the field.
-17. He is a justice.
-18. The girl is a beauty.
-19. Freedom is man's birth right.
-20. The cow is a useful animal.
-21. Jute is called the golden fibre of Bangladesh.
-22. Gold is valuable.
-23. Water has no colour.
-24. What class do you read in?
-25. Man should not hanker after money.
-
-B. নিচের শব্দগুলো কোনটি কী Noun তা নির্ণয় কর:
-
-Rangpur, Allah, river, library, tea, milk, town, army, blindness, child, flower, novel, drama, lord, king, queen, Rahim, Karim, London, kindness, cruelty, goodness, loyalty, man, girl, cow, horse, dog, gold, team, group, iron, silver, sorrow, oil, student, wheat, land, water, committee, gang, herd, flock, flower, pen, chair, table, boy.
-
 ## Number
 
 Read the following passages:
@@ -53,12 +32,6 @@ Number দু'প্রকার। যথা: (i) Singular Number (একবচ
 (The noun that indicates more than one persons or things is called plural number.)
 
 যেমন- men, boys, pens ইত্যাদি।
-
-*ADV. -26 VI. GRA.-2. A*
-
-<!-- page:14 -->
-
-**Advanced Learner's English Grammar & Composition**
 
 Singular Number-কে Plural Number করার নিয়ম:
 
@@ -115,12 +88,6 @@ Note: y-এর পূর্বে Vowel থাকলে y-এর কোনো �
 |---|---|---|---|
 | Roof (ছাদ) | Roofs | Cliff (চূড়া) | Cliffs |
 | Chief (প্রধান) | Chiefs | Reef (পাহাড়শ্রেণি) | Reefs |
-
-*ADV.-26 VI. GRA.-2. B*
-
-<!-- page:15 -->
-
-**Applied Grammar**
 
 Note: Hoof, Scarf, Wharf ইত্যাদি কতকগুলো Noun-কে s বা ves যেকোনো একটি যোগ করে Plural করা যায়। যেমন-
 
@@ -187,12 +154,6 @@ Note: Hoof, Scarf, Wharf ইত্যাদি কতকগুলো Noun-কে
 |---|---|---|---|
 | Handful (একমুঠো) | Handfuls | Spoonful (একচামচ) | Spoonfuls |
 | Mouthful (একগাল) | Mouthfuls | | |
-
-*ADV. -26 VI. GRA.-2. C*
-
-<!-- page:16 -->
-
-**Advanced Learner's English Grammar & Composition**
 
 10. একাধিক শব্দযোগে গঠিত Compound Noun-এর Plural করতে হলে তার প্রধান অংশের সঙ্গে s যোগ করতে হয়। যেমন-
 
