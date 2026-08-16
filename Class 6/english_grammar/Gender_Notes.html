@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gender — Grammar Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap');
+
+  :root {
+    --ink: #2b2320;
+    --paper: #faf6ef;
+    --card: #ffffff;
+    --accent: #8a3b2b;
+    --accent-soft: #f1e3da;
+    --line: #d8cabb;
+    --muted: #6f6259;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0 0 60px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Hind Siliguri', 'Merriweather', serif;
+    line-height: 1.7;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  header.top {
+    background: linear-gradient(135deg, #8a3b2b, #b25a3f);
+    color: #fff;
+    padding: 36px 20px 30px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+
+  header.top h1 {
+    margin: 0;
+    font-size: 2.1rem;
+    font-family: 'Merriweather', serif;
+    letter-spacing: 1px;
+  }
+
+  header.top p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
+  }
+
+  .section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 26px 28px;
+    margin-top: 26px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .section h2 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent-soft);
+    padding-bottom: 8px;
+    margin-top: 0;
+    font-size: 1.4rem;
+  }
+
+  .section h3 {
+    color: var(--accent);
+    margin-top: 28px;
+    font-size: 1.1rem;
+    background: var(--accent-soft);
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+
+  .passage {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-style: italic;
+    margin: 14px 0;
+  }
+
+  .definition {
+    background: #fffdf6;
+    border: 1px dashed var(--line);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 14px 0;
+  }
+
+  .translation {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .gender-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .gender-tree .root {
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .gender-tree .branches {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .gender-tree .branches div {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    padding: 6px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  ol.numbered li {
+    margin-bottom: 10px;
+  }
+
+  ol.numbered strong {
+    color: var(--accent);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 22px;
+    font-size: 0.97rem;
+  }
+
+  table caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--accent);
+  }
+
+  th, td {
+    border: 1px solid var(--line);
+    padding: 9px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) td {
+    background: #faf3ec;
+  }
+
+  .prose-note {
+    margin: 14px 0;
+    padding: 12px 16px;
+    background: #f4f0e8;
+    border-radius: 6px;
+  }
+
+  .prose-note b {
+    color: var(--accent);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 600px) {
+    .section { padding: 18px 16px; }
+    header.top h1 { font-size: 1.6rem; }
+    table { font-size: 0.85rem; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Gender</h1>
+  <p>Advanced Learner's English Grammar &amp; Composition — নোট</p>
+</header>
+
+<div class="wrap">
+
+  <!-- ===================== INTRO ===================== -->
+  <div class="section">
+    <h2>Gender — পরিচিতি</h2>
+
+    <p><strong>Read the following passage:</strong></p>
+    <div class="passage">
+      My uncle is a teacher of a school. We visited their house during the last winter holiday with my father, mother and my younger sister. Our man-servant also went with us. I presented a computer to my cousin, Rupa.
+    </div>
+
+    <p>উপরের passage-এ <b>uncle, father, man-servant</b> দ্বারা পুরুষ বোঝায়। তাই এ শব্দগুলো masculine gender। আবার <b>mother, sister</b>-এ শব্দ দু'টি feminine gender। কারণ এ শব্দগুলো দ্বারা মহিলা বোঝায়। <b>cousin</b> শব্দটি দ্বারা মহিলা ও পুরুষ উভয়ই বোঝায়। তাই <b>cousin</b> শব্দটি common gender। <b>school, house, computer</b> এ শব্দগুলো দ্বারা অচেতন পদার্থকে বোঝায়। তাই এ শব্দগুলো neuter gender.</p>
+
+    <div class="definition">
+      অতএব, যে word বা শব্দ দিয়ে কোনো noun বা pronoun-এর পুরুষ, স্ত্রী বা এদের উভয়কে বা অচেতন পদার্থকে (ক্লীব) বোঝায় তাকে <b>Gender বা লিঙ্গ</b> বলে।
+      <p class="translation"><em>(The word that indicates whether a noun or pronoun is male or female or neither both of them or both of them is called gender.)</em></p>
+    </div>
+
+    <p>ইংরেজিতে Gender চার প্রকার। যথা:<br>
+    (i) Masculine Gender (পুরুষলিঙ্গ) &nbsp; (ii) Feminine Gender (স্ত্রীলিঙ্গ) &nbsp; (iii) Common Gender (উভলিঙ্গ) &nbsp; (iv) Neuter Gender (ক্লীবলিঙ্গ)</p>
+
+    <div class="gender-tree">
+      <div class="root">Gender</div>
+      <div class="branches">
+        <div>Masculine</div>
+        <div>Feminine</div>
+        <div>Common</div>
+        <div>Neuter</div>
+      </div>
+    </div>
+
+    <ol class="numbered">
+      <li><strong>Masculine Gender (পুরুষলিঙ্গ):</strong> যে Noun বা pronoun দিয়ে পুরুষ জাতি বোঝায় তাকে Masculine Gender বলে।
+        <p class="translation"><em>(Nouns and pronouns that stand for male are said to be of the masculine gender.)</em></p>
+        যেমন- Boy, father, brother, dog, lion, he ইত্যাদি।
+      </li>
+      <li><strong>Feminine Gender (স্ত্রীলিঙ্গ):</strong> যে Noun বা pronoun দিয়ে স্ত্রী জাতি বোঝায় তাকে Feminine Gender বলে।
+        <p class="translation"><em>(Nouns and pronouns that stand for female are said to be of feminine gender.)</em></p>
+        যেমন- Girl, mother, sister, bitch, lioness, she ইত্যাদি।
+      </li>
+      <li><strong>Common Gender (উভলিঙ্গ):</strong> যে Noun বা pronoun দিয়ে স্ত্রী পুরুষ উভয়কে বোঝায় তাকে Common Gender বলে।
+        <p class="translation"><em>(Nouns and pronouns that stand for either male or female are said to be of common gender.)</em></p>
+        যেমন- Child, friend, person, student, they, teacher ইত্যাদি।
+      </li>
+      <li><strong>Neuter Gender (ক্লীবলিঙ্গ):</strong> যে Noun বা pronoun দিয়ে স্ত্রী বা পুরুষ কোনোটিকে না বুঝিয়ে অচেতন পদার্থকে বুঝায় তাকে Neuter Gender বলে।
+        <p class="translation"><em>(Nouns and pronouns that stand for things without life are said to be of neuter gender.)</em></p>
+        যেমন- Chair, table, bench, pen, pencil, door ইত্যাদি।
+      </li>
+    </ol>
+  </div>
+
+  <!-- ===================== FEMININE FROM MASCULINE ===================== -->
+  <div class="section">
+    <h2>Feminine from Masculine</h2>
+    <p><strong>Masculine থেকে Feminine করার নিয়ম:</strong></p>
+
+    <h3>১. সম্পূর্ণ নতুন শব্দ ব্যবহার করে Feminine করা হয়</h3>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>Boy (বালক)</td><td>Girl (বালিকা)</td><td>Hero (বীর/নায়ক)</td><td>Heroine (নায়িকা)</td></tr>
+      <tr><td>Brother (ভাই)</td><td>Sister (বোন)</td><td>Husband (স্বামী)</td><td>Wife (স্ত্রী)</td></tr>
+      <tr><td>Bull (বলদ)</td><td>Cow (গাভী)</td><td>King (রাজা)</td><td>Queen (রানি)</td></tr>
+      <tr><td>Bridegroom (বর)</td><td>Bride (কনে)</td><td>Lad (বালক)</td><td>Lass (বালিকা)</td></tr>
+      <tr><td>Buck (হরিণ)</td><td>Doe (হরিণী)</td><td>Lord (সম্ভ্রান্ত পুরুষ)</td><td>Lady (সম্ভ্রান্ত মহিলা)</td></tr>
+      <tr><td>Bachelor (অবিবাহিত)</td><td>Maid/Spinster (অবিবাহিতা)</td><td>Man (পুরুষ)</td><td>Woman (মহিলা)</td></tr>
+      <tr><td>Bullock (দামড়া বাছুর)</td><td>Heifer (বকনা বাছুর)</td><td>Male (পুরুষ)</td><td>Female (স্ত্রীলোক)</td></tr>
+      <tr><td>Boar (শূকর)</td><td>Sow (শূকরী)</td><td>Monk (সন্ন্যাসী)</td><td>Nun (সন্ন্যাসিনী)</td></tr>
+      <tr><td>Cock (মোরগ)</td><td>Hen (মুরগি)</td><td>Nephew (ভাগ্নে/ভাইপো)</td><td>Niece (ভাগ্নি/ভাইঝি)</td></tr>
+      <tr><td>Colt (বাচ্চা ঘোড়া)</td><td>Filly (বাচ্চা ঘোটকী)</td><td>Dog (কুকুর)</td><td>Bitch (কুকুরি)</td></tr>
+      <tr><td>Ram (ভেড়া)</td><td>Ewe (ভেড়ি)</td><td>Drake (পুরুষ পাতিহাঁস)</td><td>Duck (পাতিহাঁস)</td></tr>
+      <tr><td>Sir (মহাশয়)</td><td>Madam (মহাশয়া)</td><td>Drone (পুরুষ মৌমাছি)</td><td>Bee (স্ত্রী মৌমাছি)</td></tr>
+      <tr><td>Father (বাবা/পিতা)</td><td>Mother (মা/মাতা)</td><td>Stag (হরিণ)</td><td>Doe (হরিণী)</td></tr>
+      <tr><td>Fox (খেঁকশিয়াল)</td><td>Vixen (খেঁকশিয়ালী)</td><td>Son (পুত্র)</td><td>Daughter (কন্যা)</td></tr>
+      <tr><td>Gentle-man (ভদ্রলোক)</td><td>Gentle-woman (ভদ্রমহিলা)</td><td>Tailor (দর্জি)</td><td>Seamstress (মহিলা দর্জি)</td></tr>
+      <tr><td>Gander (রাজহংস)</td><td>Goose (রাজহংসী)</td><td>Uncle (চাচা)</td><td>Aunt (চাচি)</td></tr>
+      <tr><td>Horse (ঘোড়া)</td><td>Mare (ঘোটকী)</td><td>Widower (বিপত্নীক)</td><td>Widow (বিধবা)</td></tr>
+      <tr><td>Hart (হরিণ)</td><td>Hind (হরিণী)</td><td>Wizard (ডাইন/জাদুকর)</td><td>Witch (ডাইনি/জাদুকরী)</td></tr>
+    </table>
+
+    <h3>২. মূল শব্দের কোনো পরিবর্তন না করে শেষে "ss"/"ess" যোগ করে</h3>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>Author (লেখক)</td><td>Authoress (লেখিকা)</td><td>Prince (যুবরাজ/রাজকুমার)</td><td>Princess (রাজকুমারী)</td></tr>
+      <tr><td>Baron (সম্ভ্রান্ত পুরুষ)</td><td>Baroness (সম্ভ্রান্ত মহিলা)</td><td>Peer (সম্ভ্রান্ত পুরুষ)</td><td>Peeress (সম্ভ্রান্ত মহিলা)</td></tr>
+      <tr><td>Count (সম্ভ্রান্ত ব্যক্তি)</td><td>Countess (সম্ভ্রান্ত মহিলা)</td><td>Patron (পুরুষ পৃষ্ঠপোষক)</td><td>Patroness (মহিলা পৃষ্ঠপোষক)</td></tr>
+      <tr><td>Priest (পাদ্রি যাজক)</td><td>Priestess (যাজিকা)</td><td>Host (অতিথি সেবক)</td><td>Hostess (অতিথি সেবিকা)</td></tr>
+      <tr><td>Shepherd (পুরুষ রাখাল)</td><td>Shepherdess (মহিলা রাখাল)</td><td>Heir (উত্তরাধিকারী)</td><td>Heiress (উত্তরাধিকারিণী)</td></tr>
+      <tr><td>Manager (ব্যবস্থাপক)</td><td>Manageress (মহিলা ব্যবস্থাপক)</td><td>Jew (ইহুদি পুরুষ)</td><td>Jewess (ইহুদি মহিলা)</td></tr>
+      <tr><td>Poet (কবি)</td><td>Poetess (মহিলা কবি)</td><td>Lion (সিংহ)</td><td>Lioness (সিংহী)</td></tr>
+      <tr><td>Tutor (গৃহশিক্ষক)</td><td>Tutoress (গৃহশিক্ষিকা)</td><td>Steward (পুরুষ তত্ত্বাবধায়ক)</td><td>Stewardess (মহিলা তত্ত্বাবধায়ক)</td></tr>
+    </table>
+
+    <h3>৩. শেষ Syllable-এর Vowel বাদ দিয়ে ess যোগ করে</h3>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>Actor (অভিনেতা)</td><td>Actress (অভিনেত্রী)</td><td>Inspector (পরিদর্শক)</td><td>Inspectress (মহিলা পরিদর্শক)</td></tr>
+      <tr><td>Benefactor (হিতকারী)</td><td>Benefectress (হিতকারিনী)</td><td>Songster (গায়ক)</td><td>Songtress (গায়িকা)</td></tr>
+      <tr><td>Conductor (পরিচালক)</td><td>Conductress (মহিলা পরিচালক)</td><td>Tiger (বাঘ)</td><td>Tigress (বাঘিনী)</td></tr>
+      <tr><td>Director (পরিচালক)</td><td>Directoress (মহিলা পরিচালক)</td><td>Traitor (বিশ্বাসঘাতক)</td><td>Traitress (মহিলা বিশ্বাসঘাতক)</td></tr>
+      <tr><td>Doctor (ডাক্তার)</td><td>Doctress (মহিলা ডাক্তার)</td><td>Waiter (পরিচারক)</td><td>Waitress (পরিচারিকা)</td></tr>
+      <tr><td>Enchanter (জাদুকর)</td><td>Enchantress (মহিলা জাদুকর)</td><td>Porter (কুলি)</td><td>Portress (মহিলা কুলি)</td></tr>
+      <tr><td>Hunter (শিকারি)</td><td>Huntress (শিকারি স্ত্রী লোক)</td><td>Instructor (প্রশিক্ষক)</td><td>Instructress (শিক্ষয়িত্রী)</td></tr>
+    </table>
+
+    <h3>৪. অনিয়মিতভাবে ess যোগ করে</h3>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>Duke (সম্ভ্রান্ত ব্যক্তি)</td><td>Duchess (সম্ভ্রান্ত মহিলা)</td><td>Mr. (জনাব)</td><td>Miss/Ms/Mrs (জনাবা)</td></tr>
+      <tr><td>Emperor (সম্রাট)</td><td>Empress (সম্রাজ্ঞী)</td><td>Murderer (পুরুষখুনি)</td><td>Murderess (মহিলা খুনি)</td></tr>
+      <tr><td>Master (মালিক)</td><td>Mistress (গৃহকর্ত্রী)</td><td>Marquis/Marquess (সম্ভ্রান্ত ব্যক্তি)</td><td>Marchioness (সম্ভ্রান্ত মহিলা)</td></tr>
+      <tr><td>God (দেবতা)</td><td>Goddess (দেবী)</td><td>Governer (রাজ্যের প্রশাসক)</td><td>Governess (গৃহশিক্ষিকা)</td></tr>
+    </table>
+
+    <h3>৫. Compound Noun-এর Masculine অংশটির Feminine ব্যবহার করে</h3>
+    <p><b>A. প্রথম অংশের পরিবর্তন করে-</b></p>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>Buck-rabbit (পুরুষ খরগোস)</td><td>Doe-rabbit (স্ত্রী খরগোস)</td><td>Father-in-law (শ্বশুর)</td><td>Mother-in-law (শাশুড়ি)</td></tr>
+      <tr><td>He-goat (ছাগল)</td><td>She-goat (ছাগি)</td><td>Son-in-law (জামাতা)</td><td>Daughter-in-law (পুত্রবধু)</td></tr>
+      <tr><td>Bull-calf (এঁড়ে বাছুর)</td><td>Cow-calf (বকনা বাছুর)</td><td>Mankind (পুরুষ জাতি)</td><td>Womankind (স্ত্রী জাতি)</td></tr>
+      <tr><td>Cock-sparrow (পুরুষ চড়ুই)</td><td>Hen-sparrow (স্ত্রী চড়ুই)</td><td>Man-servant (চাকর)</td><td>Maid-servant (চাকরানী)</td></tr>
+      <tr><td>Jack-ass (পুরুষ গর্দভ)</td><td>She-ass (স্ত্রী গর্দভ)</td><td>Brother-in-law (শ্যালক)</td><td>Sister-in-law (শ্যালিকা)</td></tr>
+    </table>
+
+    <p><b>B. দ্বিতীয় অংশের পরিবর্তন করে:</b></p>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>School-master (স্কুল শিক্ষক)</td><td>School-mistress (স্কুল শিক্ষিকা)</td><td>God-father (ধর্ম পিতা)</td><td>God-mother (ধর্ম মাতা)</td></tr>
+      <tr><td>Washerman (ধোপা)</td><td>Washerwoman (ধোপানী)</td><td>Foster-father (পালক পিতা)</td><td>Foster-mother (পালক মাতা)</td></tr>
+      <tr><td>Milkman (গোয়ালা)</td><td>Milkmaid (গোয়ালিনী)</td><td>Step-brother (সৎভাই)</td><td>Step-sister (সৎ বোন)</td></tr>
+      <tr><td>Beggarman (ভিক্ষুক/ভিখারী)</td><td>Beggarwoman (ভিখারিনী)</td><td>Grandfather (দাদা)</td><td>Grandmother (দাদি)</td></tr>
+      <tr><td>Fisherman (জেলে)</td><td>Fisherwoman (জেলেনী)</td><td>Pea-cock (ময়ূর)</td><td>Pea-hen (ময়ূরী)</td></tr>
+      <tr><td>Gentleman (ভদ্রলোক)</td><td>Gentlewoman (ভদ্র মহিলা)</td><td>Landlord (জমিদার)</td><td>Landlady (বাড়িওয়ালি)</td></tr>
+    </table>
+  </div>
+
+  <!-- ===================== COMMON GENDER ===================== -->
+  <div class="section">
+    <h2>৬. কতিপয় Common Gender-এর Masculine এবং Feminine রূপ</h2>
+    <table>
+      <tr><th>Common</th><th>Masculine</th><th>Feminine</th></tr>
+      <tr><td>Child</td><td>Boy, Son</td><td>Girl, Daughter</td></tr>
+      <tr><td>Calf</td><td>Bullock</td><td>Heifer</td></tr>
+      <tr><td>Deer</td><td>Hart, Stag, Buck</td><td>Doe, Hind</td></tr>
+      <tr><td>Sheep</td><td>Ram</td><td>Ewe</td></tr>
+      <tr><td>Cat</td><td>Male cat</td><td>Female cat</td></tr>
+      <tr><td>Pig</td><td>Boar</td><td>Sow</td></tr>
+      <tr><td>Fowl</td><td>Cock</td><td>Hen</td></tr>
+      <tr><td>Horse</td><td>Stallion</td><td>Mare</td></tr>
+      <tr><td>Parent</td><td>Father</td><td>Mother</td></tr>
+      <tr><td>Person</td><td>Man</td><td>Woman</td></tr>
+      <tr><td>Student</td><td>Male student</td><td>Female/Girl student</td></tr>
+      <tr><td>Teacher</td><td>Male teacher</td><td>Female teacher</td></tr>
+      <tr><td>Spouse</td><td>Husband</td><td>Wife</td></tr>
+      <tr><td>Servant</td><td>Man-servant</td><td>Maid-servant</td></tr>
+      <tr><td>Orphan</td><td>Boy without parents</td><td>Girl without parents</td></tr>
+      <tr><td>Monarch</td><td>King/Emperor</td><td>Queen/Empress</td></tr>
+    </table>
+
+    <h3>৭. (a) কতকগুলো Noun সর্বদা Common Gender রূপে ব্যবহৃত হয়</h3>
+    <p class="prose-note">
+      baby (ছেলে বা মেয়ে), cousin (জ্ঞাতি ভাই ও বোন), orphan (অনাথ বালক/বালিকা), friend (বন্ধু/বান্ধবী), pupil (ছাত্র/ছাত্রী), parent (পিতা/মাতা), infant (খোকা/খুকি), person (পুরুষ বা স্ত্রীলোক), spouse (স্বামী/স্ত্রী), relation (আত্মীয় বা আত্মীয়া), child (খোকা বা খুকি), student (ছাত্র/ছাত্রী), beggar (ভিখারি/ভিখারিনী), enemy (পুরুষ শত্রু/ মহিলা শত্রু), writer (লেখক/লেখিকা), teacher (শিক্ষক/শিক্ষিকা), citizen (নাগরিক পুরুষ/মহিলা), lawyer (আইনজীবী-পুরুষ/মহিলা), fool (বোকা), monarch (রাজা/রানি), ruler (শাসক-পুরুষ/মহিলা), ass (গর্দভ/গর্দভা), rat (মদ্দা/মাদী ইঁদুর), fowl (মোরগ/মুরগি), elephant (মদ্দা বা মাদি হাতি), pig (শূকর/শূকরী)।
+    </p>
+
+    <h3>(b) Masculine ও Feminine উভয় রূপ থাকা সত্ত্বেও Common Gender-এ ব্যবহৃত</h3>
+    <p class="prose-note">Bee, cow, dog, horse, duck ইত্যাদি।</p>
+  </div>
+
+  <!-- ===================== PRONOUN GENDER ===================== -->
+  <div class="section">
+    <h2>Pronoun-এর Gender</h2>
+    <table>
+      <tr><th>Masculine</th><th>Feminine</th><th>Neuter</th></tr>
+      <tr><td>He</td><td>She</td><td>It</td></tr>
+      <tr><td>Him</td><td>Her</td><td>It</td></tr>
+      <tr><td>His</td><td>Her, hers</td><td>Its</td></tr>
+      <tr><td>Himself</td><td>Herself</td><td>Itself</td></tr>
+    </table>
+  </div>
+
+  <footer>Advanced Learner's English Grammar &amp; Composition — Gender অধ্যায়ের নোট</footer>
+
+</div>
+</body>
+</html>
