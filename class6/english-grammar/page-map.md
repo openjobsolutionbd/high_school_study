@@ -21,7 +21,7 @@
 ## ফোল্ডার স্ট্রাকচার
 
 ```
-english-grammar/
+class6/english-grammar/
 ├── html/Number.html
 ├── markdown/Number.md
 └── page-map.md   (এই ফাইল)
@@ -29,8 +29,9 @@ english-grammar/
 
 ## ইতিহাস
 
-- v1: `grammar-reference/english-grammar/topic-01-number-and-plural.*` — পেজ ১৩-১৬-এর পূর্ণ (exercise-সহ) অংশ, `<!-- page:N -->` মার্কারসহ। **বাদ দেওয়া হয়েছে।**
-- v2 (বর্তমান): `english-grammar/Number.*` — শুধু মূল গ্রামার-ব্যাখ্যা, exercise/পেজ-হেডার বাদ, মার্কার ছাড়া। শীর্ষ-স্তরের `english-grammar/` ফোল্ডারে (আগের `grammar-reference/` wrapper বাদ দিয়ে)।
+- v1: `grammar-reference/english-grammar/topic-01-number-and-plural.*` — পেজ ১৩-১৬-এর পূর্ণ (exercise-সহ) অংশ, `<!-- page:N -->` মার্কারসহ। বাদ দেওয়া হয়েছে।
+- v2: `english-grammar/Number.*` — শুধু মূল গ্রামার-ব্যাখ্যা, exercise/পেজ-হেডার বাদ, মার্কার ছাড়া। ক্লাস অনির্দিষ্ট থাকায় শীর্ষ-স্তরে রাখা হয়েছিল।
+- v3 (বর্তমান): `class6/english-grammar/Number.*` — নিশ্চিত হওয়া গেছে এটা **class 6**-এর বই, তাই রিপো-কনভেনশন (`class{N}/{subject}/`) অনুযায়ী সরানো হলো।
 
 ## ভবিষ্যতে নতুন টপিক যোগ করলে
 
