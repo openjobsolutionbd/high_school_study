@@ -166,7 +166,7 @@ function toggleDarkMode(){
    নতুন ক্লাস/বিষয়/অধ্যায় যোগ করতে হলে শুধু এই অংশটা এডিট করলেই হবে।
 ══════════════════════════════════════════════════════════════ */
 var CLASS_META = {
-    6:  { label:'৬ষ্ঠ শ্রেণি',  emoji:'📖', color:'#1A5276', ready:false },
+    6:  { label:'৬ষ্ঠ শ্রেণি',  emoji:'📖', color:'#1A5276', ready:true  },
     7:  { label:'৭ম শ্রেণি',   emoji:'📘', color:'#1B5E20', ready:true  },
     8:  { label:'৮ম শ্রেণি',   emoji:'📙', color:'#4A148C', ready:false },
     9:  { label:'৯ম শ্রেণি',   emoji:'📕', color:'#B71C1C', ready:false },
@@ -233,7 +233,16 @@ var SUBJECTS = {
         { key:null, name:'তথ্য ও যোগাযোগ প্রযুক্তি',  icon:'💻', iconBg:'#e8eaf6', ready:false },
         { key:null, name:'ধর্ম ও নৈতিক শিক্ষা',       icon:'🕌', iconBg:'#fff8e1', ready:false },
     ],
-    6:[], 8:[], 9:[], 10:[],
+    6:[
+        {
+            key:'english-grammar', name:'ইংরেজি গ্রামার', icon:'🔤', iconBg:'#fce4ec', ready:true,
+            base:'class6/english-grammar/',
+            chapters:[
+                {num:'১', title:'Number', file:'html/Number.html'}
+            ]
+        }
+    ],
+    8:[], 9:[], 10:[],
 };
 
 /* ══════════════════════════════════════════════════════════════
