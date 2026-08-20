@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>৮ম শ্রেণি — মাধ্যমিক পড়াশোনা</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{
+  --slate:#1E3A34; --slate-2:#28483F; --paper:#FBF7EC; --paper-2:#F2EAD3;
+  --ink:#22281f; --indigo:#2F5D9E; --mustard:#E3A93B; --stitch:#C9B98A;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hind Siliguri','Noto Sans Bengali','Nirmala UI',sans-serif;line-height:1.7;}
+h1,h2{font-family:'Baloo Da 2','Noto Sans Bengali',sans-serif;color:var(--slate);}
+header{background:radial-gradient(circle at 8px 8px, rgba(227,169,59,.14) 1.4px, transparent 1.4px),linear-gradient(155deg, var(--slate-2) 0%, var(--slate) 62%, #142822 100%);background-size:26px 26px, cover;color:var(--paper);padding:48px 24px 56px;text-align:center;}
+header a.home{color:#cfe3da;font-size:13px;text-decoration:none;}
+header h1{color:var(--paper);font-size:clamp(26px,5vw,40px);margin:10px 0;}
+header p{color:#cfe3da;font-size:15.5px;}
+main{max-width:800px;margin:-30px auto 0;padding:0 20px 60px;position:relative;z-index:2;}
+.subjects{display:grid;gap:16px;margin-top:20px;}
+.subject-card{background:#fff;border-radius:14px;padding:20px 22px;text-decoration:none;color:var(--ink);box-shadow:0 4px 18px rgba(0,0,0,.08);border:2px solid var(--paper-2);display:flex;gap:16px;align-items:center;transition:.2s;}
+.subject-card.live:hover{border-color:var(--mustard);transform:translateY(-2px);}
+.subject-card.locked{opacity:.5;cursor:default;}
+.subject-card .icon{flex:0 0 auto;width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--paper-2);}
+.subject-card .info h2{font-size:18px;margin:0 0 3px;}
+.subject-card .info p{margin:0;font-size:13px;color:#5b6b60;}
+.badge{margin-left:auto;font-size:12px;padding:4px 10px;border-radius:999px;font-weight:600;flex-shrink:0;}
+.badge.ready{background:#e6f4ea;color:#1B5E20;}
+.badge.soon{background:#f3e5f5;color:#6A1B9A;}
+footer{text-align:center;padding:20px;color:#7d8a7f;font-size:13px;}
+</style>
+</head>
+<body>
+<header>
+  <a class="home" href="/">🏠 হোম</a>
+  <h1>৮ম শ্রেণি</h1>
+  <p>বিষয় বেছে নাও</p>
+</header>
+<main>
+  <div class="subjects">
+    <a class="subject-card live" href="./ict/">
+      <div class="icon">💻</div>
+      <div class="info"><h2>তথ্য ও যোগাযোগ প্রযুক্তি</h2><p>5টি অধ্যায়</p></div>
+      <span class="badge ready">✓ পড়া যাচ্ছে</span>
+    </a>
+  </div>
+</main>
+<footer>৮ম শ্রেণি · মাধ্যমিক পড়াশোনা</footer>
+</body>
+</html>
