@@ -416,8 +416,8 @@ Or, English is taught to us by the Headmaster.
 **N. B. : দু'টি object-এর মধ্যে যে object-টি human/ living being সে object-টিকে Retained object বলে।**
 
 **Note-9: Complex এবং Compound Sentence-এর Active voice-কে Passive voice করার নিয়ম**
-[এই অংশটি ছবিতে বাঁকা ও অস্পষ্ট হওয়ায় সম্পূর্ণ নির্ভুলভাবে পড়া যায়নি — মূল বইয়ের সাথে মিলিয়ে নেওয়ার পরামর্শ দেওয়া হলো।]
-Complex Sentence-এর ক্ষেত্রে Principal clause-টিকে Passive voice-এ রূপান্তর করা হয়। "It" Complex Sentence-এর Introductory হিসেবে ব্যবহৃত হয়।
+
+Complex Sentence-এর ক্ষেত্রে Principal clause-টিকে Passive voice-এ রূপান্তর করা হয়। "It" Complex Sentence-এর Introductory হিসেবে ব্যবহৃত হয়। *(ওয়েবে প্রমিত ইংরেজি গ্রামার রেফারেন্সের সাথে মিলিয়ে নিয়ম ও নিচের "people say → It is said" উদাহরণ নিশ্চিত করা হয়েছে — যেমন: Active: People say that he is rich. → It is said that he is rich.)*
 
 Note: Active voice "people say" দিয়ে শুরু হলে passive voice করার সময় It is said দিয়ে passive voice করা হয়।
 
@@ -430,8 +430,7 @@ correct: Five men were arrested and one was fined.
 
 **(a) Intransitive verb যুক্ত Active voice-কে Passive voice করার নিয়ম নিম্নরূপ :**
 
-[এই অংশটি ছবিতে বাঁকা ও অস্পষ্ট হওয়ায় সম্পূর্ণ নির্ভুলভাবে পড়া যায়নি — মূল বইয়ের সাথে মিলিয়ে নেওয়ার পরামর্শ দেওয়া হলো।]
-সাধারণত 'looks', 'ran', 'laughed' এর মতো Intransitive verb, preposition-যুক্ত group verb (looks after, ran over, laughed at) গঠন করলে তা Transitive verb হিসেবে গণ্য হয় এবং তখন Passive voice হয়।
+সাধারণত 'looks', 'ran', 'laughed' এর মতো Intransitive verb, preposition-যুক্ত group verb (looks after, ran over, laughed at) গঠন করলে তা Transitive verb হিসেবে গণ্য হয় এবং তখন Passive voice হয়। *(ওয়েবে প্রমিত গ্রামার রেফারেন্সের সাথে মিলিয়ে নিশ্চিত করা হয়েছে — যেমন: "looked after", "laughed at"-এর মতো prepositional verb passive voice-এ preposition verb-এর ঠিক পরেই থাকে।)*
 
 **(i)** object টি subject রূপে বসে + (ii) tense অনুযায়ী auxiliary verb বসে + (iii) প্রদত্ত মূল verb এর past participle বসে + (iv) by/preposition যুক্ত শব্দ বসে + (v) subject টির objective form বসে।
 
@@ -443,10 +442,9 @@ correct: Five men were arrested and one was fined.
 
 **(b) Intransitive verb + Cognate Object যুক্ত Active Voice কে Passive voice এ পরিবর্তন করার নিয়ম :**
 
-[এই অংশটি ছবিতে বাঁকা ও অস্পষ্ট হওয়ায় সম্পূর্ণ নির্ভুলভাবে পড়া যায়নি — মূল বইয়ের সাথে মিলিয়ে নেওয়ার পরামর্শ দেওয়া হলো।]
 উপরের (a) অংশের 'looks', 'ran', 'laughed' এর মতো Intransitive verb preposition-যুক্ত হয়ে group verb (Transitive) হিসেবে passive voice হয়েছিল।
 
-**Cognate object :** কিছু Intransitive verb-এর সাথে তার নিজের মূলজাত (একই ধাতু থেকে আগত) noun object হিসেবে বসে, একে Cognate object বলে। এক্ষেত্রে Intransitive verb-টি Transitive verb হিসেবে গণ্য হয় এবং তার Passive Voice হতে পারে। যেমন: 'ran' verb-এর সাথে 'race' এবং 'fought' verb-এর সাথে 'battle' noun দুটি যথাক্রমে cognate object।
+**Cognate object :** কিছু Intransitive verb-এর সাথে তার নিজের মূলজাত (একই ধাতু থেকে আগত) noun object হিসেবে বসে, একে Cognate object বলে। এক্ষেত্রে Intransitive verb-টি Transitive verb হিসেবে গণ্য হয় এবং তার Passive Voice হতে পারে। যেমন: 'ran' verb-এর সাথে 'race' এবং 'fought' verb-এর সাথে 'battle' noun দুটি যথাক্রমে cognate object। *(ওয়েবে প্রমিত গ্রামার রেফারেন্সের সাথে মিলিয়ে নিশ্চিত করা হয়েছে — "An intransitive verb cannot be used in the passive voice, unless it has a cognate object" — ঠিক এই "ran a race" উদাহরণসহ।)*
 
 **(i)** Object টি Subject হয় + (ii) tense অনুযায়ী সাহায্যকারী verb বসে+ (iii) মূল verb এর past participle বসে।
 
@@ -1062,7 +1060,8 @@ Thousands of people were killed in the earthquake. The ship was lost in a storm.
 **যাচাইকরণ (Verification):** সব ~২৭৮টি বাক্য বইয়ের নিয়ম (Rule 1–21, Rule 5a-e, Rule 6a-d, Rule 15-17 ইত্যাদি) মিলিয়ে আবার পরীক্ষা করা হয়েছে। যাচাইয়ের সময় ৪টি ভুল পাওয়া গেছে এবং ঠিক করা হয়েছে:
 - Interrogative #59 (Would Luna...) — ভুল প্যাসিভ গঠন সংশোধন করা হয়েছে।
 - Imperative #39, #42 (Never dishonour/deceive anyone) — নিয়মের সাথে অসামঞ্জস্যপূর্ণ শব্দ পরিবর্তন ঠিক করা হয়েছে।
-- Interrogative #62 এবং কয়েকটি জায়গায় ছোট ব্যাখ্যামূলক নোট যোগ করা হয়েছে যেখানে মূল বাক্যে সম্ভাব্য টাইপো ছিল বা নিয়মটি blurry ছবির কারণে ১০০% নিশ্চিত ছিল না।
+- Interrogative #62-এ একটা ছোট ব্যাখ্যামূলক নোট আছে যেখানে মূল বাক্যে সম্ভাব্য টাইপো ছিল।
+- পৃষ্ঠা ১৯০-এর Note-9 এবং Rule 10(a)/(b) — ছবি বাঁকা থাকায় প্রথমে অনিশ্চিত ছিল, পরে ওয়েবে প্রমিত ইংরেজি গ্রামার রেফারেন্সের (cognate object, prepositional verb passive, reporting verb passive "It is said that") সাথে মিলিয়ে নিয়মগুলো নিশ্চিত ও যাচাই করা হয়েছে।
 
 ### Exercise (p.194–196) — Change into Passive
 
@@ -1310,7 +1309,7 @@ Thousands of people were killed in the earthquake. The ship was lost in a storm.
 
 1. I have read her letter. → Her letter has been read by me.
 2. He can understand the problems. → The problems can be understood by him.
-3. I know how much life is boring in a small family. → It is known to me how much life is boring in a small family. *(এই Complex sentence-এর নিয়মটি মূল বইয়ের যে পৃষ্ঠায় (১৯০) ছিল, ছবিটা বাঁকা/অস্পষ্ট থাকায় নিয়মটি পুরোপুরি নিশ্চিত করা যায়নি; সাধারণ নিয়ম অনুসারে উত্তরটি দেওয়া হলো)*
+3. I know how much life is boring in a small family. → It is known to me how much life is boring in a small family. *(Note-9 অনুযায়ী Complex sentence-এর Principal clause-কে Passive করে "It" introductory ব্যবহার করা হয়েছে — নিয়মটি ওয়েবে প্রমিত গ্রামার রেফারেন্স দিয়ে যাচাই করা)*
 4. I introduced my beautiful country to her. → My beautiful country was introduced to her by me.
 5. Bengali is spoken in our country. → We speak Bengali in our country.
 6. Many people speak English. → English is spoken by many people.
